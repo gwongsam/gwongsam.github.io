@@ -46,6 +46,33 @@
 
 * { box-sizing: border-box; }
 
+/* ---------- 语言显隐 ----------
+   <html> 上的 .lang-zh / .lang-en 由 <head> 里的内联脚本在首帧前写入。
+   没有 JS 时两个 class 都不存在，于是**两种语言都显示**（中文在前，英文在后）——
+   法律文档在脚本挂掉时也必须完整可读，这条比「不重复」优先。 */
+
+html.lang-zh [data-lang="en"] { display: none; }
+html.lang-en [data-lang="zh"] { display: none; }
+
+/* 无 JS 时两篇之间需要一道分隔，否则中文正文直接顶着英文标题。 */
+html:not(.lang-zh):not(.lang-en) article[data-lang="en"] {
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+
+/* 导航与页脚的标签不是正文，无 JS 时只留中文，免得两种语言黏成一串。 */
+.doc-nav [data-lang="en"],
+.site-footer [data-lang="en"] { display: none; }
+html.lang-en .doc-nav [data-lang="en"],
+html.lang-en .site-footer [data-lang="en"] { display: inline; }
+html.lang-en .doc-nav [data-lang="zh"],
+html.lang-en .site-footer [data-lang="zh"] { display: none; }
+
+/* 切换按钮由 JS 摘掉 hidden；没有 JS 就不该出现一个点了没反应的按钮。
+   !important 是必需的：下面 .lang-toggle 的 display 会盖掉 UA 的 [hidden]。 */
+[hidden] { display: none !important; }
+
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
@@ -142,19 +169,32 @@ body {
 }
 
 .lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3.4rem;                 /* "EN" 与 "中文" 宽度不同，钉死免得按钮在切换时跳一下 */
+  justify-content: center;
   padding: .3rem .75rem;
+  background: transparent;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
+  font-family: inherit;
   font-size: .8rem;
   font-weight: 600;
   letter-spacing: .02em;
   color: var(--text-muted);
-  text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
   transition: border-color .15s ease, color .15s ease;
 }
 
 .lang-toggle:hover { color: var(--accent-text); border-color: var(--accent); }
+
+.lang-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* ---------- 正文 ---------- */
 
@@ -341,6 +381,14 @@ tbody td:first-child { min-width: 8.5em; }
 
 tbody tr:last-child td { border-bottom: 0; }
 
+/* 窄屏放开表头 nowrap 并收窄首列下限，让三列表能收进容器——否则英文表头
+   （"Where the data goes"）会把表撑到 412px，逼出一条本可避免的横向滚动。
+   真收不进时仍由 .table-wrap 横向滚动兜底，页面本体永远不横滚。 */
+@media (max-width: 34rem) {
+  th { white-space: normal; }
+  tbody td:first-child { min-width: 7em; }
+}
+
 /* ---------- 首页 ---------- */
 
 .hero {
@@ -435,6 +483,14 @@ tbody tr:last-child td { border-bottom: 0; }
   font-size: .9rem;
   line-height: 1.55;
   color: var(--text-muted);
+}
+
+/* 落地页卡片上的英文副本压一档，让中文先被读到，但不至于灰到读不清。 */
+.card .card-alt {
+  display: inline-block;
+  margin-top: .3rem;
+  font-size: .84rem;
+  color: var(--text-faint);
 }
 
 /* ---------- 页脚 ---------- */
