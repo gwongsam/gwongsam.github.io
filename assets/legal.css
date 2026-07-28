@@ -119,17 +119,14 @@ body {
   white-space: nowrap;
 }
 
+/* logo.svg 自带浅色方底，按 app 图标的 ~22% 比例切圆角，免得在页头是个硬方块 */
 .brand-mark {
+  display: block;
   width: 22px;
   height: 22px;
   flex: none;
-  border-radius: 6px;
-  background: var(--accent);
-  display: grid;
-  place-items: center;
+  border-radius: 5px;
 }
-
-.brand-mark svg { width: 13px; height: 13px; display: block; }
 
 .brand .brand-sub {
   color: var(--text-faint);
@@ -397,17 +394,13 @@ tbody tr:last-child td { border-bottom: 0; }
 }
 
 .hero-mark {
+  display: block;
   width: 62px;
   height: 62px;
   margin: 0 auto 1.35rem;
-  border-radius: 16px;
-  background: var(--accent);
-  display: grid;
-  place-items: center;
+  border-radius: 14px;
   box-shadow: var(--shadow-md);
 }
-
-.hero-mark svg { width: 34px; height: 34px; display: block; }
 
 .hero h1 {
   margin: 0 0 .5rem;

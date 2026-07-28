@@ -1,0 +1,40 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1024" height="1024" fill="url(#bg-gradient)"/>
+
+<defs>
+<linearGradient id="bg-gradient" x1="512" y1="0" x2="512" y2="1024" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F2F6F9"/>
+<stop offset="1" stop-color="#E5EBF0"/>
+</linearGradient>
+
+<linearGradient id="balance-gradient" x1="200" y1="200" x2="824" y2="824" gradientUnits="userSpaceOnUse">
+  <stop stop-color="#0A2342"/>
+  <stop offset="1" stop-color="#2C5282"/>
+</linearGradient>
+
+<linearGradient id="flow-gradient" x1="150" y1="750" x2="850" y2="250" gradientUnits="userSpaceOnUse">
+  <stop stop-color="#38B2AC"/>
+  <stop offset="1" stop-color="#48BB78"/>
+</linearGradient>
+
+<filter id="soft-shadow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+  <feFlood flood-opacity="0.2" flood-color="#000"/>
+  <feGaussianBlur stdDeviation="20"/>
+  <feComposite in2="SourceAlpha" operator="out"/>
+  <feOffset dx="0" dy="10"/>
+  <feComposite in2="SourceAlpha" operator="in"/>
+  <feMerge>
+    <feMergeNode/>
+    <feMergeNode in="SourceGraphic"/>
+  </feMerge>
+</filter>
+</defs>
+
+<g filter="url(#soft-shadow)" transform="translate(512 512) scale(0.85) translate(-512 -512)">
+<circle cx="512" cy="512" r="300" stroke="url(#balance-gradient)" stroke-width="100" fill="none"/>
+
+<path d="M180 780 C 300 780, 350 600, 512 600 C 674 600, 724 424, 844 424" 
+      stroke="url(#flow-gradient)" stroke-width="100" stroke-linecap="round" fill="none"/>
+<path d="M844 424 L 740 380 L 780 500 Z" fill="url(#flow-gradient)"/>
+</g>
+</svg>
