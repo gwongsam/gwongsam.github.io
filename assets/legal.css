@@ -61,13 +61,12 @@ html:not(.lang-zh):not(.lang-en) article[data-lang="en"] {
   border-top: 1px solid var(--border);
 }
 
-/* 导航与页脚的标签不是正文，无 JS 时只留中文，免得两种语言黏成一串。 */
-.doc-nav [data-lang="en"],
-.site-footer [data-lang="en"] { display: none; }
-html.lang-en .doc-nav [data-lang="en"],
-html.lang-en .site-footer [data-lang="en"] { display: inline; }
-html.lang-en .doc-nav [data-lang="zh"],
-html.lang-en .site-footer [data-lang="zh"] { display: none; }
+/* 行内标签（导航、页脚、卡片标题、hero 徽标）无 JS 时只留中文：它们是 inline，
+   两种语言会直接黏成「即将上架 App StoreComing to the App Store」。
+   正文用的是块级元素（article / p / h2 / div / table-wrap），不受这条影响，仍双语并存。 */
+span[data-lang="en"] { display: none; }
+html.lang-en span[data-lang="en"] { display: inline; }
+html.lang-en span[data-lang="zh"] { display: none; }
 
 /* 切换按钮由 JS 摘掉 hidden；没有 JS 就不该出现一个点了没反应的按钮。
    !important 是必需的：下面 .lang-toggle 的 display 会盖掉 UA 的 [hidden]。 */
@@ -410,10 +409,30 @@ tbody tr:last-child td { border-bottom: 0; }
 }
 
 .hero p {
-  max-width: 32rem;
+  max-width: 34rem;
   margin: 0 auto;
   color: var(--text-muted);
 }
+
+.hero-alt { color: var(--text-faint); font-weight: 400; }
+
+.hero-badge {
+  margin-top: 1.35rem !important;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--accent-text) !important;
+}
+
+/* 首页分节：h2 在文档页是「第 N 条」，在首页是版块标题，需要更大的上间距 */
+main > section { margin-top: 3.5rem; }
+main > section > h2 { margin-top: 0; }
+
+/* 首页比法律文档宽：三张卡要排得下一行，否则 2+1 落单。
+   但正文不跟着变宽——43rem 的阅读行宽是刻意的，只有卡片网格该占满。 */
+body.home main { max-width: 54rem; }
+body.home main > section > p,
+body.home main > section > .table-wrap { max-width: 43rem; }
 
 .lang-block {
   margin-bottom: 2.25rem;
@@ -452,6 +471,13 @@ tbody tr:last-child td { border-bottom: 0; }
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
+
+/* 不是链接的卡片：别给悬停反馈与箭头，否则用户会去点一个点不动的东西。
+   选择器写成 .card.card-static 是必需的——箭头规则 .card .card-title::after
+   在下方，同特异度下后写的赢，不加这一级就压不住。 */
+.card.card-static { cursor: default; }
+.card.card-static:hover { border-color: var(--border); transform: none; box-shadow: var(--shadow-sm); }
+.card.card-static .card-title::after { content: none; }
 
 .card .card-title {
   display: flex;

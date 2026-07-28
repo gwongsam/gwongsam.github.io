@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>支持 Support · Keel 司元</title>
+<meta name="description" content="Keel（司元）记账应用的支持页：联系方式、备份与迁移、iCloud 同步排查、订阅与恢复购买、常见问题。Support for the Keel bookkeeping app.">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('keel-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../assets/logo.svg" alt="" width="22" height="22">
+    Keel <span class="brand-sub">司元</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="./" aria-current="page"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">支持</h1>
+    <p class="doc-meta"><span>Keel（中文名「司元」）iOS 应用</span><span>最后更新：2026 年 7 月 28 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">联系开发者</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>这是一款独立开发的应用，由一个人维护。我会尽量在 <strong>2 个工作日内</strong>回复，遇到需要复现的问题可能更久一些。中文或英文都可以。</p>
+    </div>
+
+    <div class="note">
+      <p><strong>报告问题时，请一并告诉我这三样</strong>，能省掉一轮来回：</p>
+      <ol>
+        <li>应用版本与 iOS 版本；</li>
+        <li>你做了什么、期望看到什么、实际看到什么；</li>
+        <li>诊断报告——应用内打开<strong>「设置 › 诊断信息 › 发送到开发者邮箱」</strong>可以直接把它作为附件发出，发送前你可以自行查看内容。</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>常见问题</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 我的数据存在哪里？会不会丢？</a></li>
+        <li><a href="#zh-s2">2. 怎么备份？</a></li>
+        <li><a href="#zh-s3">3. 换新手机怎么把数据带过去？</a></li>
+        <li><a href="#zh-s4">4. 忘记备份口令了</a></li>
+        <li><a href="#zh-s5">5. iCloud 同步没反应</a></li>
+        <li><a href="#zh-s6">6. 怎么和家人共享账本？</a></li>
+        <li><a href="#zh-s7">7. 怎么取消订阅？</a></li>
+        <li><a href="#zh-s8">8. 换了设备，会员不见了</a></li>
+        <li><a href="#zh-s9">9. 想退款</a></li>
+        <li><a href="#zh-s10">10. 怎么从钱迹迁移过来？</a></li>
+        <li><a href="#zh-s11">11. 应用占用空间太大</a></li>
+        <li><a href="#zh-s12">12. 想彻底删除我的数据</a></li>
+        <li><a href="#zh-s13">13. 报表数字对不上</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 我的数据存在哪里？会不会丢？</h2>
+    <p>默认只存在你这台设备上。开启 iCloud 同步后，还会保存一份到你自己 Apple 账户的 iCloud 私有数据库，用于多设备同步。<strong>开发者没有服务器，也拿不到你的账本</strong>——详见<a href="../privacy/">隐私政策</a>。</p>
+    <p>这也意味着：<strong>设备丢失、损坏或被重置时，我无法帮你找回数据。</strong>请养成定期导出备份的习惯（下一条）。应用在长时间未备份时会在设置里提示你。</p>
+
+    <h2 id="zh-s2">2. 怎么备份？</h2>
+    <p><strong>设置 › 导入与导出 › 司元备份 › 导出司元备份</strong>。会生成一个 <code>.bfbackup</code> 备份包，里面包含账本、账户、复式分录、计划、预算、资产、分类、汇率与偏好设置，然后通过系统分享面板存到你想放的地方（「文件」、iCloud Drive、网盘、发给自己等）。</p>
+    <p>导出时可以设置口令进行加密。<strong>不设口令导出的就是未加密文件</strong>，谁拿到都能读，请自行妥善保管。</p>
+
+    <h2 id="zh-s3">3. 换新手机怎么把数据带过去？</h2>
+    <p>两条路，任选其一：</p>
+    <ul>
+      <li><strong>iCloud 同步</strong>（会员功能）：两台设备登录同一个 Apple 账户并开启同步，数据会自动流过去。</li>
+      <li><strong>备份文件</strong>（免费）：在旧设备导出 <code>.bfbackup</code>，传到新设备后用<strong>设置 › 导入与导出 › 导入司元备份</strong>恢复。导入前会先校验文件完整性与复式借贷平衡。</li>
+    </ul>
+
+    <h2 id="zh-s4">4. 忘记备份口令了</h2>
+    <p>很遗憾，<strong>无法恢复</strong>。口令只用于加解密，不会被存储也不会上传，我这边没有任何副本，也没有后门。请用密码管理器保管它。</p>
+
+    <h2 id="zh-s5">5. iCloud 同步没反应</h2>
+    <p>按这个顺序排查，多数情况在前三步就能解决：</p>
+    <ol>
+      <li>系统设置里确认已登录 Apple 账户，并且 iCloud 处于可用状态；</li>
+      <li>确认 iCloud 存储空间没满——空间不足会让写入被拒绝；</li>
+      <li>确认网络可用，然后把应用切到后台再切回来；</li>
+      <li>打开<strong>设置 › 隐私与同步</strong>，查看 iCloud 账户状态那一行的提示；</li>
+      <li>如果提示 iCloud 账户已变更，同步会被<strong>主动暂停</strong>——这是防止把上一个账户的数据传到新账户里，按页面提示选择继续本地或改用当前账户即可。</li>
+    </ol>
+    <p>还是不行的话，把<strong>设置 › 诊断信息</strong>里的报告发给我。</p>
+
+    <h2 id="zh-s6">6. 怎么和家人共享账本？</h2>
+    <p>在账本的成员页面发起共享，会生成一个 iCloud 共享链接，你自行发给对方（微信、短信、邮件都行）。<strong>对方需要在设备上装有本应用</strong>，点开链接才能加入。你可以给每个成员设置只读或可编辑权限，也可以随时移除成员或停止共享。</p>
+    <p>共享依赖 iCloud，所以双方都需要登录各自的 Apple 账户。</p>
+
+    <h2 id="zh-s7">7. 怎么取消订阅？</h2>
+    <p>订阅由 Apple 管理，不在应用内取消：<strong>系统「设置」› 顶部你的 Apple 账户 › 订阅</strong>，找到本应用后关闭自动续订。</p>
+    <p>需要在当前订阅期结束前<strong>至少 24 小时</strong>操作才能阻止下一次扣费；已付费的当期不会按比例退款，会员权益持续到当期结束。</p>
+
+    <h2 id="zh-s8">8. 换了设备，会员不见了</h2>
+    <p>打开<strong>升级会员</strong>页面，点<strong>「恢复购买」</strong>。注意必须使用<strong>当初购买时的同一个 Apple 账户</strong>——权益是绑在 Apple 账户上的，不是绑在设备或某个登录名上。</p>
+    <p>如果提示「没有可恢复的购买」，请先确认设备当前登录的 Apple 账户是否就是当初付款的那个。</p>
+
+    <h2 id="zh-s9">9. 想退款</h2>
+    <p>所有购买都由 Apple 处理，<strong>退款也只能由 Apple 办理，开发者无权直接退款</strong>。请访问 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 用你的 Apple 账户登录后申请。</p>
+    <p>如果是因为功能没达到预期想退款，也欢迎顺手告诉我哪里不对——这对改进很有用。</p>
+
+    <h2 id="zh-s10">10. 怎么从钱迹迁移过来？</h2>
+    <p>在钱迹里导出流水表格（xlsx 或 CSV），然后在本应用<strong>设置 › 导入与导出</strong>里选择导入。<strong>文件完全在你的设备上解析，不会上传到任何地方。</strong></p>
+    <p>导入是为了迁移外部流水明细；如果是本应用自己的数据搬家，请用第 2、3 条的备份包，那才是完整的。</p>
+
+    <h2 id="zh-s11">11. 应用占用空间太大</h2>
+    <p>打开<strong>设置 › 存储占用</strong>，可以看到账本数据库、附件、缓存与同步状态、诊断日志各占多少。附件（收据图片与 PDF）通常是大头。诊断日志会自动轮转清理，也可以手动清除。</p>
+
+    <h2 id="zh-s12">12. 想彻底删除我的数据</h2>
+    <ul>
+      <li><strong>本机数据：</strong>设置 › 清除所有数据（需输入校验码确认），或直接从设备删除应用。</li>
+      <li><strong>iCloud 里的副本：</strong>关闭 iCloud 同步时选择「删除 iCloud 副本」，或在系统设置 › Apple 账户 › iCloud › 管理账户存储里删除。<strong>注意这会同时终止你发起的账本共享</strong>，成员将失去访问权限。</li>
+      <li><strong>你自己导出的备份文件：</strong>需要你自行删除。</li>
+    </ul>
+    <p>因为我不持有你的数据，所以不需要向我提交删除申请——你自己就能删干净。</p>
+
+    <h2 id="zh-s13">13. 报表数字对不上</h2>
+    <p>本应用是复式记账，每一笔都必须借贷平衡，应用内有恒等式校验会主动提示破口。如果你看到报表出现异常数字：</p>
+    <ol>
+      <li>先看看总览页或报表页有没有校验提示横幅；</li>
+      <li>检查涉及的流水是否录错了金额、方向或账户；</li>
+      <li>多币种场景下，确认相关币种的汇率已录入。</li>
+    </ol>
+    <p>确认不是录入问题的话，请把诊断报告发给我，并说明是哪张表、哪个时间段对不上。<strong>请注意本应用生成的报表仅供个人参考，不是审计报告，也不构成财务或税务建议</strong>（见<a href="../terms/#zh-s6">服务条款第 6 条</a>）。</p>
+
+    <hr>
+    <p class="doc-meta">找不到答案？直接发邮件：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>。本页的<a href="?lang=en">英文版本</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Support</h1>
+    <p class="doc-meta"><span>Keel iOS app (Chinese name: 司元)</span><span>Last updated: July 28, 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contact the developer</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>Keel is an independent app maintained by one person. I aim to reply <strong>within 2 business days</strong>; issues that need reproducing may take longer. English or Chinese both work.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>When reporting a problem, please include these three things</strong> — it saves a round trip:</p>
+      <ol>
+        <li>Your app version and iOS version;</li>
+        <li>What you did, what you expected, and what actually happened;</li>
+        <li>A diagnostic report — in the app, <strong>Settings › Diagnostics › Email the Developer</strong> attaches it for you, and you can review the contents before sending.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Common questions</h2>
+      <ol>
+        <li><a href="#en-s1">1. Where is my data, and can I lose it?</a></li>
+        <li><a href="#en-s2">2. How do I back up?</a></li>
+        <li><a href="#en-s3">3. Moving to a new phone</a></li>
+        <li><a href="#en-s4">4. I forgot my backup passphrase</a></li>
+        <li><a href="#en-s5">5. iCloud Sync isn't working</a></li>
+        <li><a href="#en-s6">6. Sharing a book with family</a></li>
+        <li><a href="#en-s7">7. How do I cancel a subscription?</a></li>
+        <li><a href="#en-s8">8. My membership vanished on a new device</a></li>
+        <li><a href="#en-s9">9. I want a refund</a></li>
+        <li><a href="#en-s10">10. Importing from Qianji</a></li>
+        <li><a href="#en-s11">11. The app is using too much storage</a></li>
+        <li><a href="#en-s12">12. I want my data deleted</a></li>
+        <li><a href="#en-s13">13. My reports don't add up</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Where is my data, and can I lose it?</h2>
+    <p>By default it lives only on your device. If you turn on iCloud Sync, a copy is also stored in the iCloud private database of your own Apple Account so it can sync across devices. <strong>The developer runs no servers and cannot reach your ledger</strong> — see the <a href="../privacy/">Privacy Policy</a>.</p>
+    <p>Which also means: <strong>if your device is lost, damaged, or reset, I cannot recover your data for you.</strong> Please get into the habit of exporting backups (next question). The app reminds you in Settings when it has been a while.</p>
+
+    <h2 id="en-s2">2. How do I back up?</h2>
+    <p><strong>Settings › Import &amp; Export › Keel Backup › Export Keel Backup</strong>. This produces a <code>.bfbackup</code> package containing your books, accounts, double-entry postings, plans, budgets, assets, categories, exchange rates, and preferences, then hands it to the system share sheet so you can put it wherever you like (Files, iCloud Drive, a cloud service, email to yourself).</p>
+    <p>You can set a passphrase to encrypt the export. <strong>Without one, the file is unencrypted</strong> and anyone who obtains it can read it — store it carefully.</p>
+
+    <h2 id="en-s3">3. Moving to a new phone</h2>
+    <p>Two routes, pick either:</p>
+    <ul>
+      <li><strong>iCloud Sync</strong> (Premium): sign both devices into the same Apple Account and turn sync on; the data flows over automatically.</li>
+      <li><strong>A backup file</strong> (free): export a <code>.bfbackup</code> on the old device, transfer it, and restore with <strong>Settings › Import &amp; Export › Import Keel Backup</strong>. Imports are checked for file integrity and double-entry balance before restoring.</li>
+    </ul>
+
+    <h2 id="en-s4">4. I forgot my backup passphrase</h2>
+    <p>Unfortunately it <strong>cannot be recovered</strong>. The passphrase is used only for encryption and decryption; it is never stored or transmitted, I hold no copy, and there is no back door. Keep it in a password manager.</p>
+
+    <h2 id="en-s5">5. iCloud Sync isn't working</h2>
+    <p>Work through these in order — most cases resolve in the first three:</p>
+    <ol>
+      <li>Confirm you are signed into an Apple Account in system Settings and that iCloud is available;</li>
+      <li>Confirm your iCloud storage isn't full — writes are rejected when it is;</li>
+      <li>Confirm you have network access, then background the app and reopen it;</li>
+      <li>Open <strong>Settings › Privacy &amp; Sync</strong> and read the message on the iCloud account status row;</li>
+      <li>If it says the iCloud account changed, sync has been <strong>deliberately paused</strong> — this prevents uploading the previous account's data into a different one. Follow the prompt to either continue locally or switch to the current account.</li>
+    </ol>
+    <p>Still stuck? Send me the report from <strong>Settings › Diagnostics</strong>.</p>
+
+    <h2 id="en-s6">6. Sharing a book with family</h2>
+    <p>Start sharing from the book's members screen. It generates an iCloud share link that you send yourself (message, email, anything). <strong>The other person needs the app installed</strong> to open the link and join. You can set each member to read-only or read-write, and remove members or stop sharing at any time.</p>
+    <p>Sharing runs on iCloud, so both people need to be signed into their own Apple Accounts.</p>
+
+    <h2 id="en-s7">7. How do I cancel a subscription?</h2>
+    <p>Subscriptions are managed by Apple, not inside the app: <strong>system Settings › your Apple Account at the top › Subscriptions</strong>, find Keel, and turn off auto-renewal.</p>
+    <p>Do it <strong>at least 24 hours before</strong> the current period ends to stop the next charge. The period you already paid for is not refunded pro rata; your membership runs to the end of it.</p>
+
+    <h2 id="en-s8">8. My membership vanished on a new device</h2>
+    <p>Open the <strong>Upgrade</strong> screen and tap <strong>Restore Purchases</strong>. You must be signed into <strong>the same Apple Account you originally purchased with</strong> — entitlements are tied to the Apple Account, not to a device or a profile.</p>
+    <p>If you see "Nothing to restore", check that the account currently signed in is the one that paid.</p>
+
+    <h2 id="en-s9">9. I want a refund</h2>
+    <p>All purchases are processed by Apple, and <strong>only Apple can issue a refund — the developer cannot</strong>. Go to <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> and sign in with your Apple Account to request one.</p>
+    <p>If you're refunding because something didn't work as expected, I'd genuinely appreciate hearing what went wrong.</p>
+
+    <h2 id="en-s10">10. Importing from Qianji</h2>
+    <p>Export your transactions from Qianji as a spreadsheet (xlsx or CSV), then import it under <strong>Settings › Import &amp; Export</strong>. <strong>The file is parsed entirely on your device and is not uploaded anywhere.</strong></p>
+    <p>That import is for migrating external transaction details. To move Keel's own data between devices, use the backup package in questions 2 and 3 — that one is complete.</p>
+
+    <h2 id="en-s11">11. The app is using too much storage</h2>
+    <p>Open <strong>Settings › Storage Usage</strong> to see how much the ledger database, attachments, caches and sync state, and diagnostic logs each take. Attachments (receipt images and PDFs) are usually the bulk of it. Diagnostic logs rotate automatically and can also be cleared by hand.</p>
+
+    <h2 id="en-s12">12. I want my data deleted</h2>
+    <ul>
+      <li><strong>On this device:</strong> Settings › Clear All Data (requires a confirmation code), or simply delete the app.</li>
+      <li><strong>The iCloud copy:</strong> choose "Delete iCloud Copy" when turning off iCloud Sync, or remove it under system Settings › Apple Account › iCloud › Manage Account Storage. <strong>Note this also ends any book sharing you started</strong>, and members lose access.</li>
+      <li><strong>Backup files you exported:</strong> those are yours to delete.</li>
+    </ul>
+    <p>Since I don't hold your data, there is no deletion request to file with me — you can remove all of it yourself.</p>
+
+    <h2 id="en-s13">13. My reports don't add up</h2>
+    <p>Keel is double-entry: every transaction must balance, and a built-in invariant check flags breaks. If a report shows a number that looks wrong:</p>
+    <ol>
+      <li>Check the overview or statement screens for a validation banner;</li>
+      <li>Check whether the transactions involved have the wrong amount, direction, or account;</li>
+      <li>For multi-currency, confirm you have entered a rate for the currencies involved.</li>
+    </ol>
+    <p>If it isn't an input problem, send me the diagnostic report and tell me which statement and which period doesn't reconcile. <strong>Note that reports are for personal reference only — they are not audited and are not financial or tax advice</strong> (see <a href="../terms/#en-s6">Terms of Service, Section 6</a>).</p>
+
+    <hr>
+    <p class="doc-meta">Didn't find your answer? Just email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>. The <a href="?lang=zh">Chinese version</a> of this page.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>Keel · 司元</span>
+  <span class="footer-spacer"></span>
+  <a href="./"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('keel-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
