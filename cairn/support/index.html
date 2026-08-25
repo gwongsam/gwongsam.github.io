@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>支持 Support · Cairn 司候</title>
+<meta name="description" content="Cairn（司候）倒数应用的支持页：联系方式、备份与换机、iCloud 同步排查、通知与小组件、Apple Watch、日历与生日导入、常见问题。Support for the Cairn countdown app.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    Cairn <span class="brand-sub">司候</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="./" aria-current="page"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">支持</h1>
+    <p class="doc-meta"><span>Cairn（中文名「司候」）· iPhone / iPad / Mac / Apple Watch</span><span>最后更新：2026 年 8 月 25 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">联系开发者</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>这是一款独立开发的应用，由一个人维护。我会尽量在 <strong>2 个工作日内</strong>回复，遇到需要复现的问题可能更久一些。中文或英文都可以。</p>
+    </div>
+
+    <div class="note">
+      <p><strong>报告问题时，请一并告诉我这几样</strong>，能省掉一轮来回：</p>
+      <ol>
+        <li>应用版本与系统版本——版本号在<strong>设置 › 关于 › 版本</strong>；</li>
+        <li>设备类型（iPhone / iPad / Mac / Apple Watch）；</li>
+        <li>你做了什么、期望看到什么、实际看到什么；</li>
+        <li>如果和同步或存储有关，把<strong>设置 › 关于 › 存储</strong>那一行的文字一起发来（例如「iCloud 同步中」或「仅本机（App Group）」）。</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>常见问题</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 要花钱吗？</a></li>
+        <li><a href="#zh-s2">2. 我的数据存在哪里？会不会丢？</a></li>
+        <li><a href="#zh-s3">3. 怎么备份？</a></li>
+        <li><a href="#zh-s4">4. 换新设备怎么把数据带过去？</a></li>
+        <li><a href="#zh-s5">5. iCloud 同步没反应</a></li>
+        <li><a href="#zh-s6">6. 通知不来，或者「已排程通知」是 0</a></li>
+        <li><a href="#zh-s7">7. 手表上看不到事件</a></li>
+        <li><a href="#zh-s8">8. 小组件不更新</a></li>
+        <li><a href="#zh-s9">9. 导入日历或生日没有内容</a></li>
+        <li><a href="#zh-s10">10. 导入进来的事件没有提醒</a></li>
+        <li><a href="#zh-s11">11. 倒数的进度条是不是画反了？</a></li>
+        <li><a href="#zh-s12">12. 出国之后，数字为什么没跟着变？</a></li>
+        <li><a href="#zh-s13">13. 农历事件是怎么算的？</a></li>
+        <li><a href="#zh-s14">14. 归档、删除，以及怎么彻底清空数据</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 要花钱吗？</h2>
+    <p><strong>不要。</strong>Cairn 目前完全免费，没有订阅、没有内购、没有广告、没有事件数量上限，也没有任何功能被锁在付费墙后面。因此也就没有「恢复购买」「取消订阅」这类问题——如果你在某处看到有人向你收取 Cairn 的费用，那不是我。</p>
+
+    <h2 id="zh-s2">2. 我的数据存在哪里？会不会丢？</h2>
+    <p>事件存在你自己的设备上（放在一个与小组件共用的 App Group 容器里）。如果你的设备已登录 Apple 账户并且 iCloud 可用，同一份数据还会保存到<strong>你自己 Apple 账户的 iCloud 私有数据库</strong>，用于在你的设备之间同步。<strong>开发者没有服务器，也拿不到你的事件</strong>——详见<a href="../privacy/">隐私政策</a>。</p>
+    <p>当前状态可以在<strong>设置 › 关于 › 存储</strong>看到：</p>
+    <ul>
+      <li><strong>iCloud 同步中</strong>——本机 + iCloud 私有库；</li>
+      <li><strong>仅本机（App Group）</strong>——只在这台设备上，没有同步；</li>
+      <li><strong>未持久化</strong>——异常状态，本次运行的数据不会保存，请联系我。</li>
+    </ul>
+    <p>这也意味着：<strong>设备丢失、损坏或被重置，而你又没开 iCloud 同步时，我无法帮你找回数据。</strong>请养成定期导出备份的习惯（下一条）。</p>
+
+    <h2 id="zh-s3">3. 怎么备份？</h2>
+    <p><strong>设置 › 数据 › 导出备份</strong>。会生成一个名为 <code>Cairn-年-月-日.json</code> 的文件，包含全部事件及其提醒设置（标题、图标、颜色、方向、日期与时刻、时区、重复规则、农历开关、分类、备注、置顶与归档状态、创建时间），然后通过系统分享面板存到你想放的地方（「文件」、iCloud Drive、网盘、发给自己等）。</p>
+    <p><strong>这份文件是明文 JSON，没有加密</strong>——它可以直接用任何文本编辑器打开，这是有意的（你的数据应该在没有 Cairn 的情况下也读得懂）。但也因此，<strong>谁拿到这个文件就能读到里面的全部内容</strong>，请自行妥善保管，别随手丢在公开的网盘目录里。</p>
+
+    <h2 id="zh-s4">4. 换新设备怎么把数据带过去？</h2>
+    <p>两条路，任选其一：</p>
+    <ul>
+      <li><strong>iCloud 同步</strong>：两台设备登录同一个 Apple 账户，装好 Cairn 之后数据会自己流过去。首次同步可能需要几分钟，且要求网络可用。</li>
+      <li><strong>备份文件</strong>：在旧设备<strong>设置 › 数据 › 导出备份</strong>，把 <code>.json</code> 传到新设备，再用<strong>设置 › 数据 › 从备份导入</strong>恢复。</li>
+    </ul>
+    <p class="note"><strong>导入是「追加」不是「替换」，而且不做去重。</strong>如果你在一台已经有数据的设备上导入自己的备份，同一件事会变成两条。想要干净的结果，请在空的（或已清空的）状态下导入。</p>
+
+    <h2 id="zh-s5">5. iCloud 同步没反应</h2>
+    <p>先看<strong>设置 › 关于 › 存储</strong>那一行：</p>
+    <ul>
+      <li>如果写的是<strong>「iCloud 同步中」</strong>，通道是通的，问题多半在网络或时机——把应用切到后台再切回来，给它一点时间。</li>
+      <li>如果写的是<strong>「仅本机（App Group）」</strong>，说明启动时没能挂上 iCloud，按下面的顺序排查。</li>
+    </ul>
+    <ol>
+      <li>系统设置里确认已登录 Apple 账户，并且 iCloud 处于可用状态；</li>
+      <li>确认系统设置里 iCloud 对 Cairn 是打开的；</li>
+      <li>确认 iCloud 存储空间没满——空间不足会让写入被拒绝；</li>
+      <li>确认网络可用，然后<strong>完全退出应用再打开</strong>（存储通道是在启动时选定的，不会中途切换）；</li>
+      <li>两台设备要登录<strong>同一个</strong> Apple 账户；换了账户的话，新账户里本来就不会有旧账户的数据。</li>
+    </ol>
+    <p>还是不行的话，把两台设备上「存储」那一行的文字和应用版本发给我。</p>
+
+    <h2 id="zh-s6">6. 通知不来，或者「已排程通知」是 0</h2>
+    <p>先去<strong>设置 › 提醒</strong>看「通知权限」那一行：</p>
+    <ul>
+      <li><strong>未决定</strong>——点<strong>「允许发送通知」</strong>，在系统弹窗里同意；</li>
+      <li><strong>已拒绝</strong>——应用内无法再弹窗了，点<strong>「在系统设置中打开」</strong>，在系统里为 Cairn 打开通知；</li>
+      <li><strong>已允许</strong>但「已排程通知」是 0——说明没有可排的内容：事件都在过去、提醒被关掉了，或者事件本身没有设提醒。到事件编辑页加一条提醒，再回<strong>设置 › 提醒 › 立即重新排程</strong>。</li>
+    </ul>
+    <p>另外要知道一个系统限制：<strong>iOS 的待触发通知上限是 64 条</strong>。Cairn 只能在这个额度内排程，因此排的是最近的一批，每次你回到应用时补排后面的。事件很多时，很远的那些要等临近了才会进入排程——这不是漏排。</p>
+
+    <h2 id="zh-s7">7. 手表上看不到事件</h2>
+    <p><strong>手表上的数据是 iPhone 直接推过去的，不经过 iCloud。</strong>手表那份是只读镜像——在手表上看到的一切都来自最近一次推送。</p>
+    <ol>
+      <li>在 iPhone 上打开<strong>设置 › Apple Watch</strong>，看「手表」那一行的状态：<strong>已连接</strong> / <strong>手表 App 未安装</strong> / <strong>未配对手表</strong> / <strong>不可用</strong>；</li>
+      <li>如果是「手表 App 未安装」，先在 iPhone 的「Watch」应用里把 Cairn 装到手表上；</li>
+      <li>确认两台设备都开着、彼此在通信范围内（蓝牙或同一 Wi-Fi）；</li>
+      <li>点<strong>「同步到手表」</strong>手动推一次，然后看「上次推送」的时间有没有更新。</li>
+    </ol>
+    <p>因为是单向推送，<strong>请在 iPhone 上编辑事件</strong>；手表端只负责显示。</p>
+
+    <h2 id="zh-s8">8. 小组件不更新</h2>
+    <p>小组件读的是与主应用共用的那份数据，改完事件通常几秒内就会刷新。如果没有：</p>
+    <ol>
+      <li>打开一次主应用——这会主动触发一次小组件刷新；</li>
+      <li>小组件的刷新时机由系统调度，低电量模式下会明显变慢，这不受应用控制；</li>
+      <li>把小组件移除后重新添加一次；</li>
+      <li>如果<strong>设置 › 关于 › 存储</strong>显示的不是 App Group 或 iCloud（例如「未持久化」），小组件会读不到数据，请把这一行发给我。</li>
+    </ol>
+
+    <h2 id="zh-s9">9. 导入日历或生日没有内容</h2>
+    <p>两种导入都需要系统权限，而且都<strong>只读</strong>：</p>
+    <ul>
+      <li>提示<strong>「没有日历访问权限」</strong>：去<strong>系统设置 › 隐私与安全性 › 日历</strong>为 Cairn 打开；</li>
+      <li>提示<strong>「没有通讯录访问权限」</strong>：去<strong>系统设置 › 隐私与安全性 › 通讯录</strong>为 Cairn 打开；</li>
+      <li>有权限但<strong>「没有可导入的内容」</strong>：日历导入只看<strong>未来约两年内</strong>的日程，太远或已经过去的不在列表里；生日导入只认联系人卡片上<strong>填了生日字段</strong>的那些。</li>
+    </ul>
+    <p>Cairn 不会新增、修改或删除你的任何日历事件与联系人，也不会把读到的内容传到任何地方。</p>
+
+    <h2 id="zh-s10">10. 导入进来的事件没有提醒</h2>
+    <p>这是设计如此。从日历或通讯录导入的事件<strong>一律不带提醒</strong>——一次导进来几十条生日，如果每条都自动排提醒，你的通知会被淹掉。需要提醒的，进事件编辑页单独加。</p>
+
+    <h2 id="zh-s11">11. 倒数的进度条是不是画反了？</h2>
+    <p>没有画反。<strong>Cairn 的倒数进度条读法和电量条一样：实心的部分是「还没花掉的时间」，从满走到空。</strong>越接近那一天，条子越短。</p>
+    <p>很多同类应用画的是「已经过去多少」，所以看起来是相反的方向。正数（纪念日）那边则相反——它本来就是往上累加的，条子随着走过的里程碑增长。</p>
+
+    <h2 id="zh-s12">12. 出国之后，数字为什么没跟着变？</h2>
+    <p>因为<strong>时区是锁在事件本身上的</strong>，不跟着设备走。你在事件编辑页里选的那个时区，决定了这件事「什么时候算到」。</p>
+    <p>这是有意的：家里的婚礼在北京时间那天开始，你飞到美国，它不该因为你换了地方就提前或推后。如果某件事确实应该跟着你走，把它的时区改成你当前所在的时区即可。</p>
+
+    <h2 id="zh-s13">13. 农历事件是怎么算的？</h2>
+    <p>事件编辑页里有<strong>「按农历重复」</strong>。打开之后，重复规则会按农历日期推算下一次，而不是公历——所以每年对应的公历日期会前后浮动，这是正确行为。</p>
+    <p>另外<strong>设置 › 显示 › 显示农历</strong>是个独立的开关，它只管界面上要不要额外显示一行农历日期，不影响任何计算。</p>
+
+    <h2 id="zh-s14">14. 归档、删除，以及怎么彻底清空数据</h2>
+    <p><strong>归档</strong>是把已经过去、又不想删的事件收起来：在事件上选「归档」，之后在<strong>设置 › 归档区</strong>里还能找到它。归档不删除数据。</p>
+    <p><strong>删除</strong>事件就是真的删除。如果开着 iCloud 同步，删除会同步到你其他设备上。</p>
+    <p>想<strong>彻底清空</strong>：删除全部事件（含归档区），然后删除应用本身——本机数据随应用一起消失。iCloud 私有库里那份属于你的 Apple 账户，可以在<strong>系统设置 › 你的 Apple 账户 › iCloud</strong> 里管理 Cairn 的存储与数据。我这边没有任何副本可删，因为我从来没有过。</p>
+
+    <hr>
+    <p class="doc-meta">没找到你的问题？直接发邮件到 <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>。本页的<a href="?lang=en">英文版</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Support</h1>
+    <p class="doc-meta"><span>Cairn · iPhone / iPad / Mac / Apple Watch</span><span>Last updated: 25 August 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contact the developer</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>Cairn is an independent app maintained by one person. I aim to reply <strong>within 2 business days</strong>; issues that need reproducing may take longer. English or Chinese are both fine.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>When reporting a problem, please include these</strong> — it saves a round trip:</p>
+      <ol>
+        <li>App version and OS version — the version is under <strong>Settings › About › Version</strong>;</li>
+        <li>Which device (iPhone / iPad / Mac / Apple Watch);</li>
+        <li>What you did, what you expected, and what actually happened;</li>
+        <li>If it involves syncing or storage, include the text on the <strong>Settings › About › Storage</strong> row (for example "Syncing with iCloud" or "This device only (App Group)").</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Frequently asked</h2>
+      <ol>
+        <li><a href="#en-s1">1. Does it cost anything?</a></li>
+        <li><a href="#en-s2">2. Where is my data stored? Can I lose it?</a></li>
+        <li><a href="#en-s3">3. How do I back up?</a></li>
+        <li><a href="#en-s4">4. How do I move my data to a new device?</a></li>
+        <li><a href="#en-s5">5. iCloud sync isn't doing anything</a></li>
+        <li><a href="#en-s6">6. Notifications don't arrive, or "Scheduled notifications" is 0</a></li>
+        <li><a href="#en-s7">7. My watch doesn't show my events</a></li>
+        <li><a href="#en-s8">8. Widgets aren't updating</a></li>
+        <li><a href="#en-s9">9. Importing from Calendar or Contacts finds nothing</a></li>
+        <li><a href="#en-s10">10. Imported events have no reminders</a></li>
+        <li><a href="#en-s11">11. Is the countdown bar drawn backwards?</a></li>
+        <li><a href="#en-s12">12. I travelled abroad — why didn't the number change?</a></li>
+        <li><a href="#en-s13">13. How do lunar events work?</a></li>
+        <li><a href="#en-s14">14. Archiving, deleting, and wiping everything</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Does it cost anything?</h2>
+    <p><strong>No.</strong> Cairn is currently free: no subscription, no in-app purchases, no ads, no cap on how many events you can create, and no features behind a paywall. That also means there is nothing to "restore" or "cancel" — if anyone is charging you for Cairn, it isn't me.</p>
+
+    <h2 id="en-s2">2. Where is my data stored? Can I lose it?</h2>
+    <p>Your events live on your own device, in an App Group container shared with the widgets. If your device is signed in to an Apple Account with iCloud available, the same data is also stored in <strong>the iCloud private database of your own Apple Account</strong> so it can sync between your devices. <strong>The developer runs no servers and cannot see your events</strong> — see the <a href="../privacy/">Privacy Policy</a>.</p>
+    <p>You can check the current state under <strong>Settings › About › Storage</strong>:</p>
+    <ul>
+      <li><strong>Syncing with iCloud</strong> — this device plus your iCloud private database;</li>
+      <li><strong>This device only (App Group)</strong> — local, not syncing;</li>
+      <li><strong>Not persisted</strong> — an error state; nothing from this session will be saved, so please get in touch.</li>
+    </ul>
+    <p>It also means that <strong>if a device is lost, broken, or erased while iCloud sync is off, I cannot recover anything for you.</strong> Please export a backup from time to time (next question).</p>
+
+    <h2 id="en-s3">3. How do I back up?</h2>
+    <p><strong>Settings › Data › Export Backup</strong>. It produces a file named <code>Cairn-YYYY-MM-DD.json</code> containing all your events and their reminder settings (title, symbol, colour, direction, date and time, time zone, repeat rule, lunar flag, category, note, pinned and archived state, creation date), then hands it to the system share sheet so you can put it wherever you like — Files, iCloud Drive, another cloud service, or emailed to yourself.</p>
+    <p><strong>The file is plain, unencrypted JSON.</strong> You can open it in any text editor, and that's deliberate — your data should stay readable even without Cairn. The flip side is that <strong>anyone who gets the file can read everything in it</strong>, so store it somewhere sensible rather than a shared folder.</p>
+
+    <h2 id="en-s4">4. How do I move my data to a new device?</h2>
+    <p>Either way works:</p>
+    <ul>
+      <li><strong>iCloud sync</strong>: sign both devices in to the same Apple Account and install Cairn; the data comes across on its own. The first sync can take a few minutes and needs a network connection.</li>
+      <li><strong>A backup file</strong>: on the old device use <strong>Settings › Data › Export Backup</strong>, move the <code>.json</code> across, then restore with <strong>Settings › Data › Import from Backup</strong>.</li>
+    </ul>
+    <p class="note"><strong>Importing appends rather than replaces, and does not de-duplicate.</strong> If you import your own backup onto a device that already has the same events, you will end up with two of each. For a clean result, import into an empty state.</p>
+
+    <h2 id="en-s5">5. iCloud sync isn't doing anything</h2>
+    <p>Start with the <strong>Settings › About › Storage</strong> row:</p>
+    <ul>
+      <li>If it says <strong>"Syncing with iCloud"</strong>, the channel is up and the problem is usually the network or timing — send the app to the background, come back, and give it a moment.</li>
+      <li>If it says <strong>"This device only (App Group)"</strong>, iCloud wasn't available at launch. Work through the list below.</li>
+    </ul>
+    <ol>
+      <li>Confirm the device is signed in to an Apple Account with iCloud available;</li>
+      <li>Confirm iCloud is enabled for Cairn in System Settings;</li>
+      <li>Confirm your iCloud storage isn't full — writes are rejected when it is;</li>
+      <li>Confirm you have a network connection, then <strong>quit the app completely and reopen it</strong> (the storage channel is chosen at launch and doesn't switch mid-session);</li>
+      <li>Both devices must be on the <strong>same</strong> Apple Account; a different account will not contain the other account's data.</li>
+    </ol>
+    <p>If it still won't sync, send me the "Storage" text from both devices along with the app version.</p>
+
+    <h2 id="en-s6">6. Notifications don't arrive, or "Scheduled notifications" is 0</h2>
+    <p>Check the "Notification permission" row under <strong>Settings › Reminders</strong>:</p>
+    <ul>
+      <li><strong>Not decided</strong> — tap <strong>Allow Notifications</strong> and accept the system prompt;</li>
+      <li><strong>Denied</strong> — the app can no longer prompt you, so tap <strong>Open in System Settings</strong> and enable notifications for Cairn there;</li>
+      <li><strong>Allowed</strong> but "Scheduled notifications" is 0 — there is nothing to schedule: the events are in the past, reminders are switched off, or the events simply have no reminders. Add a reminder in the event editor, then use <strong>Settings › Reminders › Reschedule Now</strong>.</li>
+    </ul>
+    <p>One system limit worth knowing: <strong>iOS caps pending notifications at 64.</strong> Cairn schedules within that budget, so it queues the nearest ones and tops the rest up each time you come back to the app. With many events, distant ones only enter the queue as they approach — they haven't been dropped.</p>
+
+    <h2 id="en-s7">7. My watch doesn't show my events</h2>
+    <p><strong>Watch data is pushed straight from your iPhone; iCloud is not involved.</strong> The copy on the watch is a read-only mirror of the last push.</p>
+    <ol>
+      <li>On the iPhone open <strong>Settings › Apple Watch</strong> and read the "Watch" row: <strong>Connected</strong> / <strong>Watch app not installed</strong> / <strong>No watch paired</strong> / <strong>Not available</strong>;</li>
+      <li>If the watch app isn't installed, install Cairn on the watch from the iPhone's Watch app;</li>
+      <li>Make sure both devices are awake and in range of each other (Bluetooth or the same Wi-Fi);</li>
+      <li>Tap <strong>Sync to Watch</strong> to push manually, then check whether "Last pushed" updates.</li>
+    </ol>
+    <p>Because the push is one-way, <strong>edit your events on the iPhone</strong>; the watch only displays them.</p>
+
+    <h2 id="en-s8">8. Widgets aren't updating</h2>
+    <p>Widgets read the same data as the app and normally refresh within seconds of a change. If yours doesn't:</p>
+    <ol>
+      <li>Open the app once — that explicitly asks the system to refresh the widgets;</li>
+      <li>Widget refreshes are scheduled by the system and slow down noticeably in Low Power Mode; that isn't under the app's control;</li>
+      <li>Remove the widget and add it again;</li>
+      <li>If <strong>Settings › About › Storage</strong> shows something other than App Group or iCloud (for example "Not persisted"), the widgets cannot read the data — please send me that row.</li>
+    </ol>
+
+    <h2 id="en-s9">9. Importing from Calendar or Contacts finds nothing</h2>
+    <p>Both importers need system permission, and both are <strong>read-only</strong>:</p>
+    <ul>
+      <li><strong>"No access to Calendar"</strong> — enable it under <strong>System Settings › Privacy &amp; Security › Calendars</strong>;</li>
+      <li><strong>"No access to Contacts"</strong> — enable it under <strong>System Settings › Privacy &amp; Security › Contacts</strong>;</li>
+      <li>Permission granted but <strong>"Nothing to import"</strong> — calendar import only looks at roughly <strong>the next two years</strong>, so anything further out or already past won't be listed; birthday import only sees contacts that actually have the birthday field filled in.</li>
+    </ul>
+    <p>Cairn never creates, edits, or deletes a calendar event or a contact, and nothing it reads leaves your device.</p>
+
+    <h2 id="en-s10">10. Imported events have no reminders</h2>
+    <p>That's deliberate. Events imported from Calendar or Contacts <strong>never carry reminders</strong> — importing several dozen birthdays at once would otherwise bury you in notifications. Add reminders yourself, in the editor, to the ones you actually want.</p>
+
+    <h2 id="en-s11">11. Is the countdown bar drawn backwards?</h2>
+    <p>No. <strong>Cairn's countdown bar reads like a battery: the filled part is the time you haven't spent yet</strong>, running from full to empty. The closer the day gets, the shorter the bar.</p>
+    <p>Many similar apps draw "how much has elapsed" instead, which runs the other way. Count-ups behave the opposite way here too — they accumulate, growing as you pass each milestone.</p>
+
+    <h2 id="en-s12">12. I travelled abroad — why didn't the number change?</h2>
+    <p>Because <strong>the time zone is pinned to the event</strong>, not to your device. Whatever you picked in the editor decides when that event lands.</p>
+    <p>This is on purpose: a wedding that starts on a particular day back home shouldn't shift because you flew somewhere else. If an event genuinely should follow you, change its time zone to the one you're in.</p>
+
+    <h2 id="en-s13">13. How do lunar events work?</h2>
+    <p>The event editor has a <strong>Repeat by lunar date</strong> switch. With it on, the repeat rule advances by the lunar calendar rather than the Gregorian one — so the corresponding Gregorian date drifts from year to year, which is the correct behaviour.</p>
+    <p><strong>Settings › Display › Show lunar date</strong> is a separate switch: it only controls whether an extra lunar date line appears in the interface, and affects no calculation.</p>
+
+    <h2 id="en-s14">14. Archiving, deleting, and wiping everything</h2>
+    <p><strong>Archiving</strong> puts an event that has passed out of the way without deleting it: choose Archive on the event, and you'll still find it under <strong>Settings › Archive</strong>.</p>
+    <p><strong>Deleting</strong> an event really deletes it. With iCloud sync on, the deletion propagates to your other devices.</p>
+    <p>To <strong>wipe everything</strong>: delete all events (including the archive), then delete the app — local data goes with it. The copy in the iCloud private database belongs to your Apple Account, and you can manage Cairn's storage and data under <strong>System Settings › your Apple Account › iCloud</strong>. There is no copy on my side to delete, because there never was one.</p>
+
+    <hr>
+    <p class="doc-meta">Didn't find your answer? Just email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>. The <a href="?lang=zh">Chinese version</a> of this page.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>Cairn · 司候</span>
+  <span class="footer-spacer"></span>
+  <a href="./"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

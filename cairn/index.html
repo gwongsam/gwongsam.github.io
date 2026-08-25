@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cairn 司候 · 倒数与纪念日 App</title>
+<meta name="description" content="Cairn（司候）是一款完全在设备上运行的倒数 / 正数应用：倒数报还剩多少，纪念日往上数并记下里程碑。小组件、实时活动、Apple Watch 齐全，免费、无广告、无追踪。A countdown and anniversary app for iPhone, iPad, Mac, and Apple Watch that runs entirely on your device.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
+    Cairn <span class="brand-sub">司候</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-mark" src="logo.svg" alt="" width="62" height="62">
+    <h1>Cairn <span class="hero-alt">司候</span></h1>
+    <p data-lang="zh">在等的日子，<strong>还剩多少</strong>；走过的日子，<strong>已经多久</strong>。<br>一个完全在你设备上运行的日子计数器。</p>
+    <p data-lang="en">How long until the day you're waiting for — and how long since the one you're counting from.<br>A day counter that runs entirely on your device.</p>
+    <p class="hero-badge"><span data-lang="zh">即将上架 App Store · 免费</span><span data-lang="en">Coming to the App Store · Free</span></p>
+  </div>
+
+  <section>
+    <h2 data-lang="zh">它是什么</h2>
+    <h2 data-lang="en">What it is</h2>
+    <div class="card-grid">
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">两个方向都算</div>
+        <div class="card-title" data-lang="en">Counts both ways</div>
+        <div class="card-desc" data-lang="zh">倒数报的是<strong>还剩多少</strong>，进度条像电量条——实心是还没花掉的那部分，从满走到空。纪念日则往上数，100 天、365 天、520 天、1000 天，走过的里程碑一列都留着。</div>
+        <div class="card-desc" data-lang="en">A countdown tells you what's <strong>left</strong>, on a bar that reads like a battery — the filled part is the time you haven't spent yet. Anniversaries count up instead, and every milestone you pass — 100 days, 365, 1,000 — stays on the list.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">一页配得完</div>
+        <div class="card-title" data-lang="en">Everything on one page</div>
+        <div class="card-desc" data-lang="zh">重复规则、多条提醒、每日汇总、农历、进度样式都在同一页。<strong>时区锁在事件上</strong>——飞一趟美国，家里那件事的数字不会跟着跳。</div>
+        <div class="card-desc" data-lang="en">Repeat rules, multiple reminders, a daily digest, lunar dates, and progress styles all live in one editor. <strong>The time zone is pinned to the event</strong>, so flying across the world doesn't make the number jump.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">数据在你手里</div>
+        <div class="card-title" data-lang="en">Your data stays yours</div>
+        <div class="card-desc" data-lang="zh">没有服务器、没有账号、没有广告、没有分析 SDK。数据存在设备上，同步走的是你自己 Apple 账户的 iCloud 私有库，随时可以导出一份完整的 JSON 备份。</div>
+        <div class="card-desc" data-lang="en">No servers, no sign-up, no ads, no analytics SDKs. Your events live on your device; syncing goes through the iCloud private database of your own Apple Account, and you can export a complete JSON backup at any time.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">摆到你看得见的地方</h2>
+    <h2 data-lang="en">Where you'll actually see it</h2>
+    <p data-lang="zh">日子计数器的价值不在打开 App 的那一刻，而在你没打开的时候还能看见。</p>
+    <p data-lang="en">A day counter earns its keep when you're <em>not</em> looking at the app.</p>
+
+    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
+    <div class="table-wrap" data-lang="zh">
+      <table>
+        <thead><tr><th>在哪儿</th><th>看到什么</th></tr></thead>
+        <tbody>
+          <tr><td>主屏与锁屏小组件</td><td>单个事件、近期列表、年度分布图，尺寸各有一套排版</td></tr>
+          <tr><td>灵动岛与实时活动</td><td>临近的那件事一路顶在屏幕上</td></tr>
+          <tr><td>Apple Watch</td><td>独立 App 与表盘复杂功能，事件改动由 iPhone 直接推过去</td></tr>
+          <tr><td>通知</td><td>按事件排的提醒，外加每天固定时刻的一条汇总</td></tr>
+          <tr><td>时间线</td><td>一整年十二个月摊开：哪个月最挤、今年还剩多少</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="en">
+      <table>
+        <thead><tr><th>Where</th><th>What you get</th></tr></thead>
+        <tbody>
+          <tr><td>Home &amp; Lock Screen widgets</td><td>A single event, an upcoming list, or the year's distribution — laid out per size</td></tr>
+          <tr><td>Dynamic Island &amp; Live Activities</td><td>The nearest event, pinned to the screen as it approaches</td></tr>
+          <tr><td>Apple Watch</td><td>A standalone app and watch face complications, pushed straight from your iPhone</td></tr>
+          <tr><td>Notifications</td><td>Per-event reminders, plus one digest at a fixed time each day</td></tr>
+          <tr><td>Timeline</td><td>All twelve months at once — which one is crowded, how much of the year is left</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="doc-meta" data-lang="zh">iPhone · iPad · Mac · Apple Watch。中文与英文。系统的待触发通知上限是 64 条，Cairn 会在这个额度内排程，每次回到前台补排。</p>
+    <p class="doc-meta" data-lang="en">iPhone · iPad · Mac · Apple Watch, in English and Chinese. iOS caps pending notifications at 64; Cairn schedules within that budget and tops it up whenever you return to the app.</p>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">从已有的日子开始</h2>
+    <h2 data-lang="en">Start from days you already have</h2>
+    <p data-lang="zh">可以从<strong>系统日历</strong>导入日程、从<strong>通讯录</strong>导入生日（生日会建成每年重复的事件）。两种导入都<strong>只读</strong>——Cairn 不会新增、修改或删除你的任何日历事件与联系人，读到的内容也只留在设备上。导入一律是追加而不是替换。</p>
+    <p data-lang="en">You can import events from your <strong>system calendar</strong> and birthdays from your <strong>contacts</strong> (birthdays become yearly repeating events). Both are <strong>read-only</strong> — Cairn never creates, edits, or deletes a calendar event or a contact, and what it reads stays on your device. Importing always appends rather than replaces.</p>
+    <div class="card-grid">
+      <a class="card" href="support/">
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-desc" data-lang="zh">备份与换机、iCloud 同步排查、通知不来、手表不同步、导入与权限。</div>
+        <div class="card-desc" data-lang="en">Backups and moving devices, iCloud sync, missing notifications, watch syncing, imports and permissions.</div>
+      </a>
+      <div class="card card-static">
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Cairn · 司候</span>
+  <span class="footer-spacer"></span>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+
+</body>
+</html>

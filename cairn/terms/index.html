@@ -1,0 +1,373 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>服务条款 Terms of Service · Cairn 司候</title>
+<meta name="description" content="Cairn（司候）倒数应用的服务条款：许可范围、免费提供、备份责任、提醒可靠性免责、责任限制与 Apple 相关条款。Terms of Service for the Cairn countdown app.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    Cairn <span class="brand-sub">司候</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">服务条款</h1>
+    <p class="doc-meta"><span>适用于 Cairn（中文名「司候」）应用</span><span>生效日期：2026 年 8 月 25 日</span><span>最后更新：2026 年 8 月 25 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">开始之前，请特别注意这几条</p>
+      <ul>
+        <li><strong>提醒不是保障。</strong>通知由你的设备与操作系统调度，可能因权限、系统限制、低电量模式、设备关机等原因延迟或不送达。<strong>重要的日期请不要只依赖本应用</strong>（第 5 条）。</li>
+        <li><strong>备份是你的责任。</strong>我们没有服务器，也没有你数据的任何副本；设备丢失或重置时我们无法帮你找回（第 4 条）。</li>
+        <li><strong>导出的备份文件不加密</strong>，谁拿到都能读，请自行保管（第 4 条）。</li>
+        <li>本应用目前<strong>完全免费</strong>，没有订阅与内购（第 3 条）。</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 协议的接受</a></li>
+        <li><a href="#zh-s2">2. 许可授予与范围</a></li>
+        <li><a href="#zh-s3">3. 免费提供</a></li>
+        <li><a href="#zh-s4">4. 你的数据与备份责任</a></li>
+        <li><a href="#zh-s5">5. 重要免责：提醒与通知的可靠性</a></li>
+        <li><a href="#zh-s6">6. 重要免责：本应用不提供专业建议</a></li>
+        <li><a href="#zh-s7">7. 使用规范</a></li>
+        <li><a href="#zh-s8">8. 知识产权</a></li>
+        <li><a href="#zh-s9">9. 服务的变更与中止</a></li>
+        <li><a href="#zh-s10">10. 保证的排除</a></li>
+        <li><a href="#zh-s11">11. 责任限制</a></li>
+        <li><a href="#zh-s12">12. 协议终止</a></li>
+        <li><a href="#zh-s13">13. 适用法律与争议解决</a></li>
+        <li><a href="#zh-s14">14. 与 Apple 有关的条款</a></li>
+        <li><a href="#zh-s15">15. 其他约定</a></li>
+        <li><a href="#zh-s16">16. 联系方式</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 协议的接受</h2>
+    <p>本服务条款（下称「本协议」）是你与个人开发者 gwongsam（下称「我们」）之间就 Cairn（中文名「司候」，下称「本应用」）达成的协议。<strong>下载、安装或使用本应用，即表示你已阅读、理解并同意接受本协议及<a href="../privacy/">隐私政策</a>的约束</strong>。若你不同意其中任何内容，请不要使用本应用。</p>
+    <p>若你未满当地法律规定的完全民事行为能力年龄，请在监护人的同意与指导下使用本应用。</p>
+
+    <h2 id="zh-s2">2. 许可授予与范围</h2>
+    <p>在你遵守本协议的前提下，我们授予你一项<strong>非独占、不可转让、不可再许可、可撤销</strong>的许可，允许你在你拥有或控制的、且符合 Apple 使用规则的 Apple 设备上安装并使用本应用，仅限个人非商业目的。</p>
+    <p>你不得：（i）对本应用进行反向工程、反编译、反汇编，或试图获取其源代码（法律明确允许的除外）；（ii）出租、出借、出售、再许可、分发或以其他方式提供本应用；（iii）移除或修改本应用中的任何权利声明；（iv）规避本应用或平台的技术限制措施。</p>
+
+    <h2 id="zh-s3">3. 免费提供</h2>
+    <p>本应用目前<strong>完全免费</strong>：没有订阅、没有内购、没有广告、没有事件数量上限，也没有任何功能被锁在付费墙后面。</p>
+    <p>我们保留在未来版本中引入付费功能的权利。若引入，<strong>你在此之前已经创建的数据不会因此被锁定</strong>，我们也会先行更新本页面并在应用内明确提示。所有付费交易（如有）将由 App Store 处理，退款事宜适用 Apple 的相关政策，可通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 提出。</p>
+
+    <h2 id="zh-s4">4. 你的数据与备份责任</h2>
+    <p>你在本应用中创建的全部内容归<strong>你</strong>所有。我们不主张任何权利，也不会访问、使用或分析它们——因为我们没有服务器，这些数据从未到达我们手中（详见<a href="../privacy/">隐私政策</a>）。</p>
+    <p>由此产生的必然结果，请务必知悉：</p>
+    <ul>
+      <li><strong>设备丢失、损坏、被重置或误删应用时，我们无法为你恢复任何数据</strong>——我们没有副本可供恢复。</li>
+      <li>iCloud 同步依赖你自己的 Apple 账户与 Apple 的服务，其可用性不在我们控制之内。</li>
+      <li><strong>定期使用「设置 › 数据 › 导出备份」备份，是你自己的责任。</strong></li>
+      <li><strong>导出的备份文件为明文 JSON，未经加密</strong>；文件离开本应用之后（存入网盘、通过聊天工具发送等），其安全性由你和你选择的服务负责。</li>
+      <li>导入备份的语义是<strong>追加</strong>而非替换，且不做去重；在已有数据的设备上导入会产生重复条目，这是预期行为。</li>
+    </ul>
+
+    <h2 id="zh-s5">5. 重要免责：提醒与通知的可靠性</h2>
+    <p><strong>本应用提供的提醒是一项便利功能，不构成任何形式的保障。</strong></p>
+    <p>本应用使用的是操作系统的本地通知机制。通知是否、以及何时送达，取决于你的设备与操作系统，可能因下列原因延迟或完全不送达：未授予或撤回通知权限、设备关机或没电、专注模式与勿扰、低电量模式、系统对待触发通知数量的限制（iOS 上限为 64 条）、系统或应用被更新、时区或系统时间被更改、存储或 iCloud 异常，以及其他不在我们控制范围内的因素。</p>
+    <div class="note">
+      <p><strong>对于任何具有重要后果的日期——包括但不限于医疗预约、服药、法律或行政期限、诉讼时效、合同到期、缴费与还款、签证或证件有效期、考试与申请截止——请不要将本应用作为唯一的提醒手段。</strong>请同时使用日历、闹钟或其他独立方式。因通知未送达、延迟送达或内容有误而产生的任何后果，我们不承担责任。</p>
+    </div>
+
+    <h2 id="zh-s6">6. 重要免责：本应用不提供专业建议</h2>
+    <p>本应用是一个日期计数与提醒工具。它计算并显示日期之间的间隔，<strong>不构成也不应被视为医疗、法律、财务、税务或其他专业建议</strong>。</p>
+    <p>本应用对日期的计算涉及时区、夏令时、重复规则与农历换算等规则。我们会尽力保证其正确，但<strong>不保证在所有情形下都与你所处司法辖区或习俗的认定完全一致</strong>。涉及具有法律或财务后果的期限时，请以官方来源或专业人士的意见为准。</p>
+
+    <h2 id="zh-s7">7. 使用规范</h2>
+    <p>你同意不将本应用用于任何违法或不当目的，包括但不限于：</p>
+    <ul>
+      <li>违反你所在地或使用地的法律法规；</li>
+      <li>侵犯他人的隐私、名誉、知识产权或其他合法权益——包括未经他人同意而记录、存储他人的私人日期信息；</li>
+      <li>干扰、破坏本应用或其所依赖的系统服务的正常运行；</li>
+      <li>使用自动化手段大规模操作本应用，或试图绕过系统的权限机制。</li>
+    </ul>
+    <p>你须对通过本应用录入或导入的内容的合法性自行负责。</p>
+
+    <h2 id="zh-s8">8. 知识产权</h2>
+    <p>本应用及其全部组成部分——包括但不限于代码、界面设计、图标、插画、名称「Cairn」与「司候」、以及本站内容——的知识产权归我们所有，受著作权法及相关法律保护。本协议仅授予使用许可，不转让任何知识产权。</p>
+    <p>本应用中使用的系统符号、字体与框架的权利归各自权利人所有。</p>
+
+    <h2 id="zh-s9">9. 服务的变更与中止</h2>
+    <p>我们可能随时更新、修改、增加或移除本应用的功能，也可能停止对特定系统版本或设备的支持。我们会尽力避免造成数据丢失，但<strong>在功能移除或格式变更前，请先自行导出备份</strong>。</p>
+    <p>我们没有义务无限期地维护或更新本应用。若我们决定终止本应用，会尽合理努力提前告知，并保证你在此之前可以导出你的数据。</p>
+
+    <h2 id="zh-s10">10. 保证的排除</h2>
+    <p>在适用法律允许的最大范围内，<strong>本应用按「现状」和「现有」提供，不附带任何明示或默示的保证</strong>，包括但不限于适销性、特定用途适用性、不侵权、准确性、可靠性或不间断运行的保证。</p>
+    <p>我们不保证本应用不会出错、不会中断，也不保证任何缺陷都能被修复。</p>
+    <p>部分司法辖区不允许排除默示保证，因此上述排除可能不适用于你；在该等情形下，此类保证的期限以适用法律要求的最短期限为限。<strong>你依据消费者保护法律享有的法定权利不受本协议影响。</strong></p>
+
+    <h2 id="zh-s11">11. 责任限制</h2>
+    <p>在适用法律允许的最大范围内，我们不对下列情形承担责任：</p>
+    <ul>
+      <li>任何间接的、附带的、特殊的、惩罚性的或后果性的损失；</li>
+      <li>数据丢失、损坏或无法恢复；</li>
+      <li>因通知未送达、延迟送达或内容有误而错过任何日期、期限或事件所造成的损失；</li>
+      <li>因你依赖本应用的计算结果而产生的任何损失；</li>
+      <li>因 iCloud、Apple Watch 连接或其他第三方服务不可用而产生的损失。</li>
+    </ul>
+    <p>在任何情况下，我们就本协议或本应用承担的责任总额，<strong>不超过你在索赔发生前十二（12）个月内为本应用实际支付的金额</strong>；本应用当前免费提供，故该金额可能为零。</p>
+    <p>本条不排除或限制我们依法不得排除或限制的责任（包括因故意或重大过失、人身伤害或死亡而产生的责任）。</p>
+
+    <h2 id="zh-s12">12. 协议终止</h2>
+    <p>你可以随时通过删除本应用终止本协议。若你实质性违反本协议，本协议下的许可自动终止。终止后，第 4、8、10、11、13 条以及依其性质应当存续的条款继续有效。</p>
+
+    <h2 id="zh-s13">13. 适用法律与争议解决</h2>
+    <p>本协议的订立、效力、解释、履行及争议解决，均适用<strong>中华人民共和国大陆地区</strong>法律（为本条之目的，不包括其冲突法规则，亦不包括香港特别行政区、澳门特别行政区及台湾地区法律）。</p>
+    <p>因本协议产生或与之相关的任何争议，双方应首先友好协商解决；协商不成的，任何一方均可提交<strong>开发者住所地有管辖权的人民法院</strong>诉讼解决。</p>
+    <p>如果你所在地的强制性法律赋予你在当地法院起诉或适用当地法律的权利，本条不影响你行使该等权利。</p>
+
+    <h2 id="zh-s14">14. 与 Apple 有关的条款</h2>
+    <p>以下条款依 Apple 对开发者最终用户许可协议的最低要求订立，你与我们均确认：</p>
+    <ol>
+      <li><strong>协议主体：</strong>本协议仅在你与我们之间订立，<strong>与 Apple 无关</strong>。本应用及其内容由我们（而非 Apple）独家负责。</li>
+      <li><strong>许可范围：</strong>本应用的使用许可范围见第 2 条，并受 Apple 媒体服务条款中「使用规则」的约束。</li>
+      <li><strong>维护与支持：</strong>本应用的维护与技术支持由我们独家负责，<strong>Apple 没有任何提供维护与支持服务的义务</strong>。</li>
+      <li><strong>保证：</strong>任何明示或默示的保证均由我们独家负责。若本应用不符合任何适用的保证，你可以通知 Apple，Apple 将向你退还该应用的购买价款（如有）；在法律允许的最大范围内，<strong>Apple 不承担任何其他与本应用有关的保证义务</strong>，因不符合保证而产生的其他索赔、损失、责任、损害、成本或费用由我们独家负责。</li>
+      <li><strong>产品责任索赔：</strong>就你或第三方针对本应用提出的索赔——包括产品责任索赔、本应用不符合适用法律或法规要求的索赔、以及依据消费者保护、隐私保护或类似立法提出的索赔——由<strong>我们（而非 Apple）独家负责</strong>处理。</li>
+      <li><strong>知识产权索赔：</strong>若第三方主张本应用或你对本应用的持有和使用侵犯其知识产权，<strong>由我们（而非 Apple）独家负责</strong>该项索赔的调查、抗辩、和解与了结。</li>
+      <li><strong>法律遵从：</strong>你声明并保证：（i）你不位于受美国政府禁运或被美国政府认定为「支持恐怖主义」的国家或地区；（ii）你未被列入任何美国政府的禁止或限制交易名单。</li>
+      <li><strong>联系方式：</strong>就本协议的任何问题、投诉或索赔，可联系：个人开发者 gwongsam，电子邮件 <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>。</li>
+      <li><strong>第三方条款：</strong>你在使用本应用时须遵守适用的第三方条款（例如 Apple 媒体服务条款、iCloud 条款）。</li>
+      <li><strong>第三方受益人：</strong>你与我们确认并同意，<strong>Apple 及其子公司是本协议的第三方受益人</strong>；你接受本协议后，Apple 有权（并被视为已接受该权利）以第三方受益人的身份对你强制执行本协议。</li>
+    </ol>
+
+    <h2 id="zh-s15">15. 其他约定</h2>
+    <ul>
+      <li><strong>完整协议：</strong>本协议与<a href="../privacy/">隐私政策</a>构成你与我们之间就本应用达成的完整协议，取代此前的一切口头或书面沟通。</li>
+      <li><strong>可分割性：</strong>本协议任何条款被认定为无效或不可执行的，不影响其余条款的效力，该条款应在最接近其原意且合法有效的范围内解释执行。</li>
+      <li><strong>弃权：</strong>我们未行使或延迟行使本协议下的任何权利，不构成对该权利的放弃。</li>
+      <li><strong>转让：</strong>未经我们书面同意，你不得转让本协议下的权利义务。我们可在业务转让、合并或重组时转让本协议，但不得因此降低对你的保护水平。</li>
+      <li><strong>条款变更：</strong>我们可能修订本协议。修订后的版本会更新本页面并修改顶部日期；涉及重大变更的，我们会在应用内以显著方式提示。<strong>修订生效后你继续使用本应用，即视为接受修订后的条款</strong>；若不接受，请停止使用并删除本应用。</li>
+    </ul>
+
+    <h2 id="zh-s16">16. 联系方式</h2>
+    <p>个人开发者 gwongsam<br>电子邮件：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+
+    <hr>
+    <p class="doc-meta">本协议的中文版本与<a href="?lang=en">英文版本</a>如有歧义，以中文版本为准。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Terms of Service</h1>
+    <p class="doc-meta"><span>For the Cairn app</span><span>Effective: 25 August 2026</span><span>Last updated: 25 August 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Before you start, please note</p>
+      <ul>
+        <li><strong>Reminders are not a guarantee.</strong> Notifications are scheduled by your device and its operating system, and may be delayed or never arrive — because of permissions, system limits, Low Power Mode, a device being switched off, and more. <strong>Do not rely on this app alone for dates that matter</strong> (section 5).</li>
+        <li><strong>Backups are your responsibility.</strong> We run no servers and hold no copy of your data; if a device is lost or erased, we cannot recover anything (section 4).</li>
+        <li><strong>Exported backups are not encrypted</strong> — anyone who gets the file can read it, so store it sensibly (section 4).</li>
+        <li>The app is currently <strong>free</strong>, with no subscriptions or in-app purchases (section 3).</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#en-s1">1. Acceptance</a></li>
+        <li><a href="#en-s2">2. Licence grant and scope</a></li>
+        <li><a href="#en-s3">3. Provided free of charge</a></li>
+        <li><a href="#en-s4">4. Your data and your backups</a></li>
+        <li><a href="#en-s5">5. Important: reminders are not guaranteed</a></li>
+        <li><a href="#en-s6">6. Important: no professional advice</a></li>
+        <li><a href="#en-s7">7. Acceptable use</a></li>
+        <li><a href="#en-s8">8. Intellectual property</a></li>
+        <li><a href="#en-s9">9. Changes and discontinuation</a></li>
+        <li><a href="#en-s10">10. Disclaimer of warranties</a></li>
+        <li><a href="#en-s11">11. Limitation of liability</a></li>
+        <li><a href="#en-s12">12. Termination</a></li>
+        <li><a href="#en-s13">13. Governing law and disputes</a></li>
+        <li><a href="#en-s14">14. Apple-specific terms</a></li>
+        <li><a href="#en-s15">15. Miscellaneous</a></li>
+        <li><a href="#en-s16">16. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Acceptance</h2>
+    <p>These Terms of Service ("Terms") form an agreement between you and gwongsam, an independent developer ("we"), regarding the Cairn app ("the app"). <strong>By downloading, installing, or using the app, you confirm that you have read, understood, and agree to be bound by these Terms and the <a href="../privacy/">Privacy Policy</a>.</strong> If you do not agree, please do not use the app.</p>
+    <p>If you are below the age of full legal capacity where you live, please use the app with the consent and guidance of a parent or guardian.</p>
+
+    <h2 id="en-s2">2. Licence grant and scope</h2>
+    <p>Subject to your compliance with these Terms, we grant you a <strong>non-exclusive, non-transferable, non-sublicensable, revocable</strong> licence to install and use the app on Apple devices that you own or control, as permitted by Apple's Usage Rules, for your personal, non-commercial purposes.</p>
+    <p>You may not: (i) reverse engineer, decompile, or disassemble the app, or attempt to derive its source code, except where the law expressly permits it; (ii) rent, lend, sell, sublicense, distribute, or otherwise make the app available to others; (iii) remove or alter any proprietary notices; (iv) circumvent technical restrictions in the app or the platform.</p>
+
+    <h2 id="en-s3">3. Provided free of charge</h2>
+    <p>The app is currently <strong>free</strong>: no subscriptions, no in-app purchases, no advertising, no cap on how many events you can create, and no features behind a paywall.</p>
+    <p>We reserve the right to introduce paid features in future versions. If we do, <strong>data you created beforehand will not be locked away</strong>, and we will update this page and make it clear in the app first. Any paid transactions would be handled by the App Store; refunds are governed by Apple's policies and can be requested at <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>.</p>
+
+    <h2 id="en-s4">4. Your data and your backups</h2>
+    <p>Everything you create in the app belongs to <strong>you</strong>. We claim no rights over it and never access, use, or analyse it — because we run no servers and it never reaches us (see the <a href="../privacy/">Privacy Policy</a>).</p>
+    <p>The unavoidable consequences, which you should be aware of:</p>
+    <ul>
+      <li><strong>If your device is lost, damaged, erased, or the app is deleted by accident, we cannot restore anything</strong> — we hold no copy to restore from.</li>
+      <li>iCloud sync depends on your own Apple Account and Apple's services, whose availability is outside our control.</li>
+      <li><strong>Exporting a backup regularly, via Settings › Data › Export Backup, is your responsibility.</strong></li>
+      <li><strong>Exported backups are plain, unencrypted JSON.</strong> Once a file leaves the app — saved to a cloud service, sent through a messaging app — its security is between you and the service you chose.</li>
+      <li>Importing a backup <strong>appends</strong> rather than replaces and does not de-duplicate; importing onto a device that already holds the same events produces duplicates, which is expected behaviour.</li>
+    </ul>
+
+    <h2 id="en-s5">5. Important: reminders are not guaranteed</h2>
+    <p><strong>The reminders in this app are a convenience, not a guarantee of any kind.</strong></p>
+    <p>The app uses the operating system's local notification mechanism. Whether and when a notification arrives is up to your device and its OS, and it may be delayed or never delivered because of: notification permission not granted or later revoked, the device being off or out of battery, Focus modes and Do Not Disturb, Low Power Mode, the system limit on pending notifications (64 on iOS), system or app updates, changes to the time zone or system clock, storage or iCloud problems, and other factors outside our control.</p>
+    <div class="note">
+      <p><strong>For any date with meaningful consequences — including but not limited to medical appointments, medication, legal or administrative deadlines, limitation periods, contract expiry, payments and repayments, visa or document validity, and exam or application deadlines — do not use this app as your only reminder.</strong> Use a calendar, an alarm, or another independent method alongside it. We accept no liability for consequences arising from a notification that is not delivered, is delayed, or is incorrect.</p>
+    </div>
+
+    <h2 id="en-s6">6. Important: no professional advice</h2>
+    <p>The app is a date-counting and reminder tool. It calculates and displays intervals between dates and <strong>does not constitute, and must not be treated as, medical, legal, financial, tax, or other professional advice</strong>.</p>
+    <p>Its date calculations involve time zones, daylight saving, repeat rules, and lunar conversions. We make every effort to get them right, but <strong>do not warrant that every result matches the reckoning of your jurisdiction or local custom in all cases</strong>. Where a deadline carries legal or financial consequences, rely on official sources or a qualified professional.</p>
+
+    <h2 id="en-s7">7. Acceptable use</h2>
+    <p>You agree not to use the app for any unlawful or improper purpose, including:</p>
+    <ul>
+      <li>Breaching the laws or regulations that apply where you live or use the app;</li>
+      <li>Infringing anyone's privacy, reputation, intellectual property, or other rights — including recording or storing another person's private dates without their consent;</li>
+      <li>Interfering with or disrupting the app or the system services it depends on;</li>
+      <li>Operating the app at scale by automated means, or attempting to bypass the system's permission mechanisms.</li>
+    </ul>
+    <p>You are responsible for the lawfulness of whatever you enter or import into the app.</p>
+
+    <h2 id="en-s8">8. Intellectual property</h2>
+    <p>The app and all of its components — including its code, interface design, icons, illustrations, the names "Cairn" and "司候", and the contents of this site — are our intellectual property and protected by copyright and related laws. These Terms grant a licence to use the app; they transfer no intellectual property.</p>
+    <p>System symbols, typefaces, and frameworks used in the app remain the property of their respective owners.</p>
+
+    <h2 id="en-s9">9. Changes and discontinuation</h2>
+    <p>We may update, modify, add, or remove features at any time, and may end support for particular OS versions or devices. We try to avoid causing data loss, but <strong>please export a backup before any feature removal or format change</strong>.</p>
+    <p>We are under no obligation to maintain or update the app indefinitely. If we decide to discontinue it, we will make reasonable efforts to give advance notice and to ensure you can export your data first.</p>
+
+    <h2 id="en-s10">10. Disclaimer of warranties</h2>
+    <p>To the fullest extent permitted by law, <strong>the app is provided "as is" and "as available", without warranties of any kind</strong>, express or implied, including merchantability, fitness for a particular purpose, non-infringement, accuracy, reliability, or uninterrupted operation.</p>
+    <p>We do not warrant that the app will be error-free or uninterrupted, or that every defect will be corrected.</p>
+    <p>Some jurisdictions do not allow the exclusion of implied warranties, so the above may not apply to you; in that case such warranties are limited to the shortest period the applicable law permits. <strong>Your statutory rights as a consumer are unaffected by these Terms.</strong></p>
+
+    <h2 id="en-s11">11. Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, we are not liable for:</p>
+    <ul>
+      <li>Any indirect, incidental, special, punitive, or consequential loss;</li>
+      <li>Loss, corruption, or unrecoverability of data;</li>
+      <li>Any date, deadline, or occasion missed because a notification was not delivered, was delayed, or was incorrect;</li>
+      <li>Any loss arising from your reliance on the app's calculations;</li>
+      <li>Any loss arising from the unavailability of iCloud, Apple Watch connectivity, or other third-party services.</li>
+    </ul>
+    <p>In no event will our total liability relating to these Terms or the app <strong>exceed the amount you actually paid for the app in the twelve (12) months preceding the claim</strong>; as the app is currently free, that amount may be zero.</p>
+    <p>Nothing here excludes or limits liability that cannot be excluded or limited by law, including liability for wilful misconduct or gross negligence, or for death or personal injury.</p>
+
+    <h2 id="en-s12">12. Termination</h2>
+    <p>You may end these Terms at any time by deleting the app. The licence terminates automatically if you materially breach these Terms. Sections 4, 8, 10, 11, and 13, along with any provision that by its nature should survive, remain in effect after termination.</p>
+
+    <h2 id="en-s13">13. Governing law and disputes</h2>
+    <p>These Terms — their formation, validity, interpretation, performance, and any dispute arising from them — are governed by the laws of <strong>the mainland of the People's Republic of China</strong> (for the purposes of this clause, excluding its conflict-of-laws rules and the laws of the Hong Kong SAR, the Macao SAR, and Taiwan).</p>
+    <p>Any dispute arising out of or relating to these Terms shall first be addressed through good-faith negotiation; failing that, either party may bring proceedings before the <strong>competent People's Court at the developer's domicile</strong>.</p>
+    <p>If mandatory law where you live gives you the right to bring proceedings in your local courts or to have local law apply, this clause does not affect that right.</p>
+
+    <h2 id="en-s14">14. Apple-specific terms</h2>
+    <p>The following are included to meet Apple's minimum terms for a developer's end-user licence agreement. You and we acknowledge:</p>
+    <ol>
+      <li><strong>Parties:</strong> These Terms are between you and us only, and <strong>not with Apple</strong>. We, not Apple, are solely responsible for the app and its content.</li>
+      <li><strong>Scope of licence:</strong> The licence is as set out in section 2 and is subject to the Usage Rules in Apple's Media Services Terms and Conditions.</li>
+      <li><strong>Maintenance and support:</strong> We are solely responsible for maintenance and support. <strong>Apple has no obligation to furnish any maintenance and support services.</strong></li>
+      <li><strong>Warranty:</strong> We are solely responsible for any warranties, express or implied. If the app fails to conform to any applicable warranty, you may notify Apple, and Apple will refund the purchase price (if any) for the app; to the maximum extent permitted by law, <strong>Apple has no other warranty obligation whatsoever with respect to the app</strong>, and any other claims, losses, liabilities, damages, costs, or expenses attributable to a failure to conform to a warranty are our sole responsibility.</li>
+      <li><strong>Product claims:</strong> We, not Apple, are responsible for addressing any claims by you or a third party relating to the app, including product liability claims, claims that the app fails to conform to a legal or regulatory requirement, and claims arising under consumer protection, privacy, or similar legislation.</li>
+      <li><strong>Intellectual property claims:</strong> If a third party claims that the app or your possession and use of it infringes their intellectual property rights, <strong>we, not Apple, are solely responsible</strong> for the investigation, defence, settlement, and discharge of that claim.</li>
+      <li><strong>Legal compliance:</strong> You represent and warrant that (i) you are not located in a country subject to a US Government embargo or designated by the US Government as a "terrorist supporting" country, and (ii) you are not listed on any US Government list of prohibited or restricted parties.</li>
+      <li><strong>Contact:</strong> Questions, complaints, or claims about these Terms may be addressed to gwongsam, <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>.</li>
+      <li><strong>Third-party terms:</strong> You must comply with applicable third-party terms when using the app (for example Apple's Media Services Terms and the iCloud terms).</li>
+      <li><strong>Third-party beneficiary:</strong> You and we acknowledge and agree that <strong>Apple and its subsidiaries are third-party beneficiaries of these Terms</strong>, and that upon your acceptance Apple has the right (and is deemed to have accepted the right) to enforce these Terms against you as a third-party beneficiary.</li>
+    </ol>
+
+    <h2 id="en-s15">15. Miscellaneous</h2>
+    <ul>
+      <li><strong>Entire agreement:</strong> These Terms and the <a href="../privacy/">Privacy Policy</a> are the entire agreement between you and us regarding the app, superseding any prior oral or written communication.</li>
+      <li><strong>Severability:</strong> If any provision is held invalid or unenforceable, the remainder stays in effect, and that provision shall be construed so as to come as close as lawfully possible to its original intent.</li>
+      <li><strong>Waiver:</strong> Our failure or delay in exercising a right is not a waiver of it.</li>
+      <li><strong>Assignment:</strong> You may not assign your rights or obligations without our written consent. We may assign these Terms in connection with a transfer, merger, or reorganisation of the business, without reducing the level of protection you enjoy.</li>
+      <li><strong>Changes to these Terms:</strong> We may revise these Terms. Revisions will appear on this page with an updated date, and material changes will be made prominent in the app. <strong>Continuing to use the app after a revision takes effect means you accept it</strong>; if you do not, please stop using the app and delete it.</li>
+    </ul>
+
+    <h2 id="en-s16">16. Contact</h2>
+    <p>gwongsam, independent developer<br>Email: <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+
+    <hr>
+    <p class="doc-meta">In case of any discrepancy between the <a href="?lang=zh">Chinese version</a> and this English version, the Chinese version prevails.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>Cairn · 司候</span>
+  <span class="footer-spacer"></span>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="./"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
