@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>隐私政策 Privacy Policy · Keel 司元</title>
 <meta name="description" content="Keel（司元）隐私政策，中英双语：记账数据只存在你的设备与你自己的 iCloud 私有数据库。Privacy policy for the Keel bookkeeping app.">
-<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/legal.css">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
 <script>
 /* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示——
    法律文档必须在脚本挂掉时依然完整可读。 */
@@ -17,7 +17,7 @@
     if (q === 'zh' || q === 'en') lang = q;
     else if (location.hash.indexOf('#en-') === 0) lang = 'en';
     else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
-    else lang = localStorage.getItem('keel-lang');
+    else lang = localStorage.getItem('site-lang');
   } catch (e) {}
   if (lang !== 'zh' && lang !== 'en') {
     lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
@@ -31,7 +31,7 @@
 
 <header class="site-header">
   <a class="brand" href="../">
-    <img class="brand-mark" src="../assets/logo.svg" alt="" width="22" height="22">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
   <nav class="doc-nav">
@@ -492,7 +492,7 @@
     var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
     d.lang = next === 'zh' ? 'zh-Hans' : 'en';
-    try { localStorage.setItem('keel-lang', next); } catch (e) {}
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
     if (at) {
       var target = document.getElementById(next + '-' + at[1]);

@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Keel 司元 · 复式记账 iOS 应用</title>
-<meta name="description" content="Keel（司元）是一款完全在设备上运行的复式记账 iOS 应用：三大财务报表、完整账户体系、无服务器无广告无追踪。A double-entry bookkeeping app for iOS that runs entirely on your device.">
-<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<title>gwongsam · Apps</title>
+<meta name="description" content="独立开发的 iOS / macOS 应用，以及各自的支持页、服务条款与隐私政策。Independent apps for iOS and macOS, with their support pages, terms, and privacy policies.">
 <link rel="stylesheet" href="assets/legal.css">
 <script>
 /* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
@@ -14,7 +13,7 @@
   try {
     var q = new URLSearchParams(location.search).get('lang');
     if (q === 'zh' || q === 'en') lang = q;
-    else lang = localStorage.getItem('keel-lang');
+    else lang = localStorage.getItem('site-lang');
   } catch (e) {}
   if (lang !== 'zh' && lang !== 'en') {
     lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
@@ -27,113 +26,64 @@
 <body class="home">
 
 <header class="site-header">
-  <a class="brand" href="./">
-    <img class="brand-mark" src="assets/logo.svg" alt="" width="22" height="22">
-    Keel <span class="brand-sub">司元</span>
-  </a>
+  <a class="brand" href="./">gwongsam</a>
   <nav class="doc-nav">
-    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+    <a href="cairn/">Cairn</a>
+    <a href="keel/">Keel</a>
   </nav>
   <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
 <main>
   <div class="hero">
-    <img class="hero-mark" src="assets/logo.svg" alt="" width="62" height="62">
-    <h1>Keel <span class="hero-alt">司元</span></h1>
-    <p data-lang="zh">一款完全在你的设备上运行的<strong>复式记账</strong>应用。<br>每一笔都借贷平衡，三张财务报表实时可查。</p>
-    <p data-lang="en">A <strong>double-entry bookkeeping</strong> app that runs entirely on your device.<br>Every entry balances, and the three financial statements are always current.</p>
-    <p class="hero-badge"><span data-lang="zh">即将上架 App Store</span><span data-lang="en">Coming to the App Store</span></p>
+    <h1>Apps</h1>
+    <p data-lang="zh">一个人做的几款 App，都在你的设备上运行——没有服务器，没有账号，没有广告，没有追踪。<br>每款各有自己的支持页、服务条款与隐私政策。</p>
+    <p data-lang="en">A few apps made by one person, all of them running on your own device — no servers, no accounts, no ads, no tracking.<br>Each has its own support page, terms, and privacy policy.</p>
   </div>
 
   <section>
-    <h2 data-lang="zh">它是什么</h2>
-    <h2 data-lang="en">What it is</h2>
+    <!-- 卡片整块不做成链接：里面还要放支持 / 条款 / 隐私三个链接，套在 <a> 里是嵌套锚点。
+         card-static 会去掉悬停反馈与那个「→」箭头，正好对上「这块本身点不动」。 -->
     <div class="card-grid">
       <div class="card card-static">
-        <div class="card-title" data-lang="zh">真正的复式记账</div>
-        <div class="card-title" data-lang="en">Real double-entry</div>
-        <div class="card-desc" data-lang="zh">不是「收入减支出」，是每笔都有借有贷、恒等式自校验。资产负债表、利润表、现金流量表三张表同源生成，随时对得上。</div>
-        <div class="card-desc" data-lang="en">Not "income minus expenses" — every transaction has both sides, checked against the accounting identity. The balance sheet, income statement, and cash flow statement all derive from the same postings.</div>
+        <div class="card-title"><span><img src="cairn/logo.svg" alt="" width="22" height="22" style="display:inline-block;vertical-align:-5px;border-radius:5px;margin-right:.45rem">Cairn 司候</span></div>
+        <div class="card-desc" data-lang="zh">倒数与纪念日。在等的日子还剩多少，走过的日子已经多久。iPhone · iPad · Mac · Apple Watch。</div>
+        <div class="card-desc" data-lang="en">Countdowns and anniversaries — how long until, and how long since. iPhone · iPad · Mac · Apple Watch.</div>
+        <p class="card-desc" style="margin-top:.6rem">
+          <a href="cairn/"><span data-lang="zh">主页</span><span data-lang="en">Home</span></a> ·
+          <a href="cairn/support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a> ·
+          <a href="cairn/terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms</span></a> ·
+          <a href="cairn/privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy</span></a>
+        </p>
       </div>
       <div class="card card-static">
-        <div class="card-title" data-lang="zh">账户建模够认真</div>
-        <div class="card-title" data-lang="en">Accounts modeled properly</div>
-        <div class="card-desc" data-lang="zh">信用卡有真实的账单周期与分期，贷款有借据、还款计划与提前还款，先买后付、储值预付、非现金资产都有各自的模型，不是硬塞进「支出」了事。</div>
-        <div class="card-desc" data-lang="en">Credit cards have real billing cycles and installments; loans have drawdowns, repayment schedules, and early payoff. Buy-now-pay-later, prepaid balances, and non-cash assets each get their own model instead of being flattened into "expenses".</div>
-      </div>
-      <div class="card card-static">
-        <div class="card-title" data-lang="zh">数据在你手里</div>
-        <div class="card-title" data-lang="en">Your data stays yours</div>
-        <div class="card-desc" data-lang="zh">没有服务器、没有账号、没有广告、没有分析 SDK。数据默认只在本机，同步走的是你自己 Apple 账户的 iCloud 私有库，随时可导出完整备份。</div>
-        <div class="card-desc" data-lang="en">No servers, no sign-up, no ads, no analytics SDKs. Data lives on your device by default; syncing goes through the iCloud private database of your own Apple Account, and you can export a complete backup at any time.</div>
+        <div class="card-title"><span><img src="keel/logo.svg" alt="" width="22" height="22" style="display:inline-block;vertical-align:-5px;border-radius:5px;margin-right:.45rem">Keel 司元</span></div>
+        <div class="card-desc" data-lang="zh">复式记账。每一笔都借贷平衡，资产负债表、利润表、现金流量表三张表实时可查。</div>
+        <div class="card-desc" data-lang="en">Double-entry bookkeeping — every entry balances, and all three financial statements stay current.</div>
+        <p class="card-desc" style="margin-top:.6rem">
+          <a href="keel/"><span data-lang="zh">主页</span><span data-lang="en">Home</span></a> ·
+          <a href="keel/support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a> ·
+          <a href="keel/terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms</span></a> ·
+          <a href="keel/privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy</span></a>
+        </p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2 data-lang="zh">免费与会员</h2>
-    <h2 data-lang="en">Free and Premium</h2>
-    <p data-lang="zh">核心记账能力<strong>免费且不限记录数量</strong>。会员解锁跨设备协作、前瞻分析与重度金融工具。已记录的数据<strong>永远可读、可导出、可备份</strong>——会员到期只关新建入口，不锁数据。</p>
-    <p data-lang="en">The core bookkeeping is <strong>free and unlimited in record count</strong>. Premium unlocks cross-device collaboration, forward-looking analysis, and heavier financial instruments. Data you have already recorded <strong>stays readable, exportable, and backup-able forever</strong> — expiry closes the "create new" entry points, it never locks your data.</p>
-
-    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
-    <div class="table-wrap" data-lang="zh">
-      <table>
-        <thead><tr><th>免费</th><th>会员</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>复式记账流水，不限量<br>资产负债表 · 利润表 · 现金流量表<br>现金 / 储蓄 / 信用卡（含账单周期与分期）<br>其他资产与负债、储值预付账户<br>分类、标签、项目、往来记录<br>月度总预算、收支趋势图<br>备份导出与恢复、恒等式校验</td>
-            <td>iCloud 同步 · 账本共享 · 多账本<br>贷款账户 · 先买后付 · 预付摊销<br>多币种 · 在线汇率<br>前瞻预测（流动性跑道 / 净资产前瞻）<br>分类分析区间与下钻 · 分类预算上限<br>自定义统计方案 · 附件 · 周期交易</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-wrap" data-lang="en">
-      <table>
-        <thead><tr><th>Free</th><th>Premium</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Unlimited double-entry transactions<br>Balance sheet · Income statement · Cash flow<br>Cash / savings / credit cards (cycles &amp; installments)<br>Other assets and liabilities, prepaid accounts<br>Categories, tags, projects, receivables &amp; payables<br>Monthly total budget, income &amp; expense trends<br>Backup export and restore, invariant checks</td>
-            <td>iCloud sync · Book sharing · Multiple books<br>Loan accounts · Buy now, pay later · Prepaid amortization<br>Multi-currency · Online exchange rates<br>Forward outlook (liquidity runway / net worth)<br>Category breakdown ranges &amp; drill-down · Category budget limits<br>Custom statement schemes · Attachments · Recurring transactions</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="doc-meta" data-lang="zh">会员提供月度、年度自动续订订阅与一次性永久购买，价格以 App Store 展示为准。功能归属可能随版本调整，以应用内展示为准。</p>
-    <p class="doc-meta" data-lang="en">Premium is available as monthly and yearly auto-renewing subscriptions or a one-time lifetime purchase; prices are as shown on the App Store. Feature allocation may change across versions — the app is the source of truth.</p>
-  </section>
-
-  <section>
-    <h2 data-lang="zh">迁移与支持</h2>
-    <h2 data-lang="en">Migrating and getting help</h2>
-    <p data-lang="zh">支持从钱迹导出的表格导入历史流水，文件完全在设备上解析。遇到问题或想提建议，直接发邮件——这是一个人维护的应用，你的反馈会被真的读到。</p>
-    <p data-lang="en">You can import historical transactions from Qianji's exported spreadsheets; files are parsed entirely on your device. If something breaks or you have a suggestion, just email me — this is a one-person app and your feedback actually gets read.</p>
-    <div class="card-grid">
-      <a class="card" href="support/">
-        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
-        <div class="card-desc" data-lang="zh">备份与换机、iCloud 同步排查、订阅与恢复购买、联系方式。</div>
-        <div class="card-desc" data-lang="en">Backups and device migration, iCloud sync troubleshooting, subscriptions and restoring purchases, contact.</div>
-      </a>
-      <div class="card card-static">
-        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
-        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
-          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
-          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
-      </div>
-    </div>
+    <h2 data-lang="zh">联系</h2>
+    <h2 data-lang="en">Contact</h2>
+    <p><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+      <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+      <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></p>
   </section>
 </main>
 
 <footer class="site-footer">
-  <span>Keel · 司元</span>
+  <span>gwongsam</span>
   <span class="footer-spacer"></span>
-  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+  <a href="cairn/">Cairn</a>
+  <a href="keel/">Keel</a>
 </footer>
 
 <script>
@@ -152,7 +102,7 @@
     var next = current() === 'zh' ? 'en' : 'zh';
     d.className = 'lang-' + next;
     d.lang = next === 'zh' ? 'zh-Hans' : 'en';
-    try { localStorage.setItem('keel-lang', next); } catch (e) {}
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
   });
 })();
