@@ -45,7 +45,7 @@
 <main>
   <article data-lang="zh" lang="zh-Hans">
     <h1 class="doc-title">隐私政策</h1>
-    <p class="doc-meta"><span>适用于 Keel（中文名「司元」）iOS 应用</span><span>生效日期：2026 年 7 月 28 日</span><span>最后更新：2026 年 7 月 28 日</span></p>
+    <p class="doc-meta"><span>适用于 Keel（中文名「司元」）iOS 应用</span><span>生效日期：2026 年 7 月 28 日</span><span>最后更新：2026 年 9 月 10 日</span></p>
 
     <div class="callout">
       <p class="callout-title">一句话摘要</p>
@@ -53,6 +53,7 @@
         <li><strong>我们没有服务器。</strong>本应用不会把你的记账数据发送到开发者控制的任何服务器——因为不存在这样的服务器。</li>
         <li><strong>数据在你自己手里。</strong>默认只存在本机；只有你主动开启 iCloud 同步后，才会保存到<strong>你自己 Apple ID 名下的 iCloud 私有数据库</strong>。</li>
         <li><strong>没有广告、没有分析 SDK、没有追踪器、没有任何第三方代码。</strong>我们不收集、不出售、不共享你的个人信息。</li>
+        <li><strong>AI 功能全部在你的设备上运行。</strong>问账本与截图记账用的是你设备上的 Apple Intelligence 设备端模型与系统文字识别，账本数据不会发送给我们，也不会发送给任何外部人工智能服务提供方（唯一例外是 macOS 版本里一个默认关闭的「本地 MCP」开关，见第 8 条）。</li>
         <li><strong>本应用不连接你的银行、支付账户或征信机构</strong>，不会自动抓取任何账单。所有数据都由你手动录入或主动导入。</li>
       </ul>
     </div>
@@ -67,14 +68,15 @@
         <li><a href="#zh-s5">5. 诊断日志与崩溃数据</a></li>
         <li><a href="#zh-s6">6. 购买与订阅</a></li>
         <li><a href="#zh-s7">7. 导入、导出与备份</a></li>
-        <li><a href="#zh-s8">8. 第三方：我们不做的事</a></li>
-        <li><a href="#zh-s9">9. 数据保留与删除</a></li>
-        <li><a href="#zh-s10">10. 你的权利</a></li>
-        <li><a href="#zh-s11">11. 未成年人</a></li>
-        <li><a href="#zh-s12">12. 数据安全</a></li>
-        <li><a href="#zh-s13">13. 跨境传输</a></li>
-        <li><a href="#zh-s14">14. 政策变更</a></li>
-        <li><a href="#zh-s15">15. 联系我们</a></li>
+        <li><a href="#zh-s8">8. AI 功能如何处理你的数据</a></li>
+        <li><a href="#zh-s9">9. 第三方：我们不做的事</a></li>
+        <li><a href="#zh-s10">10. 数据保留与删除</a></li>
+        <li><a href="#zh-s11">11. 你的权利</a></li>
+        <li><a href="#zh-s12">12. 未成年人</a></li>
+        <li><a href="#zh-s13">13. 数据安全</a></li>
+        <li><a href="#zh-s14">14. 跨境传输</a></li>
+        <li><a href="#zh-s15">15. 政策变更</a></li>
+        <li><a href="#zh-s16">16. 联系我们</a></li>
       </ol>
     </nav>
 
@@ -180,13 +182,41 @@
 
     <h2 id="zh-s7">7. 导入、导出与备份</h2>
     <ul>
-      <li><strong>导入：</strong>你可以从第三方记账应用导出的表格文件（如钱迹的 xlsx / CSV）导入历史流水。文件<strong>完全在你的设备上解析</strong>，不会上传到任何地方。</li>
+      <li><strong>导入（文件）：</strong>你可以从第三方记账应用导出的表格文件（如钱迹的 xlsx / CSV）导入历史流水。文件<strong>完全在你的设备上解析</strong>，不会上传到任何地方。</li>
+      <li><strong>导入（YNAB 直连）：</strong>如果你使用 YNAB，可以粘贴自己的个人访问令牌，由应用直接向 YNAB 的接口读取你自己的预算数据，<strong>不经过我们的服务器</strong>（我们没有服务器）。这是单向读取：不向 YNAB 写入，也不把本应用里的账本内容发过去。令牌只留在这台设备的内存里，导入结束即清除，不写磁盘、不进 iCloud、不进备份。</li>
       <li><strong>备份导出：</strong>你可以导出完整备份文件。备份支持设置口令进行 AES 加密；<strong>如果不设口令，导出的就是未加密文件</strong>，任何拿到该文件的人都能读取其中的账本内容——请自行妥善保管。</li>
       <li><strong>导出去向由你决定。</strong>备份文件通过系统分享面板交给你选择的目标（「文件」、iCloud Drive、邮件、第三方网盘等）。一旦离开本应用，该文件就适用你所选目标的隐私政策，不再受本政策约束。</li>
       <li><strong>口令我们无从找回。</strong>加密口令只用于加解密，不会被存储或上传。忘记口令意味着该备份文件无法恢复。</li>
     </ul>
 
-    <h2 id="zh-s8">8. 第三方：我们不做的事</h2>
+    <h2 id="zh-s8">8. AI 功能如何处理你的数据</h2>
+    <p>本应用有两项由人工智能承担的功能，都<strong>在你的设备上完成</strong>：</p>
+    <ul>
+      <li><strong>问账本（助手）：</strong>你用自然语言提问，应用按这一问的需要现取对应的那部分账本数据——账户与余额、流水、预算、近期到期的承诺项——交给模型作答。</li>
+      <li><strong>截图记账：</strong>你交给它一张账单或小票的图片，应用识别其中的文字，起草一条待你确认的记账。它只处理你交给它的那一张图。</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>问题</th><th>回答</th></tr></thead>
+      <tbody>
+        <tr><td>送进模型的是什么</td><td>只有当次提问所需的那部分账本数据；截图记账则是你选定的那一张图片</td></tr>
+        <tr><td>谁在运算</td><td>你设备上的 <strong>Apple Intelligence 设备端模型</strong>（Apple 的 Foundation Models 框架）与系统内置的文字识别（Vision）</td></tr>
+        <tr><td>数据去了哪里</td><td><strong>没有离开你的设备。</strong>不发送给开发者，也不发送给任何外部人工智能服务提供方</td></tr>
+        <tr><td>会不会用于训练</td><td>不会。你的账本数据不会被用于训练任何模型</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>使用之前会先征得你的同意。</strong>首次打开助手时，应用会先用一整屏说明上述内容，你确认之后才进入对话；在此之前助手不会读取任何账本数据。你也可以随时在「设置 › 隐私与同步 › Siri 与快捷指令」里关闭这一整组功能，关闭后助手入口不再出现。</p>
+    <p>这两项功能对设备的要求不同：<strong>问账本</strong>需要你的设备支持并已开启 Apple Intelligence（该功能在中国大陆暂未提供）；<strong>截图记账</strong>用的是系统自带的文字识别，不要求 Apple Intelligence。条件不满足时，对应的入口不会出现。</p>
+
+    <div class="note">
+      <p><strong>仅 macOS 版本存在的例外：本地 MCP。</strong>macOS 版本提供一个<strong>默认关闭</strong>的开关「Mac 本地 MCP」。开启后，你在这台 Mac 上运行的人工智能客户端（例如 Claude Desktop、Claude Code）可以经由本机回环连接读取账本数据、发起记账草稿；<strong>这些账本内容会随对话一并发送给该客户端所连接的人工智能服务提供方</strong>（例如 Anthropic），并自那一刻起适用该提供方的隐私政策，不再受本政策约束。是否开启完全由你决定，随时可以关掉；即便开着，任何一笔账仍要你在应用内确认之后才会落账。</p>
+      <p><strong>iOS 与 iPadOS 版本不包含这条通道</strong>——那两个版本里没有任何把账本数据交给外部人工智能服务的途径。</p>
+    </div>
+
+    <h2 id="zh-s9">9. 第三方：我们不做的事</h2>
     <p>为免歧义，明确列出本应用<strong>不存在</strong>的行为：</p>
     <ul>
       <li>不集成任何第三方分析、统计、崩溃上报或 A/B 测试 SDK；</li>
@@ -196,10 +226,15 @@
       <li>不为训练机器学习模型而使用你的账本数据；</li>
       <li>不向数据经纪商、征信机构、金融机构或任何第三方提供你的数据。</li>
     </ul>
-    <p>本应用涉及的外部主体只有一个：<strong>Apple</strong>——它作为平台方提供 iCloud 存储、共享机制与支付服务。除法律强制要求外（见下），不存在其他数据接收方。</p>
+    <p>默认状态下，本应用涉及的外部主体只有一个：<strong>Apple</strong>——它作为平台方提供 iCloud 存储、共享机制与支付服务。另有两条通道<strong>只有你主动发起才成立</strong>，默认都不存在：</p>
+    <ul>
+      <li><strong>从 YNAB 导入（第 7 条）：</strong>你自己粘贴 YNAB 的个人访问令牌之后，应用直接向 YNAB 的接口读取<strong>你自己</strong>的预算数据。这是一次单向读取——不向 YNAB 写入任何内容，也不把本应用里的账本内容发给 YNAB；令牌只留在这台设备的内存里，导完即清除。</li>
+      <li><strong>macOS 版本的「本地 MCP」（第 8 条）：</strong>开启后账本内容会进入你所连接的人工智能服务提供方。iOS 与 iPadOS 版本没有这条通道。</li>
+    </ul>
+    <p>除上述情形与法律强制要求外（见下），不存在其他数据接收方。</p>
     <p>如果我们收到具有法定管辖权的机关依法提出的数据要求，我们只能提供我们实际持有的信息。<strong>由于我们不持有你的账本数据，这类要求对你的账本内容不产生影响</strong>；针对存储在 iCloud 中的数据，应向 Apple 提出。</p>
 
-    <h2 id="zh-s9">9. 数据保留与删除</h2>
+    <h2 id="zh-s10">10. 数据保留与删除</h2>
     <p>因为数据由你自己保管，保留期限也由你决定。删除方式：</p>
     <ul>
       <li><strong>删除单条记录：</strong>在应用内直接删除对应的流水、账户或附件。</li>
@@ -209,7 +244,7 @@
     </ul>
     <p>你自行导出到设备其他位置或第三方服务的备份文件，需要你自己删除。</p>
 
-    <h2 id="zh-s10">10. 你的权利</h2>
+    <h2 id="zh-s11">11. 你的权利</h2>
     <p>在适用的法律（包括中华人民共和国《个人信息保护法》、欧盟 GDPR、加州 CCPA/CPRA 等）下，你对自己的个人信息享有知情、查阅、复制、更正、补充、删除、转移以及撤回同意等权利。</p>
     <p>在本应用中，<strong>行使这些权利不需要联系我们，也不需要等待我们审批</strong>——因为数据一直在你手里：</p>
 
@@ -220,19 +255,19 @@
         <tr><td>查阅 / 复制</td><td>数据在应用内全程可见；导出备份即可获得完整副本</td></tr>
         <tr><td>可携带（数据转移）</td><td>导出备份文件；历史流水也可导出为通用表格格式</td></tr>
         <tr><td>更正 / 补充</td><td>直接在应用内编辑对应记录</td></tr>
-        <tr><td>删除</td><td>见上文第 9 条</td></tr>
+        <tr><td>删除</td><td>见上文第 10 条</td></tr>
         <tr><td>撤回同意</td><td>关闭 iCloud 同步、停止账本共享、在系统设置中收回相机等权限</td></tr>
         <tr><td>拒绝自动化决策</td><td>本应用不做任何自动化决策或用户画像</td></tr>
       </tbody>
     </table>
     </div>
 
-    <p>如果你认为你的权利未能得到落实，或对本政策有任何疑问，可以通过第 15 条的方式联系我们。我们会在收到后 30 日内答复。你也有权向所在地的个人信息保护监管机构投诉。</p>
+    <p>如果你认为你的权利未能得到落实，或对本政策有任何疑问，可以通过第 16 条的方式联系我们。我们会在收到后 30 日内答复。你也有权向所在地的个人信息保护监管机构投诉。</p>
 
-    <h2 id="zh-s11">11. 未成年人</h2>
-    <p>本应用面向成年用户设计，不针对儿童，也不会有意收集儿童的个人信息。若你未满 14 周岁，请在监护人的同意与指导下使用本应用。由于本应用不向我们回传任何个人信息，我们不掌握任何用户的年龄信息；如监护人发现相关情况并希望清除设备上的数据，可按第 9 条自行删除。</p>
+    <h2 id="zh-s12">12. 未成年人</h2>
+    <p>本应用面向成年用户设计，不针对儿童，也不会有意收集儿童的个人信息。若你未满 14 周岁，请在监护人的同意与指导下使用本应用。由于本应用不向我们回传任何个人信息，我们不掌握任何用户的年龄信息；如监护人发现相关情况并希望清除设备上的数据，可按第 10 条自行删除。</p>
 
-    <h2 id="zh-s12">12. 数据安全</h2>
+    <h2 id="zh-s13">13. 数据安全</h2>
     <ul>
       <li>本机数据受 iOS 沙盒隔离；附件文件启用系统文件保护，设备锁屏时处于加密状态。</li>
       <li>iCloud 传输与存储由 Apple 加密，具体机制见 Apple 的相关说明。</li>
@@ -241,13 +276,13 @@
     </ul>
     <p>与此同时请注意：<strong>设备本身的安全是这一切的前提。</strong>请为设备设置锁屏密码、开启生物识别、及时更新系统，并谨慎对待越狱设备与来路不明的备份文件。没有任何技术措施能保证绝对安全。</p>
 
-    <h2 id="zh-s13">13. 跨境传输</h2>
+    <h2 id="zh-s14">14. 跨境传输</h2>
     <p>我们自身不接收、不传输你的个人信息，因此不存在由我们发起的跨境传输。若你开启 iCloud 同步，数据的存储位置由 Apple 依据你的 Apple ID 所属国家或地区决定（例如中国大陆的 iCloud 服务由云上贵州运营）。相关安排与保障措施请参阅 <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple 隐私政策</a>及 iCloud 条款。</p>
 
-    <h2 id="zh-s14">14. 政策变更</h2>
+    <h2 id="zh-s15">15. 政策变更</h2>
     <p>如果本应用的数据处理方式发生变化，我们会更新本页面并修改顶部的「最后更新」日期。涉及重大变更（例如引入任何形式的数据上传）时，我们会在应用内以显著方式提示，并在需要时重新征求你的同意。本页面的历史版本可在本站的公开代码仓库中查阅。</p>
 
-    <h2 id="zh-s15">15. 联系我们</h2>
+    <h2 id="zh-s16">16. 联系我们</h2>
     <p>关于本政策或你的数据的任何问题，请发送邮件至：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
     <p>请在邮件中说明你使用的应用版本与设备系统版本，这有助于我们更快答复。</p>
 
@@ -257,7 +292,7 @@
 
   <article data-lang="en" lang="en">
     <h1 class="doc-title">Privacy Policy</h1>
-    <p class="doc-meta"><span>For the Keel iOS app (Chinese name: 司元)</span><span>Effective: July 28, 2026</span><span>Last updated: July 28, 2026</span></p>
+    <p class="doc-meta"><span>For the Keel iOS app (Chinese name: 司元)</span><span>Effective: July 28, 2026</span><span>Last updated: September 10, 2026</span></p>
 
     <div class="callout">
       <p class="callout-title">Summary</p>
@@ -265,6 +300,7 @@
         <li><strong>We run no servers.</strong> The app does not send your ledger data to any server we control — no such server exists.</li>
         <li><strong>Your data stays with you.</strong> By default it lives only on your device. It reaches <strong>the iCloud private database of your own Apple ID</strong> only after you deliberately turn on iCloud Sync.</li>
         <li><strong>No ads, no analytics SDKs, no trackers, no third-party code of any kind.</strong> We do not collect, sell, or share your personal information.</li>
+        <li><strong>The AI features run on your device.</strong> Asking your ledger and receipt capture use the Apple Intelligence on-device model and the system text recognizer; your ledger data is not sent to us, nor to any external AI service provider (the one exception is a Local MCP switch in the macOS version, off by default — see Section 8).</li>
         <li><strong>The app never connects to your bank, payment accounts, or credit bureaus.</strong> It fetches no statements. Every record is entered or imported by you.</li>
       </ul>
     </div>
@@ -279,14 +315,15 @@
         <li><a href="#en-s5">5. Diagnostics and crash data</a></li>
         <li><a href="#en-s6">6. Purchases and subscriptions</a></li>
         <li><a href="#en-s7">7. Import, export, and backups</a></li>
-        <li><a href="#en-s8">8. Third parties: what we don't do</a></li>
-        <li><a href="#en-s9">9. Retention and deletion</a></li>
-        <li><a href="#en-s10">10. Your rights</a></li>
-        <li><a href="#en-s11">11. Children</a></li>
-        <li><a href="#en-s12">12. Security</a></li>
-        <li><a href="#en-s13">13. International transfers</a></li>
-        <li><a href="#en-s14">14. Changes to this policy</a></li>
-        <li><a href="#en-s15">15. Contact us</a></li>
+        <li><a href="#en-s8">8. How AI features handle your data</a></li>
+        <li><a href="#en-s9">9. Third parties: what we don't do</a></li>
+        <li><a href="#en-s10">10. Retention and deletion</a></li>
+        <li><a href="#en-s11">11. Your rights</a></li>
+        <li><a href="#en-s12">12. Children</a></li>
+        <li><a href="#en-s13">13. Security</a></li>
+        <li><a href="#en-s14">14. International transfers</a></li>
+        <li><a href="#en-s15">15. Changes to this policy</a></li>
+        <li><a href="#en-s16">16. Contact us</a></li>
       </ol>
     </nav>
 
@@ -391,13 +428,41 @@
 
     <h2 id="en-s7">7. Import, export, and backups</h2>
     <ul>
-      <li><strong>Import:</strong> You can import historical transactions from spreadsheets exported by other bookkeeping apps (such as Qianji's xlsx / CSV files). Files are <strong>parsed entirely on your device</strong> and are not uploaded anywhere.</li>
+      <li><strong>Import (files):</strong> You can import historical transactions from spreadsheets exported by other bookkeeping apps (such as Qianji's xlsx / CSV files). Files are <strong>parsed entirely on your device</strong> and are not uploaded anywhere.</li>
+      <li><strong>Import (YNAB, direct):</strong> If you use YNAB, you can paste your own personal access token and the App reads your own budget data straight from YNAB&rsquo;s API, <strong>never through a server of ours</strong> (we have none). It is a one-way read: nothing is written to YNAB, and no ledger content from this App is sent there. The token stays in this device&rsquo;s memory and is cleared when the import ends — never written to disk, never synced to iCloud, never included in a backup.</li>
       <li><strong>Backup export:</strong> You can export a complete backup. Backups support AES encryption with a passphrase you set. <strong>Without a passphrase, the exported file is unencrypted</strong> and anyone who obtains it can read your ledger — store it carefully.</li>
       <li><strong>You choose the destination.</strong> Backups are handed to the system share sheet and go wherever you send them (Files, iCloud Drive, email, a third-party cloud service). Once a file leaves the App, the privacy policy of that destination applies, not this one.</li>
       <li><strong>We cannot recover a passphrase.</strong> It is used only for encryption and decryption, and is never stored or transmitted. A forgotten passphrase means that backup cannot be restored.</li>
     </ul>
 
-    <h2 id="en-s8">8. Third parties: what we don't do</h2>
+    <h2 id="en-s8">8. How AI features handle your data</h2>
+    <p>Two features in the App are powered by AI, and both run <strong>on your device</strong>:</p>
+    <ul>
+      <li><strong>Ask your ledger (the assistant):</strong> you ask in plain language, and the App fetches just the part of your ledger that question needs — accounts and balances, entries, budgets, commitments falling due — and hands it to the model.</li>
+      <li><strong>Receipt capture:</strong> you hand it a photo of a bill or receipt, the App recognizes the text in it and drafts an entry for you to confirm. It processes only the image you gave it.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>What is sent to the model</td><td>Only the part of your ledger the current question needs; for receipt capture, the single image you selected</td></tr>
+        <tr><td>What does the computing</td><td>The <strong>Apple Intelligence on-device model</strong> (Apple's Foundation Models framework) and the system's built-in text recognition (Vision), on your device</td></tr>
+        <tr><td>Where the data goes</td><td><strong>It does not leave your device.</strong> It is not sent to the developer, nor to any external AI service provider</td></tr>
+        <tr><td>Is it used for training</td><td>No. Your ledger data is never used to train any model</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Your permission is asked first.</strong> The first time you open the assistant, the App shows a full screen stating all of the above, and the conversation begins only after you confirm; until then the assistant reads nothing from your ledger. You can also switch the whole feature group off at any time under Settings &rsaquo; Privacy &amp; Sync &rsaquo; Siri &amp; Shortcuts, after which the assistant entry point disappears.</p>
+    <p>The two features have different device requirements: <strong>asking your ledger</strong> needs a device that supports Apple Intelligence with it turned on (not yet available in mainland China); <strong>receipt capture</strong> uses the system's own text recognizer and does not require Apple Intelligence. Where the requirements are not met, the corresponding entry point does not appear.</p>
+
+    <div class="note">
+      <p><strong>One exception, macOS only: Local MCP.</strong> The macOS version offers a switch called &ldquo;Local MCP on Mac&rdquo; that is <strong>off by default</strong>. Once you turn it on, AI clients running on that Mac (Claude Desktop or Claude Code, for example) can read ledger data and start entry drafts over a loopback connection, and <strong>that ledger content is sent, as part of the conversation, to whichever AI service provider the client is connected to</strong> (Anthropic, for example), from which point that provider&rsquo;s privacy policy applies to it instead of this one. Turning it on is entirely your choice and can be undone at any time; even with it on, nothing is recorded until you confirm it inside the App.</p>
+      <p><strong>The iOS and iPadOS versions do not include this channel</strong> — those versions contain no route that hands ledger data to an external AI service.</p>
+    </div>
+
+    <h2 id="en-s9">9. Third parties: what we don't do</h2>
     <p>To leave no ambiguity, here is what the App <strong>does not</strong> do:</p>
     <ul>
       <li>No third-party analytics, telemetry, crash-reporting, or A/B testing SDKs are integrated;</li>
@@ -407,10 +472,15 @@
       <li>We do not use your ledger data to train machine-learning models;</li>
       <li>We do not provide your data to data brokers, credit bureaus, financial institutions, or any other third party.</li>
     </ul>
-    <p>There is exactly one external party involved: <strong>Apple</strong>, as the platform provider of iCloud storage, sharing, and payment services. Apart from legally compelled disclosure (below), there are no other recipients of data.</p>
+    <p>By default there is exactly one external party involved: <strong>Apple</strong>, as the platform provider of iCloud storage, sharing, and payment services. Two further channels exist <strong>only if you start them yourself</strong>, and neither is on by default:</p>
+    <ul>
+      <li><strong>Importing from YNAB (Section 7):</strong> after you paste your own YNAB personal access token, the App reads <strong>your own</strong> budget data straight from YNAB&rsquo;s API. It is a one-way read — nothing is written back to YNAB, and no ledger content from this App is sent there. The token stays in this device&rsquo;s memory and is cleared when the import finishes.</li>
+      <li><strong>Local MCP in the macOS version (Section 8):</strong> once enabled, ledger content reaches whichever AI service provider you connected. The iOS and iPadOS versions have no such channel.</li>
+    </ul>
+    <p>Apart from those cases and legally compelled disclosure (below), there are no other recipients of data.</p>
     <p>If we receive a lawful demand for data from an authority with jurisdiction, we can only produce information we actually hold. <strong>Because we do not hold your ledger data, such a demand has no effect on your ledger contents</strong>; requests concerning data stored in iCloud must be directed to Apple.</p>
 
-    <h2 id="en-s9">9. Retention and deletion</h2>
+    <h2 id="en-s10">10. Retention and deletion</h2>
     <p>Because you hold the data, you decide how long it is kept. To delete it:</p>
     <ul>
       <li><strong>A single record:</strong> delete the transaction, account, or attachment in the App.</li>
@@ -420,7 +490,7 @@
     </ul>
     <p>Backup files you exported elsewhere are yours to delete.</p>
 
-    <h2 id="en-s10">10. Your rights</h2>
+    <h2 id="en-s11">11. Your rights</h2>
     <p>Under applicable law — including China's Personal Information Protection Law (PIPL), the EU GDPR, and California's CCPA/CPRA — you have rights to be informed about, access, copy, correct, supplement, delete, and port your personal information, and to withdraw consent.</p>
     <p>In this App, <strong>exercising those rights requires no request to us and no approval from us</strong>, because the data has been in your hands all along:</p>
 
@@ -431,19 +501,19 @@
         <tr><td>Access / copy</td><td>All data is visible in the App; export a backup for a complete copy</td></tr>
         <tr><td>Portability</td><td>Export a backup file; transaction history can also be exported in a common spreadsheet format</td></tr>
         <tr><td>Correction</td><td>Edit the record directly in the App</td></tr>
-        <tr><td>Deletion</td><td>See Section 9 above</td></tr>
+        <tr><td>Deletion</td><td>See Section 10 above</td></tr>
         <tr><td>Withdraw consent</td><td>Turn off iCloud Sync, stop sharing a book, or revoke camera and other permissions in system Settings</td></tr>
         <tr><td>Object to automated decisions</td><td>The App performs no automated decision-making or profiling</td></tr>
       </tbody>
     </table>
     </div>
 
-    <p>If you believe your rights have not been honored, or you have questions about this policy, contact us using Section 15. We will respond within 30 days. You also have the right to lodge a complaint with your local data protection authority.</p>
+    <p>If you believe your rights have not been honored, or you have questions about this policy, contact us using Section 16. We will respond within 30 days. You also have the right to lodge a complaint with your local data protection authority.</p>
 
-    <h2 id="en-s11">11. Children</h2>
-    <p>The App is designed for adults. It is not directed at children and does not knowingly collect children's personal information. If you are under 14, please use the App with the consent and guidance of a parent or guardian. Because the App transmits no personal information to us, we hold no age information about any user; a guardian who wishes to erase data from a device can do so directly using Section 9.</p>
+    <h2 id="en-s12">12. Children</h2>
+    <p>The App is designed for adults. It is not directed at children and does not knowingly collect children's personal information. If you are under 14, please use the App with the consent and guidance of a parent or guardian. Because the App transmits no personal information to us, we hold no age information about any user; a guardian who wishes to erase data from a device can do so directly using Section 10.</p>
 
-    <h2 id="en-s12">12. Security</h2>
+    <h2 id="en-s13">13. Security</h2>
     <ul>
       <li>Local data is isolated by the iOS sandbox; attachment files use system file protection and are encrypted while the device is locked.</li>
       <li>iCloud transport and storage are encrypted by Apple; see Apple's documentation for details.</li>
@@ -452,13 +522,13 @@
     </ul>
     <p>That said, <strong>the security of your device underpins all of this.</strong> Set a passcode, enable biometric unlock, keep iOS updated, and be cautious with jailbroken devices and backup files of unknown origin. No security measure is absolute.</p>
 
-    <h2 id="en-s13">13. International transfers</h2>
+    <h2 id="en-s14">14. International transfers</h2>
     <p>We neither receive nor transmit your personal information, so there is no cross-border transfer initiated by us. If you enable iCloud Sync, the storage location is determined by Apple based on the country or region of your Apple ID (for example, iCloud services for mainland China are operated by GCBD). For those arrangements and safeguards, see the <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple Privacy Policy</a> and the iCloud terms.</p>
 
-    <h2 id="en-s14">14. Changes to this policy</h2>
+    <h2 id="en-s15">15. Changes to this policy</h2>
     <p>If the App's data practices change, we will update this page and revise the "Last updated" date at the top. For material changes — such as introducing any form of data upload — we will surface a prominent in-app notice and, where required, ask for your consent again. Previous versions of this page can be reviewed in this site's public repository.</p>
 
-    <h2 id="en-s15">15. Contact us</h2>
+    <h2 id="en-s16">16. Contact us</h2>
     <p>For any question about this policy or your data, email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a>.</p>
     <p>Including your app version and iOS version helps us answer faster.</p>
 
