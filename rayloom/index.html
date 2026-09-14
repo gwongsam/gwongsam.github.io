@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rayloom 织光 · Mac 上的 RAW 调色、星空堆栈与延时</title>
+<meta name="description" content="织光（Rayloom）是 Mac 上的照片与视频工作台：打开文件夹就能看 RAW，四层调色只存配方、不碰原片，还能把一组素材合成为星空堆栈、延时视频或景深合成。Rayloom is a photo and video workbench for Mac: view RAW files, edit non-destructively, and combine frames into star stacks, time-lapses, and focus stacks.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
+    Rayloom <span class="brand-sub">织光</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-mark" src="logo.svg" alt="" width="62" height="62">
+    <h1>Rayloom <span class="hero-alt">织光</span></h1>
+    <p data-lang="zh">打开文件夹就能看 RAW，调色只存配方、<strong>原片一个字节不动</strong>；<br>一组素材，合成一张星空、一段延时、一张前后都实的微距。</p>
+    <p data-lang="en">Open a folder and your RAW files are right there. Edits are saved as recipes, so <strong>your originals stay untouched</strong>.<br>Turn a set of frames into a star stack, a time-lapse, or a focus stack.</p>
+    <p class="hero-badge"><span data-lang="zh">即将上架 Mac App Store · 浏览与调色免费</span><span data-lang="en">Coming to the Mac App Store · Free to view and edit</span></p>
+  </div>
+
+  <section>
+    <h2 data-lang="zh">它是什么</h2>
+    <h2 data-lang="en">What it is</h2>
+    <div class="card-grid">
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">打开就能看</div>
+        <div class="card-title" data-lang="en">Open and look</div>
+        <div class="card-desc" data-lang="zh">常见相机 RAW、HEIC、JPEG、TIFF 与 MOV、MP4 视频。网格、单图、并排对比、全屏查看；RAW 还能把相机的内嵌预览和织光的显影放在一起比。</div>
+        <div class="card-desc" data-lang="en">Common camera RAW formats, HEIC, JPEG, TIFF, plus MOV and MP4 video. Grid, single, side-by-side compare, and full screen — for RAW, put the camera's embedded preview next to Rayloom's own development.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">四层调色，原片不动</div>
+        <div class="card-title" data-lang="en">Four layers, originals untouched</div>
+        <div class="card-desc" data-lang="zh">镜前（黑柔、白柔、星光镜、拉丝光……）、光影（曝光与四条曲线）、LUT、调色盘，依次叠加。所有调整存成原片旁边的配方文件，照片本身一个字节不动。</div>
+        <div class="card-desc" data-lang="en">Lens filters (diffusion, star, and streak effects), tone with four curves, LUTs, and a color palette, applied in order. Every adjustment lives in a recipe file next to the photo; the photo itself never changes.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">一组素材，一张成片</div>
+        <div class="card-title" data-lang="en">Many frames, one result</div>
+        <div class="card-desc" data-lang="zh">选中一批照片，检查器顶上就是四种玩法：堆栈、延时、景深、导出。哪几张进不了序列、为什么，直接标在网格上，不用跑一半才报错。</div>
+        <div class="card-desc" data-lang="en">Select a batch and the inspector offers four workflows: stack, time-lapse, focus, and export. Frames that can't join the sequence are labelled in the grid with the reason before anything runs.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">三种合成</h2>
+    <h2 data-lang="en">Three ways to combine</h2>
+
+    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
+    <div class="table-wrap" data-lang="zh">
+      <table>
+        <thead><tr><th>玩法</th><th>做什么</th></tr></thead>
+        <tbody>
+          <tr><td>堆栈</td><td>平均（降噪、抹平水面与人流）、最大值（星轨、光轨、烟花）、星空（按星点旋转对齐，提升暗部信噪比）；素材是 RAW 时可以输出线性 DNG 底片</td></tr>
+          <tr><td>延时视频</td><td>普通延时、降噪堆栈、除杂堆栈、星轨视频；1080p 或 4K，30 或 60 fps</td></tr>
+          <tr><td>景深合成</td><td>同型 DNG 扫焦序列合成一张前后都清晰的照片，出 HEIF、TIFF、PNG 或 DNG</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="en">
+      <table>
+        <thead><tr><th>Workflow</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Stack</td><td>Average (noise reduction, smoothing water and crowds), Maximum (star trails, light trails, fireworks), Star sky (rotational star alignment for cleaner shadows); outputs a linear DNG when the frames are RAW</td></tr>
+          <tr><td>Time-lapse video</td><td>Plain, noise-reduction stack, clean-up stack, or star-trail video; 1080p or 4K at 30 or 60 fps</td></tr>
+          <tr><td>Focus stack</td><td>Merges a focus sweep of matching DNG files into one image sharp from front to back, saved as HEIF, TIFF, PNG, or DNG</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="doc-meta" data-lang="zh">导出统一走一张面板：HEIF、16 位 TIFF、PNG，位置与命名记得住，⌥⇧⌘E 一键再导，撞名自动加序号。视频同样能套四层滤镜，Apple Log 素材先挂还原表再调色。界面为简体中文，需要 macOS 26 或更高版本。</p>
+    <p class="doc-meta" data-lang="en">Every export goes through one panel — HEIF, 16-bit TIFF, or PNG — with locations and naming remembered, ⌥⇧⌘E to repeat, and automatic numbering on name clashes. Video takes the same four layers, with restore LUTs for Apple Log footage. The interface is in Simplified Chinese; requires macOS 26 or later.</p>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">价格与隐私</h2>
+    <h2 data-lang="en">Pricing and privacy</h2>
+    <p data-lang="zh"><strong>浏览、对比与调色一直免费。</strong>导出与合成需要「织光完整版」——一次买断、永久有效、不是订阅；下载后可以先开始 14 天全功能试用。织光<strong>不联网</strong>：没有账号、没有广告、没有统计，只读你亲自选的文件。</p>
+    <p data-lang="en"><strong>Browsing, comparing, and editing are always free.</strong> Exports and combined results need Rayloom Full Version — a one-time purchase, not a subscription — and you can start a 14-day full-featured trial first. Rayloom <strong>doesn't go online</strong>: no accounts, no ads, no analytics, and it only reads the files you choose.</p>
+    <div class="card-grid">
+      <a class="card" href="support/">
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-desc" data-lang="zh">试用与购买、支持的格式、配方存在哪、合成要什么素材、导出与覆盖原文件。</div>
+        <div class="card-desc" data-lang="en">Trial and purchase, supported formats, where recipes live, what combining needs, exports and overwriting.</div>
+      </a>
+      <a class="card" href="privacy/">
+        <div class="card-title"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></div>
+        <div class="card-desc" data-lang="zh">不联网、只碰你点名的文件；导出的成片里带着哪些元数据。</div>
+        <div class="card-desc" data-lang="en">No network, only the files you choose — and exactly what metadata your exports carry.</div>
+      </a>
+      <div class="card card-static">
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Rayloom · 织光</span>
+  <span class="footer-spacer"></span>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+
+</body>
+</html>

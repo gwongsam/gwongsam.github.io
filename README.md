@@ -21,8 +21,11 @@
 │   ├── terms/index.html      服务条款 / Terms of Service
 │   ├── privacy/index.html    隐私政策 / Privacy Policy
 │   └── logo.svg              品牌图标，同时用作 favicon / 页头 / hero
-└── keel/                     Keel 司元 · 复式记账
-    └── （同上）
+├── keel/                     Keel 司元 · 复式记账
+│   └── （同上）
+└── rayloom/                  Rayloom 织光 · Mac 照片与视频工作台
+    ├── index.html · support/ · privacy/ · logo.svg
+    └── （没有 terms/：App 里「用户协议」链的是 Apple 标准 EULA，ASC 许可协议也选标准 EULA）
 ```
 
 **共用的只有 `assets/legal.css`，品牌资源一 App 一份。**样式该统一，品牌不该。
@@ -74,6 +77,9 @@ python3 -m http.server 8000
 | Keel | 支持与常见问题 | `https://gwongsam.github.io/keel/support/` |
 | Keel | 服务条款 | `https://gwongsam.github.io/keel/terms/` |
 | Keel | 隐私政策 | `https://gwongsam.github.io/keel/privacy/` |
+| Rayloom | 首页（产品介绍） | `https://gwongsam.github.io/rayloom/` |
+| Rayloom | 支持与常见问题 | `https://gwongsam.github.io/rayloom/support/` |
+| Rayloom | 隐私政策 | `https://gwongsam.github.io/rayloom/privacy/` |
 
 ## App Store Connect 四个字段怎么填
 
