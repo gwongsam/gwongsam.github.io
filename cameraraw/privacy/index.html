@@ -1,0 +1,468 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐私政策 Privacy Policy · 圆神相机</title>
+<meta name="description" content="圆神相机 iOS 应用的隐私政策：没有账号、没有服务器，照片与编辑内容不上传；相机、麦克风、相册与位置各用来做什么，导出的成片里带着哪些元数据。Privacy Policy for the 圆神相机 RAW camera app for iPhone and iPad.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    圆神相机
+  </a>
+  <nav class="doc-nav">
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">隐私政策</h1>
+    <p class="doc-meta"><span>适用于圆神相机 iPhone / iPad 应用</span><span>生效日期：2026 年 9 月 20 日</span><span>最后更新：2026 年 9 月 20 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">一句话摘要</p>
+      <ul>
+        <li><strong>我们没有服务器。</strong>你的照片、视频与编辑内容不会被上传，也没有任何地方可以上传到我们这里。</li>
+        <li><strong>没有账号、没有广告、没有统计 SDK、没有追踪器、没有任何第三方代码。</strong>本应用只用 Apple 提供的系统框架。</li>
+        <li><strong>只有两处会联网，都是 Apple 的系统服务</strong>：查看带位置的照片时向 Apple 地图反查地名（坐标会发给 Apple），以及由 App Store 处理购买。除此之外本应用不发起任何网络请求。</li>
+        <li><strong>原片不改。</strong>编辑存成原片旁边的一个隐藏配方文件；只有你在导出时明确选择「覆盖原文件」，才会改写原文件。</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 谁在提供这款应用</a></li>
+        <li><a href="#zh-s2">2. 应用处理哪些数据</a></li>
+        <li><a href="#zh-s3">3. 数据存放在哪里</a></li>
+        <li><a href="#zh-s4">4. 系统权限各用来做什么</a></li>
+        <li><a href="#zh-s5">5. 联网：只有两处</a></li>
+        <li><a href="#zh-s6">6. 保存与导出的文件里带着什么</a></li>
+        <li><a href="#zh-s7">7. 免费次数与购买</a></li>
+        <li><a href="#zh-s8">8. 诊断与崩溃数据</a></li>
+        <li><a href="#zh-s9">9. 第三方：我们不做的事</a></li>
+        <li><a href="#zh-s10">10. 数据保留与删除</a></li>
+        <li><a href="#zh-s11">11. 你的权利</a></li>
+        <li><a href="#zh-s12">12. 未成年人</a></li>
+        <li><a href="#zh-s13">13. 数据安全</a></li>
+        <li><a href="#zh-s14">14. 政策变更</a></li>
+        <li><a href="#zh-s15">15. 联系我们</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 谁在提供这款应用</h2>
+    <p>圆神相机（下称「本应用」）由个人开发者 gwongsam（下称「我们」）开发与发行，运行于 iPhone 与 iPad。它用来拍摄 RAW 与 HEIF 照片和视频，在机内完成长曝、星空、星轨、景深合成与延时等多帧合成，并对照片与视频做非破坏编辑与导出。</p>
+    <p>本政策说明本应用如何处理你的信息。贯穿全文的前提是：<strong>我们没有后端服务器</strong>，你的照片、视频与编辑内容不会到达我们手中。下文描述的，实际是数据如何在<strong>你自己的设备</strong>上流动。</p>
+
+    <h2 id="zh-s2">2. 应用处理哪些数据</h2>
+    <p>以下数据在你使用过程中产生或被读取，除第 5 条明确列出的两项之外，全部保留在你的设备上：</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>类别</th><th>具体内容</th></tr></thead>
+      <tbody>
+        <tr><td>你拍下的照片与视频</td><td>快门按下后由相机与麦克风产生的画面与声音，以及本应用写入的拍摄时间、相机与镜头、曝光参数，和你若开启定位则写入的 GPS 位置</td></tr>
+        <tr><td>你选中的已有素材</td><td>为了显示缩略图与预览、编辑、合成和导出而读取的像素与元数据——来自系统相册、本应用自己的目录，或你在「文件」里点名的文件夹</td></tr>
+        <tr><td>编辑配方</td><td>你在镜前、光影、LUT、调色四层里调过的参数，以及视频的剪辑起止点</td></tr>
+        <tr><td>资源</td><td>配方预设、滤镜库（含你导入的 <code>.cube</code> 文件）、你导入的视频输入还原表</td></tr>
+        <tr><td>版权与署名</td><td>你在「版权与署名」里填写的作者、版权声明、联系方式与使用条款</td></tr>
+        <tr><td>设置与记忆</td><td>拍摄格式、分辨率、防抖、保存位置、各玩法上次选的参数与命名方式、界面偏好</td></tr>
+        <tr><td>免费次数账本</td><td>每个 Pro 玩法已经用掉几次。只有计数，不含照片、时间或任何可识别你的信息（见第 7 条）</td></tr>
+        <tr><td>购买状态</td><td>是否已购买、哪一种、通行证何时到期——从 Apple 的交易记录读出后在本机缓存一份结论（见第 7 条）</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>本应用<strong>不索取、不收集</strong>：身份证件号码、手机号码、支付信息、通讯录、日历、健康数据、广告标识符、设备指纹。本应用<strong>没有账号体系</strong>，无需注册或登录。</p>
+
+    <h2 id="zh-s3">3. 数据存放在哪里</h2>
+    <p>全部在你自己的设备上，分四处：</p>
+    <ul>
+      <li><strong>本应用的沙盒容器。</strong>拍下的原片默认存在容器内的 <code>Captures</code> 目录；设置、署名、滤镜库、预设、购买状态缓存也在容器里；缩略图缓存放在其中的 <code>Caches</code> 目录，系统可以随时清理，清掉后会按需重建。</li>
+      <li><strong>原片旁边。</strong>编辑配方存成一个与原片同名、以点开头的隐藏文件，扩展名 <code>.crrecipe</code>（例如 <code>IMG_0001.heic</code> 旁边的 <code>.IMG_0001.heic.crrecipe</code>）。这样配方跟着文件走。</li>
+      <li><strong>系统相册。</strong>如果你把保存位置设为相册，或把某张成片存进相册，照片与视频会写入系统「照片」App，并一并归入其中名为「圆神相机」的相册。这些文件此后由「照片」App 管理，受你的 iCloud 照片设置影响。</li>
+      <li><strong>钥匙串。</strong>只存第 2 条里那份免费次数账本（形如「景深合成已用 2 次」）。放在钥匙串是为了卸载重装后次数不会清零，<strong>里面没有任何可识别你的信息</strong>。</li>
+    </ul>
+    <p>本应用自身不使用 iCloud 同步，也不向任何服务器写入数据。存进系统相册的照片是否同步到 iCloud，由你在系统设置里的「iCloud 照片」决定，与本应用无关。</p>
+
+    <h2 id="zh-s4">4. 系统权限各用来做什么</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>权限</th><th>用来做什么</th><th>不给会怎样</th></tr></thead>
+      <tbody>
+        <tr><td>相机</td><td>取景与拍摄。这是本应用的核心功能</td><td>无法拍摄，但仍可浏览与编辑已有素材</td></tr>
+        <tr><td>麦克风</td><td>录像时同步录声音</td><td>视频没有声音，其余不受影响</td></tr>
+        <tr><td>相册</td><td>读取你选中的照片做编辑与合成；把成片存进系统相册</td><td>只能用本应用自己目录里的素材，成片也只能存在应用内</td></tr>
+        <tr><td>位置（使用期间）</td><td>把当前位置写进你刚拍下的照片与视频的 GPS 元数据，让它们带上拍摄地点</td><td>照片不带位置，其余全部照常。本应用不会因此少任何功能</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>位置只在<strong>拍摄的那一刻</strong>取一次，用于写进那一份文件；本应用不做后台定位、不记录轨迹、不把位置发给我们（我们也没有可接收的地方）。这四项权限都可以在「设置 › 隐私与安全性」里随时关闭。</p>
+
+    <h2 id="zh-s5">5. 联网：只有两处</h2>
+    <p>本应用不含任何自定义的网络代码，也没有我们的服务器。只有两处会产生网络流量，都由 Apple 的系统框架发起：</p>
+    <ul>
+      <li><strong>反查地名。</strong>当你在查看器里打开一张<strong>带 GPS 位置</strong>的照片时，本应用会通过 Apple 地图把这张照片的坐标换成可读的地名，显示在标题上。<strong>这一步会把该照片的坐标发送给 Apple</strong>，由 Apple 按其隐私政策处理；我们收不到、也不保存这次查询。不带位置的照片不会触发这一步；你也可以在拍摄时不给位置权限，从源头上避免。</li>
+      <li><strong>购买。</strong>App 内购买、价格显示与交易记录由 Apple 的 StoreKit 与 App Store 完成（见第 7 条）。</li>
+    </ul>
+    <p>除此之外，本应用不上传照片、不下载内容、不检查更新、不回传日志，也不接入任何广告、统计或归因网络。</p>
+
+    <h2 id="zh-s6">6. 保存与导出的文件里带着什么</h2>
+    <p>成片里带不带原片的元数据，取决于它是怎么出来的：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>成片</th><th>元数据</th></tr></thead>
+      <tbody>
+        <tr><td>直接拍下的照片与视频</td><td>拍摄时间、相机与镜头、曝光参数；若你给了位置权限，还含 <strong>GPS 位置</strong></td></tr>
+        <tr><td>单张与批量导出的照片、视频导出</td><td>沿用原片的描述性元数据：拍摄时间、相机与镜头、曝光参数、IPTC，以及原片里如果有的 <strong>GPS 位置</strong></td></tr>
+        <tr><td>长曝与堆栈的 HEIC、DNG</td><td>沿用参考帧的元数据，<strong>含 GPS</strong>（如有）；曝光时间写成累计曝光</td></tr>
+        <tr><td>景深合成，以及延时视频</td><td>带 EXIF 拍摄参数，<strong>不带</strong>原片的 GPS</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>此外，每一份成片都会写入处理软件的名称与版本，以及表示「已重新渲染」的标准标记；如果你在「版权与署名」里打开了写入开关（默认关闭）并填了作者，作者、版权声明、联系方式与使用条款也会写进文件。</p>
+    <div class="note">
+      <p>这些信息<strong>跟着文件一起走</strong>。把成片发给别人或上传到网上之前，如果不想带出拍摄地点或联系方式，请先检查文件的元数据。本应用目前没有「导出时去掉位置」的选项；不想让照片带位置，请在拍摄时不授予位置权限。</p>
+    </div>
+
+    <h2 id="zh-s7">7. 免费次数与购买</h2>
+    <ul>
+      <li>本应用免费下载。拍摄、浏览、编辑、导出与分享一直免费。</li>
+      <li>长曝（标准 / 星空 / 星轨）、景深合成、延时堆栈、图库堆栈、延时视频堆栈共七种玩法，每种<strong>免费 3 次完整成片、不过期</strong>；镜前滤镜与调色盘未解锁时可以实时取景，只是不落进成片。</li>
+      <li>要一直使用，有三种买法：30 天通行证（一次性、不自动续费）、年度订阅（自动续期）、永久买断（一次性）。三者均由 Apple 通过 App Store 完成，<strong>我们看不到你的 Apple 账户、支付方式或账单信息</strong>。</li>
+      <li>本应用在本机通过 Apple 的 StoreKit 读取交易记录，只用来判断「是否已购买、是哪一种、通行证还剩几天」，并在本机缓存结论，避免每次启动先闪一下付费墙。</li>
+      <li>免费次数账本存在本机钥匙串里，<strong>只有计数</strong>——哪个玩法用了几次，不含照片、拍摄时间或任何可识别你的信息，也不会离开设备。</li>
+      <li>购买记录属于你的 Apple 账户：重装或换一台设备，登录同一账户后点「恢复购买」即可找回。免费次数不随账户走，重装后沿用本机钥匙串里的记录。</li>
+      <li>订阅的续期、取消与退款由 Apple 按其规则处理，可在「设置 › Apple 账户 › 订阅」中管理。</li>
+    </ul>
+
+    <h2 id="zh-s8">8. 诊断与崩溃数据</h2>
+    <p>本应用<strong>不内置任何崩溃统计或性能分析 SDK</strong>，也不会自行回传运行日志。</p>
+    <p>如果你在「设置 › 隐私与安全性 › 分析与改进」中开启了「与 App 开发者共享」，Apple 可能会向开发者提供<strong>聚合且不含身份标识</strong>的崩溃报告与性能指标。这项数据由 Apple 收集与去标识化，不包含你的照片或编辑内容，你可以随时在设置里关闭。</p>
+
+    <h2 id="zh-s9">9. 第三方：我们不做的事</h2>
+    <p>为免歧义，逐条列明：</p>
+    <ul>
+      <li>我们<strong>不出售</strong>你的个人信息（包括美国各州法律意义上的「出售」与「共享」）；</li>
+      <li>我们<strong>不为定向广告</strong>使用或披露你的信息，本应用不含任何广告 SDK；</li>
+      <li>我们<strong>不接入</strong>任何统计、埋点、A/B 测试、崩溃分析、归因或用户画像服务；</li>
+      <li>本应用<strong>不含任何第三方 SDK</strong>，仅使用 Apple 提供的系统框架；</li>
+      <li>我们<strong>不使用</strong>你的照片、视频或编辑内容训练任何模型，也不做任何自动化决策；</li>
+      <li>我们不接收你的任何信息，因此<strong>不存在由我们发起的跨境传输</strong>。</li>
+    </ul>
+    <p>唯一涉及的第三方是 <strong>Apple</strong>：App 内购买与交易记录由 App Store 处理，地名反查由 Apple 地图处理（第 5 条）。请参阅 <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple 隐私政策</a>。</p>
+
+    <h2 id="zh-s10">10. 数据保留与删除</h2>
+    <p>我们不持有你的数据，因此不存在由我们进行的「保留期」。数据的存续完全由你控制：</p>
+    <ul>
+      <li><strong>拍下的照片与视频</strong>：在本应用的媒体页里选中删除；已存进系统相册的，在「照片」App 里删除。</li>
+      <li><strong>编辑配方</strong>：在编辑时按「复位」，或把参数都调回初始状态，对应的配方文件会被删掉；删除原片时，本应用会把它的配方一并删掉。</li>
+      <li><strong>滤镜库、配方预设、输入还原表</strong>：在各自的面板里删除；<strong>版权与署名</strong>：清空内容，或关掉写入开关。</li>
+      <li><strong>本机全部数据</strong>（包括设置、缩略图缓存与免费次数账本）：删除本应用即可。注意钥匙串里那份次数账本在普通卸载后可能保留，抹掉设备或在系统里删除该项即可清除。</li>
+      <li><strong>存进系统相册的文件</strong>：由「照片」App 管理，删除本应用不会带走它们。</li>
+      <li><strong>购买记录</strong>：属于你的 Apple 账户，由 Apple 管理。</li>
+    </ul>
+    <p>你无需联系我们即可完成上述全部操作，我们也没有任何副本可供删除。</p>
+
+    <h2 id="zh-s11">11. 你的权利</h2>
+    <p>在适用的法律（包括中华人民共和国《个人信息保护法》、欧盟 GDPR、加州 CCPA/CPRA 等）下，你对自己的个人信息享有知情、查阅、复制、更正、补充、删除、转移以及撤回同意等权利。</p>
+    <p>在本应用中，<strong>行使这些权利不需要联系我们，也不需要等待我们审批</strong>——因为数据一直在你手里：</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>权利</th><th>怎么行使</th></tr></thead>
+      <tbody>
+        <tr><td>查阅 / 复制</td><td>照片、视频与成片都是你设备上的普通文件，可以经「文件」App 或系统相册查看与拷出</td></tr>
+        <tr><td>可携带</td><td>配方跟着原片走；成片是标准的 HEIF、DNG、TIFF、PNG 图片或 MOV / MP4 视频</td></tr>
+        <tr><td>更正 / 补充</td><td>直接在本应用里修改配方、预设或署名</td></tr>
+        <tr><td>删除</td><td>见上文第 10 条</td></tr>
+        <tr><td>撤回同意</td><td>在「设置 › 隐私与安全性」里关闭相机、麦克风、相册或位置中的任何一项</td></tr>
+        <tr><td>拒绝自动化决策</td><td>本应用不做任何自动化决策或用户画像</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>如果你认为你的权利未能得到落实，或对本政策有任何疑问，可以通过第 15 条的方式联系我们。我们会在收到后 30 日内答复。你也有权向所在地的个人信息保护监管机构投诉。</p>
+
+    <h2 id="zh-s12">12. 未成年人</h2>
+    <p>本应用不针对儿童设计，也不会有意收集儿童的个人信息。由于本应用不向我们回传任何信息，我们不掌握任何用户的年龄信息。若你未满 14 周岁，请在监护人的同意与指导下使用本应用；家长可以通过 Apple 的「屏幕使用时间」与「购买前询问」管理 App 内购买。</p>
+
+    <h2 id="zh-s13">13. 数据安全</h2>
+    <ul>
+      <li>本应用运行在 iOS 应用沙盒中，只能访问自己的容器和你授权的相册与文件。</li>
+      <li>本应用没有自定义网络代码，你的照片与编辑内容不存在经由本应用被传出的通道。</li>
+      <li>我们不持有你的数据，因此也不存在「我们被拖库」这类风险。</li>
+      <li><strong>拍下的与导出的文件会带着元数据</strong>，其中可能含 GPS 位置（见第 6 条），分享前请留意。</li>
+    </ul>
+    <p>与此同时请注意：<strong>这台设备本身的安全是这一切的前提。</strong>请设置锁屏密码、开启 Face ID 或 Touch ID、及时更新系统。没有任何技术措施能保证绝对安全。</p>
+
+    <h2 id="zh-s14">14. 政策变更</h2>
+    <p>如果本应用的数据处理方式发生变化，我们会更新本页面并修改顶部的「最后更新」日期。涉及重大变更时，我们会在应用内以显著方式提示，并在需要时重新征求你的同意。本页面的历史版本可在本站的公开代码仓库中查阅。</p>
+
+    <h2 id="zh-s15">15. 联系我们</h2>
+    <p>关于本政策或你的数据的任何问题，请发送邮件至：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>请在邮件中说明你使用的应用版本与 iOS 版本，这有助于我们更快答复。</p>
+
+    <hr>
+    <p class="doc-meta">本页的<a href="?lang=en">英文版</a>。相关文档：<a href="../support/">支持</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">用户协议（Apple 标准 EULA）</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Privacy Policy</h1>
+    <p class="doc-meta"><span>For the 圆神相机 app for iPhone and iPad</span><span>Effective: 20 September 2026</span><span>Last updated: 20 September 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">The short version</p>
+      <ul>
+        <li><strong>We have no servers.</strong> Your photos, videos, and edits are never uploaded — there is nowhere to upload them to.</li>
+        <li><strong>No accounts, no ads, no analytics SDKs, no trackers, no third-party code.</strong> The app uses only Apple's system frameworks.</li>
+        <li><strong>Exactly two things reach the network, both Apple system services</strong>: looking up a place name for a geotagged photo you open (the photo's coordinates are sent to Apple), and purchases handled by the App Store. Nothing else leaves the device.</li>
+        <li><strong>Your originals stay as they are.</strong> Edits are saved as a hidden recipe file next to the original. An original is only rewritten if you explicitly choose "Overwrite original" when exporting.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#en-s1">1. Who provides this app</a></li>
+        <li><a href="#en-s2">2. What data the app handles</a></li>
+        <li><a href="#en-s3">3. Where the data lives</a></li>
+        <li><a href="#en-s4">4. What each permission is for</a></li>
+        <li><a href="#en-s5">5. Network access: only two things</a></li>
+        <li><a href="#en-s6">6. What your files carry</a></li>
+        <li><a href="#en-s7">7. Free uses and purchases</a></li>
+        <li><a href="#en-s8">8. Diagnostics and crash data</a></li>
+        <li><a href="#en-s9">9. Third parties: what we don't do</a></li>
+        <li><a href="#en-s10">10. Retention and deletion</a></li>
+        <li><a href="#en-s11">11. Your rights</a></li>
+        <li><a href="#en-s12">12. Children</a></li>
+        <li><a href="#en-s13">13. Security</a></li>
+        <li><a href="#en-s14">14. Changes to this policy</a></li>
+        <li><a href="#en-s15">15. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Who provides this app</h2>
+    <p>圆神相机 ("the app") is developed and published by gwongsam ("we"), an individual developer, and runs on iPhone and iPad. It captures RAW and HEIF photos and video, combines multiple frames on the device into long exposures, star stacks, star trails, focus stacks, and time-lapses, and edits and exports photos and video non-destructively.</p>
+    <p>This policy explains how the app handles your information. The premise running through all of it: <strong>we operate no backend servers</strong>, so your photos, videos, and edits never reach us. What follows describes how data moves on <strong>your own device</strong>.</p>
+
+    <h2 id="en-s2">2. What data the app handles</h2>
+    <p>The following is created or read while you use the app. Apart from the two items listed in section 5, all of it stays on your device:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Category</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Photos and video you capture</td><td>The image and sound produced by the camera and microphone when you press the shutter, plus capture time, camera and lens, exposure settings, and — if you allow location — GPS coordinates</td></tr>
+        <tr><td>Existing material you select</td><td>Pixels and metadata read in order to show thumbnails and previews, edit, combine, and export — from the system photo library, the app's own folder, or a folder you point it at in Files</td></tr>
+        <tr><td>Edit recipes</td><td>The parameters you set across the lens-filter, tone, LUT, and palette layers, plus video trim points</td></tr>
+        <tr><td>Resources</td><td>Recipe presets, the filter library (including <code>.cube</code> files you import), and video restore LUTs you import</td></tr>
+        <tr><td>Copyright and credit</td><td>The author, copyright notice, contact, and terms of use you enter</td></tr>
+        <tr><td>Settings and memory</td><td>Capture format, resolution, stabilization, save location, the settings each workflow last used, and interface preferences</td></tr>
+        <tr><td>Free-use ledger</td><td>How many times each Pro workflow has been used. Counts only — no photos, no timestamps, nothing that identifies you (see section 7)</td></tr>
+        <tr><td>Purchase state</td><td>Whether you have purchased, which option, and when a pass expires — read from Apple's transaction records and cached locally (see section 7)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>The app <strong>does not request or collect</strong>: government ID numbers, phone numbers, payment details, contacts, calendars, health data, advertising identifiers, or device fingerprints. The app has <strong>no account system</strong>; there is nothing to register or sign in to.</p>
+
+    <h2 id="en-s3">3. Where the data lives</h2>
+    <p>All on your own device, in four places:</p>
+    <ul>
+      <li><strong>The app's sandbox container.</strong> Captures are saved by default to a <code>Captures</code> folder inside it; settings, credits, the filter library, presets, and the cached purchase state live there too. Thumbnail caches sit in its <code>Caches</code> folder, which the system may clear at any time and which is rebuilt on demand.</li>
+      <li><strong>Next to the original.</strong> An edit recipe is stored as a hidden file named after the original with a <code>.crrecipe</code> extension (for example <code>.IMG_0001.heic.crrecipe</code> beside <code>IMG_0001.heic</code>), so the recipe travels with the file.</li>
+      <li><strong>The system photo library.</strong> If you set the save location to the photo library, or save a result to it, photos and videos are written to the Photos app and also placed in an album named 圆神相机. From then on those files are managed by Photos and follow your iCloud Photos settings.</li>
+      <li><strong>The keychain.</strong> Only the free-use ledger from section 2 (for example "focus stack used twice"). It lives in the keychain so that the count is not reset by reinstalling; <strong>it contains nothing that identifies you</strong>.</li>
+    </ul>
+    <p>The app itself does not use iCloud sync and writes to no server. Whether photos saved to the system library sync to iCloud is decided by your iCloud Photos setting, independently of this app.</p>
+
+    <h2 id="en-s4">4. What each permission is for</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Permission</th><th>What it's for</th><th>If you decline</th></tr></thead>
+      <tbody>
+        <tr><td>Camera</td><td>The viewfinder and capture — the core of the app</td><td>You cannot shoot, but can still browse and edit existing material</td></tr>
+        <tr><td>Microphone</td><td>Recording sound alongside video</td><td>Video has no audio; nothing else changes</td></tr>
+        <tr><td>Photo library</td><td>Reading photos you select for editing and combining; saving results back to the library</td><td>Only material in the app's own folder is available, and results can only be saved inside the app</td></tr>
+        <tr><td>Location (while using)</td><td>Writing the current location into the GPS metadata of the photo or video you just captured</td><td>Photos carry no location; everything else works exactly the same, and no feature is lost</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Location is read once, <strong>at the moment of capture</strong>, and used only to write into that file. The app does no background location, keeps no location history, and sends location to us nowhere (we have nothing that could receive it). All four permissions can be turned off at any time in Settings › Privacy &amp; Security.</p>
+
+    <h2 id="en-s5">5. Network access: only two things</h2>
+    <p>The app contains no custom networking code and we run no servers. Exactly two things produce network traffic, both issued by Apple's system frameworks:</p>
+    <ul>
+      <li><strong>Place-name lookup.</strong> When you open a photo that <strong>carries GPS coordinates</strong> in the viewer, the app asks Apple Maps to turn those coordinates into a readable place name for the title. <strong>This sends that photo's coordinates to Apple</strong>, who handle them under their own privacy policy; we neither receive nor store the query. Photos without location never trigger it, and declining the location permission at capture time avoids it at the source.</li>
+      <li><strong>Purchases.</strong> In-app purchases, price display, and transaction records are handled by Apple's StoreKit and the App Store (see section 7).</li>
+    </ul>
+    <p>Beyond these, the app uploads no photos, downloads no content, checks for no updates, sends back no logs, and connects to no advertising, analytics, or attribution network.</p>
+
+    <h2 id="en-s6">6. What your files carry</h2>
+    <p>Whether a result carries the original's metadata depends on how it was produced:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Result</th><th>Metadata</th></tr></thead>
+      <tbody>
+        <tr><td>Photos and video you capture directly</td><td>Capture time, camera and lens, exposure settings; and <strong>GPS location</strong> if you granted the location permission</td></tr>
+        <tr><td>Single and batch photo exports, video exports</td><td>The original's descriptive metadata: capture time, camera and lens, exposure settings, IPTC, and the <strong>GPS location</strong> if the original had one</td></tr>
+        <tr><td>Long-exposure and stack HEIC or DNG</td><td>The reference frame's metadata, <strong>including GPS</strong> if present; exposure time is written as the cumulative exposure</td></tr>
+        <tr><td>Focus stacks and time-lapse video</td><td>EXIF capture settings, but <strong>not</strong> the original's GPS</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Every result also records the processing software's name and version and the standard "re-rendered" marker. If you enabled writing credits (off by default) and filled in an author, your author, copyright notice, contact, and terms of use are written into the file too.</p>
+    <div class="note">
+      <p>This information <strong>travels with the file</strong>. Before sending a result to someone or posting it online, check its metadata if you would rather not reveal where it was taken or how to reach you. The app currently has no "strip location on export" option; to keep location out entirely, decline the location permission when shooting.</p>
+    </div>
+
+    <h2 id="en-s7">7. Free uses and purchases</h2>
+    <ul>
+      <li>The app is free to download. Shooting, browsing, editing, exporting, and sharing are always free.</li>
+      <li>Seven workflows — long exposure (standard, star sky, star trails), focus stacking, time-lapse stacks, library stacks, and time-lapse video stacks — each include <strong>3 free full-quality results that never expire</strong>. Lens filters and the color palette stay live in the viewfinder until unlocked; they simply don't reach the saved file.</li>
+      <li>To keep using them there are three options: a 30-day pass (one-time, does not auto-renew), a yearly subscription (auto-renewing), and a one-time lifetime purchase. All three are handled by Apple through the App Store, and <strong>we never see your Apple Account, payment method, or billing details</strong>.</li>
+      <li>The app reads transaction records locally through Apple's StoreKit, solely to determine whether you have purchased, which option, and how many days remain on a pass, and caches that conclusion on the device so the paywall doesn't flash at every launch.</li>
+      <li>The free-use ledger is kept in the device keychain and holds <strong>counts only</strong> — which workflow was used how many times. No photos, no timestamps, nothing identifying, and it never leaves the device.</li>
+      <li>Purchases belong to your Apple Account: after reinstalling or moving to another device, sign in with the same account and tap Restore Purchases. Free uses are tied to the device rather than the account and carry over from the local keychain record.</li>
+      <li>Renewal, cancellation, and refunds are handled by Apple under their rules, and subscriptions can be managed in Settings › Apple Account › Subscriptions.</li>
+    </ul>
+
+    <h2 id="en-s8">8. Diagnostics and crash data</h2>
+    <p>The app includes <strong>no crash-reporting or performance-analytics SDK</strong> and sends back no logs of its own.</p>
+    <p>If you have enabled "Share with App Developers" under Settings › Privacy &amp; Security › Analytics &amp; Improvements, Apple may provide developers with <strong>aggregated, non-identifying</strong> crash reports and performance metrics. That data is collected and de-identified by Apple, contains none of your photos or edits, and can be turned off at any time in Settings.</p>
+
+    <h2 id="en-s9">9. Third parties: what we don't do</h2>
+    <p>Stated item by item, to leave no ambiguity:</p>
+    <ul>
+      <li>We <strong>do not sell</strong> your personal information (including "sale" and "sharing" as defined by US state laws);</li>
+      <li>We <strong>do not use or disclose</strong> your information for targeted advertising, and the app contains no advertising SDK;</li>
+      <li>We <strong>integrate no</strong> analytics, event-tracking, A/B testing, crash-analytics, attribution, or profiling service;</li>
+      <li>The app contains <strong>no third-party SDKs</strong> and uses only Apple's system frameworks;</li>
+      <li>We <strong>do not use</strong> your photos, videos, or edits to train any model, and make no automated decisions;</li>
+      <li>We receive no information from you, so <strong>there is no cross-border transfer initiated by us</strong>.</li>
+    </ul>
+    <p>The only third party involved is <strong>Apple</strong>: in-app purchases and transaction records are handled by the App Store, and place-name lookups by Apple Maps (section 5). See the <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple Privacy Policy</a>.</p>
+
+    <h2 id="en-s10">10. Retention and deletion</h2>
+    <p>We hold none of your data, so there is no retention period on our side. How long anything lives is entirely up to you:</p>
+    <ul>
+      <li><strong>Photos and video you captured</strong>: select and delete them in the app's media view; for anything saved to the system library, delete it in the Photos app.</li>
+      <li><strong>Edit recipes</strong>: tap Reset while editing, or return every parameter to its initial value, and the recipe file is removed. Deleting an original also removes its recipe.</li>
+      <li><strong>Filter library, presets, restore LUTs</strong>: delete them in their own panels. <strong>Copyright and credit</strong>: clear the fields or turn the write switch off.</li>
+      <li><strong>Everything on the device</strong> (settings, thumbnail caches, and the free-use ledger): delete the app. Note that the keychain copy of the free-use ledger may survive an ordinary uninstall; erasing the device or removing that keychain item clears it.</li>
+      <li><strong>Files saved to the system library</strong>: managed by Photos, and not removed when you delete the app.</li>
+      <li><strong>Purchase records</strong>: they belong to your Apple Account and are managed by Apple.</li>
+    </ul>
+    <p>You can do all of the above without contacting us, and we have no copy to delete.</p>
+
+    <h2 id="en-s11">11. Your rights</h2>
+    <p>Under applicable law — including China's PIPL, the EU GDPR, and California's CCPA/CPRA — you have rights to be informed about, access, copy, correct, supplement, delete, and port your personal information, and to withdraw consent.</p>
+    <p>In this app, <strong>exercising those rights requires neither contacting us nor waiting for our approval</strong>, because the data has been in your hands all along:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Right</th><th>How to exercise it</th></tr></thead>
+      <tbody>
+        <tr><td>Access / copy</td><td>Photos, videos, and results are ordinary files on your device, readable and copyable through Files or the Photos app</td></tr>
+        <tr><td>Portability</td><td>Recipes travel with the original; results are standard HEIF, DNG, TIFF, or PNG images and MOV or MP4 video</td></tr>
+        <tr><td>Correction</td><td>Change the recipe, preset, or credits directly in the app</td></tr>
+        <tr><td>Deletion</td><td>See section 10 above</td></tr>
+        <tr><td>Withdraw consent</td><td>Turn off camera, microphone, photo library, or location in Settings › Privacy &amp; Security</td></tr>
+        <tr><td>Object to automated decisions</td><td>The app makes no automated decisions and builds no profiles</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>If you believe your rights have not been honoured, or have any question about this policy, contact us as described in section 15. We answer within 30 days of receipt. You also have the right to complain to your local data protection authority.</p>
+
+    <h2 id="en-s12">12. Children</h2>
+    <p>The app is not designed for children and does not knowingly collect children's personal information. Because it sends us nothing, we hold no age information about any user. If you are under 14, please use the app with the consent and guidance of a guardian; parents can manage in-app purchases through Apple's Screen Time and Ask to Buy.</p>
+
+    <h2 id="en-s13">13. Security</h2>
+    <ul>
+      <li>The app runs in the iOS application sandbox and can reach only its own container and the library and files you have authorised.</li>
+      <li>The app has no custom networking code, so there is no channel through which your photos or edits could be sent out by it.</li>
+      <li>We hold none of your data, so there is no "our database was breached" risk to speak of.</li>
+      <li><strong>Captured and exported files carry metadata</strong>, possibly including GPS location (see section 6) — keep that in mind before sharing.</li>
+    </ul>
+    <p>At the same time, please note: <strong>the security of the device itself underpins all of this.</strong> Set a passcode, enable Face ID or Touch ID, and keep the system updated. No technical measure can guarantee absolute security.</p>
+
+    <h2 id="en-s14">14. Changes to this policy</h2>
+    <p>If the way the app handles data changes, we will update this page and the "Last updated" date at the top. For material changes we will say so prominently inside the app and, where required, ask for your consent again. Earlier versions of this page can be read in this site's public code repository.</p>
+
+    <h2 id="en-s15">15. Contact</h2>
+    <p>For any question about this policy or your data, email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>Mentioning the app version and your iOS version helps us answer faster.</p>
+
+    <hr>
+    <p class="doc-meta">The <a href="?lang=zh">Chinese version</a> of this page. Related: <a href="../support/">Support</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">Terms of Use (Apple standard EULA)</a>.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>圆神相机</span>
+  <span class="footer-spacer"></span>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="./"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

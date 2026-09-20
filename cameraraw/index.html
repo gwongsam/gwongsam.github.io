@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圆神相机 · iPhone 上的 RAW 拍摄、长曝与星空堆栈</title>
+<meta name="description" content="圆神相机是 iPhone 与 iPad 上的 RAW 相机：ProRAW 与 Bayer RAW 全手动拍摄，长曝、星空、星轨、景深合成与延时全部在机内合成，编辑只存配方、不碰原片。圆神相机 is a RAW camera for iPhone and iPad with manual control, long exposure, star stacking, focus stacking, and time-lapse — all computed on device.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
+    圆神相机
+  </a>
+  <nav class="doc-nav">
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-mark" src="logo.svg" alt="" width="62" height="62">
+    <h1>圆神相机</h1>
+    <p data-lang="zh">ProRAW 与 Bayer RAW 全手动拍摄；长曝、星空、星轨、景深合成与延时<strong>全部在机内算完</strong>。<br>编辑落盘的是配方，不是像素——<strong>原片一个字节不动</strong>。</p>
+    <p data-lang="en">Shoot ProRAW and Bayer RAW with full manual control. Long exposure, star stacking, star trails, focus stacking, and time-lapse are <strong>all computed on the device</strong>.<br>Edits are saved as recipes, not pixels — <strong>your originals stay untouched</strong>.</p>
+    <p class="hero-badge"><a href="https://apps.apple.com/cn/app/id6756509302" target="_blank" rel="noopener"><span data-lang="zh">在 App Store 上下载 · iPhone 与 iPad · 需要 iOS 26</span><span data-lang="en">Download on the App Store · iPhone and iPad · Requires iOS 26</span></a></p>
+  </div>
+
+  <section>
+    <h2 data-lang="zh">它是什么</h2>
+    <h2 data-lang="en">What it is</h2>
+    <div class="card-grid">
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">选了什么，就出什么</div>
+        <div class="card-title" data-lang="en">What you pick is what you get</div>
+        <div class="card-desc" data-lang="zh">ProRAW、Bayer RAW、HEIF 任选，分辨率与位深自己定。快门、ISO、白平衡、对焦全手动，也可以只手动其中一项。这台机器、这枚镜头拍不了的格式，会直接标明不支持，而不是偷偷换一种拍。</div>
+        <div class="card-desc" data-lang="en">ProRAW, Bayer RAW, or HEIF, with resolution and bit depth up to you. Shutter, ISO, white balance, and focus can each go manual on their own. Formats your device or lens can't actually produce are marked unsupported rather than quietly swapped for something else.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">算出来的曝光</div>
+        <div class="card-title" data-lang="en">Exposures that are computed</div>
+        <div class="card-desc" data-lang="zh">长曝、星空、星轨、景深合成与延时收在「风光」一格里，边拍边合成，采集段与合成段随时能停。星空按星点对齐，星轨边拍边累积，景深一次扫焦前后都实。</div>
+        <div class="card-desc" data-lang="en">Long exposure, star stacking, star trails, focus stacking, and time-lapse live under one mode, combining frames as they arrive. Both capture and merge can be stopped at any point. Stars are aligned by their own motion; a single focus sweep comes back sharp front to back.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">按快门前就定调子</div>
+        <div class="card-title" data-lang="en">Set the look before the shutter</div>
+        <div class="card-desc" data-lang="zh">镜前那块玻璃（黑柔、白柔、星光镜、拉丝光）是算出来的，不是贴图；再叠光影、LUT 与调色盘，取景时就是成片的样子。相机与相册共用同一套滤镜。</div>
+        <div class="card-desc" data-lang="en">The lens filters — diffusion, star, and anamorphic streak — are computed optics, not overlays. Stack tone curves, LUTs, and a color palette on top, and the viewfinder already shows the final look. The camera and the library share one filter stack.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">机内能合成什么</h2>
+    <h2 data-lang="en">What it can combine</h2>
+
+    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
+    <div class="table-wrap" data-lang="zh">
+      <table>
+        <thead><tr><th>玩法</th><th>做什么</th></tr></thead>
+        <tbody>
+          <tr><td>长曝 · 标准</td><td>RAW 帧堆栈，拍夜景与流水；边拍边叠，随时可停</td></tr>
+          <tr><td>长曝 · 星空</td><td>按星点对齐后堆栈，提升暗部信噪比；星野、流星、彗星与地景 HDR</td></tr>
+          <tr><td>长曝 · 星轨</td><td>边拍边累积的星轨，可选地面除杂</td></tr>
+          <tr><td>景深合成</td><td>一次扫焦采集并融合，成片出 HEIF、Bayer RAW、TIFF 或 PNG</td></tr>
+          <tr><td>延时</td><td>普通延时，或带降噪堆栈、除杂堆栈；也能直接对相册里选中的照片做</td></tr>
+          <tr><td>图库堆栈</td><td>平均（降噪、抹平水面与人流）、最大值（星轨、光轨、烟花）、星空；可出 DNG</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="en">
+      <table>
+        <thead><tr><th>Workflow</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Long exposure — standard</td><td>Stacks RAW frames for night scenes and flowing water, merging as it captures and stopping whenever you like</td></tr>
+          <tr><td>Long exposure — star sky</td><td>Aligns on the stars before stacking for cleaner shadows: star fields, meteors, comets, and HDR foregrounds</td></tr>
+          <tr><td>Long exposure — star trails</td><td>Accumulates trails while shooting, with optional ground clean-up</td></tr>
+          <tr><td>Focus stack</td><td>Captures a focus sweep and merges it, saved as HEIF, Bayer RAW, TIFF, or PNG</td></tr>
+          <tr><td>Time-lapse</td><td>Plain, or with a noise-reduction or clean-up stack; can also run on photos you select in the library</td></tr>
+          <tr><td>Library stack</td><td>Average (noise reduction, smoothing water and crowds), Maximum (trails and fireworks), or Star sky; can output DNG</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="doc-meta" data-lang="zh">视频支持 Apple Log 与 Open Gate 整幅读出，可单段剪辑，Log 素材挂上输入还原表再调色。照片与视频的元数据里可以写入作者、版权声明、联系方式与使用条款。界面为简体中文，需要 iOS 26 或更高版本。</p>
+    <p class="doc-meta" data-lang="en">Video supports Apple Log and full-sensor Open Gate readout, single-range trimming, and restore LUTs for Log footage before grading. Photos and videos can carry your own author, copyright, contact, and terms of use in their metadata. The interface is in Simplified Chinese; requires iOS 26 or later.</p>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">价格与隐私</h2>
+    <h2 data-lang="en">Pricing and privacy</h2>
+    <p data-lang="zh"><strong>拍摄、编辑、导出与分享一直免费。</strong>长曝、景深合成、堆栈与延时堆栈等七种<strong>算出来的玩法</strong>，每种免费 3 次完整成片、用完不过期；镜前滤镜与调色盘未解锁时可以实时取景，只是不落进成片。要一直用，可以买 30 天通行证、年度订阅或永久买断。<strong>没有账号、没有广告、没有统计，也没有我们自己的服务器</strong>：你的照片与编辑内容不会被上传。只有两处会联网，都是 Apple 的系统服务——查看带位置的照片时向 Apple 地图反查地名，以及由 App Store 处理购买。</p>
+    <p data-lang="en"><strong>Shooting, editing, exporting, and sharing are always free.</strong> Seven <strong>computed workflows</strong> — long exposure, focus stacking, library stacks, and time-lapse stacks — each include 3 free full-quality results that never expire. Lens filters and the color palette stay live in the viewfinder until unlocked; they just don't reach the saved file. To keep using them, there's a 30-day pass, a yearly subscription, or a one-time purchase. <strong>No accounts, no ads, no analytics, and no servers of ours</strong>: your photos and edits are never uploaded. Only two things reach the network, both Apple system services — looking up a place name for a geotagged photo, and purchases handled by the App Store.</p>
+    <div class="card-grid">
+      <a class="card" href="support/">
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-desc" data-lang="zh">免费次数与三种买法、照片存在哪、配方与原片的关系、合成要什么素材、导出与分享。</div>
+        <div class="card-desc" data-lang="en">Free uses and the three ways to buy, where photos live, how recipes relate to originals, what combining needs, exporting and sharing.</div>
+      </a>
+      <a class="card" href="privacy/">
+        <div class="card-title"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></div>
+        <div class="card-desc" data-lang="zh">不联网、没有账号；相机、麦克风、相册与位置各用来做什么；导出的成片里带着哪些元数据。</div>
+        <div class="card-desc" data-lang="en">No network, no accounts; what camera, microphone, photo library, and location are each used for; and exactly what metadata your exports carry.</div>
+      </a>
+      <div class="card card-static">
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  圆神相机
+  <span class="footer-spacer"></span>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+
+</body>
+</html>

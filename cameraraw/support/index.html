@@ -1,0 +1,422 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>支持 Support · 圆神相机</title>
+<meta name="description" content="圆神相机的支持页与常见问题：免费次数与三种买法、照片存在哪、配方与原片的关系、合成要什么素材、导出与分享，以及怎么联系开发者。Support and FAQ for the 圆神相机 RAW camera app.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    圆神相机
+  </a>
+  <nav class="doc-nav">
+    <a href="./" aria-current="page"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">支持</h1>
+    <p class="doc-meta"><span>圆神相机 · iPhone 与 iPad</span><span>最后更新：2026 年 9 月 20 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">联系开发者</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>这是一款独立开发的应用，由一个人维护。我会尽量在 <strong>2 个工作日内</strong>回复，遇到需要复现的问题可能更久一些。中文或英文都可以。</p>
+    </div>
+
+    <div class="note">
+      <p><strong>报告问题时，请一并告诉我这几样</strong>，能省掉一轮来回：</p>
+      <ol>
+        <li>圆神相机的版本号（「更多」里可以看到）与 iOS 版本；</li>
+        <li>设备型号（哪一代 iPhone 或 iPad）；</li>
+        <li>当时用的是哪个模式、哪枚镜头、什么格式——RAW 与合成类问题尤其需要；</li>
+        <li>你做了什么、期望看到什么、实际看到什么；合成类问题请说明拍了多少帧、用的哪种玩法。</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>常见问题</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 要花钱吗？免费能做什么？</a></li>
+        <li><a href="#zh-s2">2. 免费次数怎么算？重装或换手机之后呢？</a></li>
+        <li><a href="#zh-s3">3. 我是收费之前就在用的老用户</a></li>
+        <li><a href="#zh-s4">4. 怎么恢复购买？怎么取消订阅？</a></li>
+        <li><a href="#zh-s5">5. 拍下的照片存在哪？怎么进系统相册？</a></li>
+        <li><a href="#zh-s6">6. 编辑会改动原片吗？配方存在哪？</a></li>
+        <li><a href="#zh-s7">7. 格式盘里有几档是灰的</a></li>
+        <li><a href="#zh-s8">8. 长曝、星空、星轨怎么选？</a></li>
+        <li><a href="#zh-s9">9. 景深合成要怎么拍？</a></li>
+        <li><a href="#zh-s10">10. 为什么合成跑到一半停了？</a></li>
+        <li><a href="#zh-s11">11. 导入 LUT 有什么要求？</a></li>
+        <li><a href="#zh-s12">12. 拍出来的照片带位置吗？</a></li>
+        <li><a href="#zh-s13">13. 版权与署名会写到哪里？</a></li>
+        <li><a href="#zh-s14">14. 怎么彻底清空数据？</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 要花钱吗？免费能做什么？</h2>
+    <p><strong>拍摄、浏览、编辑、导出与分享一直免费。</strong>只有「算出来」的那几样需要圆神 Pro。</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>一直免费</th><th>Pro（各送 3 次 / 落进成片）</th></tr></thead>
+      <tbody>
+        <tr><td>ProRAW、Bayer RAW、HEIF 拍摄，全手动曝光</td><td>长曝：标准、星空、星轨</td></tr>
+        <tr><td>视频录制，Apple Log 与单段剪辑</td><td>景深合成</td></tr>
+        <tr><td>普通延时</td><td>延时的降噪堆栈与除杂堆栈</td></tr>
+        <tr><td>光影、LUT 两层编辑，配方与预设</td><td>图库堆栈：平均、最大值、星空</td></tr>
+        <tr><td>导出、分享、版权与署名</td><td>镜前滤镜与调色盘（落进成片；取景一直能看）</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>七种 Pro 玩法<strong>每种送 3 次完整成片，不过期</strong>——星空要等晴夜、要出门，按天数算的试用多半碰不上一个能拍星星的晚上，所以这里按次数算。镜前滤镜与调色盘没有次数：未解锁时取景里照样实时显示，只是按下快门后不落进成片。</p>
+    <p>三种买法：<strong>30 天通行证</strong>（一次性，不自动续费，连着买会顺延）、<strong>年度订阅</strong>（自动续期）、<strong>永久</strong>（一次买断，不续费）。价格以 App Store 显示为准。购买入口在「更多」里的「圆神 Pro」，免费次数用完时也会弹出。</p>
+
+    <h2 id="zh-s2">2. 免费次数怎么算？重装或换手机之后呢？</h2>
+    <ul>
+      <li>七种玩法<strong>各自一份次数</strong>，互不相干——星空用完了，景深还有 3 次。</li>
+      <li>次数只在<strong>成片真正落地之后</strong>才记。中途取消、合成失败、只是打开面板看看，都不算。</li>
+      <li>拍摄页的星空和媒体页的星空堆栈是两个入口、<strong>两份次数</strong>：它们在两个地方被选中，合成一份的话，你在媒体页试了三次，回到拍摄页会莫名其妙地发现星空已经用完。</li>
+      <li>次数记在本机钥匙串里，<strong>一般卸载重装不会清零</strong>；它跟着设备走，不跟着 Apple 账户走。换一台新设备，次数会重新从 3 开始。</li>
+      <li>购买则相反：<strong>跟着 Apple 账户走</strong>，换设备登录同一账户点「恢复购买」即可（见第 4 条）。</li>
+    </ul>
+
+    <h2 id="zh-s3">3. 我是收费之前就在用的老用户</h2>
+    <p><strong>收费版上线之前下载过圆神相机的 Apple 账户，全部 Pro 功能终身免费，包括以后新增的。</strong>不用做任何操作：升级后打开应用，它会从 Apple 的交易记录里读出你这个账户的首次下载日期，自动解锁。</p>
+    <p>如果你确信自己是老用户却没解锁，请先确认 App Store 登录的是<strong>当初下载圆神相机的那个 Apple 账户</strong>，再在「更多 › 圆神 Pro」里点一次「恢复购买」。还是不行请联系我，告诉我大致的首次下载时间。</p>
+
+    <h2 id="zh-s4">4. 怎么恢复购买？怎么取消订阅？</h2>
+    <ul>
+      <li><strong>恢复购买</strong>：「更多 › 圆神 Pro」，页面底部有「恢复购买」。前提是 App Store 登录的是当初购买的那个 Apple 账户。</li>
+      <li><strong>管理或取消年度订阅</strong>：「设置 › Apple 账户 › 订阅」，或在 App Store 里点头像进入订阅。取消后到期前仍可继续使用。</li>
+      <li><strong>30 天通行证不会自动续费</strong>，无需取消，到期即止；到期前再买一张会从原到期日顺延，不浪费。</li>
+      <li><strong>永久</strong>是一次性买断，不涉及续费。</li>
+      <li>显示「等待批准」：这次购买需要家长批准（Apple 的「购买前询问」），批准后会自动解锁。</li>
+      <li>退款由 Apple 按其规则处理，入口在 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>。</li>
+    </ul>
+
+    <h2 id="zh-s5">5. 拍下的照片存在哪？怎么进系统相册？</h2>
+    <ul>
+      <li>默认存在<strong>应用自己的目录</strong>里，在媒体页就能看到。这样 RAW 与配方能完整地放在一起，也不会把系统相册塞满。</li>
+      <li>想直接进系统「照片」App，在保存位置里选相册即可。存进去的照片和视频会一并归入名为<strong>「圆神相机」</strong>的相册。</li>
+      <li>也可以选一个自定义目录（「文件」里的任意位置）。如果那个位置暂时找不到（比如外置盘没插、iCloud 还没下载好），应用只会提醒一下，不会报错，也不会清掉你的选择。</li>
+      <li>已经在应用目录里的照片，随时可以选中之后存进相册或导出到别处。</li>
+    </ul>
+
+    <h2 id="zh-s6">6. 编辑会改动原片吗？配方存在哪？</h2>
+    <p><strong>不会。</strong>编辑落盘的是「配方」，不是像素——一份记录着你调了什么的小文件，存在原片旁边（与原片同名、以点开头的隐藏文件，扩展名 <code>.crrecipe</code>）。原文件一个字节不动，随时能还原原始外观。</p>
+    <ul>
+      <li>缩略图、回看与导出都会自动套用当前配方，所以看到的就是成片的样子。</li>
+      <li><strong>按住画面</strong>可以随时看一眼没加工的原图。</li>
+      <li>导出时可以选择烧录到一份副本、覆盖原文件，或存进系统相册。只有明确选「覆盖原文件」才会改写原片。</li>
+      <li><strong>分享永远只发底片</strong>——把照片发给别人时不会夹带配方文件。</li>
+      <li>删除原片时，它的配方会一并删掉，不会留下孤儿文件。</li>
+    </ul>
+
+    <h2 id="zh-s7">7. 格式盘里有几档是灰的</h2>
+    <p>灰的那几档，是<strong>这台设备或当前这枚镜头拍不了</strong>的。圆神相机在这件事上很死板：不支持就明确禁用并给出理由，<strong>绝不偷偷换一种格式拍</strong>——你选了 Bayer RAW，出来的就必须是 Bayer RAW，不会悄悄变成 ProRAW。</p>
+    <p>常见原因：这枚镜头不出 RAW；当前分辨率下没有这个格式；当前模式（比如视频、某些合成玩法）本身就限制了可选格式。换一枚镜头、换一个分辨率或换个模式再看一次。</p>
+
+    <h2 id="zh-s8">8. 长曝、星空、星轨怎么选？</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>玩法</th><th>什么时候用</th></tr></thead>
+      <tbody>
+        <tr><td>标准</td><td>夜景、流水、车流——想要「把时间摊平」的那种长曝。RAW 帧堆栈，边拍边叠</td></tr>
+        <tr><td>星空</td><td>星野、银河、流星、彗星。按星点对齐后堆栈，暗部信噪比会明显改善；地景可以单独做 HDR</td></tr>
+        <tr><td>星轨</td><td>要星星拖成弧线。边拍边累积，可选地面除杂去掉走动的光源</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ul>
+      <li>三种都<strong>边拍边合成</strong>，采集段和合成段都能随时停；停下来也能出片，不是「不拍够就白拍」。</li>
+      <li>星空与星轨需要<strong>架稳</strong>——三脚架或找个地方靠住。手持拍不出来。</li>
+      <li>拍这类题材时建议把取景防抖关掉（风光模式默认就是关的）。</li>
+      <li>EXIF 里的曝光时间写的是<strong>累计曝光</strong>，ISO 走的是记录口径，可能和界面上显示的控制值不一样——这是有意的，界面显示的是你设的值，EXIF 记的是这张片子实际等效于什么。</li>
+    </ul>
+
+    <h2 id="zh-s9">9. 景深合成要怎么拍？</h2>
+    <ul>
+      <li>选好之后应用会<strong>自动扫焦采集一串帧</strong>，从最近到最远，然后融合成一张前后都实的照片。你只需要端稳，别移动机位。</li>
+      <li>最适合微距、静物、近景花草这类「一次对焦顾不过来」的题材。</li>
+      <li>成片格式可选 <strong>HEIF、Bayer RAW、TIFF 或 PNG</strong>。想后期继续调就选 RAW 或 TIFF。</li>
+      <li>采集期间应用会临时切到手动档以锁住参数，采集结束后恢复。</li>
+      <li>被摄物在采集过程中动了（比如花被风吹），融合处会出现瑕疵——重拍一次即可。</li>
+    </ul>
+
+    <h2 id="zh-s10">10. 为什么合成跑到一半停了？</h2>
+    <ul>
+      <li><strong>切到别的 App 或锁屏会中断。</strong>合成要几分钟，请保持圆神相机在前台。这一条在面板上也会提示。</li>
+      <li><strong>取消只丢弃这次合成，不会改动源照片。</strong>已经入库的成片不可撤销。</li>
+      <li>有几帧被剔掉是正常的：对不齐、曝光差太多、或者拍摄途中屏幕熄了导致那几帧不可用，应用会把它们排除掉并在状态条上说明实际用了多少帧。</li>
+      <li>设备发热严重时系统会降频，合成会变慢。天气热或连续拍了很久的话，歇一会儿再来。</li>
+    </ul>
+
+    <h2 id="zh-s11">11. 导入 LUT 有什么要求？</h2>
+    <ul>
+      <li>支持标准的 <code>.cube</code> 文件，<strong>边长 2 到 128</strong> 之间。超出这个范围的会被拒绝。</li>
+      <li>应用随包内置了五条：<strong>冰蓝、负片</strong>，以及三条 <strong>Apple Log 还原</strong>。内置的不能删除，其余与导入的同权。</li>
+      <li>视频编辑里还可以单独挑一条<strong>输入还原表</strong>：Log 素材先还原到标准影调，再往上叠调色，顺序才对。</li>
+      <li>LUT 层按 BT.1886（纯 2.4 伽马）的 Rec.709 口径解释，与行业通行的 709 表对齐。</li>
+    </ul>
+
+    <h2 id="zh-s12">12. 拍出来的照片带位置吗？</h2>
+    <p>取决于你给不给位置权限。给了，拍下的照片与视频会带上 GPS 拍摄地点；不给，就不带，<strong>其余功能一概不受影响</strong>。</p>
+    <p>要注意这些信息<strong>跟着文件一起走</strong>：把照片发给别人或传到网上之前，如果不想带出拍摄地点，请先检查元数据。目前没有「导出时去掉位置」的选项，不想带位置请在拍摄时就不授予该权限。</p>
+    <p>另外，在查看器里打开一张带位置的照片时，应用会通过 Apple 地图把坐标换成地名显示在标题上——这一步会把该照片的坐标发给 Apple，详见<a href="../privacy/#zh-s5">隐私政策第 5 条</a>。</p>
+
+    <h2 id="zh-s13">13. 版权与署名会写到哪里？</h2>
+    <p>在「更多」里可以填作者、版权声明、联系方式与使用条款，打开写入开关（<strong>默认关闭</strong>）之后，这些信息会写进照片和视频的元数据——拍摄、堆栈、编辑导出与录像全都覆盖。</p>
+    <p>同样地，这些信息会跟着文件走。如果填了联系方式又要公开分享，请留意。</p>
+
+    <h2 id="zh-s14">14. 怎么彻底清空数据？</h2>
+    <ul>
+      <li><strong>单张照片与配方</strong>：在媒体页选中删除，配方会一并删掉。</li>
+      <li><strong>滤镜库、预设、输入还原表</strong>：在各自的面板里删除。</li>
+      <li><strong>设置、缓存与应用目录里的全部照片</strong>：删除应用即可。</li>
+      <li><strong>免费次数账本</strong>存在钥匙串里，普通卸载后可能保留（这是有意的，见第 2 条）。要清掉需要抹除设备。</li>
+      <li><strong>已经存进系统相册的照片</strong>由「照片」App 管理，删除本应用不会带走它们，请在「照片」里删除。</li>
+      <li><strong>购买记录</strong>属于你的 Apple 账户，由 Apple 管理。</li>
+    </ul>
+    <p>我们不持有你的任何数据，所以没有需要向我们申请删除的东西。详见<a href="../privacy/">隐私政策</a>。</p>
+
+    <hr>
+    <p class="doc-meta">本页的<a href="?lang=en">英文版</a>。相关文档：<a href="../privacy/">隐私政策</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">用户协议（Apple 标准 EULA）</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Support</h1>
+    <p class="doc-meta"><span>圆神相机 · iPhone and iPad</span><span>Last updated: 20 September 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contact the developer</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></strong></p>
+      <p>This is an independent app maintained by one person. I aim to reply <strong>within 2 business days</strong>; issues that need reproducing may take longer. English or Chinese is fine.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>When reporting a problem, including these saves a round trip</strong>:</p>
+      <ol>
+        <li>The app version (shown under "More") and your iOS version;</li>
+        <li>Your device model (which iPhone or iPad);</li>
+        <li>Which mode, which lens, and which format you were using — essential for RAW and stacking issues;</li>
+        <li>What you did, what you expected, and what actually happened; for stacking, how many frames and which workflow.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Frequently asked</h2>
+      <ol>
+        <li><a href="#en-s1">1. Does it cost anything? What's free?</a></li>
+        <li><a href="#en-s2">2. How do the free uses work across reinstalls and devices?</a></li>
+        <li><a href="#en-s3">3. I've been using it since before it had paid features</a></li>
+        <li><a href="#en-s4">4. Restoring purchases and cancelling a subscription</a></li>
+        <li><a href="#en-s5">5. Where are my photos saved?</a></li>
+        <li><a href="#en-s6">6. Does editing change the original? Where do recipes live?</a></li>
+        <li><a href="#en-s7">7. Some formats are greyed out</a></li>
+        <li><a href="#en-s8">8. Long exposure, star sky, or star trails?</a></li>
+        <li><a href="#en-s9">9. How do I shoot a focus stack?</a></li>
+        <li><a href="#en-s10">10. Why did combining stop partway?</a></li>
+        <li><a href="#en-s11">11. Importing LUTs</a></li>
+        <li><a href="#en-s12">12. Do my photos carry location?</a></li>
+        <li><a href="#en-s13">13. Where do copyright and credits go?</a></li>
+        <li><a href="#en-s14">14. How do I erase everything?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Does it cost anything? What's free?</h2>
+    <p><strong>Shooting, browsing, editing, exporting, and sharing are always free.</strong> Only the computed results need Pro.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Always free</th><th>Pro (3 free each / reaching the file)</th></tr></thead>
+      <tbody>
+        <tr><td>ProRAW, Bayer RAW, and HEIF capture with full manual control</td><td>Long exposure: standard, star sky, star trails</td></tr>
+        <tr><td>Video recording, Apple Log, and single-range trimming</td><td>Focus stacking</td></tr>
+        <tr><td>Plain time-lapse</td><td>Noise-reduction and clean-up stacks in time-lapse</td></tr>
+        <tr><td>Tone and LUT editing, recipes and presets</td><td>Library stacks: average, maximum, star sky</td></tr>
+        <tr><td>Export, sharing, copyright and credits</td><td>Lens filters and the color palette (reaching the file; the viewfinder always shows them)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Each of the seven Pro workflows includes <strong>3 free full-quality results that never expire</strong>. Astrophotography needs a clear night and a trip out of town, and a trial counted in days rarely covers one — so this is counted in uses instead. Lens filters and the palette have no count: unlocked or not, they render live in the viewfinder; they simply don't reach the saved file.</p>
+    <p>Three ways to buy: a <strong>30-day pass</strong> (one-time, no auto-renewal; buying another before the first expires extends it), a <strong>yearly subscription</strong> (auto-renewing), and <strong>lifetime</strong> (one-time, no renewal). Prices are as shown on the App Store. The purchase screen is under More › 圆神 Pro, and also appears when free uses run out.</p>
+
+    <h2 id="en-s2">2. How do the free uses work across reinstalls and devices?</h2>
+    <ul>
+      <li>The seven workflows each have <strong>their own count</strong> — running out of star stacks leaves focus stacking with all 3.</li>
+      <li>A use is only recorded <strong>once a result is actually saved</strong>. Cancelling, a failed merge, or just opening the panel doesn't count.</li>
+      <li>Star stacking in the camera and star stacking in the library are two entry points with <strong>two separate counts</strong>: they are chosen in two different places, and sharing one count would mean three tries in the library mysteriously exhausts the camera too.</li>
+      <li>Counts live in the device keychain and <strong>usually survive an ordinary reinstall</strong>. They follow the device, not the Apple Account, so a new device starts again at 3.</li>
+      <li>Purchases are the opposite: they <strong>follow your Apple Account</strong>. On a new device, sign in and tap Restore Purchases (see section 4).</li>
+    </ul>
+
+    <h2 id="en-s3">3. I've been using it since before it had paid features</h2>
+    <p><strong>Any Apple Account that downloaded the app before paid features launched gets every Pro feature free for life, including ones added later.</strong> There is nothing to do: open the app after updating and it reads your account's first-download date from Apple's transaction records and unlocks automatically.</p>
+    <p>If you're sure you qualify but nothing unlocked, first check that the App Store is signed in to <strong>the Apple Account you originally downloaded with</strong>, then tap Restore Purchases under More › 圆神 Pro. If it still doesn't, write to me with roughly when you first downloaded it.</p>
+
+    <h2 id="en-s4">4. Restoring purchases and cancelling a subscription</h2>
+    <ul>
+      <li><strong>Restore Purchases</strong> is at the bottom of More › 圆神 Pro. The App Store must be signed in to the account that made the purchase.</li>
+      <li><strong>Manage or cancel the yearly subscription</strong> in Settings › Apple Account › Subscriptions, or through your avatar in the App Store. After cancelling you keep access until the period ends.</li>
+      <li>The <strong>30-day pass does not auto-renew</strong>, so there is nothing to cancel. Buying another before it expires extends from the existing expiry rather than wasting the remainder.</li>
+      <li><strong>Lifetime</strong> is a one-time purchase with no renewal.</li>
+      <li>"Waiting for approval" means the purchase needs a parent's approval (Apple's Ask to Buy); it unlocks automatically once approved.</li>
+      <li>Refunds are handled by Apple at <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>.</li>
+    </ul>
+
+    <h2 id="en-s5">5. Where are my photos saved?</h2>
+    <ul>
+      <li>By default in the <strong>app's own folder</strong>, visible in the media view. This keeps RAW files and their recipes together and avoids filling up your system library.</li>
+      <li>To save straight into the Photos app, choose the photo library as the save location. Photos and videos saved there are also placed in an album named <strong>圆神相机</strong>.</li>
+      <li>You can also pick a custom folder anywhere in Files. If that location is temporarily unavailable (an external drive unplugged, iCloud still downloading), the app just tells you — it doesn't throw an error and doesn't forget your choice.</li>
+      <li>Anything already in the app's folder can be saved to the library or exported elsewhere at any time.</li>
+    </ul>
+
+    <h2 id="en-s6">6. Does editing change the original? Where do recipes live?</h2>
+    <p><strong>It doesn't.</strong> Editing writes a "recipe" rather than pixels — a small file recording what you changed, stored next to the original as a hidden file with a <code>.crrecipe</code> extension. The original file is untouched and its unedited look is always one tap away.</p>
+    <ul>
+      <li>Thumbnails, playback, and exports all apply the current recipe, so what you see is what you get.</li>
+      <li><strong>Press and hold the image</strong> to see the untouched original at any time.</li>
+      <li>On export you can bake into a copy, overwrite the original, or save to the system library. Only explicitly choosing "Overwrite original" rewrites the original.</li>
+      <li><strong>Sharing always sends the finished image alone</strong> — no recipe file tags along.</li>
+      <li>Deleting an original deletes its recipe too, leaving no orphans behind.</li>
+    </ul>
+
+    <h2 id="en-s7">7. Some formats are greyed out</h2>
+    <p>A greyed-out format is one <strong>this device or this lens cannot actually produce</strong>. The app is deliberately strict here: unsupported means disabled with a reason, and it will <strong>never quietly substitute a different format</strong> — choose Bayer RAW and Bayer RAW is what you get, not ProRAW behind your back.</p>
+    <p>Common reasons: this lens doesn't emit RAW; the format isn't available at the current resolution; or the current mode (video, or certain combining workflows) restricts the choices. Try another lens, another resolution, or another mode.</p>
+
+    <h2 id="en-s8">8. Long exposure, star sky, or star trails?</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Workflow</th><th>When to use it</th></tr></thead>
+      <tbody>
+        <tr><td>Standard</td><td>Night scenes, flowing water, traffic — long exposure that smooths time out. Stacks RAW frames as they arrive</td></tr>
+        <tr><td>Star sky</td><td>Star fields, the Milky Way, meteors, comets. Aligns on the stars before stacking, markedly improving shadow noise; the foreground can be treated separately as HDR</td></tr>
+        <tr><td>Star trails</td><td>When you want the stars drawn out into arcs. Accumulates while shooting, with optional ground clean-up for moving lights</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ul>
+      <li>All three <strong>combine as they capture</strong>, and both the capture and the merge can be stopped at any time. Stopping early still produces a result — it isn't all-or-nothing.</li>
+      <li>Star sky and star trails need the camera <strong>held still</strong> — a tripod, or something to brace against. Handheld won't work.</li>
+      <li>For these subjects, turn viewfinder stabilization off (the landscape mode defaults to off already).</li>
+      <li>EXIF exposure time is written as the <strong>cumulative exposure</strong>, and ISO follows a recording convention that may differ from the control value on screen. That's deliberate: the interface shows what you set, while EXIF records what the frame is actually equivalent to.</li>
+    </ul>
+
+    <h2 id="en-s9">9. How do I shoot a focus stack?</h2>
+    <ul>
+      <li>Once started, the app <strong>sweeps focus and captures a run of frames</strong> from near to far, then merges them into one image sharp front to back. Just hold steady and don't move the camera.</li>
+      <li>Best for macro, still life, and close-up plants — subjects where one focus point can't cover everything.</li>
+      <li>The result can be saved as <strong>HEIF, Bayer RAW, TIFF, or PNG</strong>. Choose RAW or TIFF if you plan to keep working on it.</li>
+      <li>During capture the app temporarily switches to manual to lock the settings, and restores them afterwards.</li>
+      <li>If the subject moves mid-sweep (a flower in the wind), the merge will show artefacts — just shoot it again.</li>
+    </ul>
+
+    <h2 id="en-s10">10. Why did combining stop partway?</h2>
+    <ul>
+      <li><strong>Switching apps or locking the screen interrupts it.</strong> Combining takes a few minutes; keep the app in the foreground. The panel says so too.</li>
+      <li><strong>Cancelling discards only that merge and never touches your source photos.</strong> A result already saved cannot be undone.</li>
+      <li>Some frames being dropped is normal: frames that won't align, that differ too much in exposure, or that were unusable because the screen went dark mid-capture are excluded, and the status line reports how many frames were actually used.</li>
+      <li>When the device gets hot the system throttles and combining slows down. In hot weather, or after a long shoot, give it a rest.</li>
+    </ul>
+
+    <h2 id="en-s11">11. Importing LUTs</h2>
+    <ul>
+      <li>Standard <code>.cube</code> files are supported, with a <strong>side length between 2 and 128</strong>. Anything outside that range is rejected.</li>
+      <li>Five are bundled with the app: <strong>Ice Blue and Negative</strong>, plus three <strong>Apple Log restore</strong> tables. The bundled ones can't be deleted; otherwise they behave exactly like imported ones.</li>
+      <li>Video editing lets you pick a separate <strong>input restore LUT</strong>: Log footage is brought back to a standard tonality first, and grading is layered on after — which is the correct order.</li>
+      <li>The LUT layer interprets Rec.709 as BT.1886 (pure 2.4 gamma), matching the industry-standard 709 tables.</li>
+    </ul>
+
+    <h2 id="en-s12">12. Do my photos carry location?</h2>
+    <p>Only if you grant the location permission. With it, captured photos and videos carry GPS coordinates; without it they don't, and <strong>nothing else is affected</strong>.</p>
+    <p>Note that this information <strong>travels with the file</strong>: before sending a photo to someone or posting it online, check the metadata if you'd rather not reveal where it was taken. There is currently no "strip location on export" option, so decline the permission at capture time if you don't want location at all.</p>
+    <p>Also, opening a geotagged photo in the viewer asks Apple Maps to turn its coordinates into a place name for the title — which sends those coordinates to Apple. See <a href="../privacy/#en-s5">section 5 of the Privacy Policy</a>.</p>
+
+    <h2 id="en-s13">13. Where do copyright and credits go?</h2>
+    <p>Under More you can fill in an author, copyright notice, contact, and terms of use. With the write switch on (<strong>off by default</strong>), those are written into the metadata of your photos and videos — covering capture, stacking, edited exports, and recording alike.</p>
+    <p>As above, this information travels with the file. If you've entered contact details and plan to share publicly, keep that in mind.</p>
+
+    <h2 id="en-s14">14. How do I erase everything?</h2>
+    <ul>
+      <li><strong>Individual photos and their recipes</strong>: select and delete in the media view; the recipe goes with it.</li>
+      <li><strong>Filter library, presets, restore LUTs</strong>: delete them in their own panels.</li>
+      <li><strong>Settings, caches, and every photo in the app's folder</strong>: delete the app.</li>
+      <li>The <strong>free-use ledger</strong> lives in the keychain and may survive an ordinary uninstall (deliberately — see section 2). Erasing the device clears it.</li>
+      <li><strong>Photos already saved to the system library</strong> are managed by Photos and are not removed when you delete the app; delete them there.</li>
+      <li><strong>Purchase records</strong> belong to your Apple Account and are managed by Apple.</li>
+    </ul>
+    <p>We hold none of your data, so there is nothing to request deletion of from us. See the <a href="../privacy/">Privacy Policy</a>.</p>
+
+    <hr>
+    <p class="doc-meta">The <a href="?lang=zh">Chinese version</a> of this page. Related: <a href="../privacy/">Privacy Policy</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">Terms of Use (Apple standard EULA)</a>.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>圆神相机</span>
+  <span class="footer-spacer"></span>
+  <a href="./"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
