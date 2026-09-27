@@ -125,13 +125,13 @@
     </ul>
 
     <h2 id="zh-s6">6. 为什么需要相册权限？</h2>
-    <p>相风只和相册打交道，而且按「用到哪一步、才申请哪一级」：</p>
+    <p>相风只和相册打交道，并且<strong>只申请「仅添加照片」这一项权限，从不申请完整相册访问</strong>：</p>
     <ul>
       <li><strong>挑视频不需要权限</strong>：用的是系统照片选择器，只有你选中的那几项会交给相风。</li>
       <li><strong>保存只要「仅添加照片」</strong>：只能往相册里写，不能读。</li>
-      <li><strong>完整相册访问</strong>只在你点到「在原图上编辑」或「浏览实况相册」时才会申请。在原图上的修改随时可以在「照片」里还原。</li>
+      <li><strong>在原图上编辑也不需要权限</strong>：它走的是照片编辑扩展，由系统「照片」App 把那一张交给相风、保存也由「照片」处理，修改随时可以在「照片」里还原。App 里的图库页同样是系统选择器。</li>
     </ul>
-    <p>不给完整访问，其余功能全部照常。所有处理都在设备上完成，不上传——详见<a href="../privacy/#zh-s4">隐私政策第 4 条</a>。</p>
+    <p>相风从不申请完整相册访问，也不会自行读取你的相册。所有处理都在设备上完成，不上传——详见<a href="../privacy/#zh-s4">隐私政策第 4 条</a>。</p>
 
     <h2 id="zh-s7">7. 设成锁屏壁纸之后不动</h2>
     <p>锁屏壁纸动不动，是 iOS 按一套<strong>未公开的条件</strong>决定的，普通实况设成壁纸经常不动。</p>
@@ -151,7 +151,7 @@
 
     <h2 id="zh-s9">9. 做出来的实况带着拍摄地点吗？</h2>
     <p><strong>默认带。</strong>相风会把源视频的拍摄时间、地点与机身参数写到新的实况上，让它排在拍摄那天、显示在拍摄地点。源视频里本来没有的信息，不会补也不会猜。</p>
-    <p>不想带，在设置里关掉<strong>「保留原拍摄时间与地点」</strong>再保存。这些信息只写进你自己相册里的文件，不会发给我们；但它们<strong>跟着文件走</strong>，发出去之前请留意。</p>
+    <p>不想带拍摄时间与地点，在设置里关掉<strong>「保留原拍摄时间与地点」</strong>再保存。这些信息只写进你自己相册里的文件，不会发给我们；但它们<strong>跟着文件走</strong>，发出去之前请留意。</p>
 
     <h2 id="zh-s10">10. 作品存在哪？怎么彻底清空？</h2>
     <ul>
@@ -251,13 +251,13 @@
     </ul>
 
     <h2 id="en-s6">6. Why does it need photo access?</h2>
-    <p>Vane only works with your photo library, and asks for each level of access only when you reach the step that needs it:</p>
+    <p>Vane only works with your photo library, and <strong>requests only "Add Photos Only" — never full library access</strong>:</p>
     <ul>
       <li><strong>Picking videos needs no permission</strong>: it uses the system photo picker, so only the items you select are handed to Vane.</li>
       <li><strong>Saving needs only "Add Photos Only"</strong>: it can write to your library but cannot read it.</li>
-      <li><strong>Full library access</strong> is requested only when you tap into editing an original or browsing your Live Photos. Edits made to an original can be reverted in Photos at any time.</li>
+      <li><strong>Editing an original needs no permission either</strong>: it goes through the Photos editing extension, where the Photos app hands the item to Vane and saves the result itself; edits can be reverted in Photos at any time. The library view inside the app is the system picker too.</li>
     </ul>
-    <p>Without full access, everything else works exactly the same. All processing happens on the device and nothing is uploaded — see <a href="../privacy/#en-s4">section 4 of the Privacy Policy</a>.</p>
+    <p>Vane never requests full library access and never reads your library on its own. All processing happens on the device and nothing is uploaded — see <a href="../privacy/#en-s4">section 4 of the Privacy Policy</a>.</p>
 
     <h2 id="en-s7">7. It doesn't move as a Lock Screen wallpaper</h2>
     <p>Whether a Lock Screen wallpaper moves is decided by iOS using <strong>undocumented checks</strong>, and ordinary Live Photos often stay still there.</p>
@@ -277,7 +277,7 @@
 
     <h2 id="en-s9">9. Do my Live Photos carry the location?</h2>
     <p><strong>By default, yes.</strong> Vane writes the source video's capture date, place, and camera details into the new Live Photo, so it sorts to the day it was filmed and shows where it was taken. Information the source video doesn't have is never filled in or guessed.</p>
-    <p>If you'd rather not, turn off <strong>"Keep original date &amp; place"</strong> in Settings before saving. These details are written only into files in your own library and never sent to us — but they <strong>travel with the file</strong>, so keep that in mind before posting.</p>
+    <p>To leave out the capture date and place, turn off <strong>"Keep original date &amp; place"</strong> in Settings before saving. These details are written only into files in your own library and never sent to us — but they <strong>travel with the file</strong>, so keep that in mind before posting.</p>
 
     <h2 id="en-s10">10. Where are projects stored? How do I erase everything?</h2>
     <ul>

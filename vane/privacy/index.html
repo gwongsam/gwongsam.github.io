@@ -50,8 +50,8 @@
       <ul>
         <li><strong>我们没有服务器。</strong>你的视频、实况与作品不会被上传，也没有任何地方可以上传到我们这里。所有处理都在你的设备上完成。</li>
         <li><strong>没有账号、没有广告、没有统计、没有追踪、没有任何第三方 SDK。</strong>本应用只用 Apple 提供的系统框架，自身不发起任何网络请求。</li>
-        <li><strong>相册权限按需、从小到大。</strong>挑视频用系统照片选择器，不需要相册权限；保存只要「仅添加照片」；只有你点到「在原图上编辑」或「浏览实况相册」时，才会申请完整相册访问。</li>
-        <li><strong>原片信息只写进你自己的相册文件。</strong>默认把源视频的拍摄时间、地点与机身参数写到新做的实况上，可以在设置里关掉；这些信息不会发给我们。</li>
+        <li><strong>只申请「仅添加照片」这一项权限。</strong>挑视频用系统照片选择器，不需要相册权限；保存成品只要「仅添加照片」。本应用<strong>从不申请完整相册访问</strong>，也读不到你相册里没选中的内容。</li>
+        <li><strong>原片信息只写进你自己的相册文件。</strong>默认把源视频的拍摄时间、地点与机身参数写到新做的实况上，其中拍摄时间与地点可以在设置里关掉；这些信息不会发给我们。</li>
       </ul>
     </div>
 
@@ -110,18 +110,18 @@
     <p><strong>分享扩展与照片编辑扩展</strong>（从别的 App 或「照片」里直接调用本应用）以及快捷指令「做成实况」，同样只在本机处理，结果同样存进你的相册。</p>
 
     <h2 id="zh-s4">4. 相册权限各用来做什么</h2>
-    <p>本应用只和相册打交道，而且按「用到哪一步、才申请哪一级」的原则：</p>
+    <p>本应用只和相册打交道，并且<strong>只申请「仅添加照片」这一项权限，从不申请完整相册访问</strong>：</p>
     <div class="table-wrap">
     <table>
       <thead><tr><th>情形</th><th>需要的权限</th><th>说明</th></tr></thead>
       <tbody>
         <tr><td>挑选要做的视频或实况</td><td>不需要</td><td>使用系统照片选择器：只有你选中的那几项会交给本应用，其余照片它看不到</td></tr>
         <tr><td>保存成品</td><td>仅添加照片</td><td>只能往相册里写，不能读你的相册</td></tr>
-        <tr><td>在原图上编辑（可还原）、浏览实况相册</td><td>完整相册访问</td><td>只在你点到这一步时才申请；在原图上的修改可以随时在「照片」里还原</td></tr>
+        <tr><td>在原图上编辑（可还原）</td><td>不需要</td><td>通过照片编辑扩展完成：由系统「照片」App 把你正在编辑的那一张交给本应用，保存也由「照片」App 处理；修改可以随时在「照片」里还原</td></tr>
       </tbody>
     </table>
     </div>
-    <p>不给完整相册访问，除了上表最后一行，其余功能全部照常。这些权限都可以在「设置 › 隐私与安全性 › 照片」里随时更改。</p>
+    <p>本应用内的图库页同样是嵌入式的系统照片选择器，不需要权限。本应用<strong>从不申请完整相册访问</strong>，也不会自行读取你的相册。「仅添加照片」可以在「设置 › 隐私与安全性 › 照片」里随时更改；关掉之后只是存不进相册，其余照常。</p>
 
     <h2 id="zh-s5">5. 联网：只经由 Apple 的系统服务</h2>
     <p>本应用不含任何自定义的网络代码，也没有我们的服务器。你的视频、实况与作品<strong>不会被本应用发送到任何地方</strong>。只有以下情形会产生网络流量，都由 Apple 的系统框架发起：</p>
@@ -135,7 +135,7 @@
     <h2 id="zh-s6">6. 做出来的文件里带着什么</h2>
     <ul>
       <li>默认情况下，本应用会把<strong>源视频的拍摄时间、地点与机身参数</strong>写到新做的实况上，让它在相册里排在拍摄当天、显示在拍摄地点。</li>
-      <li>不想要，在设置里关掉<strong>「保留原拍摄时间与地点」</strong>即可。</li>
+      <li>不想带拍摄时间与地点，在设置里关掉<strong>「保留原拍摄时间与地点」</strong>即可。</li>
       <li>源视频里本来没有的信息，本应用不会补、也不会猜。</li>
       <li>这些信息只写进<strong>你自己相册里的文件</strong>，不会发给我们。</li>
     </ul>
@@ -232,8 +232,8 @@
       <ul>
         <li><strong>We have no servers.</strong> Your videos, Live Photos, and projects are never uploaded — there is nowhere to upload them to. Everything is processed on your device.</li>
         <li><strong>No accounts, no ads, no analytics, no tracking, no third-party SDKs.</strong> The app uses only Apple's system frameworks and makes no network requests of its own.</li>
-        <li><strong>Photo access is asked for only as far as you go.</strong> Picking videos uses the system photo picker and needs no permission; saving needs only "Add Photos Only"; full library access is requested only when you reach "edit the original" or "browse Live Photos."</li>
-        <li><strong>Original details stay in your own library.</strong> By default the source video's capture date, place, and camera details are written into the new Live Photo. You can turn that off in Settings, and none of it is ever sent to us.</li>
+        <li><strong>The only permission requested is "Add Photos Only."</strong> Picking videos uses the system photo picker and needs no permission; saving results needs only "Add Photos Only." The app <strong>never requests full library access</strong> and cannot see anything in your library you haven't selected.</li>
+        <li><strong>Original details stay in your own library.</strong> By default the source video's capture date, place, and camera details are written into the new Live Photo. The capture date and place can be turned off in Settings, and none of it is ever sent to us.</li>
       </ul>
     </div>
 
@@ -292,18 +292,18 @@
     <p><strong>The Share extension and the Photos editing extension</strong> (which let you use the app from other apps or from Photos), and the "Make Live Photo" shortcut, likewise process everything on the device and save results to your library.</p>
 
     <h2 id="en-s4">4. What each photo permission is for</h2>
-    <p>The app only works with your photo library, and asks for each level of access only when you reach the step that needs it:</p>
+    <p>The app only works with your photo library, and <strong>requests only "Add Photos Only" — never full library access</strong>:</p>
     <div class="table-wrap">
     <table>
       <thead><tr><th>When</th><th>Permission needed</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>Picking a video or Live Photo to work on</td><td>None</td><td>Uses the system photo picker: only the items you select are handed to the app, and it cannot see the rest of your library</td></tr>
         <tr><td>Saving results</td><td>Add Photos Only</td><td>Can write to your library but cannot read it</td></tr>
-        <tr><td>Editing the original (revertible) and browsing your Live Photos</td><td>Full library access</td><td>Requested only when you tap into these steps; edits made to an original can be reverted in Photos at any time</td></tr>
+        <tr><td>Editing the original (revertible)</td><td>None</td><td>Done through the Photos editing extension: the Photos app hands over the one item you are editing and saves the result itself; edits can be reverted in Photos at any time</td></tr>
       </tbody>
     </table>
     </div>
-    <p>Without full library access, everything except the last row works exactly the same. These permissions can be changed at any time in Settings › Privacy &amp; Security › Photos.</p>
+    <p>The library view inside the app is also the embedded system photo picker and needs no permission. The app <strong>never requests full library access</strong> and never reads your library on its own. "Add Photos Only" can be changed at any time in Settings › Privacy &amp; Security › Photos; without it, results just can't be saved to your library and everything else works as before.</p>
 
     <h2 id="en-s5">5. Network access: Apple system services only</h2>
     <p>The app contains no custom networking code and we run no servers. Your videos, Live Photos, and projects are <strong>never sent anywhere by the app</strong>. Network traffic happens only in these cases, each issued by Apple's system frameworks:</p>
@@ -317,7 +317,7 @@
     <h2 id="en-s6">6. What your files carry</h2>
     <ul>
       <li>By default the app writes the <strong>source video's capture date, place, and camera details</strong> into the new Live Photo, so it sorts to the day it was filmed and shows where it was taken.</li>
-      <li>If you'd rather not, turn off <strong>"Keep original date &amp; place"</strong> in Settings.</li>
+      <li>To leave out the capture date and place, turn off <strong>"Keep original date &amp; place"</strong> in Settings.</li>
       <li>The app never fills in or guesses information the source video doesn't have.</li>
       <li>These details are written only into <strong>files in your own library</strong>, and are never sent to us.</li>
     </ul>
