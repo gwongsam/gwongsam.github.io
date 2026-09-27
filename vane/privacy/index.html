@@ -1,0 +1,448 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐私政策 Privacy Policy · Vane 相风</title>
+<meta name="description" content="相风（Vane）iOS 应用的隐私政策：没有账号、没有服务器、没有第三方 SDK，视频与实况只在你的设备上处理；相册权限各用来做什么，做出来的实况里带着哪些原片信息。Privacy Policy for Vane, the Live Photo maker for iPhone and iPad.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    Vane <span class="brand-sub">相风</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">隐私政策</h1>
+    <p class="doc-meta"><span>适用于相风（英文名 Vane）iPhone / iPad 应用</span><span>生效日期：2026 年 9 月 27 日</span><span>最后更新：2026 年 9 月 27 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">一句话摘要</p>
+      <ul>
+        <li><strong>我们没有服务器。</strong>你的视频、实况与作品不会被上传，也没有任何地方可以上传到我们这里。所有处理都在你的设备上完成。</li>
+        <li><strong>没有账号、没有广告、没有统计、没有追踪、没有任何第三方 SDK。</strong>本应用只用 Apple 提供的系统框架，自身不发起任何网络请求。</li>
+        <li><strong>相册权限按需、从小到大。</strong>挑视频用系统照片选择器，不需要相册权限；保存只要「仅添加照片」；只有你点到「在原图上编辑」或「浏览实况相册」时，才会申请完整相册访问。</li>
+        <li><strong>原片信息只写进你自己的相册文件。</strong>默认把源视频的拍摄时间、地点与机身参数写到新做的实况上，可以在设置里关掉；这些信息不会发给我们。</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 谁在提供这款应用</a></li>
+        <li><a href="#zh-s2">2. 应用处理哪些数据</a></li>
+        <li><a href="#zh-s3">3. 数据存放在哪里</a></li>
+        <li><a href="#zh-s4">4. 相册权限各用来做什么</a></li>
+        <li><a href="#zh-s5">5. 联网：只经由 Apple 的系统服务</a></li>
+        <li><a href="#zh-s6">6. 做出来的文件里带着什么</a></li>
+        <li><a href="#zh-s7">7. 免费版与 Vane Pro</a></li>
+        <li><a href="#zh-s8">8. 诊断与崩溃数据</a></li>
+        <li><a href="#zh-s9">9. 第三方：我们不做的事</a></li>
+        <li><a href="#zh-s10">10. 数据保留与删除</a></li>
+        <li><a href="#zh-s11">11. 你的权利</a></li>
+        <li><a href="#zh-s12">12. 未成年人</a></li>
+        <li><a href="#zh-s13">13. 数据安全</a></li>
+        <li><a href="#zh-s14">14. 政策变更</a></li>
+        <li><a href="#zh-s15">15. 联系我们</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 谁在提供这款应用</h2>
+    <p>相风（英文名 Vane，下称「本应用」）由个人开发者 gwongsam（下称「我们」）开发与发行，运行于 iPhone 与 iPad。它用来把视频做成实况（Live Photo）、重新编辑已有的实况，并按你要发往的平台把成品做成那里能播放的格式。</p>
+    <p>本政策说明本应用如何处理你的信息。贯穿全文的前提是：<strong>我们没有后端服务器</strong>，你的视频、实况与作品不会到达我们手中。下文描述的，实际是数据如何在<strong>你自己的设备</strong>上流动。</p>
+
+    <h2 id="zh-s2">2. 应用处理哪些数据</h2>
+    <p>以下数据在你使用过程中产生或被读取，全部保留在你的设备上：</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>类别</th><th>具体内容</th></tr></thead>
+      <tbody>
+        <tr><td>你选中的视频与实况</td><td>为了预览、编辑、体检和导出而读取的画面、声音与元数据——包括源视频自带的拍摄时间、地点与机身参数（如果有）</td></tr>
+        <tr><td>配乐</td><td>你为作品挑的音频，来自「文件」里的音乐或另一段视频的声音</td></tr>
+        <tr><td>作品（草稿）</td><td>你的编辑配方（选段、封面、裁切、调色、相框、文字、速度、声音等参数），以及一份原片副本，以便以后接着改</td></tr>
+        <tr><td>端侧分析结果</td><td>封面推荐、显著性裁切等在设备上算出来的结果，只用于给你建议，不离开设备</td></tr>
+        <tr><td>设置与偏好</td><td>「常发的地方」、「保留原拍摄时间与地点」开关、实验室开关等界面偏好</td></tr>
+        <tr><td>购买状态</td><td>是否已购买 Vane Pro——由 Apple 的 StoreKit 在本机告诉本应用（见第 7 条）</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>本应用<strong>不索取、不收集</strong>：姓名、身份证件号码、手机号码、电子邮件、支付信息、通讯录、日历、位置（除源视频里本来就有的地点信息）、广告标识符、设备指纹。本应用不请求相机、麦克风或定位权限。本应用<strong>没有账号体系</strong>，无需注册或登录。</p>
+
+    <h2 id="zh-s3">3. 数据存放在哪里</h2>
+    <p>全部在你自己的设备上，分三处：</p>
+    <ul>
+      <li><strong>本应用的沙盒容器。</strong>作品以「配方 + 原片副本」的形式存在这里。处理过程中的临时文件，本应用会在每次启动时清理掉残留的部分。</li>
+      <li><strong>本机偏好设置。</strong>设置与偏好存在系统的 UserDefaults 里，只在这台设备上。</li>
+      <li><strong>系统相册。</strong>你保存的实况、视频与 GIF 会写入系统「照片」App。这些文件此后由「照片」App 管理，受你的 iCloud 照片设置影响。</li>
+    </ul>
+    <p>本应用自身不做任何云同步，也不向任何服务器写入数据。存进系统相册的文件是否同步到 iCloud，由你在系统设置里的「iCloud 照片」决定，与本应用无关。</p>
+    <p><strong>分享扩展与照片编辑扩展</strong>（从别的 App 或「照片」里直接调用本应用）以及快捷指令「做成实况」，同样只在本机处理，结果同样存进你的相册。</p>
+
+    <h2 id="zh-s4">4. 相册权限各用来做什么</h2>
+    <p>本应用只和相册打交道，而且按「用到哪一步、才申请哪一级」的原则：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>情形</th><th>需要的权限</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>挑选要做的视频或实况</td><td>不需要</td><td>使用系统照片选择器：只有你选中的那几项会交给本应用，其余照片它看不到</td></tr>
+        <tr><td>保存成品</td><td>仅添加照片</td><td>只能往相册里写，不能读你的相册</td></tr>
+        <tr><td>在原图上编辑（可还原）、浏览实况相册</td><td>完整相册访问</td><td>只在你点到这一步时才申请；在原图上的修改可以随时在「照片」里还原</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>不给完整相册访问，除了上表最后一行，其余功能全部照常。这些权限都可以在「设置 › 隐私与安全性 › 照片」里随时更改。</p>
+
+    <h2 id="zh-s5">5. 联网：只经由 Apple 的系统服务</h2>
+    <p>本应用不含任何自定义的网络代码，也没有我们的服务器。你的视频、实况与作品<strong>不会被本应用发送到任何地方</strong>。只有以下情形会产生网络流量，都由 Apple 的系统框架发起：</p>
+    <ul>
+      <li><strong>购买。</strong>App 内购买、价格显示与交易记录由 Apple 的 StoreKit 与 App Store 完成（见第 7 条）。</li>
+      <li><strong>超分模型（仅当你主动下载）。</strong>如果你在「设置 › 实验室」里点下载超分模型，系统会从 Apple 下载这个模型文件。这一步只是下载，不上传你的任何内容；不点就不会发生。</li>
+    </ul>
+    <p>平台规则页里的来源链接由系统浏览器打开，不经过本应用。除此之外，本应用不上传内容、不检查更新、不回传日志，也不接入任何广告、统计或归因网络。</p>
+    <p><strong>发到别的平台这一步由你完成。</strong>本应用只把成品存进你的相册，或经系统分享面板交给你选的 App；之后在 WhatsApp、微信、Instagram 等 App 里发布时，适用的是那个平台自己的隐私政策。</p>
+
+    <h2 id="zh-s6">6. 做出来的文件里带着什么</h2>
+    <ul>
+      <li>默认情况下，本应用会把<strong>源视频的拍摄时间、地点与机身参数</strong>写到新做的实况上，让它在相册里排在拍摄当天、显示在拍摄地点。</li>
+      <li>不想要，在设置里关掉<strong>「保留原拍摄时间与地点」</strong>即可。</li>
+      <li>源视频里本来没有的信息，本应用不会补、也不会猜。</li>
+      <li>这些信息只写进<strong>你自己相册里的文件</strong>，不会发给我们。</li>
+    </ul>
+    <div class="note">
+      <p>这些信息<strong>跟着文件一起走</strong>。把成品发给别人或上传到网上之前，如果不想带出拍摄地点，请先关掉「保留原拍摄时间与地点」再保存。发布后各平台是否保留这些信息，由平台决定。</p>
+    </div>
+
+    <h2 id="zh-s7">7. 免费版与 Vane Pro</h2>
+    <ul>
+      <li>本应用免费下载。免费版可以一张一张地做、改、存到任何目的地，无水印、无广告、不限次数。</li>
+      <li>Vane Pro 是一次性购买（非消耗型 App 内购买），<strong>不是订阅</strong>，不会自动续费，支持家人共享。价格以 App 内显示为准。</li>
+      <li>购买由 Apple 通过 App Store 完成，<strong>我们看不到你的 Apple 账户、支付方式或账单信息</strong>。</li>
+      <li>本应用在本机通过 Apple 的 StoreKit 读取购买记录，只用来判断「是否已购买 Vane Pro」。</li>
+      <li>购买记录属于你的 Apple 账户：重装或换一台设备，登录同一账户后在「设置 › Vane Pro」里点「恢复购买」即可找回。</li>
+      <li>退款、家长批准等事项由 Apple 按其规则处理。</li>
+    </ul>
+
+    <h2 id="zh-s8">8. 诊断与崩溃数据</h2>
+    <p>本应用<strong>不内置任何崩溃统计或性能分析 SDK</strong>，也不会自行回传运行日志。</p>
+    <p>如果你在「设置 › 隐私与安全性 › 分析与改进」中开启了「与 App 开发者共享」，Apple 可能会向开发者提供<strong>聚合且不含身份标识</strong>的崩溃报告与性能指标。这项数据由 Apple 收集与去标识化，不包含你的视频、实况或作品，你可以随时在设置里关闭。</p>
+
+    <h2 id="zh-s9">9. 第三方：我们不做的事</h2>
+    <p>为免歧义，逐条列明：</p>
+    <ul>
+      <li>我们<strong>不出售</strong>你的个人信息（包括美国各州法律意义上的「出售」与「共享」）；</li>
+      <li>我们<strong>不为定向广告</strong>使用或披露你的信息，本应用不含任何广告 SDK；</li>
+      <li>我们<strong>不接入</strong>任何统计、埋点、A/B 测试、崩溃分析、归因或用户画像服务；</li>
+      <li>本应用<strong>不含任何第三方 SDK</strong>，仅使用 Apple 提供的系统框架；</li>
+      <li>我们<strong>不使用</strong>你的视频、实况或作品训练任何模型，也不做任何自动化决策；</li>
+      <li>我们不接收你的任何信息，因此<strong>不存在由我们发起的跨境传输</strong>。</li>
+    </ul>
+    <p>唯一涉及的第三方是 <strong>Apple</strong>：App 内购买与交易记录由 App Store 处理，超分模型由 Apple 提供下载（第 5 条）。请参阅 <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple 隐私政策</a>。</p>
+
+    <h2 id="zh-s10">10. 数据保留与删除</h2>
+    <p>我们不持有你的数据，因此不存在由我们进行的「保留期」。数据的存续完全由你控制：</p>
+    <ul>
+      <li><strong>作品（草稿）</strong>：在本应用里删除即可；删除本应用时，全部作品连同其中的原片副本一并删除。</li>
+      <li><strong>临时文件</strong>：本应用每次启动时自动清理残留的部分。</li>
+      <li><strong>设置与偏好</strong>：删除本应用即清除。</li>
+      <li><strong>存进系统相册的文件</strong>：由「照片」App 管理，删除本应用不会带走它们，请在「照片」里删除；在原图上做的编辑可以在「照片」里还原。</li>
+      <li><strong>购买记录</strong>：属于你的 Apple 账户，由 Apple 管理。</li>
+    </ul>
+    <p>你无需联系我们即可完成上述全部操作，我们也没有任何副本可供删除。</p>
+
+    <h2 id="zh-s11">11. 你的权利</h2>
+    <p>在适用的法律（包括中华人民共和国《个人信息保护法》、欧盟 GDPR、加州 CCPA/CPRA 等）下，你对自己的个人信息享有知情、查阅、复制、更正、补充、删除、转移以及撤回同意等权利。</p>
+    <p>在本应用中，<strong>行使这些权利不需要联系我们，也不需要等待我们审批</strong>——因为数据一直在你手里：</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>权利</th><th>怎么行使</th></tr></thead>
+      <tbody>
+        <tr><td>查阅 / 复制</td><td>成品就在你的系统相册里，是标准的实况、视频或图片文件</td></tr>
+        <tr><td>可携带</td><td>实况、视频、GIF 与安卓动态照片都是通用格式，可以随意拷出</td></tr>
+        <tr><td>更正 / 补充</td><td>直接在本应用里重新编辑作品</td></tr>
+        <tr><td>删除</td><td>见上文第 10 条</td></tr>
+        <tr><td>撤回同意</td><td>在「设置 › 隐私与安全性 › 照片」里更改本应用的相册权限；在本应用设置里关掉「保留原拍摄时间与地点」</td></tr>
+        <tr><td>拒绝自动化决策</td><td>本应用不做任何自动化决策或用户画像；封面推荐与裁切建议只是建议，由你决定用不用</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>如果你认为你的权利未能得到落实，或对本政策有任何疑问，可以通过第 15 条的方式联系我们。我们会在收到后 30 日内答复。你也有权向所在地的个人信息保护监管机构投诉。</p>
+
+    <h2 id="zh-s12">12. 未成年人</h2>
+    <p>本应用不面向 13 岁以下的儿童，也不会有意收集儿童的个人信息——本应用本来就不向我们回传任何信息，我们也不掌握任何用户的年龄信息。若你未满 14 周岁，请在监护人的同意与指导下使用本应用；家长可以通过 Apple 的「屏幕使用时间」与「购买前询问」管理 App 内购买。</p>
+
+    <h2 id="zh-s13">13. 数据安全</h2>
+    <ul>
+      <li>本应用运行在 iOS 应用沙盒中，只能访问自己的容器和你授权的照片。</li>
+      <li>本应用没有自定义网络代码，你的视频、实况与作品不存在经由本应用被传出的通道。</li>
+      <li>我们不持有你的数据，因此也不存在「我们被拖库」这类风险。</li>
+      <li><strong>做出来的实况默认带着原片的拍摄时间与地点</strong>（见第 6 条），分享前请留意。</li>
+    </ul>
+    <p>与此同时请注意：<strong>这台设备本身的安全是这一切的前提。</strong>请设置锁屏密码、开启 Face ID 或 Touch ID、及时更新系统。没有任何技术措施能保证绝对安全。</p>
+
+    <h2 id="zh-s14">14. 政策变更</h2>
+    <p>如果本应用的数据处理方式发生变化，我们会更新本页面并修改顶部的「最后更新」日期。涉及重大变更时，我们会在应用内以显著方式提示，并在需要时重新征求你的同意。本页面的历史版本可在本站的公开代码仓库中查阅。</p>
+
+    <h2 id="zh-s15">15. 联系我们</h2>
+    <p>关于本政策或你的数据的任何问题，请发送邮件至：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>请在邮件中说明你使用的应用版本与 iOS 版本，这有助于我们更快答复。</p>
+
+    <hr>
+    <p class="doc-meta">本页的<a href="?lang=en">英文版</a>。相关文档：<a href="../support/">支持</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">用户协议（Apple 标准 EULA）</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Privacy Policy</h1>
+    <p class="doc-meta"><span>For the Vane app for iPhone and iPad</span><span>Effective: 27 September 2026</span><span>Last updated: 27 September 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">The short version</p>
+      <ul>
+        <li><strong>We have no servers.</strong> Your videos, Live Photos, and projects are never uploaded — there is nowhere to upload them to. Everything is processed on your device.</li>
+        <li><strong>No accounts, no ads, no analytics, no tracking, no third-party SDKs.</strong> The app uses only Apple's system frameworks and makes no network requests of its own.</li>
+        <li><strong>Photo access is asked for only as far as you go.</strong> Picking videos uses the system photo picker and needs no permission; saving needs only "Add Photos Only"; full library access is requested only when you reach "edit the original" or "browse Live Photos."</li>
+        <li><strong>Original details stay in your own library.</strong> By default the source video's capture date, place, and camera details are written into the new Live Photo. You can turn that off in Settings, and none of it is ever sent to us.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#en-s1">1. Who provides this app</a></li>
+        <li><a href="#en-s2">2. What data the app handles</a></li>
+        <li><a href="#en-s3">3. Where the data lives</a></li>
+        <li><a href="#en-s4">4. What each photo permission is for</a></li>
+        <li><a href="#en-s5">5. Network access: Apple system services only</a></li>
+        <li><a href="#en-s6">6. What your files carry</a></li>
+        <li><a href="#en-s7">7. Free version and Vane Pro</a></li>
+        <li><a href="#en-s8">8. Diagnostics and crash data</a></li>
+        <li><a href="#en-s9">9. Third parties: what we don't do</a></li>
+        <li><a href="#en-s10">10. Retention and deletion</a></li>
+        <li><a href="#en-s11">11. Your rights</a></li>
+        <li><a href="#en-s12">12. Children</a></li>
+        <li><a href="#en-s13">13. Security</a></li>
+        <li><a href="#en-s14">14. Changes to this policy</a></li>
+        <li><a href="#en-s15">15. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Who provides this app</h2>
+    <p>Vane (相风 in Chinese, "the app") is developed and published by gwongsam ("we"), an individual developer, and runs on iPhone and iPad. It turns videos into Live Photos, re-edits existing Live Photos, and makes the result in a format that plays on the platform you're posting to.</p>
+    <p>This policy explains how the app handles your information. The premise running through all of it: <strong>we operate no backend servers</strong>, so your videos, Live Photos, and projects never reach us. What follows describes how data moves on <strong>your own device</strong>.</p>
+
+    <h2 id="en-s2">2. What data the app handles</h2>
+    <p>The following is created or read while you use the app. All of it stays on your device:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Category</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Videos and Live Photos you select</td><td>Picture, sound, and metadata read in order to preview, edit, check, and export — including the source video's own capture date, place, and camera details, if it has them</td></tr>
+        <tr><td>Music</td><td>Audio you choose for a project, from music in Files or the sound of another video</td></tr>
+        <tr><td>Projects (drafts)</td><td>Your edit recipe (trim, cover, crop, color, frame, text, speed, sound, and so on) plus a copy of the original, so you can keep editing later</td></tr>
+        <tr><td>On-device analysis</td><td>Results computed on the device, such as cover suggestions and saliency-based cropping. Used only to make suggestions; they never leave the device</td></tr>
+        <tr><td>Settings and preferences</td><td>"Where you post," the "Keep original date &amp; place" switch, the Experiments switch, and other interface preferences</td></tr>
+        <tr><td>Purchase state</td><td>Whether you own Vane Pro — reported to the app on the device by Apple's StoreKit (see section 7)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>The app <strong>does not request or collect</strong>: names, government ID numbers, phone numbers, email addresses, payment details, contacts, calendars, location (beyond place information already inside your source videos), advertising identifiers, or device fingerprints. It does not ask for camera, microphone, or location permission. The app has <strong>no account system</strong>; there is nothing to register or sign in to.</p>
+
+    <h2 id="en-s3">3. Where the data lives</h2>
+    <p>All on your own device, in three places:</p>
+    <ul>
+      <li><strong>The app's sandbox container.</strong> Projects are stored here as a recipe plus a copy of the original. Temporary files created during processing are cleaned up each time the app launches if any are left behind.</li>
+      <li><strong>Local preferences.</strong> Settings and preferences are kept in the system's UserDefaults, on this device only.</li>
+      <li><strong>The system photo library.</strong> Live Photos, videos, and GIFs you save are written to the Photos app. From then on those files are managed by Photos and follow your iCloud Photos settings.</li>
+    </ul>
+    <p>The app itself does no cloud sync and writes to no server. Whether files saved to the system library sync to iCloud is decided by your iCloud Photos setting, independently of this app.</p>
+    <p><strong>The Share extension and the Photos editing extension</strong> (which let you use the app from other apps or from Photos), and the "Make Live Photo" shortcut, likewise process everything on the device and save results to your library.</p>
+
+    <h2 id="en-s4">4. What each photo permission is for</h2>
+    <p>The app only works with your photo library, and asks for each level of access only when you reach the step that needs it:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>When</th><th>Permission needed</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Picking a video or Live Photo to work on</td><td>None</td><td>Uses the system photo picker: only the items you select are handed to the app, and it cannot see the rest of your library</td></tr>
+        <tr><td>Saving results</td><td>Add Photos Only</td><td>Can write to your library but cannot read it</td></tr>
+        <tr><td>Editing the original (revertible) and browsing your Live Photos</td><td>Full library access</td><td>Requested only when you tap into these steps; edits made to an original can be reverted in Photos at any time</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Without full library access, everything except the last row works exactly the same. These permissions can be changed at any time in Settings › Privacy &amp; Security › Photos.</p>
+
+    <h2 id="en-s5">5. Network access: Apple system services only</h2>
+    <p>The app contains no custom networking code and we run no servers. Your videos, Live Photos, and projects are <strong>never sent anywhere by the app</strong>. Network traffic happens only in these cases, each issued by Apple's system frameworks:</p>
+    <ul>
+      <li><strong>Purchases.</strong> In-app purchases, price display, and transaction records are handled by Apple's StoreKit and the App Store (see section 7).</li>
+      <li><strong>Upscaling model (only if you download it).</strong> If you tap to download the upscaling model under Settings › Experiments, the system downloads that model file from Apple. It is a download only — none of your content is uploaded — and it never happens unless you tap it.</li>
+    </ul>
+    <p>Source links on the platform rules page open in the system browser, not inside the app. Beyond this, the app uploads no content, checks for no updates, sends back no logs, and connects to no advertising, analytics, or attribution network.</p>
+    <p><strong>Posting to other platforms is something you do.</strong> The app only saves results to your library or hands them, through the system share sheet, to the app you choose. When you then post in WhatsApp, WeChat, Instagram, or elsewhere, that platform's own privacy policy applies.</p>
+
+    <h2 id="en-s6">6. What your files carry</h2>
+    <ul>
+      <li>By default the app writes the <strong>source video's capture date, place, and camera details</strong> into the new Live Photo, so it sorts to the day it was filmed and shows where it was taken.</li>
+      <li>If you'd rather not, turn off <strong>"Keep original date &amp; place"</strong> in Settings.</li>
+      <li>The app never fills in or guesses information the source video doesn't have.</li>
+      <li>These details are written only into <strong>files in your own library</strong>, and are never sent to us.</li>
+    </ul>
+    <div class="note">
+      <p>This information <strong>travels with the file</strong>. Before sending a result to someone or posting it online, turn off "Keep original date &amp; place" before saving if you'd rather not reveal where it was filmed. Whether a platform keeps these details after you post is up to that platform.</p>
+    </div>
+
+    <h2 id="en-s7">7. Free version and Vane Pro</h2>
+    <ul>
+      <li>The app is free to download. The free version makes, edits, and saves one at a time, to any destination — no watermark, no ads, no limits.</li>
+      <li>Vane Pro is a one-time purchase (a non-consumable in-app purchase), <strong>not a subscription</strong>. It never renews and supports Family Sharing. See the app for the price.</li>
+      <li>Purchases are handled by Apple through the App Store, and <strong>we never see your Apple Account, payment method, or billing details</strong>.</li>
+      <li>The app reads purchase records locally through Apple's StoreKit, solely to determine whether you own Vane Pro.</li>
+      <li>Purchases belong to your Apple Account: after reinstalling or moving to another device, sign in with the same account and tap Restore Purchase under Settings › Vane Pro.</li>
+      <li>Refunds, parental approval, and similar matters are handled by Apple under their rules.</li>
+    </ul>
+
+    <h2 id="en-s8">8. Diagnostics and crash data</h2>
+    <p>The app includes <strong>no crash-reporting or performance-analytics SDK</strong> and sends back no logs of its own.</p>
+    <p>If you have enabled "Share with App Developers" under Settings › Privacy &amp; Security › Analytics &amp; Improvements, Apple may provide developers with <strong>aggregated, non-identifying</strong> crash reports and performance metrics. That data is collected and de-identified by Apple, contains none of your videos, Live Photos, or projects, and can be turned off at any time in Settings.</p>
+
+    <h2 id="en-s9">9. Third parties: what we don't do</h2>
+    <p>Stated item by item, to leave no ambiguity:</p>
+    <ul>
+      <li>We <strong>do not sell</strong> your personal information (including "sale" and "sharing" as defined by US state laws);</li>
+      <li>We <strong>do not use or disclose</strong> your information for targeted advertising, and the app contains no advertising SDK;</li>
+      <li>We <strong>integrate no</strong> analytics, event-tracking, A/B testing, crash-analytics, attribution, or profiling service;</li>
+      <li>The app contains <strong>no third-party SDKs</strong> and uses only Apple's system frameworks;</li>
+      <li>We <strong>do not use</strong> your videos, Live Photos, or projects to train any model, and make no automated decisions;</li>
+      <li>We receive no information from you, so <strong>there is no cross-border transfer initiated by us</strong>.</li>
+    </ul>
+    <p>The only third party involved is <strong>Apple</strong>: in-app purchases and transaction records are handled by the App Store, and the upscaling model is downloaded from Apple (section 5). See the <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple Privacy Policy</a>.</p>
+
+    <h2 id="en-s10">10. Retention and deletion</h2>
+    <p>We hold none of your data, so there is no retention period on our side. How long anything lives is entirely up to you:</p>
+    <ul>
+      <li><strong>Projects (drafts)</strong>: delete them in the app. Deleting the app removes every project along with its copy of the original.</li>
+      <li><strong>Temporary files</strong>: cleaned up automatically each time the app launches.</li>
+      <li><strong>Settings and preferences</strong>: removed when you delete the app.</li>
+      <li><strong>Files saved to the system library</strong>: managed by Photos and not removed when you delete the app — delete them in Photos. Edits made to an original can be reverted in Photos.</li>
+      <li><strong>Purchase records</strong>: they belong to your Apple Account and are managed by Apple.</li>
+    </ul>
+    <p>You can do all of the above without contacting us, and we have no copy to delete.</p>
+
+    <h2 id="en-s11">11. Your rights</h2>
+    <p>Under applicable law — including China's PIPL, the EU GDPR, and California's CCPA/CPRA — you have rights to be informed about, access, copy, correct, supplement, delete, and port your personal information, and to withdraw consent.</p>
+    <p>In this app, <strong>exercising those rights requires neither contacting us nor waiting for our approval</strong>, because the data has been in your hands all along:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Right</th><th>How to exercise it</th></tr></thead>
+      <tbody>
+        <tr><td>Access / copy</td><td>Results are in your system photo library as standard Live Photo, video, or image files</td></tr>
+        <tr><td>Portability</td><td>Live Photos, videos, GIFs, and Android Motion Photos are all common formats you can copy out freely</td></tr>
+        <tr><td>Correction</td><td>Re-edit the project directly in the app</td></tr>
+        <tr><td>Deletion</td><td>See section 10 above</td></tr>
+        <tr><td>Withdraw consent</td><td>Change the app's photo access in Settings › Privacy &amp; Security › Photos; turn off "Keep original date &amp; place" in the app's settings</td></tr>
+        <tr><td>Object to automated decisions</td><td>The app makes no automated decisions and builds no profiles; cover and crop suggestions are only suggestions, and you decide whether to use them</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>If you believe your rights have not been honoured, or have any question about this policy, contact us as described in section 15. We answer within 30 days of receipt. You also have the right to complain to your local data protection authority.</p>
+
+    <h2 id="en-s12">12. Children</h2>
+    <p>The app is not directed at children under 13 and does not knowingly collect children's personal information — it sends us nothing at all, and we hold no age information about any user. If you are under 14, please use the app with the consent and guidance of a guardian; parents can manage in-app purchases through Apple's Screen Time and Ask to Buy.</p>
+
+    <h2 id="en-s13">13. Security</h2>
+    <ul>
+      <li>The app runs in the iOS application sandbox and can reach only its own container and the photos you have authorised.</li>
+      <li>The app has no custom networking code, so there is no channel through which your videos, Live Photos, or projects could be sent out by it.</li>
+      <li>We hold none of your data, so there is no "our database was breached" risk to speak of.</li>
+      <li><strong>Live Photos you make carry the original's capture date and place by default</strong> (see section 6) — keep that in mind before sharing.</li>
+    </ul>
+    <p>At the same time, please note: <strong>the security of the device itself underpins all of this.</strong> Set a passcode, enable Face ID or Touch ID, and keep the system updated. No technical measure can guarantee absolute security.</p>
+
+    <h2 id="en-s14">14. Changes to this policy</h2>
+    <p>If the way the app handles data changes, we will update this page and the "Last updated" date at the top. For material changes we will say so prominently inside the app and, where required, ask for your consent again. Earlier versions of this page can be read in this site's public code repository.</p>
+
+    <h2 id="en-s15">15. Contact</h2>
+    <p>For any question about this policy or your data, email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>Mentioning the app version and your iOS version helps us answer faster.</p>
+
+    <hr>
+    <p class="doc-meta">The <a href="?lang=zh">Chinese version</a> of this page. Related: <a href="../support/">Support</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">Terms of Use (Apple standard EULA)</a>.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>Vane · 相风</span>
+  <span class="footer-spacer"></span>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="./"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vane 相风 · 做出来就能用的实况，发到哪儿都会动</title>
+<meta name="description" content="相风（Vane）把视频做成实况（Live Photo），也能重新编辑已有的实况：先选要发到哪，按那里的规则做；那里不播实况，就换成它认的视频、GIF 或安卓动态照片，并说清为什么。全部在 iPhone / iPad 上完成。Vane makes Live Photos that play wherever you post — pick the destination first, and it follows that platform's rules.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
+    Vane <span class="brand-sub">相风</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-mark" src="logo.svg" alt="" width="62" height="62">
+    <h1>Vane <span class="hero-alt">相风</span></h1>
+    <p data-lang="zh"><strong>做出来就能用的实况，发到哪儿都会动。</strong><br>先选要发到哪，按那里的规则做；那里不播实况，就换成它认的格式，并告诉你为什么。</p>
+    <p data-lang="en"><strong>Live Photos that play wherever you post.</strong><br>Pick where it's going first, and Vane follows that platform's rules. If a platform doesn't play Live Photos, you get the format it does accept — and the reason why.</p>
+    <p class="hero-badge"><span data-lang="zh">即将上架 App Store · iPhone 与 iPad · 需要 iOS 26</span><span data-lang="en">Coming to the App Store · iPhone and iPad · Requires iOS 26</span></p>
+  </div>
+
+  <section>
+    <h2 data-lang="zh">它是什么</h2>
+    <h2 data-lang="en">What it is</h2>
+    <div class="card-grid">
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">目的地优先</div>
+        <div class="card-title" data-lang="en">Destination first</div>
+        <div class="card-desc" data-lang="zh">把一段视频做成实况，或者重新编辑一张已有的实况。动手之前先选要发到哪——长度、画幅、封面都按那里的规则来；那里不播实况，就换成视频、GIF 或安卓动态照片，并把原因写清楚。</div>
+        <div class="card-desc" data-lang="en">Turn a video into a Live Photo, or re-edit one you already have. Choose the destination before anything else — length, framing, and cover follow that platform's rules. Where Live Photos don't play, you get a video, a GIF, or an Android Motion Photo instead, with the reason spelled out.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">一次做好，存到好几处</div>
+        <div class="card-title" data-lang="en">Make once, save for several</div>
+        <div class="card-desc" data-lang="zh">选段、封面、裁切、调色、相框、文字、速度、声音与配乐，一个编辑器里做完。一次保存可以同时出给好几个目的地，每一份各按各的规则。</div>
+        <div class="card-desc" data-lang="en">Trim, cover, crop, color, frames, text, speed, sound and music — all in one editor. A single save can produce versions for several destinations at once, each made to its own rules.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">体检：为什么不动</div>
+        <div class="card-title" data-lang="en">Check: why it won't move</div>
+        <div class="card-desc" data-lang="zh">一张实况发出去不动，体检会告诉你卡在哪，并能另存一份修好的。平台规则页列出每条规则的来源与核对日期，不凭感觉。</div>
+        <div class="card-desc" data-lang="en">When a Live Photo arrives as a still, Check tells you where it went wrong and can save a repaired copy. The platform rules page lists a source and a verification date for every rule.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">能发到哪</h2>
+    <h2 data-lang="en">Where it can go</h2>
+    <p data-lang="zh">照片、WhatsApp、Telegram、Instagram Reels 与快拍、TikTok、YouTube Shorts、Snapchat、Pinterest、X、安卓动态照片、微信朋友圈、微信聊天、小红书、微博、抖音。</p>
+    <p data-lang="en">Photos, WhatsApp, Telegram, Instagram Reels and Stories, TikTok, YouTube Shorts, Snapchat, Pinterest, X, Android Motion Photo, WeChat Moments, WeChat chats, Xiaohongshu, Weibo, and Douyin.</p>
+
+    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
+    <div class="table-wrap" data-lang="zh">
+      <table>
+        <thead><tr><th>工具</th><th>做什么</th></tr></thead>
+        <tbody>
+          <tr><td>编辑器</td><td>选段、封面（按原分辨率取帧）、裁切、调色（色调、胶片滤镜、调色盘）、相框（白边、参数条、胶片边、拍立得相纸等）、文字、速度、声音与配乐</td></tr>
+          <tr><td>体检</td><td>说清一张实况为什么发出去不动，并能另存一份修好的</td></tr>
+          <tr><td>拼图 · 串成视频 · 批量</td><td>几张实况拼成一张、串成一段视频，或一次处理一批</td></tr>
+          <tr><td>从别处直接做</td><td>分享扩展、照片编辑扩展，以及快捷指令「做成实况」</td></tr>
+          <tr><td>实验室</td><td>设置里默认关闭：锁屏版本、补帧、超分等尝试性的功能，不承诺结果</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="en">
+      <table>
+        <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Editor</td><td>Trim, cover (taken from the frame at full resolution), crop, color (looks, film filters, palette), frames (white border, info strip, film border, instant-film paper, and more), text, speed, sound and music</td></tr>
+          <tr><td>Check</td><td>Explains why a Live Photo won't play once posted, and can save a repaired copy</td></tr>
+          <tr><td>Collage · Sequence · Batch</td><td>Combine Live Photos into one, string them into a video, or process a whole batch</td></tr>
+          <tr><td>Start from elsewhere</td><td>A Share extension, a Photos editing extension, and the "Make Live Photo" shortcut</td></tr>
+          <tr><td>Experiments</td><td>Off by default in Settings: a Lock Screen version, frame interpolation, upscaling, and other trials — no promises about results</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="doc-meta" data-lang="zh">「相风」是风向标的古名——汉代的相风铜乌「遇风乃动」；「相」也是照相的相。界面语言：English、简体中文、繁體中文、日本語、한국어、Deutsch、Español、Português (Brasil)。需要 iOS 26 或更高版本。</p>
+    <p class="doc-meta" data-lang="en">The Chinese name, 相风, is an ancient word for a weather vane — the bronze crow of the Han dynasty that "moves when the wind comes." 相 is also the first character of "photograph." Available in English, Simplified Chinese, Traditional Chinese, Japanese, Korean, German, Spanish, and Portuguese (Brazil). Requires iOS 26 or later.</p>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">价格与隐私</h2>
+    <h2 data-lang="en">Pricing and privacy</h2>
+    <p data-lang="zh"><strong>免费版一张一张地做、改、存到任何目的地，无水印、无广告、不限次数。</strong>Vane Pro 是一次性购买，不是订阅，支持家人共享：解锁批量、拼图 / 串联 / 九宫格、全部相框与色调、配乐、安卓动态照片与一键修复（体检本身免费）。价格以 App 内显示为准。<strong>没有账号、没有服务器、没有统计、没有广告、没有追踪</strong>：所有处理都在你的设备上完成，你的视频与实况不会被上传。</p>
+    <p data-lang="en"><strong>The free version makes, edits, and saves one at a time, to any destination — no watermark, no ads, no limits.</strong> Vane Pro is a one-time purchase, not a subscription, and supports Family Sharing. It unlocks batch, collage / sequence / 9-grid, every frame and look, music, Android Motion Photo, and one-tap repair (Check itself stays free). See the app for the price. <strong>No accounts, no servers, no analytics, no ads, no tracking</strong>: everything is processed on your device, and your videos and Live Photos are never uploaded.</p>
+    <div class="card-grid">
+      <a class="card" href="support/">
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-desc" data-lang="zh">发出去为什么不动、安卓朋友看到的是静态图、实况存到哪、相册权限、恢复购买与家人共享。</div>
+        <div class="card-desc" data-lang="en">Why a post won't move, Android friends seeing a still, where Live Photos are saved, photo permissions, restoring purchases and Family Sharing.</div>
+      </a>
+      <a class="card" href="privacy/">
+        <div class="card-title"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></div>
+        <div class="card-desc" data-lang="zh">没有服务器、没有第三方代码；相册权限各用来做什么；做出来的实况里带着哪些原片信息。</div>
+        <div class="card-desc" data-lang="en">No servers, no third-party code; what each photo permission is for; and exactly what original details your Live Photos carry.</div>
+      </a>
+      <div class="card card-static">
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Vane · 相风</span>
+  <span class="footer-spacer"></span>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+
+</body>
+</html>
