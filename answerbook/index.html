@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>问页 Ask a Page · 一本会回答你的小书</title>
+<meta name="description" content="问页（Ask a Page）是一本会回答你的小书：心里想着一个问题，用手指把书翻开，纸上印着一句短短的话。留下这一页，写下自己的回答，过些天再回来看。全部在 iPhone 上，没有账号、没有服务器、没有追踪。Ask a Page is a small book that answers you — hold a question in mind, push the cover open, and read one short line on paper.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
+    问页 <span class="brand-sub">Ask a Page</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-mark" src="logo.svg" alt="" width="62" height="62">
+    <h1>问页 <span class="hero-alt">Ask a Page</span></h1>
+    <p data-lang="zh"><strong>一本会回答你的小书。</strong><br>心里想着一件事，用手指把书翻开，纸上印着一句短短的话。它不替你做决定，只是让你停一下，听听自己的答案。</p>
+    <p data-lang="en"><strong>A small book that answers you.</strong><br>Hold something in mind, push the cover open with your finger, and read one short line printed on paper. It doesn't decide for you — it gives you a pause, and a nudge toward your own answer.</p>
+    <p class="hero-badge"><span data-lang="zh">即将上架 App Store · iPhone · 需要 iOS 26</span><span data-lang="en">Coming to the App Store · iPhone · Requires iOS 26</span></p>
+  </div>
+
+  <section>
+    <h2 data-lang="zh">它是什么</h2>
+    <h2 data-lang="en">What it is</h2>
+    <div class="card-grid">
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">翻开一页</div>
+        <div class="card-title" data-lang="en">Open a page</div>
+        <div class="card-desc" data-lang="zh">想选的话，先挑一章：全书、感情、工作、学业、自己。把问题写下来或按住话筒说出来，不写也行，想着就好。然后从右往左推开书衣，翻到的那一页上印着一句话。</div>
+        <div class="card-desc" data-lang="en">Pick a chapter if you like — All, Love, Work, Study, or Self. Write your question, say it, or simply keep it in mind. Then push the cover open from right to left, and the page you land on holds a single line.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">留下这一页</div>
+        <div class="card-title" data-lang="en">Keep the page</div>
+        <div class="card-desc" data-lang="zh">遇到想留下的那句，夹一枚书签，随手记下当时的感受，或者你自己的回答。过些天再翻回来，屋里的光会回到那一天。</div>
+        <div class="card-desc" data-lang="en">When a line is worth keeping, slip in a bookmark and jot down how you felt, or your own answer. Come back to it days later, and the room returns to that day's light.</div>
+      </div>
+      <div class="card card-static">
+        <div class="card-title" data-lang="zh">屋里的光</div>
+        <div class="card-title" data-lang="en">The light in the room</div>
+        <div class="card-desc" data-lang="zh">光跟着时辰走：晨、昼、暮、夜。有些日子起风，有些日子下雨、打雷或下雪——天气在本机按日子生成，不联网。七套书衣与纸，和一张写着你名字的藏书票，都在书里。</div>
+        <div class="card-desc" data-lang="en">The light follows the time of day: dawn, day, dusk, night. Some days are windy; some bring rain, a storm, or snow — the weather is made on the device from the date, with no connection needed. Seven jackets and papers, and a bookplate with your name, all come with the book.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">这本书的答案</h2>
+    <h2 data-lang="en">About the answers</h2>
+    <p data-lang="zh">书里的每一句都是为这本书写的原创短句。它不知道未来，也不假装知道；翻开的那一刻，更像是给自己留出一个停顿。真正的答案，多半你心里已经有了。</p>
+    <p data-lang="en">Every line in the book was written for it. It doesn't know the future and doesn't pretend to; the moment you open it is more of a pause you give yourself. The real answer is usually one you already carry.</p>
+    <p data-lang="zh">如果问题里提到伤害自己，书不会翻开一页，而是给出所在地区的心理援助热线。这本书不评估情绪，也不提供心理、医疗、法律或理财方面的建议。</p>
+    <p data-lang="en">If a question mentions hurting yourself, the book doesn't open a page; it shows helpline numbers for your region instead. The book doesn't assess emotions, and it doesn't give psychological, medical, legal, or financial advice.</p>
+
+    <p class="doc-meta" data-lang="zh">界面语言：English、简体中文（问页）、繁體中文（問頁）、日本語（問いの頁）、한국어（묻는 페이지）。仅限 iPhone，需要 iOS 26 或更高版本。</p>
+    <p class="doc-meta" data-lang="en">Available in English, Simplified Chinese (问页), Traditional Chinese (問頁), Japanese (問いの頁), and Korean (묻는 페이지). iPhone only; requires iOS 26 or later.</p>
+  </section>
+
+  <section>
+    <h2 data-lang="zh">价格与隐私</h2>
+    <h2 data-lang="en">Pricing and privacy</h2>
+    <p data-lang="zh"><strong>付费下载，一次买下就是全部。</strong>没有 App 内购买，没有订阅，没有广告；七套书衣与藏书票都随 App 一起。<strong>没有账号、没有服务器、没有追踪</strong>：你的问题、留下的页和笔记只存在这台 iPhone 上，App 自己不联网。按住话筒说的话在本机转成文字，录音不保存、不上传。</p>
+    <p data-lang="en"><strong>A paid download — buy it once and it's all yours.</strong> No in-app purchases, no subscription, no ads; all seven jackets and the bookplate are included. <strong>No accounts, no servers, no tracking</strong>: your questions, kept pages, and notes stay on this iPhone, and the app makes no network requests of its own. What you say while holding the mic is turned into text on the device; the audio is never saved or uploaded.</p>
+    <div class="card-grid">
+      <a class="card" href="support/">
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-desc" data-lang="zh">怎么翻开书、固定时辰与关掉天气、备份与换手机、话筒没反应、语言与购买。</div>
+        <div class="card-desc" data-lang="en">Opening the book, fixing the time of day and turning off weather, backups and new phones, the mic, languages, and purchases.</div>
+      </a>
+      <a class="card" href="privacy/">
+        <div class="card-title"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></div>
+        <div class="card-desc" data-lang="zh">没有服务器、没有第三方代码；麦克风只在按住时打开；备份文件与分享卡片里有什么。</div>
+        <div class="card-desc" data-lang="en">No servers, no third-party code; the mic is on only while you hold it; and what your backup file and share card contain.</div>
+      </a>
+      <div class="card card-static">
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-desc"><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a><br>
+          <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>问页 · Ask a Page</span>
+  <span class="footer-spacer"></span>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -145,6 +145,15 @@ body {
   border-radius: 999px;
 }
 
+/* 站点首页的 App 导航会越来越长：窄屏上放不下时在药丸里横向滑动，
+   而不是把整页撑出一条横向滚动。只有两三项的文档页不受影响。 */
+.doc-nav {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.doc-nav::-webkit-scrollbar { display: none; }
+
 .doc-nav a {
   padding: .3rem .8rem;
   border-radius: 999px;

@@ -1,0 +1,442 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐私政策 Privacy Policy · 问页 Ask a Page</title>
+<meta name="description" content="问页（Ask a Page）iOS 应用的隐私政策：没有账号、没有服务器、没有第三方 SDK，你的问题、留下的页与笔记只存在你的 iPhone 上；麦克风只在按住时打开，语音在本机转成文字、不保存不上传。Privacy Policy for Ask a Page, a small book that answers you, for iPhone.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    问页 <span class="brand-sub">Ask a Page</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">隐私政策</h1>
+    <p class="doc-meta"><span>适用于问页（英文名 Ask a Page）iPhone 应用</span><span>生效日期：2026 年 9 月 27 日</span><span>最后更新：2026 年 9 月 27 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">一句话摘要</p>
+      <ul>
+        <li><strong>我们没有服务器。</strong>你的问题、留下的页和笔记只存在这台 iPhone 上，没有任何地方可以上传到我们这里。</li>
+        <li><strong>没有账号、没有广告、没有追踪、没有任何第三方 SDK。</strong>本应用只用 Apple 提供的系统框架，自身不发起任何网络请求。</li>
+        <li><strong>麦克风只在你按住话筒时打开。</strong>说的话由 Apple 的 SpeechAnalyzer 在本机转成文字，录音不保存、不上传。</li>
+        <li><strong>东西离开这台手机，只有你主动这么做的时候</strong>：导出备份、分享一页卡片，或导出使用摘要，每一次都由你选去处。</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 谁在提供这款应用</a></li>
+        <li><a href="#zh-s2">2. 应用处理哪些数据</a></li>
+        <li><a href="#zh-s3">3. 数据存放在哪里</a></li>
+        <li><a href="#zh-s4">4. 麦克风与语音转文字</a></li>
+        <li><a href="#zh-s5">5. 联网</a></li>
+        <li><a href="#zh-s6">6. 由你带出手机的东西</a></li>
+        <li><a href="#zh-s7">7. 本机使用计数</a></li>
+        <li><a href="#zh-s8">8. 提到伤害自己时</a></li>
+        <li><a href="#zh-s9">9. 购买</a></li>
+        <li><a href="#zh-s10">10. 诊断与崩溃数据</a></li>
+        <li><a href="#zh-s11">11. 第三方：我们不做的事</a></li>
+        <li><a href="#zh-s12">12. 数据保留与删除</a></li>
+        <li><a href="#zh-s13">13. 你的权利</a></li>
+        <li><a href="#zh-s14">14. 未成年人</a></li>
+        <li><a href="#zh-s15">15. 数据安全</a></li>
+        <li><a href="#zh-s16">16. 政策变更</a></li>
+        <li><a href="#zh-s17">17. 联系我们</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 谁在提供这款应用</h2>
+    <p>问页（英文名 Ask a Page，下称「本应用」）由个人开发者 gwongsam（下称「我们」）开发与发行，运行于 iPhone。它是一本会回答你的小书：你可以写下或说出一个问题，把书翻开，读到纸上的一句话；愿意的话，留下这一页，记下自己的回答。</p>
+    <p>本政策说明本应用如何处理你的信息。贯穿全文的前提是：<strong>我们没有后端服务器</strong>，你写下的任何东西都不会到达我们手中。下文描述的，实际是数据如何在<strong>你自己的设备</strong>上流动。</p>
+
+    <h2 id="zh-s2">2. 应用处理哪些数据</h2>
+    <p>以下数据在你使用过程中产生，全部保留在你的设备上：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>类别</th><th>具体内容</th></tr></thead>
+      <tbody>
+        <tr><td>你的问题</td><td>你写下的问题，或按住话筒说出、在本机转成的文字。不写也可以</td></tr>
+        <tr><td>留下的页</td><td>你选择留下的那一页、翻开的日子，以及你随手记下的感受或自己的回答</td></tr>
+        <tr><td>藏书票</td><td>你写在藏书票上的名字</td></tr>
+        <tr><td>设置与偏好</td><td>书衣与纸、跟随时辰、显示天气、轻点即可翻开、触感等界面偏好</td></tr>
+        <tr><td>本机使用计数</td><td>一些只有数字的计数，例如翻开过几次（见第 7 条）</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>本应用<strong>不索取、不收集</strong>：身份证件号码、手机号码、电子邮件、支付信息、通讯录、照片、日历、位置、广告标识符、设备指纹。天气是按日子在本机生成的，不读取你的位置。本应用<strong>没有账号体系</strong>，无需注册或登录。</p>
+
+    <h2 id="zh-s3">3. 数据存放在哪里</h2>
+    <ul>
+      <li><strong>本应用的沙盒容器。</strong>留下的页、笔记与藏书票用 Apple 的 SwiftData 存在这里，只在这台 iPhone 上。</li>
+      <li><strong>本机偏好设置。</strong>设置与偏好存在系统的 UserDefaults 里。</li>
+    </ul>
+    <p>本应用自身<strong>不做任何云同步</strong>，也不向任何服务器写入数据。如果你开启了整台 iPhone 的 iCloud 云备份或用电脑备份，系统的备份可能包含本应用的数据；这由你的系统设置决定，与本应用无关。</p>
+
+    <h2 id="zh-s4">4. 麦克风与语音转文字</h2>
+    <p>本应用只申请<strong>麦克风</strong>这一项权限，用于「按住话筒说」：</p>
+    <ul>
+      <li>只在你<strong>按住话筒</strong>的时候收音，松开就停。</li>
+      <li>说的话由 Apple 的 <strong>SpeechAnalyzer 在本机</strong>转成文字，放进问题框里，和你打的字一样对待。</li>
+      <li>录音<strong>不保存、不上传</strong>，不发给我们，也不发给任何其他人。</li>
+      <li>不打开麦克风权限也没关系，键盘上的话筒一样能用。权限可以随时在 iOS「设置 › 问页」或「设置 › 隐私与安全性 › 麦克风」里关掉。</li>
+    </ul>
+
+    <h2 id="zh-s5">5. 联网</h2>
+    <p>本应用不含任何自定义的网络代码，也没有我们的服务器。你的问题、页和笔记<strong>不会被本应用发送到任何地方</strong>。只有以下情形会产生网络流量，都由 Apple 的系统发起：</p>
+    <ul>
+      <li><strong>下载与更新本应用</strong>，由 App Store 完成。</li>
+      <li><strong>本机语音识别的准备（仅当你使用「按住话筒说」）。</strong>第一次使用时，系统可能需要从 Apple 下载本机识别所需的语言资源。这一步只是下载，不上传你说的话。</li>
+    </ul>
+    <p>求助页里的热线网站链接由系统浏览器打开，不经过本应用。除此之外，本应用不上传内容、不检查更新、不回传日志，也不接入任何广告、统计或归因网络。</p>
+
+    <h2 id="zh-s6">6. 由你带出手机的东西</h2>
+    <p>以下三种情形，数据会离开本应用，<strong>每一次都由你发起，去处由你在系统面板里选</strong>：</p>
+    <ul>
+      <li><strong>导出备份。</strong>在「设置」里点「导出备份」，本应用生成一份 JSON 备份文件，通过系统的存储面板存到你选的位置（例如「文件」或 iCloud 云盘）。它包含你留下的页与笔记，是可读的文本格式，请妥善保管。「导入备份」只读取你选中的那份文件。</li>
+      <li><strong>分享一页。</strong>点「分享这一页」会生成一张图片卡片，经系统分享面板交给你选的 App。卡片上是这一页的句子和一个很小的署名；有没有你的问题，预览里会写清楚；<strong>你写的回答和笔记不会出现在卡片上</strong>。藏书票上的名字只在你勾选时才带上。</li>
+      <li><strong>导出使用摘要。</strong>见第 7 条。</li>
+    </ul>
+    <p>发出之后，文件由你选的那个 App 或服务处理，适用的是它自己的隐私政策。</p>
+
+    <h2 id="zh-s7">7. 本机使用计数</h2>
+    <p>本应用会在本机记下一些<strong>只有数字</strong>的计数，例如翻开过几次、留下过几页，用来帮助我们理解这本书被怎么用。</p>
+    <ul>
+      <li>这些计数<strong>只存在这台 iPhone 上</strong>，不会自动发出。</li>
+      <li>只有你在「设置」里点<strong>「导出使用摘要」</strong>，并自己选择分享出去时，它才会离开设备。</li>
+      <li>摘要只有数字，<strong>不含任何文字</strong>——没有你的问题、页的内容或笔记。</li>
+    </ul>
+
+    <h2 id="zh-s8">8. 提到伤害自己时</h2>
+    <p>如果问题里提到伤害自己，本应用不会翻开一页，而是显示一页求助信息：按 iPhone 的地区设置给出当地的心理援助热线，或指向 findahelpline.com。</p>
+    <ul>
+      <li>这个判断<strong>完全在本机</strong>完成，不会通知任何人，也不会发给我们。</li>
+      <li>本应用不评估情绪，不建立任何心理画像，也不提供心理、医疗、法律或理财方面的建议。</li>
+    </ul>
+
+    <h2 id="zh-s9">9. 购买</h2>
+    <ul>
+      <li>本应用是<strong>付费下载</strong>，一次性购买；没有 App 内购买，没有订阅。</li>
+      <li>购买由 Apple 通过 App Store 完成，<strong>我们看不到你的 Apple 账户、支付方式或账单信息</strong>。</li>
+      <li>退款、家人共享、家长批准等事项由 Apple 按其规则处理。</li>
+    </ul>
+
+    <h2 id="zh-s10">10. 诊断与崩溃数据</h2>
+    <p>本应用<strong>不内置任何崩溃统计或性能分析 SDK</strong>，也不会自行回传运行日志。</p>
+    <p>如果你在「设置 › 隐私与安全性 › 分析与改进」中开启了「与 App 开发者共享」，Apple 可能会向开发者提供<strong>聚合且不含身份标识</strong>的崩溃报告与性能指标。这项数据由 Apple 收集与去标识化，不包含你的问题、页或笔记，你可以随时在设置里关闭。</p>
+
+    <h2 id="zh-s11">11. 第三方：我们不做的事</h2>
+    <p>为免歧义，逐条列明：</p>
+    <ul>
+      <li>我们<strong>不出售</strong>你的个人信息（包括美国各州法律意义上的「出售」与「共享」）；</li>
+      <li>我们<strong>不为定向广告</strong>使用或披露你的信息，本应用不含任何广告 SDK；</li>
+      <li>我们<strong>不接入</strong>任何统计、埋点、A/B 测试、崩溃分析、归因或用户画像服务；</li>
+      <li>本应用<strong>不含任何第三方 SDK</strong>，仅使用 Apple 提供的系统框架；</li>
+      <li>我们<strong>不使用</strong>你的问题、页或笔记训练任何模型，也不做任何自动化决策；</li>
+      <li>我们不接收你的任何信息，因此<strong>不存在由我们发起的跨境传输</strong>。</li>
+    </ul>
+    <p>唯一涉及的第三方是 <strong>Apple</strong>：本应用的下载与购买由 App Store 处理，本机语音识别所需的资源由 Apple 提供下载（第 5 条）。请参阅 <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple 隐私政策</a>。</p>
+
+    <h2 id="zh-s12">12. 数据保留与删除</h2>
+    <p>我们不持有你的数据，因此不存在由我们进行的「保留期」。数据的存续完全由你控制：</p>
+    <ul>
+      <li><strong>一页</strong>：打开那一页，点「删除这一页」。</li>
+      <li><strong>全部记录</strong>：「设置」里点「清空所有记录」，永久删除，无法恢复。</li>
+      <li><strong>全部数据与设置</strong>：删除本应用即一并删除。</li>
+      <li><strong>你导出的备份、分享出去的卡片、导出的使用摘要</strong>：在你存放或发送到的地方，由你自行删除。</li>
+    </ul>
+    <p>你无需联系我们即可完成上述全部操作，我们也没有任何副本可供删除。</p>
+
+    <h2 id="zh-s13">13. 你的权利</h2>
+    <p>在适用的法律（包括中华人民共和国《个人信息保护法》、欧盟 GDPR、加州 CCPA/CPRA 等）下，你对自己的个人信息享有知情、查阅、复制、更正、补充、删除、转移以及撤回同意等权利。</p>
+    <p>在本应用中，<strong>行使这些权利不需要联系我们，也不需要等待我们审批</strong>——因为数据一直在你手里：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>权利</th><th>怎么行使</th></tr></thead>
+      <tbody>
+        <tr><td>查阅 / 复制</td><td>留下的页与笔记都在本应用的书签里</td></tr>
+        <tr><td>可携带</td><td>「导出备份」得到一份通用的 JSON 文件</td></tr>
+        <tr><td>更正 / 补充</td><td>在本应用里处理你留下的页与笔记</td></tr>
+        <tr><td>删除</td><td>见上文第 12 条</td></tr>
+        <tr><td>撤回同意</td><td>在 iOS「设置 › 问页」里关掉麦克风权限</td></tr>
+        <tr><td>拒绝自动化决策</td><td>本应用不做任何自动化决策或用户画像</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>如果你认为你的权利未能得到落实，或对本政策有任何疑问，可以通过第 17 条的方式联系我们。我们会在收到后 30 日内答复。你也有权向所在地的个人信息保护监管机构投诉。</p>
+
+    <h2 id="zh-s14">14. 未成年人</h2>
+    <p>本应用不面向 13 岁以下的儿童，也不会有意收集儿童的个人信息——本应用本来就不向我们回传任何信息，我们也不掌握任何用户的年龄信息。若你未满 14 周岁，请在监护人的同意与指导下使用本应用；家长可以通过 Apple 的「屏幕使用时间」与「购买前询问」管理购买。</p>
+
+    <h2 id="zh-s15">15. 数据安全</h2>
+    <ul>
+      <li>本应用运行在 iOS 应用沙盒中，只能访问自己的容器。</li>
+      <li>本应用没有自定义网络代码，你的问题、页与笔记不存在经由本应用被传出的通道。</li>
+      <li>我们不持有你的数据，因此也不存在「我们被拖库」这类风险。</li>
+      <li><strong>导出的备份文件是可读的文本</strong>（见第 6 条），存放和发送时请留意。</li>
+    </ul>
+    <p>与此同时请注意：<strong>这台设备本身的安全是这一切的前提。</strong>请设置锁屏密码、开启 Face ID 或 Touch ID、及时更新系统。没有任何技术措施能保证绝对安全。</p>
+
+    <h2 id="zh-s16">16. 政策变更</h2>
+    <p>如果本应用的数据处理方式发生变化，我们会更新本页面并修改顶部的「最后更新」日期。涉及重大变更时，我们会在应用内以显著方式提示，并在需要时重新征求你的同意。本页面的历史版本可在本站的公开代码仓库中查阅。</p>
+
+    <h2 id="zh-s17">17. 联系我们</h2>
+    <p>关于本政策或你的数据的任何问题，请发送邮件至：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>请在邮件中说明你使用的应用版本与 iOS 版本，这有助于我们更快答复。不需要附上你写下的问题或笔记。</p>
+
+    <hr>
+    <p class="doc-meta">本页的<a href="?lang=en">英文版</a>。相关文档：<a href="../support/">支持</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">用户协议（Apple 标准 EULA）</a>。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Privacy Policy</h1>
+    <p class="doc-meta"><span>For the Ask a Page app for iPhone</span><span>Effective: 27 September 2026</span><span>Last updated: 27 September 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">The short version</p>
+      <ul>
+        <li><strong>We have no servers.</strong> Your questions, kept pages, and notes stay on this iPhone — there is nowhere to upload them to.</li>
+        <li><strong>No accounts, no ads, no tracking, no third-party SDKs.</strong> The app uses only Apple's system frameworks and makes no network requests of its own.</li>
+        <li><strong>The microphone is on only while you hold the mic button.</strong> Apple's SpeechAnalyzer turns what you say into text on the device; the audio is never saved or uploaded.</li>
+        <li><strong>Things leave this phone only when you send them</strong>: exporting a backup, sharing a page card, or exporting a usage summary — and you choose where each one goes.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#en-s1">1. Who provides this app</a></li>
+        <li><a href="#en-s2">2. What data the app handles</a></li>
+        <li><a href="#en-s3">3. Where the data lives</a></li>
+        <li><a href="#en-s4">4. Microphone and speech to text</a></li>
+        <li><a href="#en-s5">5. Network access</a></li>
+        <li><a href="#en-s6">6. What you take off the phone</a></li>
+        <li><a href="#en-s7">7. On-device usage counts</a></li>
+        <li><a href="#en-s8">8. When a question mentions self-harm</a></li>
+        <li><a href="#en-s9">9. Purchase</a></li>
+        <li><a href="#en-s10">10. Diagnostics and crash data</a></li>
+        <li><a href="#en-s11">11. Third parties: what we don't do</a></li>
+        <li><a href="#en-s12">12. Retention and deletion</a></li>
+        <li><a href="#en-s13">13. Your rights</a></li>
+        <li><a href="#en-s14">14. Children</a></li>
+        <li><a href="#en-s15">15. Security</a></li>
+        <li><a href="#en-s16">16. Changes to this policy</a></li>
+        <li><a href="#en-s17">17. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Who provides this app</h2>
+    <p>Ask a Page (问页 in Chinese, "the app") is developed and published by gwongsam ("we"), an individual developer, and runs on iPhone. It is a small book that answers you: write or say a question, open the book, and read one line on paper; if you like, keep the page and note down your own answer.</p>
+    <p>This policy explains how the app handles your information. The premise running through all of it: <strong>we operate no backend servers</strong>, so nothing you write ever reaches us. What follows describes how data moves on <strong>your own device</strong>.</p>
+
+    <h2 id="en-s2">2. What data the app handles</h2>
+    <p>The following is created while you use the app. All of it stays on your device:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Category</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Your question</td><td>A question you type, or text transcribed on the device from what you say while holding the mic. Writing one is optional</td></tr>
+        <tr><td>Kept pages</td><td>Pages you choose to keep, the day you opened them, and anything you jot down about how you felt or your own answer</td></tr>
+        <tr><td>Bookplate</td><td>The name you write on your bookplate</td></tr>
+        <tr><td>Settings and preferences</td><td>Jacket and paper, Follow the time of day, Show weather, Tap to open, Haptics, and other interface preferences</td></tr>
+        <tr><td>On-device usage counts</td><td>A few number-only counts, such as how many times the book has been opened (see section 7)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>The app <strong>does not request or collect</strong>: government ID numbers, phone numbers, email addresses, payment details, contacts, photos, calendars, location, advertising identifiers, or device fingerprints. The weather is generated on the device from the date and does not read your location. The app has <strong>no account system</strong>; there is nothing to register or sign in to.</p>
+
+    <h2 id="en-s3">3. Where the data lives</h2>
+    <ul>
+      <li><strong>The app's sandbox container.</strong> Kept pages, notes, and your bookplate are stored here with Apple's SwiftData, on this iPhone only.</li>
+      <li><strong>Local preferences.</strong> Settings and preferences are kept in the system's UserDefaults.</li>
+    </ul>
+    <p>The app itself <strong>does no cloud sync</strong> and writes to no server. If you back up your whole iPhone with iCloud Backup or to a computer, that system backup may include the app's data; this is governed by your system settings, independently of the app.</p>
+
+    <h2 id="en-s4">4. Microphone and speech to text</h2>
+    <p>The only permission the app requests is the <strong>microphone</strong>, used for Hold to speak:</p>
+    <ul>
+      <li>It listens only <strong>while you hold the mic button</strong>, and stops when you let go.</li>
+      <li>What you say is turned into text <strong>on the device by Apple's SpeechAnalyzer</strong> and placed in the question field, where it's treated just like typed text.</li>
+      <li>The audio is <strong>never saved or uploaded</strong> — not to us, not to anyone.</li>
+      <li>It's fine to leave microphone access off; the mic on your keyboard works too. You can revoke it at any time in iOS Settings › Ask a Page, or Settings › Privacy &amp; Security › Microphone.</li>
+    </ul>
+
+    <h2 id="en-s5">5. Network access</h2>
+    <p>The app contains no custom networking code and we run no servers. Your questions, pages, and notes are <strong>never sent anywhere by the app</strong>. Network traffic happens only in these cases, each handled by Apple's system:</p>
+    <ul>
+      <li><strong>Downloading and updating the app</strong>, through the App Store.</li>
+      <li><strong>Preparing on-device speech recognition (only if you use Hold to speak).</strong> The first time, the system may need to download language resources for on-device recognition from Apple. It is a download only; nothing you say is uploaded.</li>
+    </ul>
+    <p>Helpline website links on the help page open in the system browser, not inside the app. Beyond this, the app uploads no content, checks for no updates, sends back no logs, and connects to no advertising, analytics, or attribution network.</p>
+
+    <h2 id="en-s6">6. What you take off the phone</h2>
+    <p>Data leaves the app in three cases only, <strong>each started by you, with the destination chosen by you in a system sheet</strong>:</p>
+    <ul>
+      <li><strong>Export backup.</strong> Tapping Export backup in Settings creates a JSON backup file and saves it, through the system save sheet, wherever you choose (for example Files or iCloud Drive). It contains your kept pages and notes in a readable text format, so please keep it somewhere safe. Import backup reads only the file you pick.</li>
+      <li><strong>Share a page.</strong> Share this page creates an image card and hands it, through the system share sheet, to the app you choose. The card shows the page's line and a tiny signature; the preview says clearly whether your question is on it; <strong>your answer and notes are never on the card</strong>. The name on your bookplate is included only if you tick that option.</li>
+      <li><strong>Export usage summary.</strong> See section 7.</li>
+    </ul>
+    <p>Once sent, the file is handled by the app or service you chose, under its own privacy policy.</p>
+
+    <h2 id="en-s7">7. On-device usage counts</h2>
+    <p>The app keeps a few <strong>number-only</strong> counts on the device — for example, how many times the book has been opened or how many pages were kept — to help us understand how the book is used.</p>
+    <ul>
+      <li>These counts <strong>stay on this iPhone</strong> and are never sent automatically.</li>
+      <li>They leave the device only if you tap <strong>Export usage summary</strong> in Settings and choose to share it yourself.</li>
+      <li>The summary contains numbers only — <strong>no text at all</strong>: none of your questions, page contents, or notes.</li>
+    </ul>
+
+    <h2 id="en-s8">8. When a question mentions self-harm</h2>
+    <p>If a question mentions hurting yourself, the app does not open a page. It shows a page of help instead: local helpline numbers based on your iPhone's region, or a pointer to findahelpline.com.</p>
+    <ul>
+      <li>This check happens <strong>entirely on the device</strong>. No one is notified, and nothing is sent to us.</li>
+      <li>The app does not assess emotions, builds no psychological profile, and gives no psychological, medical, legal, or financial advice.</li>
+    </ul>
+
+    <h2 id="en-s9">9. Purchase</h2>
+    <ul>
+      <li>The app is a <strong>paid download</strong>, bought once; there are no in-app purchases and no subscription.</li>
+      <li>Purchases are handled by Apple through the App Store, and <strong>we never see your Apple Account, payment method, or billing details</strong>.</li>
+      <li>Refunds, Family Sharing, parental approval, and similar matters are handled by Apple under their rules.</li>
+    </ul>
+
+    <h2 id="en-s10">10. Diagnostics and crash data</h2>
+    <p>The app includes <strong>no crash-reporting or performance-analytics SDK</strong> and sends back no logs of its own.</p>
+    <p>If you have enabled "Share with App Developers" under Settings › Privacy &amp; Security › Analytics &amp; Improvements, Apple may provide developers with <strong>aggregated, non-identifying</strong> crash reports and performance metrics. That data is collected and de-identified by Apple, contains none of your questions, pages, or notes, and can be turned off at any time in Settings.</p>
+
+    <h2 id="en-s11">11. Third parties: what we don't do</h2>
+    <p>Stated item by item, to leave no ambiguity:</p>
+    <ul>
+      <li>We <strong>do not sell</strong> your personal information (including "sale" and "sharing" as defined by US state laws);</li>
+      <li>We <strong>do not use or disclose</strong> your information for targeted advertising, and the app contains no advertising SDK;</li>
+      <li>We <strong>integrate no</strong> analytics, event-tracking, A/B testing, crash-analytics, attribution, or profiling service;</li>
+      <li>The app contains <strong>no third-party SDKs</strong> and uses only Apple's system frameworks;</li>
+      <li>We <strong>do not use</strong> your questions, pages, or notes to train any model, and make no automated decisions;</li>
+      <li>We receive no information from you, so <strong>there is no cross-border transfer initiated by us</strong>.</li>
+    </ul>
+    <p>The only third party involved is <strong>Apple</strong>: the App Store handles downloading and buying the app, and Apple provides the resources for on-device speech recognition (section 5). See the <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple Privacy Policy</a>.</p>
+
+    <h2 id="en-s12">12. Retention and deletion</h2>
+    <p>We hold none of your data, so there is no retention period on our side. How long anything lives is entirely up to you:</p>
+    <ul>
+      <li><strong>One page</strong>: open it and tap Delete this page.</li>
+      <li><strong>All pages</strong>: tap Erase all pages in Settings. This is permanent and can't be undone.</li>
+      <li><strong>All data and settings</strong>: removed when you delete the app.</li>
+      <li><strong>Backups you exported, cards you shared, and usage summaries you exported</strong>: delete them wherever you saved or sent them.</li>
+    </ul>
+    <p>You can do all of the above without contacting us, and we have no copy to delete.</p>
+
+    <h2 id="en-s13">13. Your rights</h2>
+    <p>Under applicable law — including China's PIPL, the EU GDPR, and California's CCPA/CPRA — you have rights to be informed about, access, copy, correct, supplement, delete, and port your personal information, and to withdraw consent.</p>
+    <p>In this app, <strong>exercising those rights requires neither contacting us nor waiting for our approval</strong>, because the data has been in your hands all along:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Right</th><th>How to exercise it</th></tr></thead>
+      <tbody>
+        <tr><td>Access / copy</td><td>Your kept pages and notes are all in the app's bookmarks</td></tr>
+        <tr><td>Portability</td><td>Export backup gives you a standard JSON file</td></tr>
+        <tr><td>Correction</td><td>Manage your kept pages and notes in the app</td></tr>
+        <tr><td>Deletion</td><td>See section 12 above</td></tr>
+        <tr><td>Withdraw consent</td><td>Turn off microphone access in iOS Settings › Ask a Page</td></tr>
+        <tr><td>Object to automated decisions</td><td>The app makes no automated decisions and builds no profiles</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>If you believe your rights have not been honoured, or have any question about this policy, contact us as described in section 17. We answer within 30 days of receipt. You also have the right to complain to your local data protection authority.</p>
+
+    <h2 id="en-s14">14. Children</h2>
+    <p>The app is not directed at children under 13 and does not knowingly collect children's personal information — it sends us nothing at all, and we hold no age information about any user. If you are under 14, please use the app with the consent and guidance of a guardian; parents can manage purchases through Apple's Screen Time and Ask to Buy.</p>
+
+    <h2 id="en-s15">15. Security</h2>
+    <ul>
+      <li>The app runs in the iOS application sandbox and can reach only its own container.</li>
+      <li>The app has no custom networking code, so there is no channel through which your questions, pages, or notes could be sent out by it.</li>
+      <li>We hold none of your data, so there is no "our database was breached" risk to speak of.</li>
+      <li><strong>An exported backup file is readable text</strong> (see section 6) — keep that in mind when storing or sending it.</li>
+    </ul>
+    <p>At the same time, please note: <strong>the security of the device itself underpins all of this.</strong> Set a passcode, enable Face ID or Touch ID, and keep the system updated. No technical measure can guarantee absolute security.</p>
+
+    <h2 id="en-s16">16. Changes to this policy</h2>
+    <p>If the way the app handles data changes, we will update this page and the "Last updated" date at the top. For material changes we will say so prominently inside the app and, where required, ask for your consent again. Earlier versions of this page can be read in this site's public code repository.</p>
+
+    <h2 id="en-s17">17. Contact</h2>
+    <p>For any question about this policy or your data, email <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>Mentioning the app version and your iOS version helps us answer faster. There's no need to include your questions or notes.</p>
+
+    <hr>
+    <p class="doc-meta">The <a href="?lang=zh">Chinese version</a> of this page. Related: <a href="../support/">Support</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">Terms of Use (Apple standard EULA)</a>.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>问页 · Ask a Page</span>
+  <span class="footer-spacer"></span>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener"><span data-lang="zh">用户协议</span><span data-lang="en">Terms of Use</span></a>
+  <a href="./"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
