@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>法定信息 Legal Notice · Keel 司元</title>
+<meta name="description" content="Keel（司元）法定信息：日本特定商取引法表记、欧盟 / 德国 / 瑞士提供者信息、英国在线安全负责人与举报渠道。Legal notice for the Keel bookkeeping app: 特定商取引法に基づく表記, provider identification (Impressum), and UK Online Safety Act contact.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/legal.css">
+<script>
+/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。 */
+(function () {
+  var d = document.documentElement, lang = null;
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'zh' || q === 'en') lang = q;
+    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
+    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
+    else lang = localStorage.getItem('site-lang');
+  } catch (e) {}
+  if (lang !== 'zh' && lang !== 'en') {
+    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  }
+  d.className = 'lang-' + lang;
+  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+})();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../">
+    <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
+    Keel <span class="brand-sub">司元</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  </nav>
+  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
+</header>
+
+<!-- 日文特商法表记在两篇 article 里各放一整份（无 JS 时两份都显示，与本站「双语表格整表复制」的做法一致）。
+     改动时两份必须同步。所有 <mark class="todo"> 都是公开前必须由所有者填写的占位。 -->
+
+<main>
+  <article data-lang="zh" lang="zh-Hans">
+    <h1 class="doc-title">法定信息</h1>
+    <p class="doc-meta"><span>适用于 Keel（中文名「司元」）应用</span><span>最后更新：2026 年 9 月 28 日</span></p>
+
+    <div class="callout">
+      <p class="callout-title">为什么有这一页</p>
+      <ul>
+        <li>本应用由<strong>个人开发者</strong>销售。在日本、美国、加拿大、澳大利亚、拉丁美洲等地区，Apple 只是代理，<strong>法律上的卖方是开发者本人</strong>。</li>
+        <li>多个国家和地区的法律要求卖方公开身份与联系方式。本页把这些信息集中在一处。</li>
+        <li>订阅、扣费与取消的完整条款见<a href="../terms/#zh-s3">服务条款第 3 条</a>；共享账本的举报与处理见<a href="../terms/#zh-s5">第 5 条</a>。</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录</h2>
+      <ol>
+        <li><a href="#zh-s1">1. 日本：特定商取引法に基づく表記</a></li>
+        <li><a href="#zh-s2">2. 提供者信息（欧盟 / 德国 / 瑞士）</a></li>
+        <li><a href="#zh-s3">3. 英国《在线安全法》</a></li>
+        <li><a href="#zh-s4">4. 联系方式</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="zh-s1">1. 日本：特定商取引法に基づく表記</h2>
+    <p>依日本《特定商取引法》第 11 条的要求，以下表记以日文刊载，<strong>以日文原文为准</strong>。</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td><!-- TODO(owner): 法定氏名 --><mark class="todo">【氏名：公開前に記入】</mark>（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › 会員 › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="zh-s2">2. 提供者信息（欧盟 / 德国 / 瑞士）</h2>
+    <p>依德国《数字服务法》（DDG）第 5 条、瑞士《反不正当竞争法》（UWG）第 3 条第 1 款 s 项及欧盟相关规定，本应用的提供者信息如下：</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>项目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>提供者</td><td><!-- TODO(owner): 法定姓名 --><mark class="todo">【法定姓名：公开前填写】</mark>，个人开发者（开发者名 gwongsam）</td></tr>
+        <tr><td>送达地址</td><td><!-- TODO(owner): 可送达的街道地址（ladungsfähige Anschrift），不接受邮政信箱 --><mark class="todo">【可送达法律文书的街道地址：公开前填写（不得为邮政信箱）】</mark></td></tr>
+        <tr><td>电话</td><td><!-- TODO(owner): 电话号码 --><mark class="todo">【电话：公开前填写】</mark></td></tr>
+        <tr><td>电子邮件</td><td><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></td></tr>
+        <tr><td>内容负责人</td><td>同上（提供者本人，地址同上）</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>欧盟《数字服务法》（DSA）商家信息：</strong>本应用在欧盟 App Store 的商品页上，另由 Apple 展示开发者作为商家（trader）申报的联系信息。</li>
+      <li><strong>消费者争议解决：</strong>我们没有义务、也不愿意参加在消费者仲裁机构（Verbraucherschlichtungsstelle）进行的争议解决程序。有任何问题，请直接发邮件联系我们。</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="zh-s3">3. 英国《在线安全法》</h2>
+    <p>共享账本允许一名用户录入的内容被其他成员看到，因此我们按英国《在线安全法》（Online Safety Act 2023）对用户对用户服务的要求处理共享账本。</p>
+    <ul>
+      <li><strong>在线安全负责人：</strong>开发者 gwongsam 本人（法定姓名见第 2 条）。</li>
+      <li><strong>举报与投诉渠道：</strong>在应用内打开共享账本的设置页，点<strong>「举报与投诉」</strong>，会生成一封发给开发者的邮件；或直接发邮件至 <a href="mailto:gwongsam@gmail.com?subject=%5BReport%5D">gwongsam@gmail.com</a>，主题以 <code>[Report]</code> 开头。</li>
+      <li><strong>禁止内容、处理方式与你可以使用的工具：</strong>见<a href="../terms/#zh-s5">服务条款第 5 条</a>。对举报处理结果的投诉，也走同一渠道。</li>
+    </ul>
+
+    <h2 id="zh-s4">4. 联系方式</h2>
+    <p>个人开发者 gwongsam<br>电子邮件：<a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>另见：<a href="../support/">支持</a> · <a href="../terms/">服务条款</a> · <a href="../privacy/">隐私政策</a></p>
+
+    <hr>
+    <p class="doc-meta">本页的中文版本与<a href="?lang=en">英文版本</a>如有歧义，以中文版本为准；第 1 条「特定商取引法に基づく表記」以日文原文为准。</p>
+  </article>
+
+  <article data-lang="en" lang="en">
+    <h1 class="doc-title">Legal Notice</h1>
+    <p class="doc-meta"><span>For the Keel app (Chinese name: 司元)</span><span>Last updated: September 28, 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Why this page exists</p>
+      <ul>
+        <li>The App is sold by an <strong>individual developer</strong>. In Japan, the United States, Canada, Australia, Latin America, and some other regions, Apple acts only as an agent, and <strong>the developer is legally the seller</strong>.</li>
+        <li>Laws in several countries and regions require the seller to publish identity and contact details. This page collects them in one place.</li>
+        <li>The full terms on subscriptions, billing, and cancellation are in <a href="../terms/#en-s3">Terms of Service, Section 3</a>; reporting and handling of shared-book content is in <a href="../terms/#en-s5">Section 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#en-s1">1. Japan: 特定商取引法に基づく表記</a></li>
+        <li><a href="#en-s2">2. Provider identification (EU, Germany, Switzerland)</a></li>
+        <li><a href="#en-s3">3. UK Online Safety Act</a></li>
+        <li><a href="#en-s4">4. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-s1">1. Japan: 特定商取引法に基づく表記</h2>
+    <p>The disclosure required by Article 11 of Japan's Act on Specified Commercial Transactions is provided below in Japanese; <strong>the Japanese text prevails</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td><!-- TODO(owner): 法定氏名 --><mark class="todo">【氏名：公開前に記入】</mark>（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › 会員 › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="en-s2">2. Provider identification (EU, Germany, Switzerland)</h2>
+    <p>Information pursuant to § 5 of the German Digital Services Act (DDG), Art. 3(1)(s) of the Swiss Unfair Competition Act (UWG), and applicable EU law:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Item</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Provider</td><td><!-- TODO(owner): 法定姓名 --><mark class="todo">[Legal name — to be filled in before publishing]</mark>, individual developer (trading as gwongsam)</td></tr>
+        <tr><td>Address for service</td><td><!-- TODO(owner): 可送达的街道地址（ladungsfähige Anschrift），不接受邮政信箱 --><mark class="todo">[Street address that accepts service of legal documents — to be filled in before publishing; not a P.O. box]</mark></td></tr>
+        <tr><td>Phone</td><td><!-- TODO(owner): 电话号码 --><mark class="todo">[Phone — to be filled in before publishing]</mark></td></tr>
+        <tr><td>Email</td><td><a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></td></tr>
+        <tr><td>Responsible for content</td><td>The provider named above (same address)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>EU Digital Services Act (DSA) trader information:</strong> the contact details the developer has declared as a trader are also displayed by Apple on the App's product page in the EU App Store.</li>
+      <li><strong>Consumer dispute resolution:</strong> we are neither obliged nor willing to participate in dispute resolution proceedings before a consumer arbitration board (Verbraucherschlichtungsstelle). If you have a concern, please email us directly.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="en-s3">3. UK Online Safety Act</h2>
+    <p>Shared books let content entered by one user be seen by other members, so we treat shared books according to the requirements the UK Online Safety Act 2023 places on user-to-user services.</p>
+    <ul>
+      <li><strong>Person responsible for online safety:</strong> the developer, gwongsam (legal name as in Section 2).</li>
+      <li><strong>Reports and complaints:</strong> in the App, open a shared book's settings and tap <strong>Report a problem</strong>, which composes an email to the developer; or email <a href="mailto:gwongsam@gmail.com?subject=%5BReport%5D">gwongsam@gmail.com</a> with a subject line starting with <code>[Report]</code>.</li>
+      <li><strong>Prohibited content, how reports are handled, and the tools available to you:</strong> see <a href="../terms/#en-s5">Terms of Service, Section 5</a>. Complaints about how a report was handled go through the same channel.</li>
+    </ul>
+
+    <h2 id="en-s4">4. Contact</h2>
+    <p>gwongsam, independent developer<br>Email: <a href="mailto:gwongsam@gmail.com">gwongsam@gmail.com</a></p>
+    <p>See also: <a href="../support/">Support</a> · <a href="../terms/">Terms of Service</a> · <a href="../privacy/">Privacy Policy</a></p>
+
+    <hr>
+    <p class="doc-meta">In case of any discrepancy between this English version and the <a href="?lang=zh">Chinese version</a>, the Chinese version prevails; the Japanese disclosure in Section 1 prevails in its original Japanese.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>Keel · 司元</span>
+  <span class="footer-spacer"></span>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
+  <a href="./"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+</footer>
+
+<script>
+(function () {
+  var d = document.documentElement, btn = document.getElementById('langToggle');
+  if (!btn) return;
+  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
+  function paint() {
+    var zh = current() === 'zh';
+    btn.textContent = zh ? 'EN' : '中文';
+    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
+  }
+  paint();
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var next = current() === 'zh' ? 'en' : 'zh';
+    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+    d.className = 'lang-' + next;
+    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    try { localStorage.setItem('site-lang', next); } catch (e) {}
+    paint();
+    if (at) {
+      var target = document.getElementById(next + '-' + at[1]);
+      if (target) {
+        history.replaceState(null, '', '#' + next + '-' + at[1]);
+        target.scrollIntoView();
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

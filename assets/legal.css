@@ -272,6 +272,20 @@ code {
   word-break: break-word;
 }
 
+/* 公开前必须由所有者填写的占位（法定姓名、地址等）。故意做得刺眼，免得带着占位上线还没人发现。 */
+mark.todo {
+  padding: .05em .3em;
+  background: #ffd24d;
+  color: #3a2a00;
+  border: 1px dashed #d98a00;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  mark.todo { background: #7a5200; color: #fff3d1; border-color: #ffb020; }
+}
+
 /* ---------- 摘要卡 ---------- */
 
 .callout {
