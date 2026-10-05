@@ -8,22 +8,28 @@
 <link rel="icon" href="../logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/legal.css">
 <script>
-/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示——
-   法律文档必须在脚本挂掉时依然完整可读。 */
+/* 在首帧前定语言，避免各语言闪一下。无 JS 时 <html> 不带 class，所有语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。
+   判定：?lang= → #<语言>-sN 锚点 → localStorage 上次选择 → 浏览器语言偏好（按顺序取第一个支持的）→ 英文。
+   ?lang= 同时记进 localStorage：App 带参打开某一页后，点页内链接去别的页也停在同一语言。 */
 (function () {
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
   var d = document.documentElement, lang = null;
+  function norm(x) { x = String(x || '').toLowerCase().split(/[-_]/)[0]; return TAG.hasOwnProperty(x) ? x : null; }
   try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'zh' || q === 'en') lang = q;
-    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
-    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
-    else lang = localStorage.getItem('site-lang');
+    var q = norm(new URLSearchParams(location.search).get('lang'));
+    var h = /^#([a-z]{2})-s\d+$/.exec(location.hash);
+    if (q) { lang = q; localStorage.setItem('site-lang', q); }
+    else if (h && norm(h[1])) lang = h[1];
+    else lang = norm(localStorage.getItem('site-lang'));
   } catch (e) {}
-  if (lang !== 'zh' && lang !== 'en') {
-    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  if (!lang) {
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < prefs.length && !lang; i++) lang = norm(prefs[i]);
   }
+  if (!lang) lang = 'en';
   d.className = 'lang-' + lang;
-  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  d.lang = TAG[lang];
 })();
 </script>
 </head>
@@ -34,13 +40,23 @@
     <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
+  <label class="lang-switch" id="langSwitch" hidden>
+    <select id="langSelect" aria-label="Language / 语言">
+      <option value="zh" lang="zh-Hans">中文</option>
+      <option value="en" lang="en">English</option>
+      <option value="de" lang="de">Deutsch</option>
+      <option value="es" lang="es">Español</option>
+      <option value="fr" lang="fr">Français</option>
+      <option value="pt" lang="pt-BR">Português</option>
+      <option value="it" lang="it">Italiano</option>
+    </select>
+  </label>
   <nav class="doc-nav">
-    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="../terms/" aria-current="page"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
-    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+    <a href="../terms/" aria-current="page"><span data-lang="zh">条款</span><span data-lang="en">Terms</span><span data-lang="de">Bedingungen</span><span data-lang="es">Términos</span><span data-lang="fr">Conditions</span><span data-lang="pt">Termos</span><span data-lang="it">Termini</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span><span data-lang="es">Privacidad</span><span data-lang="fr">Confidentialité</span><span data-lang="pt">Privacidade</span><span data-lang="it">Privacy</span></a>
+    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
   </nav>
-  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
 <main>
@@ -471,43 +487,1111 @@
     <hr>
     <p class="doc-meta">In case of any discrepancy between this English version and the <a href="?lang=zh">Chinese version</a>, the Chinese version prevails.</p>
   </article>
+
+  <article data-lang="de" lang="de">
+    <h1 class="doc-title">Nutzungsbedingungen</h1>
+    <p class="doc-meta"><span>Endbenutzer-Lizenzvereinbarung (EULA)</span><span>Für die iOS-App Keel (chinesischer Name: 司元)</span><span>Gültig ab: 28. Juli 2026</span><span>Zuletzt aktualisiert: 5. Oktober 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Das Wichtigste in Kürze</p>
+      <ul>
+        <li>Diese Vereinbarung wird <strong>zwischen dir und gwongsam, einem unabhängigen Entwickler,</strong> geschlossen. Apple ist nicht Vertragspartei und ist für die App nicht verantwortlich.</li>
+        <li>Die App ist ein <strong>Werkzeug für Buchführung und Auswertungen</strong>. Sie stellt <strong>keine Finanz-, Anlage-, Steuer- oder Rechtsberatung</strong> dar. Jede Zahl beruht auf deinen eigenen Eingaben, und ihre Überprüfung liegt in deiner Verantwortung.</li>
+        <li>Die Mitgliedschaft ist als <strong>monatliches und jährliches, sich automatisch verlängerndes Abonnement</strong> sowie als <strong>einmaliger lebenslanger Kauf</strong> erhältlich. Abonnements verlängern sich automatisch; wie du kündigst, steht in Abschnitt 3.</li>
+        <li><strong>Deine Daten gehören immer dir.</strong> Ablauf oder Herabstufung <strong>sperrt niemals</strong>, was du bereits erfasst hast – es bleibt lesbar, exportierbar und sicherbar.</li>
+        <li><strong>Backups liegen in deiner Verantwortung.</strong> Exportiere sie regelmäßig; wir können keine Daten für dich wiederherstellen.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Inhaltsverzeichnis">
+      <h2>Inhalt</h2>
+      <ol>
+        <li><a href="#de-s1">1. Annahme</a></li>
+        <li><a href="#de-s2">2. Lizenzerteilung und Umfang</a></li>
+        <li><a href="#de-s3">3. Mitgliedschaft, Abonnements und Käufe</a></li>
+        <li><a href="#de-s4">4. Deine Daten und deine Backups</a></li>
+        <li><a href="#de-s5">5. Geteilte Bücher</a></li>
+        <li><a href="#de-s6">6. Wichtig: Diese App ist keine fachliche Beratung</a></li>
+        <li><a href="#de-s7">7. Zulässige Nutzung</a></li>
+        <li><a href="#de-s8">8. Geistiges Eigentum</a></li>
+        <li><a href="#de-s9">9. Änderungen des Dienstes</a></li>
+        <li><a href="#de-s10">10. Gewährleistungsausschluss</a></li>
+        <li><a href="#de-s11">11. Haftungsbeschränkung</a></li>
+        <li><a href="#de-s12">12. Beendigung</a></li>
+        <li><a href="#de-s13">13. Anwendbares Recht und Streitigkeiten</a></li>
+        <li><a href="#de-s14">14. Apple-spezifische Bestimmungen</a></li>
+        <li><a href="#de-s15">15. Allgemeine Bestimmungen</a></li>
+        <li><a href="#de-s16">16. Kontakt</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="de-s1">1. Annahme</h2>
+    <p>Diese Nutzungsbedingungen, die zugleich die Endbenutzer-Lizenzvereinbarung darstellen (diese „Vereinbarung“), bilden eine verbindliche Vereinbarung zwischen dir und <strong>gwongsam, einem unabhängigen Entwickler</strong> („wir“, „uns“), über Keel (chinesischer Name 司元, die „App“).</p>
+    <p>Indem du die App herunterlädst, installierst oder nutzt, bestätigst du, dass du diese Vereinbarung und die <a href="../privacy/">Datenschutzerklärung</a> gelesen und verstanden hast und ihnen zustimmst, an sie gebunden zu sein. <strong>Wenn du nicht zustimmst, nutze die App nicht und lösche sie bitte von deinem Gerät.</strong></p>
+    <p>Diese Vereinbarung wird zwischen dir und uns geschlossen. <strong>Apple ist nicht Vertragspartei</strong> und trägt keine Verantwortung für die App oder ihre Inhalte. Zugehörige Bestimmungen findest du in Abschnitt 14.</p>
+
+    <h2 id="de-s2">2. Lizenzerteilung und Umfang</h2>
+    <p>Vorbehaltlich der Einhaltung dieser Vereinbarung erteilen wir dir eine <strong>persönliche, nicht ausschließliche, nicht übertragbare, widerrufliche</strong> Lizenz, die App auf Geräten der Marke Apple, die du besitzt oder kontrollierst, für deine persönliche oder häusliche, nicht kommerzielle Buchführung und Finanzaufzeichnung zu nutzen. Der Umfang dieser Lizenz unterliegt zudem den Nutzungsregeln in den <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Allgemeinen Geschäftsbedingungen für Apple Medienservices</a>, einschließlich der Bestimmungen zur Familienfreigabe und zu Volumenkäufen.</p>
+    <p>Die App wird dir <strong>lizenziert, nicht verkauft</strong>. Alle hier nicht ausdrücklich gewährten Rechte bleiben vorbehalten.</p>
+
+    <h2 id="de-s3">3. Mitgliedschaft, Abonnements und Käufe</h2>
+
+    <h3>3.1 Kostenlose Stufe und Mitgliedschaft</h3>
+    <p>Die zentralen Buchführungsfunktionen der App – darunter doppelte Buchführung, das Kontensystem sowie Bilanz, Gewinn- und Verlustrechnung und Kapitalflussrechnung – sind <strong>kostenlos und ohne Begrenzung der Anzahl der Einträge</strong>. Bestimmte erweiterte Funktionen (etwa geräteübergreifende Synchronisierung und Zusammenarbeit, vorausschauende Prognosen und Analysen, anspruchsvollere Finanzinstrumente wie Kredite und „Jetzt kaufen, später bezahlen“ sowie Online-Markt- und Wechselkursdaten) erfordern eine Mitgliedschaft. Die jeweils aktuelle Zuordnung der Funktionen wird in der App angezeigt und kann sich von Version zu Version ändern.</p>
+
+    <h3>3.2 Produkte</h3>
+    <p>Die Mitgliedschaft wird über den App Store von Apple in folgenden Formen verkauft:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Produkt</th><th>Art</th><th>Laufzeit</th></tr></thead>
+      <tbody>
+        <tr><td>Keel Premium · Monatlich</td><td>Sich automatisch verlängerndes Abonnement</td><td>1 Monat, verlängert sich automatisch</td></tr>
+        <tr><td>Keel Premium · Jährlich</td><td>Sich automatisch verlängerndes Abonnement</td><td>1 Jahr, verlängert sich automatisch</td></tr>
+        <tr><td>Keel Premium · Lebenslang</td><td>Einmaliger Kauf (nicht verbrauchbar)</td><td>Einmal zahlen, keine Verlängerung</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Es gelten die Preise, die zum Zeitpunkt des Kaufs in der App und im App Store für deine Region angezeigt werden</strong>; sie können je nach Region, Währung und Steuern variieren. Wir können die Preise ändern; eine Änderung berührt keinen bereits abgeschlossenen Kauf, und Preisänderungen bei Abonnements werden nach den Regeln von Apple mitgeteilt und – soweit erforderlich – von deiner Zustimmung abhängig gemacht.</p>
+
+    <h3>3.3 Automatische Verlängerung, Abrechnung und Kündigung</h3>
+    <p>Für sich automatisch verlängernde Abonnements gilt:</p>
+    <ul>
+      <li><strong>Preis und Abonnementzeitraum werden auf dem Kaufbildschirm angezeigt, bevor du bestätigst.</strong></li>
+      <li>Die Zahlung wird bei Bestätigung des Kaufs deinem <strong>Apple-ID-Account</strong> belastet.</li>
+      <li>Enthält das Abonnement einen <strong>kostenlosen Probezeitraum</strong>, <strong>erfolgt die erste Abbuchung mit Ende des Probezeitraums</strong> (das Datum wird vor deiner Bestätigung auf dem Kaufbildschirm angezeigt), sofern du die automatische Verlängerung nicht <strong>mindestens 24 Stunden vor</strong> Ende des Probezeitraums deaktivierst.</li>
+      <li><strong>Das Abonnement verlängert sich automatisch</strong>, sofern die automatische Verlängerung nicht <strong>mindestens 24 Stunden vor</strong> Ende des laufenden Zeitraums deaktiviert wird.</li>
+      <li>Die Verlängerung wird deinem Account <strong>innerhalb von 24 Stunden vor Ende des laufenden Zeitraums</strong> zum Verlängerungspreis belastet.</li>
+      <li>Nach dem Kauf kannst du <strong>das Abonnement verwalten und die automatische Verlängerung deaktivieren</strong> – auf deinem Gerät unter <em>Einstellungen › Apple-ID › Abonnements</em>.</li>
+      <li>Du kannst auch in der App <strong><em>Einstellungen › Premium › Abo verwalten</em></strong> öffnen; damit gelangst du direkt zur Abonnementverwaltung von Apple.</li>
+      <li><strong>Eine Kündigung während eines laufenden bezahlten Zeitraums wird nicht sofort wirksam</strong> und nicht anteilig erstattet; deine Mitgliedschaft bleibt bis zum Ende dieses Zeitraums bestehen.</li>
+      <li>Wird ein kostenloser Probezeitraum angeboten, verfällt dessen ungenutzter Teil, sobald du ein Abonnement kaufst.</li>
+    </ul>
+
+    <h3>3.4 Erstattungen</h3>
+    <p><strong>Alle Käufe werden von Apple abgewickelt, und Erstattungen gewährt Apple nach eigenem Ermessen gemäß seinen eigenen Richtlinien. Wir können Erstattungen nicht selbst vornehmen.</strong> Um eine Erstattung zu beantragen, wende dich unter <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> an Apple. Dieser Abschnitt berührt keine gesetzlichen Rechte, die dir nach dem anwendbaren Verbraucherschutzrecht zustehen.</p>
+
+    <h3>3.5 Käufe wiederherstellen</h3>
+    <p>Nach einem Gerätewechsel oder einer Neuinstallation kannst du auf dem Mitgliedschaftsbildschirm „Käufe wiederherstellen“ verwenden, um die mit derselben Apple-ID verknüpften Berechtigungen wiederherzustellen.</p>
+
+    <h3>3.6 Deine Daten werden niemals als Druckmittel eingesetzt</h3>
+    <p>Wir verpflichten uns als Bestandteil dieser Vereinbarung: <strong>Unabhängig vom Status deiner Mitgliedschaft bleiben die bereits erfassten Daten lesbar, exportierbar und sicherbar.</strong> Läuft eine Mitgliedschaft ab oder wird sie gekündigt, schließen wir lediglich die Zugänge zum <em>Erstellen oder Aktivieren</em> der entsprechenden Funktionen; bestehende Einträge, Konten und Berichte werden weiterhin normal berechnet und angezeigt. Funktionen, die die Richtigkeit deiner Daten sichern – Validierung, Backup und Export –, sind <strong>dauerhaft kostenlos</strong>.</p>
+
+    <h2 id="de-s4">4. Deine Daten und deine Backups</h2>
+    <ul>
+      <li><strong>Für die Richtigkeit bist du verantwortlich.</strong> Die App erfasst und berechnet getreu, was du eingibst. Fehler bei Beträgen, Daten, Kategorien, Wechselkursen oder Zinssätzen führen zu falschen Berichten, und dafür sind wir nicht verantwortlich.</li>
+      <li><strong>Backups liegen in deiner Verantwortung.</strong> Die App bietet einen Backup-Export; bitte exportiere regelmäßig und bewahre die Dateien sicher auf. Da wir deine Daten nicht besitzen (siehe <a href="../privacy/">Datenschutzerklärung</a>), <strong>können wir sie nicht für dich wiederherstellen, wenn dein Gerät beschädigt, verloren oder zurückgesetzt wird oder du Daten versehentlich löschst.</strong></li>
+      <li><strong>Die Sicherung deiner Backup-Dateien liegt in deiner Verantwortung.</strong> Ein ohne Passphrase exportiertes Backup ist eine <strong>unverschlüsselte Datei</strong>, die jeder lesen kann, der sie erhält. Bei einem verschlüsselten Backup <strong>kann eine vergessene Passphrase nicht wiederhergestellt werden</strong> – wir speichern sie weder, noch können wir sie zurücksetzen.</li>
+      <li><strong>Die iCloud-Synchronisierung hängt von den Diensten von Apple ab.</strong> Verfügbarkeit, Geschwindigkeit und Speicherkontingent werden von Apple kontrolliert. Unzureichender iCloud-Speicher, Probleme mit dem Account oder Dienstausfälle können die Synchronisierung unterbrechen, und dafür sind wir nicht verantwortlich.</li>
+    </ul>
+
+    <h2 id="de-s5">5. Geteilte Bücher</h2>
+    <ul>
+      <li>Du kannst ein Buch mit anderen teilen und für jedes Mitglied die Berechtigung „Nur lesen“ oder „Lesen und Schreiben“ festlegen. <strong>Indem du die Freigabe startest, ermächtigst du die betreffende Person, auf den Inhalt dieses Buchs zuzugreifen</strong>, einschließlich seiner Buchungen und Anhänge.</li>
+      <li><strong>Du bist dafür verantwortlich, wen du einlädst.</strong> Teile nur mit Personen, denen du vertraust. Was ein Mitglied ansieht, kopiert oder exportiert, solange es Zugriff hat, liegt außerhalb unserer technischen Kontrolle.</li>
+      <li>Du kannst jederzeit ein Mitglied entfernen oder die Freigabe beenden, <strong>bereits erlangte Informationen kannst du jedoch nicht zurückholen</strong>.</li>
+      <li>Wenn du die iCloud-Synchronisierung deaktivierst und die Cloud-Kopie löschst, endet jede von dir gestartete Freigabe.</li>
+      <li>Mitglieder eines geteilten Buchs sind an diese Vereinbarung gebunden. Du darfst die Freigabefunktion nicht nutzen, um personenbezogene Daten anderer zu sammeln oder zu verbreiten.</li>
+    </ul>
+
+    <h3>5.1 Verbotene Inhalte</h3>
+    <p>Ein geteiltes Buch <strong>darf keine rechtswidrigen Inhalte enthalten</strong>, darunter: Inhalte im Zusammenhang mit Betrug oder Täuschung; Inhalte, die andere belästigen oder bedrohen; personenbezogene Daten anderer, die ohne deren Einwilligung geteilt werden; sowie Inhalte, die Kinder in irgendeiner Form sexuell ausbeuten oder missbrauchen.</p>
+
+    <h3>5.2 So meldest du etwas</h3>
+    <ul>
+      <li><strong>In der App:</strong> Öffne im geteilten Buch die Seite <strong>Mitglieder</strong> und tippe auf <strong>Problem melden</strong>; dadurch wird eine E-Mail an den Entwickler erstellt;</li>
+      <li><strong>Per E-Mail:</strong> Schreibe an <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> mit einem Betreff, der mit <code>[Report]</code> beginnt.</li>
+    </ul>
+    <p>Bitte beschreibe das Buch, den Inhalt und den Grund deiner Meldung. Wenn die Sicherheit eines Kindes oder die körperliche Sicherheit einer Person gefährdet ist, melde dies bitte zusätzlich deinen örtlichen Strafverfolgungsbehörden.</p>
+
+    <h3>5.3 Was wir tun</h3>
+    <ul>
+      <li>Wir bestätigen den Eingang einer Meldung <strong>innerhalb von 7 Tagen</strong> nach Erhalt.</li>
+      <li>Die Daten geteilter Bücher liegen in den eigenen iCloud-Accounts der Beteiligten, nicht auf unseren Servern (wir haben keine). Daher <strong>können wir diese Inhalte weder selbst einsehen noch löschen</strong>. Wir leiten den Eigentümer des Buchs an, die betreffenden Einträge zu löschen oder die betreffenden Mitglieder zu entfernen.</li>
+      <li>Wir können zudem alle weiteren uns zur Verfügung stehenden Maßnahmen ergreifen, etwa die Lizenz des verstoßenden Nutzers gemäß Abschnitt 12 beenden.</li>
+    </ul>
+
+    <h3>5.4 Werkzeuge, die dir zur Verfügung stehen</h3>
+    <ul>
+      <li><strong>Der Eigentümer eines Buchs</strong> kann Einträge löschen, Berechtigungen von Mitgliedern ändern, Mitglieder entfernen oder die Freigabe beenden;</li>
+      <li><strong>Mitglieder</strong> können ein geteiltes Buch jederzeit verlassen.</li>
+    </ul>
+
+    <h3>5.5 Beschwerden und verantwortliche Person</h3>
+    <p>Wenn du mit der Bearbeitung einer Meldung nicht einverstanden bist, kannst du dich über denselben Kanal wie in Abschnitt 5.2 beschweren. Verantwortlich für die Online-Sicherheit in der App ist <strong>der Entwickler gwongsam</strong> (siehe <a href="../legal/#de-s3">Rechtliche Hinweise</a>).</p>
+
+    <h2 id="de-s6">6. Wichtig: Diese App ist keine fachliche Beratung</h2>
+    <p><strong>Die App ist ein Werkzeug für Aufzeichnungen und Auswertungen. Sie ist weder Finanzberater noch Buchhalter, Steuerberater oder Anlageberater.</strong></p>
+    <ul>
+      <li>Alle Berichte, Kennzahlen, Diagramme, Prognosen und Erinnerungen, die die App erzeugt, dienen <strong>ausschließlich deiner persönlichen Information</strong>. Nichts davon stellt eine Finanz-, Anlage-, Steuer-, Buchhaltungs-, Rechts- oder sonstige fachliche Beratung dar, noch ein Angebot, eine Aufforderung oder eine Empfehlung.</li>
+      <li><strong>Vorausschauende Funktionen</strong> (Liquiditätsreichweite, Ausblick auf das Nettovermögen, Trendschätzungen und Ähnliches) sind mathematische Hochrechnungen aus den von dir eingegebenen historischen Daten und den von dir festgelegten Annahmen. Sie sind <strong>keine Zusagen oder Garantien für die Zukunft</strong>, und die tatsächlichen Ergebnisse werden mit an Sicherheit grenzender Wahrscheinlichkeit abweichen.</li>
+      <li><strong>Wechselkurse und Marktdaten</strong> stammen aus öffentlichen Quellen und können verzögert, unterbrochen oder ungenau sein. Sie dienen <strong>ausschließlich der Umrechnung in der Buchführung und sind kein Kursangebot</strong>; verlasse dich bei tatsächlichen Geschäften, beim Währungsumtausch oder bei Bewertungen nicht auf sie.</li>
+      <li>Von der App erstellte Berichte <strong>sind nicht geprüft und keine förmlichen Abschlüsse, die einem Rechnungslegungsstandard oder Steuerrecht entsprechen</strong>. Sie sollten nicht unmittelbar für Steuererklärungen, aufsichtsrechtliche Meldungen, Kreditanträge oder als Nachweis deiner finanziellen Lage gegenüber Dritten verwendet werden.</li>
+      <li>Ziehe bei wichtigen finanziellen Entscheidungen – Geldanlage, Kreditaufnahme, Steuererklärung – <strong>eine qualifizierte Fachperson zu Rate</strong>. Jede Entscheidung, die du auf Grundlage der Ausgaben der App triffst, liegt allein bei dir.</li>
+    </ul>
+
+    <h2 id="de-s7">7. Zulässige Nutzung</h2>
+    <p>Du verpflichtest dich, Folgendes zu unterlassen:</p>
+    <ul>
+      <li>die App zurückzuentwickeln (Reverse Engineering), zu dekompilieren oder zu disassemblieren oder zu versuchen, ihren Quellcode abzuleiten, soweit dies nicht gesetzlich ausdrücklich gestattet ist;</li>
+      <li>die App zu kopieren, zu verändern, zu vermieten, zu verpachten, zu verleihen, zu verkaufen oder zu verbreiten oder abgeleitete Werke davon zu erstellen;</li>
+      <li>die Prüfung von Berechtigungen, Zahlungsmechanismen oder technische Schutzmaßnahmen zu umgehen, auszuhebeln oder zu stören;</li>
+      <li>die App für rechtswidrige Tätigkeiten zu nutzen, einschließlich Geldwäsche, Steuerhinterziehung, Fälschung von Finanzaufzeichnungen oder Verschleierung illegaler Erträge;</li>
+      <li>personenbezogene Daten einer anderen Person ohne deren Einwilligung in die App einzugeben oder zu teilen;</li>
+      <li>die App oder die iCloud-Dienste, auf die sie angewiesen ist, mit automatisierten Mitteln zu missbrauchen oder andere Nutzer anderweitig zu beeinträchtigen.</li>
+    </ul>
+
+    <h2 id="de-s8">8. Geistiges Eigentum</h2>
+    <p>Die App und alle ihre Bestandteile – einschließlich Softwarecode, Oberflächengestaltung, Symbolen, Texten sowie der Namen „Keel“ und „司元“ und zugehöriger Kennzeichen – stehen im Eigentum von uns bzw. unseren jeweiligen Lizenzgebern und sind durch das Urheberrecht und andere Gesetze geschützt. Diese Vereinbarung überträgt dir keine Rechte des geistigen Eigentums.</p>
+    <p><strong>Inhalte, die du in der App erstellst – Bücher, Buchungen, Notizen, Anhänge –, gehören dir.</strong> Wir beanspruchen keine Rechte daran und nutzen sie in keiner Weise (siehe <a href="../privacy/">Datenschutzerklärung</a>).</p>
+
+    <h2 id="de-s9">9. Änderungen des Dienstes</h2>
+    <p>Wir können Funktionen der App jederzeit hinzufügen, ändern, aussetzen oder einstellen, einschließlich der Festlegung, welche Funktionen kostenlos sind und welche eine Mitgliedschaft erfordern. Wir unternehmen angemessene Anstrengungen, damit solche Änderungen von dir erworbene Berechtigungen nicht beeinträchtigen, und ein abgeschlossener einmaliger lebenslanger Kauf wird durch eine Neuordnung der Funktionen nicht unwirksam.</p>
+    <p>Einige Funktionen hängen von Diensten ab, die Apple bereitstellt (iCloud, CloudKit, App Store). <strong>Diese Dienste werden von Apple kontrolliert</strong>, und wir sind nicht verantwortlich für eine Nichtverfügbarkeit, die durch deren Änderung, Einschränkung oder Einstellung verursacht wird.</p>
+
+    <h2 id="de-s10">10. Gewährleistungsausschluss</h2>
+    <p>Soweit nach anwendbarem Recht zulässig, wird die App <strong>„WIE BESEHEN“ und „WIE VERFÜGBAR“</strong> bereitgestellt, ohne ausdrückliche oder stillschweigende Gewährleistung jeglicher Art, einschließlich, aber nicht beschränkt auf stillschweigende Gewährleistungen der Marktgängigkeit, der Eignung für einen bestimmten Zweck, der Richtigkeit und der Nichtverletzung von Rechten Dritter.</p>
+    <p>Wir gewährleisten nicht, dass die App ununterbrochen, fehlerfrei oder frei von Mängeln ist, noch dass ihre Berechnungen, Prognosen oder Daten unter allen Umständen richtig sind oder deinen besonderen Anforderungen entsprechen.</p>
+    <p>Manche Rechtsordnungen lassen den Ausschluss stillschweigender Gewährleistungen nicht zu, sodass das Vorstehende auf dich möglicherweise nicht vollständig anwendbar ist; in diesem Fall sind solche Gewährleistungen auf den kürzesten gesetzlich zulässigen Zeitraum beschränkt. <strong>Unverzichtbare gesetzliche Rechte, die dir nach dem örtlichen Verbraucherschutzrecht zustehen, bleiben unberührt.</strong></p>
+
+    <h2 id="de-s11">11. Haftungsbeschränkung</h2>
+    <p>Soweit nach anwendbarem Recht zulässig:</p>
+    <ul>
+      <li>Wir haften nicht für <strong>indirekte, beiläufige, besondere, Straf- oder Folgeschäden</strong>, die aus deiner Nutzung oder der Unmöglichkeit der Nutzung der App entstehen – einschließlich entgangenen Gewinns, entgangener Geschäftsmöglichkeiten, Datenverlusts oder Verlusten aus finanziellen Entscheidungen –, selbst wenn wir auf die Möglichkeit solcher Schäden hingewiesen wurden.</li>
+      <li>Unsere <strong>gesamte kumulierte Haftung</strong> aus dieser Vereinbarung oder im Zusammenhang mit der App <strong>übersteigt nicht den Betrag, den du uns in den 12 Monaten vor dem anspruchsbegründenden Ereignis tatsächlich für die App gezahlt hast</strong>; hast du nichts gezahlt, beträgt diese Obergrenze 100 CNY.</li>
+    </ul>
+    <p>Diese Beschränkungen gelten nicht für unser vorsätzliches Fehlverhalten oder grobe Fahrlässigkeit, nicht für die Haftung für Personenschäden, soweit eine solche Beschränkung unzulässig ist, und nicht für sonstige Haftung, die gesetzlich nicht ausgeschlossen werden kann.</p>
+
+    <h2 id="de-s12">12. Beendigung</h2>
+    <p>Du kannst diese Vereinbarung jederzeit beenden, indem du die App löschst. Wir können die dir erteilte Lizenz beenden, wenn du wesentlich gegen diese Vereinbarung verstößt. Mit der Beendigung musst du die Nutzung der App einstellen und deine Kopien löschen. Die Bestimmungen zu geistigem Eigentum, Gewährleistungsausschluss, Haftungsbeschränkung und anwendbarem Recht gelten über die Beendigung hinaus fort.</p>
+    <p>Die Beendigung berührt nicht deine Möglichkeit, deine eigenen Daten gemäß Abschnitt 3.6 zu exportieren und zu sichern.</p>
+
+    <h2 id="de-s13">13. Anwendbares Recht und Streitigkeiten</h2>
+    <p>Diese Vereinbarung – ihr Zustandekommen, ihre Wirksamkeit, Auslegung und Erfüllung sowie die Beilegung von Streitigkeiten daraus – unterliegt dem Recht <strong>des chinesischen Festlands der Volksrepublik China</strong> (für diesen Zweck unter Ausschluss seiner Kollisionsnormen und unter Ausschluss des Rechts der Sonderverwaltungszone Hongkong, der Sonderverwaltungszone Macau und Taiwans).</p>
+    <p>Streitigkeiten, die sich aus oder im Zusammenhang mit dieser Vereinbarung ergeben, sollen zunächst durch Verhandlungen nach Treu und Glauben beigelegt werden. Gelingt dies nicht, kann jede Partei die Streitigkeit vor <strong>ein zuständiges Volksgericht am Wohnsitz des Entwicklers</strong> bringen.</p>
+    <p><strong>Wenn du Verbraucher bist, wird dir durch diese Rechtswahl nicht der Schutz entzogen, der dir durch diejenigen Bestimmungen gewährt wird, von denen nach dem Recht des Staates deines gewöhnlichen Aufenthalts nicht durch Vereinbarung abgewichen werden darf</strong>, und nichts in dieser Vereinbarung schränkt zwingende Verbraucherrechte ein, die dir nach anwendbarem Recht zustehen. Ebenso gilt: Räumt dir zwingendes Recht an deinem Wohnort das Recht ein, Klage vor deinen örtlichen Gerichten zu erheben oder die Anwendung des örtlichen Rechts zu verlangen, bleiben diese Rechte von diesem Abschnitt unberührt.</p>
+
+    <h2 id="de-s14">14. Apple-spezifische Bestimmungen</h2>
+    <p>Die folgenden Bestimmungen sind enthalten, um die Mindestanforderungen von Apple an die EULA eines Entwicklers zu erfüllen. Du und wir erkennen an und vereinbaren:</p>
+    <ol>
+      <li><strong>Parteien.</strong> Diese Vereinbarung wird ausschließlich zwischen dir und uns geschlossen und <strong>nicht mit Apple</strong>. Wir, nicht Apple, sind allein verantwortlich für die App und ihre Inhalte.</li>
+      <li><strong>Umfang der Lizenz.</strong> Die dir erteilte Lizenz ist in Abschnitt 2 festgelegt und unterliegt den Nutzungsregeln in den Allgemeinen Geschäftsbedingungen für Apple Medienservices.</li>
+      <li><strong>Wartung und Support.</strong> Wir sind allein verantwortlich für die Bereitstellung von Wartung und Support für die App. <strong>Apple ist in keiner Weise verpflichtet, Wartungs- oder Supportleistungen zu erbringen.</strong></li>
+      <li><strong>Gewährleistung.</strong> Wir sind allein verantwortlich für sämtliche Produktgewährleistungen, ob ausdrücklich oder stillschweigend. Entspricht die App einer anwendbaren Gewährleistung nicht, kannst du Apple benachrichtigen, und Apple erstattet dir den Kaufpreis der App (sofern vorhanden). Soweit nach anwendbarem Recht zulässig, <strong>hat Apple keinerlei sonstige Gewährleistungspflicht in Bezug auf die App</strong>, und alle sonstigen Ansprüche, Verluste, Verbindlichkeiten, Schäden, Kosten oder Aufwendungen, die auf die Nichterfüllung einer Gewährleistung zurückzuführen sind, liegen allein in unserer Verantwortung.</li>
+      <li><strong>Produktbezogene Ansprüche.</strong> Wir, nicht Apple, sind dafür verantwortlich, Ansprüche von dir oder Dritten im Zusammenhang mit der App oder deinem Besitz und deiner Nutzung der App zu bearbeiten, einschließlich: (i) Ansprüchen aus Produkthaftung; (ii) Ansprüchen, die App erfülle anwendbare rechtliche oder regulatorische Anforderungen nicht; und (iii) Ansprüchen nach Verbraucherschutz-, Datenschutz- oder vergleichbaren Gesetzen.</li>
+      <li><strong>Ansprüche wegen geistigen Eigentums.</strong> Macht ein Dritter geltend, dass die App oder dein Besitz und deine Nutzung der App seine Rechte des geistigen Eigentums verletzt, <strong>sind wir, nicht Apple, allein verantwortlich</strong> für die Untersuchung, Abwehr, Beilegung und Erledigung eines solchen Anspruchs.</li>
+      <li><strong>Einhaltung von Gesetzen.</strong> Du sicherst zu und gewährleistest, dass (i) du dich nicht in einem Land befindest, das einem Embargo der US-Regierung unterliegt oder von der US-Regierung als „den Terrorismus unterstützendes“ Land eingestuft wurde, und (ii) du auf keiner Liste der US-Regierung über verbotene oder eingeschränkte Parteien geführt wirst.</li>
+      <li><strong>Kontakt.</strong> Fragen, Beschwerden oder Ansprüche bezüglich der App können gerichtet werden an: gwongsam, unabhängiger Entwickler, <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</li>
+      <li><strong>Bedingungen Dritter.</strong> Bei der Nutzung der App musst du die anwendbaren Vertragsbedingungen Dritter einhalten (zum Beispiel die Bedingungen für Apple Medienservices und die iCloud-Bedingungen).</li>
+      <li><strong>Drittbegünstigter.</strong> Du und wir erkennen an und vereinbaren, dass <strong>Apple und die Tochtergesellschaften von Apple Drittbegünstigte dieser Vereinbarung sind</strong> und dass Apple mit deiner Annahme dieser Vereinbarung das Recht hat (und so behandelt wird, als habe es dieses Recht angenommen), diese Vereinbarung dir gegenüber als Drittbegünstigter durchzusetzen.</li>
+    </ol>
+
+    <h2 id="de-s15">15. Allgemeine Bestimmungen</h2>
+    <ul>
+      <li><strong>Gesamte Vereinbarung.</strong> Diese Vereinbarung und die <a href="../privacy/">Datenschutzerklärung</a> bilden die gesamte Vereinbarung zwischen dir und uns in Bezug auf die App und ersetzen alle früheren mündlichen oder schriftlichen Mitteilungen.</li>
+      <li><strong>Salvatorische Klausel.</strong> Wird eine Bestimmung für unwirksam oder nicht durchsetzbar befunden, bleiben die übrigen Bestimmungen in Kraft, und diese Bestimmung ist so auszulegen, dass ihr ursprünglicher Zweck so weit wie rechtlich möglich erreicht wird.</li>
+      <li><strong>Verzicht.</strong> Unterlassen oder verzögern wir die Ausübung eines Rechts aus dieser Vereinbarung, liegt darin kein Verzicht auf dieses Recht.</li>
+      <li><strong>Abtretung.</strong> Du darfst deine Rechte oder Pflichten aus dieser Vereinbarung nicht ohne unsere schriftliche Zustimmung abtreten. Wir können diese Vereinbarung im Zusammenhang mit einer Übertragung, Verschmelzung oder Umstrukturierung des Geschäfts abtreten, ohne den dir gewährten Schutz zu verringern.</li>
+      <li><strong>Änderungen dieser Bedingungen.</strong> Wir können diese Vereinbarung überarbeiten. Überarbeitungen werden auf dieser Seite mit aktualisiertem Datum oben veröffentlicht, und wesentliche Änderungen werden in der App deutlich hervorgehoben. <strong>Nutzt du die App nach Inkrafttreten einer Überarbeitung weiter, gilt dies als deren Annahme</strong>; wenn du sie nicht annimmst, stelle die Nutzung der App ein und lösche sie.</li>
+    </ul>
+
+    <h2 id="de-s16">16. Kontakt</h2>
+    <p>gwongsam, unabhängiger Entwickler<br>E-Mail: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Die Anbieterkennzeichnung, die japanische Angabe nach dem 特定商取引法, die Anbieterinformationen für die EU, Deutschland und die Schweiz sowie die Kontaktstelle für Online-Sicherheit im Vereinigten Königreich findest du auf der Seite <a href="../legal/">Rechtliche Hinweise</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Bei Abweichungen zwischen dieser deutschen Fassung und der <a href="?lang=zh">chinesischen Fassung</a> ist die chinesische Fassung maßgeblich.</p>
+  </article>
+
+  <article data-lang="es" lang="es">
+    <h1 class="doc-title">Términos del servicio</h1>
+    <p class="doc-meta"><span>Contrato de licencia de usuario final (EULA)</span><span>Para la app de iOS Keel (nombre en chino: 司元)</span><span>Fecha de entrada en vigor: 28 de julio de 2026</span><span>Última actualización: 5 de octubre de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Lo esencial</p>
+      <ul>
+        <li>Este contrato se celebra <strong>entre tú y gwongsam, desarrollador independiente</strong>. Apple no es parte de él y no es responsable de la App.</li>
+        <li>La App es una <strong>herramienta de contabilidad e informes</strong>. <strong>No constituye asesoramiento financiero, de inversión, fiscal ni jurídico</strong>. Todas las cifras proceden de lo que tú has introducido, y verificarlas es tu responsabilidad.</li>
+        <li>La suscripción Premium se ofrece como <strong>suscripciones mensuales y anuales de renovación automática</strong> y como <strong>compra única de por vida</strong>. Las suscripciones se renuevan automáticamente; consulta la sección 3 para saber cómo cancelarlas.</li>
+        <li><strong>Tus datos siempre son tuyos.</strong> El vencimiento o la bajada de nivel <strong>nunca bloquea</strong> lo que ya has registrado: sigue pudiéndose leer, exportar y respaldar.</li>
+        <li><strong>Las copias de seguridad son tu responsabilidad.</strong> Expórtalas con regularidad; no podemos recuperar datos por ti.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Índice">
+      <h2>Índice</h2>
+      <ol>
+        <li><a href="#es-s1">1. Aceptación</a></li>
+        <li><a href="#es-s2">2. Concesión y alcance de la licencia</a></li>
+        <li><a href="#es-s3">3. Premium, suscripciones y compras</a></li>
+        <li><a href="#es-s4">4. Tus datos y tus copias de seguridad</a></li>
+        <li><a href="#es-s5">5. Libros compartidos</a></li>
+        <li><a href="#es-s6">6. Importante: esta app no ofrece asesoramiento profesional</a></li>
+        <li><a href="#es-s7">7. Uso aceptable</a></li>
+        <li><a href="#es-s8">8. Propiedad intelectual</a></li>
+        <li><a href="#es-s9">9. Cambios en el servicio</a></li>
+        <li><a href="#es-s10">10. Exclusión de garantías</a></li>
+        <li><a href="#es-s11">11. Limitación de responsabilidad</a></li>
+        <li><a href="#es-s12">12. Terminación</a></li>
+        <li><a href="#es-s13">13. Ley aplicable y resolución de controversias</a></li>
+        <li><a href="#es-s14">14. Términos específicos de Apple</a></li>
+        <li><a href="#es-s15">15. Disposiciones generales</a></li>
+        <li><a href="#es-s16">16. Contacto</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="es-s1">1. Aceptación</h2>
+    <p>Estos Términos del servicio, que constituyen además el Contrato de licencia de usuario final (el «Contrato»), forman un acuerdo vinculante entre tú y <strong>gwongsam, desarrollador independiente</strong> («nosotros»), relativo a Keel (nombre en chino 司元, la «App»).</p>
+    <p>Al descargar, instalar o usar la App, confirmas que has leído y entendido este Contrato y la <a href="../privacy/">Política de privacidad</a>, y que aceptas quedar obligado por ellos. <strong>Si no estás de acuerdo, no uses la App y elimínala de tu dispositivo.</strong></p>
+    <p>Este Contrato se celebra entre tú y nosotros. <strong>Apple no es parte de él</strong> y no asume ninguna responsabilidad por la App ni por su contenido. Consulta la sección 14 para las disposiciones relacionadas.</p>
+
+    <h2 id="es-s2">2. Concesión y alcance de la licencia</h2>
+    <p>Siempre que cumplas este Contrato, te concedemos una licencia <strong>personal, no exclusiva, intransferible y revocable</strong> para usar la App en dispositivos de la marca Apple que poseas o controles, con fines de contabilidad y registro financiero personales o domésticos y no comerciales. El alcance de esta licencia está sujeto además a las Reglas de uso de los <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Términos y condiciones de los Servicios Multimedia de Apple</a>, incluidas las disposiciones sobre En familia y compras por volumen.</p>
+    <p>La App se te <strong>concede bajo licencia, no se te vende</strong>. Nos reservamos todos los derechos no concedidos expresamente en este Contrato.</p>
+
+    <h2 id="es-s3">3. Premium, suscripciones y compras</h2>
+
+    <h3>3.1 Niveles gratuito y Premium</h3>
+    <p>Las funciones contables básicas de la App —incluidos el registro por partida doble, el sistema de cuentas y el balance, el estado de resultados y el estado de flujo de caja— son <strong>gratuitas y sin límite de registros</strong>. Algunas funciones avanzadas (como la sincronización y colaboración entre dispositivos, las proyecciones y análisis prospectivos, los instrumentos financieros más complejos como préstamos y «Compra ahora, paga después», y los datos de mercado y tipos de cambio en línea) requieren Premium. La asignación vigente de funciones es la que se muestra en la App y puede ajustarse de una versión a otra.</p>
+
+    <h3>3.2 Productos</h3>
+    <p>Premium se vende a través del App Store de Apple en las siguientes modalidades:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Producto</th><th>Tipo</th><th>Duración</th></tr></thead>
+      <tbody>
+        <tr><td>Keel Premium · Mensual</td><td>Suscripción de renovación automática</td><td>1 mes, se renueva automáticamente</td></tr>
+        <tr><td>Keel Premium · Anual</td><td>Suscripción de renovación automática</td><td>1 año, se renueva automáticamente</td></tr>
+        <tr><td>Keel Premium · De por vida</td><td>Compra única (no consumible)</td><td>Pago único, sin renovación</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Los precios son los que se muestran en la App y en el App Store para tu región en el momento de la compra</strong>, y pueden variar según la región, la moneda y los impuestos. Podemos modificar los precios; un cambio no afecta a las compras que ya hayas completado, y los cambios de precio de las suscripciones se notifican —y, cuando sea necesario, se someten a tu consentimiento— conforme a las reglas de Apple.</p>
+
+    <h3>3.3 Renovación automática, cobro y cancelación</h3>
+    <p>En las suscripciones de renovación automática:</p>
+    <ul>
+      <li><strong>El precio y el periodo de suscripción se muestran en la pantalla de compra antes de que confirmes.</strong></li>
+      <li>El pago se carga a tu <strong>cuenta de ID de Apple</strong> al confirmar la compra.</li>
+      <li>Si la suscripción incluye una <strong>prueba gratuita</strong>, <strong>el primer cargo se produce al finalizar la prueba</strong> (la fecha se muestra en la pantalla de compra antes de que confirmes), salvo que desactives la renovación automática <strong>al menos 24 horas antes</strong> de que termine la prueba.</li>
+      <li><strong>La suscripción se renueva automáticamente</strong> salvo que la renovación automática se desactive <strong>al menos 24 horas antes</strong> del final del periodo en curso.</li>
+      <li>La renovación se carga en tu cuenta <strong>dentro de las 24 horas anteriores al final del periodo en curso</strong>, al precio de renovación.</li>
+      <li>Después de la compra, puedes <strong>gestionar la suscripción y desactivar la renovación automática</strong> en <em>Ajustes › ID de Apple › Suscripciones</em> en tu dispositivo.</li>
+      <li>También puedes abrir <strong><em>Ajustes › Premium › Gestionar suscripción</em></strong> en la App, que te lleva directamente a la pantalla de gestión de suscripciones de Apple.</li>
+      <li><strong>La cancelación durante un periodo de pago en curso no surte efecto de inmediato</strong> y no da derecho a reembolso proporcional; tu suscripción Premium continúa hasta el final de ese periodo.</li>
+      <li>Cuando se ofrezca una prueba gratuita, cualquier parte no utilizada de la misma se pierde al comprar una suscripción.</li>
+    </ul>
+
+    <h3>3.4 Reembolsos</h3>
+    <p><strong>Todas las compras las tramita Apple, y los reembolsos los concede Apple a su discreción según sus propias políticas. No podemos emitir reembolsos directamente.</strong> Para solicitar uno, ponte en contacto con Apple en <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. Esta sección no afecta a los derechos legales que te correspondan conforme a la normativa de protección de los consumidores aplicable.</p>
+
+    <h3>3.5 Restaurar compras</h3>
+    <p>Después de cambiar de dispositivo o reinstalar la App, usa «Restaurar» en la pantalla de Premium para recuperar los derechos asociados al mismo ID de Apple.</p>
+
+    <h3>3.6 Tus datos nunca quedan como rehenes</h3>
+    <p>Nos comprometemos, como condición de este Contrato, a que <strong>sea cual sea el estado de tu suscripción Premium, los datos que ya hayas registrado sigan pudiéndose leer, exportar y respaldar.</strong> Cuando Premium vence o se cancela, solo cerramos los puntos de acceso para <em>crear o activar</em> las funciones correspondientes; los registros, cuentas e informes existentes se siguen calculando y mostrando con normalidad. Las funciones que protegen la corrección de tus datos —validación, copia de seguridad y exportación— son <strong>gratuitas de forma permanente</strong>.</p>
+
+    <h2 id="es-s4">4. Tus datos y tus copias de seguridad</h2>
+    <ul>
+      <li><strong>La exactitud es tu responsabilidad.</strong> La App registra y calcula fielmente lo que introduces. Los errores en importes, fechas, categorías, tipos de cambio o tipos de interés producen informes incorrectos, y no somos responsables de ello.</li>
+      <li><strong>Las copias de seguridad son tu responsabilidad.</strong> La App permite exportar copias de seguridad; expórtalas con regularidad y guarda los archivos en un lugar seguro. Como no conservamos tus datos (consulta la <a href="../privacy/">Política de privacidad</a>), <strong>si tu dispositivo se daña, se pierde o se restablece, o si eliminas datos por error, no podemos recuperarlos por ti.</strong></li>
+      <li><strong>Proteger los archivos de copia de seguridad es tu responsabilidad.</strong> Una copia de seguridad exportada sin contraseña es un <strong>archivo sin cifrar</strong> que cualquiera que lo obtenga puede leer. En el caso de una copia cifrada, <strong>una contraseña olvidada no se puede recuperar</strong>: no la almacenamos ni podemos restablecerla.</li>
+      <li><strong>La sincronización con iCloud depende de los servicios de Apple.</strong> Su disponibilidad, velocidad y cuota de almacenamiento las controla Apple. La falta de espacio en iCloud, los problemas de la cuenta o las interrupciones del servicio pueden pausar la sincronización, y no somos responsables de ello.</li>
+    </ul>
+
+    <h2 id="es-s5">5. Libros compartidos</h2>
+    <ul>
+      <li>Puedes compartir un libro con otras personas y asignar a cada miembro permiso de solo lectura o de lectura y escritura. <strong>Iniciar el uso compartido significa que autorizas a esa persona a acceder al contenido de ese libro</strong>, incluidos sus movimientos y archivos adjuntos.</li>
+      <li><strong>Eres responsable de a quién invitas.</strong> Comparte solo con personas de tu confianza. Lo que un miembro vea, copie o exporte mientras tenga acceso escapa a nuestro control técnico.</li>
+      <li>Puedes eliminar a un miembro o dejar de compartir en cualquier momento, pero <strong>no puedes retirar la información que ya haya obtenido</strong>.</li>
+      <li>Desactivar la sincronización con iCloud y eliminar la copia en la nube pone fin a todo el uso compartido que hayas iniciado.</li>
+      <li>Los miembros de un libro compartido quedan obligados por este Contrato. No puedes usar la función de compartir para recopilar o difundir información personal de otras personas.</li>
+    </ul>
+
+    <h3>5.1 Contenido prohibido</h3>
+    <p>Un libro compartido <strong>no debe contener contenido ilícito</strong>, incluido: contenido relacionado con fraudes o estafas; contenido que acose o amenace a otras personas; información personal de otras personas compartida sin su consentimiento; y contenido que explote o abuse sexualmente de menores en cualquier forma.</p>
+
+    <h3>5.2 Cómo denunciar</h3>
+    <ul>
+      <li><strong>En la App:</strong> abre la página <strong>Miembros</strong> del libro compartido y toca <strong>Informar de un problema</strong>, que redacta un correo electrónico al desarrollador;</li>
+      <li><strong>Por correo electrónico:</strong> escribe a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un asunto que empiece por <code>[Report]</code>.</li>
+    </ul>
+    <p>Describe el libro, el contenido y el motivo de la denuncia. Si está en riesgo la seguridad de un menor o la integridad física de cualquier persona, denúncialo también ante las autoridades policiales de tu localidad.</p>
+
+    <h3>5.3 Qué hacemos nosotros</h3>
+    <ul>
+      <li>Acusamos recibo de una denuncia <strong>en un plazo de 7 días</strong> desde su recepción.</li>
+      <li>Los datos de los libros compartidos se encuentran en las propias cuentas de iCloud de los participantes, no en servidores nuestros (no tenemos ninguno), por lo que <strong>no podemos ver ni eliminar ese contenido nosotros mismos</strong>. Indicaremos al propietario del libro cómo eliminar los asientos afectados o eliminar a los miembros implicados.</li>
+      <li>También podemos adoptar cualquier otra medida a nuestro alcance, como poner fin a la licencia del usuario infractor conforme a la sección 12.</li>
+    </ul>
+
+    <h3>5.4 Herramientas a tu disposición</h3>
+    <ul>
+      <li><strong>El propietario de un libro</strong> puede eliminar asientos, cambiar los permisos de los miembros, eliminar miembros o dejar de compartir;</li>
+      <li><strong>Los miembros</strong> pueden abandonar un libro compartido en cualquier momento.</li>
+    </ul>
+
+    <h3>5.5 Reclamaciones y persona responsable</h3>
+    <p>Si no estás de acuerdo con la forma en que se ha tramitado una denuncia, puedes presentar una reclamación por el mismo canal indicado en la sección 5.2. La persona responsable de la seguridad en línea de la App es <strong>el desarrollador, gwongsam</strong> (consulta el <a href="../legal/#es-s3">Aviso legal</a>).</p>
+
+    <h2 id="es-s6">6. Importante: esta app no ofrece asesoramiento profesional</h2>
+    <p><strong>La App es una herramienta de registro e informes. No es un asesor financiero, un contable, un gestor fiscal ni un asesor de inversiones.</strong></p>
+    <ul>
+      <li>Todos los informes, ratios, gráficos, proyecciones y recordatorios que genera la App son <strong>solo para tu referencia personal</strong>. Nada de ello constituye asesoramiento financiero, de inversión, fiscal, contable, jurídico ni profesional de ningún otro tipo, ni una oferta, solicitud o recomendación.</li>
+      <li><strong>Las funciones prospectivas</strong> (margen de liquidez, perspectiva del patrimonio neto, estimaciones de tendencia y similares) son proyecciones matemáticas a partir del historial que has introducido y de los supuestos que has establecido. <strong>No son promesas ni garantías sobre el futuro</strong>, y los resultados reales serán casi con toda seguridad distintos.</li>
+      <li><strong>Los tipos de cambio y los datos de mercado</strong> proceden de fuentes públicas y pueden presentar retrasos, interrupciones o inexactitudes. <strong>Sirven únicamente para la conversión contable y no constituyen una cotización</strong>; no te bases en ellos para operaciones reales, cambio de divisas ni valoraciones.</li>
+      <li>Los informes generados por la App <strong>no están auditados y no son estados financieros formales conformes con ninguna norma contable ni legislación fiscal</strong>. No deben usarse directamente para declaraciones de impuestos, informes regulatorios, solicitudes de préstamo ni para acreditar tu situación financiera ante terceros.</li>
+      <li>Para decisiones financieras importantes —invertir, endeudarte, presentar declaraciones de impuestos— <strong>consulta a un profesional cualificado</strong>. Cualquier decisión que tomes basándote en los resultados de la App es exclusivamente tuya.</li>
+    </ul>
+
+    <h2 id="es-s7">7. Uso aceptable</h2>
+    <p>Te comprometes a no:</p>
+    <ul>
+      <li>aplicar ingeniería inversa, descompilar o desensamblar la App, ni intentar obtener su código fuente, salvo en la medida en que la ley lo permita expresamente;</li>
+      <li>copiar, modificar, alquilar, arrendar, prestar, vender o distribuir la App, ni crear obras derivadas de ella;</li>
+      <li>eludir, burlar o interferir con la verificación de derechos, los mecanismos de pago o cualquier medida técnica de protección;</li>
+      <li>usar la App para actividades ilícitas, incluidos el blanqueo de capitales, la evasión fiscal, la falsificación de registros financieros o el encubrimiento de ganancias ilícitas;</li>
+      <li>introducir o compartir en la App información personal de otra persona sin su consentimiento;</li>
+      <li>hacer un uso abusivo de la App o de los servicios de iCloud de los que depende mediante medios automatizados, ni interferir de cualquier otro modo con otros usuarios.</li>
+    </ul>
+
+    <h2 id="es-s8">8. Propiedad intelectual</h2>
+    <p>La App y todos sus componentes —incluidos el código de software, el diseño de la interfaz, los iconos, los textos y los nombres «Keel» y «司元» y las marcas relacionadas— son propiedad nuestra o de nuestros respectivos licenciantes y están protegidos por la legislación de derechos de autor y otras leyes. Este Contrato no te transfiere ningún derecho de propiedad intelectual.</p>
+    <p><strong>El contenido que creas en la App —libros, movimientos, notas, archivos adjuntos— te pertenece.</strong> No reclamamos ningún derecho sobre él ni hacemos ningún uso de él (consulta la <a href="../privacy/">Política de privacidad</a>).</p>
+
+    <h2 id="es-s9">9. Cambios en el servicio</h2>
+    <p>Podemos añadir, modificar, suspender o discontinuar funciones de la App en cualquier momento, incluido ajustar qué funciones son gratuitas y cuáles requieren Premium. Haremos esfuerzos razonables para evitar que estos cambios perjudiquen los derechos que hayas comprado, y una compra única de por vida ya completada no quedará invalidada por una reorganización de funciones.</p>
+    <p>Algunas funciones dependen de servicios prestados por Apple (iCloud, CloudKit, el App Store). <strong>Esos servicios los controla Apple</strong>, y no somos responsables de la falta de disponibilidad causada por su modificación, limitación o interrupción.</p>
+
+    <h2 id="es-s10">10. Exclusión de garantías</h2>
+    <p>En la máxima medida permitida por la ley aplicable, la App se proporciona <strong>«TAL CUAL» y «SEGÚN DISPONIBILIDAD»</strong>, sin garantía de ningún tipo, expresa o implícita, incluidas, entre otras, las garantías implícitas de comerciabilidad, idoneidad para un fin determinado, exactitud y no infracción.</p>
+    <p>No garantizamos que la App funcione sin interrupciones, sin errores o sin defectos, ni que sus cálculos, proyecciones o datos sean exactos en todas las circunstancias o satisfagan tus necesidades particulares.</p>
+    <p>Algunas jurisdicciones no permiten la exclusión de garantías implícitas, por lo que lo anterior puede no aplicarse plenamente en tu caso; en tal supuesto, dichas garantías se limitan al plazo más breve permitido por la ley. <strong>Los derechos legales irrenunciables que te otorgue la normativa local de protección de los consumidores no se ven afectados.</strong></p>
+
+    <h2 id="es-s11">11. Limitación de responsabilidad</h2>
+    <p>En la máxima medida permitida por la ley aplicable:</p>
+    <ul>
+      <li>No somos responsables de ningún <strong>daño indirecto, incidental, especial, punitivo o consecuente</strong> derivado del uso o de la imposibilidad de uso de la App —incluidos el lucro cesante, la pérdida de oportunidades de negocio, la pérdida de datos o las pérdidas derivadas de decisiones financieras—, aun cuando se nos haya advertido de la posibilidad de tales daños.</li>
+      <li>Nuestra <strong>responsabilidad total acumulada</strong> en virtud de este Contrato o en relación con la App <strong>no excederá el importe que nos hayas pagado efectivamente por la App en los 12 meses anteriores al hecho que dé lugar a la reclamación</strong>; si no has pagado nada, dicho límite es de 100 CNY.</li>
+    </ul>
+    <p>Estas limitaciones no se aplican a nuestra conducta dolosa o negligencia grave, a la responsabilidad por daños personales cuando dicha limitación esté prohibida, ni a ninguna otra responsabilidad que no pueda excluirse por ley.</p>
+
+    <h2 id="es-s12">12. Terminación</h2>
+    <p>Puedes poner fin a este Contrato en cualquier momento eliminando la App. Podemos poner fin a la licencia que te hemos concedido si incumples de forma sustancial este Contrato. A la terminación, debes dejar de usar la App y eliminar tus copias. Las disposiciones sobre propiedad intelectual, exclusión de garantías, limitación de responsabilidad y ley aplicable subsisten tras la terminación.</p>
+    <p>La terminación no afecta a tu posibilidad, conforme a la sección 3.6, de exportar y respaldar tus propios datos.</p>
+
+    <h2 id="es-s13">13. Ley aplicable y resolución de controversias</h2>
+    <p>Este Contrato —su formación, validez, interpretación, cumplimiento y la resolución de las controversias que de él se deriven— se rige por las leyes de <strong>la China continental (República Popular China)</strong> (a estos efectos, con exclusión de sus normas de conflicto de leyes y de las leyes de la RAE de Hong Kong, la RAE de Macao y Taiwán).</p>
+    <p>Cualquier controversia derivada de este Contrato o relacionada con él deberá resolverse en primer lugar mediante negociación de buena fe. De no lograrse, cualquiera de las partes podrá someter la controversia a <strong>un Tribunal Popular competente del lugar de domicilio del desarrollador</strong>.</p>
+    <p><strong>Si eres consumidor, esta elección de ley no te priva de la protección que te otorgan las disposiciones que no pueden excluirse mediante acuerdo en virtud de la ley del país en el que tengas tu residencia habitual</strong>, y nada de lo dispuesto en este Contrato limita los derechos imperativos que como consumidor te reconozca la ley aplicable. Del mismo modo, si la ley imperativa de tu lugar de residencia te otorga el derecho a ejercitar acciones ante los tribunales locales o a que se aplique la ley local, esta sección no afecta a esos derechos.</p>
+
+    <h2 id="es-s14">14. Términos específicos de Apple</h2>
+    <p>Lo siguiente se incluye para cumplir los términos mínimos que Apple exige al EULA de un desarrollador. Tú y nosotros reconocemos y aceptamos que:</p>
+    <ol>
+      <li><strong>Partes.</strong> Este Contrato se celebra únicamente entre tú y nosotros, y <strong>no con Apple</strong>. Nosotros, y no Apple, somos los únicos responsables de la App y de su contenido.</li>
+      <li><strong>Alcance de la licencia.</strong> La licencia que se te concede es la establecida en la sección 2 y está sujeta a las Reglas de uso de los Términos y condiciones de los Servicios Multimedia de Apple.</li>
+      <li><strong>Mantenimiento y soporte.</strong> Somos los únicos responsables de prestar el mantenimiento y el soporte de la App. <strong>Apple no tiene obligación alguna de proporcionar servicios de mantenimiento o soporte.</strong></li>
+      <li><strong>Garantía.</strong> Somos los únicos responsables de cualquier garantía del producto, expresa o implícita. En caso de que la App no se ajuste a alguna garantía aplicable, puedes notificarlo a Apple, y Apple te reembolsará el precio de compra de la App (si lo hubiera). En la máxima medida permitida por la ley aplicable, <strong>Apple no tendrá ninguna otra obligación de garantía en relación con la App</strong>, y cualquier otra reclamación, pérdida, responsabilidad, daño, costo o gasto atribuible a la falta de conformidad con cualquier garantía será responsabilidad exclusivamente nuestra.</li>
+      <li><strong>Reclamaciones relativas al producto.</strong> Nosotros, y no Apple, somos responsables de atender cualquier reclamación tuya o de un tercero relacionada con la App o con tu posesión y uso de la misma, incluidas: (i) reclamaciones por responsabilidad del producto; (ii) cualquier reclamación de que la App no cumple algún requisito legal o reglamentario aplicable; y (iii) reclamaciones basadas en la legislación de protección de los consumidores, de privacidad o similar.</li>
+      <li><strong>Reclamaciones de propiedad intelectual.</strong> En caso de que un tercero alegue que la App o tu posesión y uso de la misma infringe sus derechos de propiedad intelectual, <strong>nosotros, y no Apple, seremos los únicos responsables</strong> de la investigación, defensa, transacción y liquidación de dicha reclamación.</li>
+      <li><strong>Cumplimiento legal.</strong> Declaras y garantizas que (i) no te encuentras en un país sujeto a un embargo del Gobierno de EE. UU. ni designado por el Gobierno de EE. UU. como país que «apoya el terrorismo», y (ii) no figuras en ninguna lista del Gobierno de EE. UU. de partes prohibidas o restringidas.</li>
+      <li><strong>Contacto.</strong> Las preguntas, quejas o reclamaciones relativas a la App pueden dirigirse a: gwongsam, desarrollador independiente, <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</li>
+      <li><strong>Términos de terceros.</strong> Al usar la App debes cumplir los términos de terceros que resulten aplicables (por ejemplo, los Términos de los Servicios Multimedia de Apple y los términos de iCloud).</li>
+      <li><strong>Tercero beneficiario.</strong> Tú y nosotros reconocemos y aceptamos que <strong>Apple y las filiales de Apple son terceros beneficiarios de este Contrato</strong>, y que, una vez que aceptes este Contrato, Apple tendrá el derecho (y se considerará que ha aceptado el derecho) de exigirte su cumplimiento como tercero beneficiario.</li>
+    </ol>
+
+    <h2 id="es-s15">15. Disposiciones generales</h2>
+    <ul>
+      <li><strong>Acuerdo íntegro.</strong> Este Contrato y la <a href="../privacy/">Política de privacidad</a> constituyen el acuerdo íntegro entre tú y nosotros en relación con la App y sustituyen a todas las comunicaciones anteriores, orales o escritas.</li>
+      <li><strong>Divisibilidad.</strong> Si alguna disposición se declara nula o inaplicable, las demás disposiciones seguirán en vigor, y dicha disposición se interpretará de modo que se logre su intención original en la mayor medida legalmente posible.</li>
+      <li><strong>Renuncia.</strong> El hecho de que no ejerzamos o retrasemos el ejercicio de cualquier derecho previsto en este Contrato no constituye una renuncia a dicho derecho.</li>
+      <li><strong>Cesión.</strong> No puedes ceder tus derechos u obligaciones en virtud de este Contrato sin nuestro consentimiento por escrito. Podemos ceder este Contrato en el marco de una transmisión, fusión o reorganización de la actividad, sin reducir las protecciones de las que disfrutas.</li>
+      <li><strong>Modificaciones de estos términos.</strong> Podemos revisar este Contrato. Las revisiones se publican en esta página con la fecha actualizada en la parte superior, y los cambios importantes se destacan de forma visible en la App. <strong>Seguir usando la App después de que una revisión entre en vigor supone su aceptación</strong>; si no la aceptas, deja de usar la App y elimínala.</li>
+    </ul>
+
+    <h2 id="es-s16">16. Contacto</h2>
+    <p>gwongsam, desarrollador independiente<br>Correo electrónico: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>La identificación del vendedor, la información japonesa conforme a la 特定商取引法, la información del proveedor para la UE, Alemania y Suiza, y el contacto de seguridad en línea para el Reino Unido figuran en la página de <a href="../legal/">Aviso legal</a>.</p>
+
+    <hr>
+    <p class="doc-meta">En caso de discrepancia entre esta versión en español y la <a href="?lang=zh">versión en chino</a>, prevalecerá la versión en chino.</p>
+  </article>
+
+  <article data-lang="fr" lang="fr">
+    <h1 class="doc-title">Conditions d’utilisation</h1>
+    <p class="doc-meta"><span>Contrat de licence utilisateur final (CLUF)</span><span>Pour l’app iOS Keel (nom chinois : 司元)</span><span>Date d’entrée en vigueur : 28 juillet 2026</span><span>Dernière mise à jour : 5 octobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">En bref</p>
+      <ul>
+        <li>Le présent contrat est conclu <strong>entre vous et gwongsam, développeur indépendant</strong>. Apple n’y est pas partie et n’est pas responsable de l’App.</li>
+        <li>L’App est un <strong>outil de tenue de comptes et de production de rapports</strong>. Elle ne fournit <strong>aucun conseil financier, en investissement, fiscal ou juridique</strong>. Chaque chiffre provient de ce que vous avez saisi, et il vous appartient de le vérifier.</li>
+        <li>L’abonnement Premium est proposé sous forme d’<strong>abonnements mensuels et annuels à renouvellement automatique</strong> et d’un <strong>achat unique à vie</strong>. Les abonnements se renouvellent automatiquement ; voir l’article 3 pour savoir comment les résilier.</li>
+        <li><strong>Vos données vous appartiennent toujours.</strong> L’expiration ou la rétrogradation <strong>ne verrouille jamais</strong> ce que vous avez déjà enregistré : vos données restent lisibles, exportables et sauvegardables.</li>
+        <li><strong>Les sauvegardes relèvent de votre responsabilité.</strong> Exportez-les régulièrement ; nous ne pouvons pas récupérer vos données à votre place.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Table des matières">
+      <h2>Sommaire</h2>
+      <ol>
+        <li><a href="#fr-s1">1. Acceptation</a></li>
+        <li><a href="#fr-s2">2. Octroi et étendue de la licence</a></li>
+        <li><a href="#fr-s3">3. Premium, abonnements et achats</a></li>
+        <li><a href="#fr-s4">4. Vos données et vos sauvegardes</a></li>
+        <li><a href="#fr-s5">5. Livres partagés</a></li>
+        <li><a href="#fr-s6">6. Important : cette app ne fournit pas de conseil professionnel</a></li>
+        <li><a href="#fr-s7">7. Utilisation acceptable</a></li>
+        <li><a href="#fr-s8">8. Propriété intellectuelle</a></li>
+        <li><a href="#fr-s9">9. Modifications du service</a></li>
+        <li><a href="#fr-s10">10. Exclusion de garanties</a></li>
+        <li><a href="#fr-s11">11. Limitation de responsabilité</a></li>
+        <li><a href="#fr-s12">12. Résiliation</a></li>
+        <li><a href="#fr-s13">13. Droit applicable et litiges</a></li>
+        <li><a href="#fr-s14">14. Dispositions propres à Apple</a></li>
+        <li><a href="#fr-s15">15. Dispositions générales</a></li>
+        <li><a href="#fr-s16">16. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="fr-s1">1. Acceptation</h2>
+    <p>Les présentes Conditions d’utilisation, qui constituent également le contrat de licence utilisateur final (le « Contrat »), forment un accord contraignant entre vous et <strong>gwongsam, développeur indépendant</strong> (« nous »), concernant Keel (nom chinois 司元, l’« App »).</p>
+    <p>En téléchargeant, en installant ou en utilisant l’App, vous confirmez avoir lu et compris le présent Contrat et la <a href="../privacy/">Politique de confidentialité</a>, et accepter d’être lié par ceux-ci. <strong>Si vous ne les acceptez pas, n’utilisez pas l’App et supprimez-la de votre appareil.</strong></p>
+    <p>Le présent Contrat est conclu entre vous et nous. <strong>Apple n’y est pas partie</strong> et n’assume aucune responsabilité à l’égard de l’App ou de son contenu. Voir l’article 14 pour les dispositions correspondantes.</p>
+
+    <h2 id="fr-s2">2. Octroi et étendue de la licence</h2>
+    <p>Sous réserve que vous respectiez le présent Contrat, nous vous concédons une licence <strong>personnelle, non exclusive, non transférable et révocable</strong> d’utilisation de l’App sur des appareils de marque Apple dont vous êtes propriétaire ou que vous contrôlez, à des fins de tenue de comptes et de suivi financier personnels ou domestiques, non commerciales. L’étendue de cette licence est en outre soumise aux Règles d’utilisation figurant dans les <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Conditions générales des Services Multimédias Apple</a>, y compris les dispositions relatives au Partage familial et aux achats en volume.</p>
+    <p>L’App vous est <strong>concédée sous licence, et non vendue</strong>. Tous les droits qui ne sont pas expressément concédés aux présentes sont réservés.</p>
+
+    <h2 id="fr-s3">3. Premium, abonnements et achats</h2>
+
+    <h3>3.1 Formule gratuite et formule Premium</h3>
+    <p>Les fonctions de base de la tenue de comptes de l’App — notamment l’enregistrement en partie double, le système de comptes, ainsi que le bilan, le compte de résultat et le tableau des flux de trésorerie — sont <strong>gratuites et sans limite de nombre d’enregistrements</strong>. Certaines fonctions avancées (telles que la synchronisation et la collaboration entre appareils, les projections et analyses prospectives, les instruments financiers plus complexes comme les prêts et le paiement différé, ainsi que les données de marché et les taux de change en ligne) nécessitent l’abonnement Premium. La répartition actuelle des fonctions est celle affichée dans l’App et peut être ajustée d’une version à l’autre.</p>
+
+    <h3>3.2 Produits</h3>
+    <p>L’abonnement Premium est vendu via l’App Store d’Apple sous les formes suivantes :</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Produit</th><th>Type</th><th>Durée</th></tr></thead>
+      <tbody>
+        <tr><td>Keel Premium · Mensuel</td><td>Abonnement à renouvellement automatique</td><td>1 mois, renouvelé automatiquement</td></tr>
+        <tr><td>Keel Premium · Annuel</td><td>Abonnement à renouvellement automatique</td><td>1 an, renouvelé automatiquement</td></tr>
+        <tr><td>Keel Premium · À vie</td><td>Achat unique (non consommable)</td><td>Paiement unique, sans renouvellement</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Les prix sont ceux affichés dans l’App et sur l’App Store pour votre région au moment de l’achat</strong> et peuvent varier selon la région, la devise et les taxes. Nous pouvons modifier les prix ; une modification n’affecte pas un achat que vous avez déjà effectué, et les modifications du prix des abonnements vous sont notifiées — et, le cas échéant, soumises à votre consentement — conformément aux règles d’Apple.</p>
+
+    <h3>3.3 Renouvellement automatique, facturation et résiliation</h3>
+    <p>Pour les abonnements à renouvellement automatique :</p>
+    <ul>
+      <li><strong>Le prix et la période d’abonnement sont indiqués sur l’écran d’achat avant que vous ne confirmiez.</strong></li>
+      <li>Le paiement est débité de votre <strong>compte identifiant Apple</strong> lors de la confirmation de l’achat.</li>
+      <li>Si l’abonnement comprend un <strong>essai gratuit</strong>, <strong>le premier débit intervient à la fin de l’essai</strong> (la date est indiquée sur l’écran d’achat avant que vous ne confirmiez), sauf si vous désactivez le renouvellement automatique <strong>au moins 24 heures avant</strong> la fin de l’essai.</li>
+      <li><strong>L’abonnement se renouvelle automatiquement</strong>, sauf si le renouvellement automatique est désactivé <strong>au moins 24 heures avant</strong> la fin de la période en cours.</li>
+      <li>Le renouvellement est débité de votre compte <strong>dans les 24 heures précédant la fin de la période en cours</strong>, au prix de renouvellement.</li>
+      <li>Après l’achat, vous pouvez <strong>gérer l’abonnement et désactiver le renouvellement automatique</strong> dans <em>Réglages › identifiant Apple › Abonnements</em> sur votre appareil.</li>
+      <li>Vous pouvez également ouvrir <strong><em>Réglages › Premium › Gérer l’abonnement</em></strong> dans l’App, qui vous mène directement à l’écran de gestion des abonnements d’Apple.</li>
+      <li><strong>Une résiliation pendant une période payée en cours ne prend pas effet immédiatement</strong> et ne donne lieu à aucun remboursement au prorata ; votre abonnement Premium se poursuit jusqu’à la fin de cette période.</li>
+      <li>Lorsqu’un essai gratuit est proposé, toute partie non utilisée de celui-ci est perdue lorsque vous souscrivez un abonnement.</li>
+    </ul>
+
+    <h3>3.4 Remboursements</h3>
+    <p><strong>Tous les achats sont traités par Apple, et les remboursements sont accordés par Apple à sa discrétion, selon ses propres politiques. Nous ne pouvons pas effectuer de remboursement directement.</strong> Pour en demander un, contactez Apple sur <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. Le présent article n’affecte pas les droits que vous confère la législation applicable en matière de protection des consommateurs.</p>
+
+    <h3>3.5 Restauration des achats</h3>
+    <p>Après un changement d’appareil ou une réinstallation, utilisez « Restaurer » sur l’écran Premium pour rétablir les droits associés au même identifiant Apple.</p>
+
+    <h3>3.6 Vos données ne sont jamais prises en otage</h3>
+    <p>Nous nous engageons, au titre du présent Contrat, à ce que <strong>quel que soit l’état de votre abonnement Premium, les données que vous avez déjà enregistrées restent lisibles, exportables et sauvegardables.</strong> Lorsqu’un abonnement Premium expire ou est résilié, nous fermons uniquement les points d’accès permettant de <em>créer ou d’activer</em> les fonctions concernées ; les enregistrements, comptes et rapports existants continuent d’être calculés et affichés normalement. Les fonctions qui protègent l’exactitude de vos données — vérification, sauvegarde et exportation — sont <strong>gratuites de manière permanente</strong>.</p>
+
+    <h2 id="fr-s4">4. Vos données et vos sauvegardes</h2>
+    <ul>
+      <li><strong>L’exactitude relève de votre responsabilité.</strong> L’App enregistre et calcule fidèlement ce que vous saisissez. Des erreurs de montant, de date, de catégorie, de taux de change ou de taux d’intérêt produisent des rapports inexacts, et nous n’en sommes pas responsables.</li>
+      <li><strong>Les sauvegardes relèvent de votre responsabilité.</strong> L’App permet d’exporter des sauvegardes ; exportez-les régulièrement et conservez les fichiers en lieu sûr. Comme nous ne détenons pas vos données (voir la <a href="../privacy/">Politique de confidentialité</a>), <strong>si votre appareil est endommagé, perdu ou réinitialisé, ou si vous supprimez des données par erreur, nous ne pouvons pas les récupérer pour vous.</strong></li>
+      <li><strong>La sécurité des fichiers de sauvegarde relève de votre responsabilité.</strong> Une sauvegarde exportée sans phrase secrète est un <strong>fichier non chiffré</strong> que toute personne qui l’obtient peut lire. Pour une sauvegarde chiffrée, <strong>une phrase secrète oubliée ne peut pas être récupérée</strong> : nous ne la conservons pas et ne pouvons pas la réinitialiser.</li>
+      <li><strong>La synchronisation iCloud dépend des services d’Apple.</strong> Sa disponibilité, sa vitesse et son quota de stockage sont contrôlés par Apple. Un stockage iCloud insuffisant, des problèmes de compte ou des interruptions de service peuvent suspendre la synchronisation, et nous n’en sommes pas responsables.</li>
+    </ul>
+
+    <h2 id="fr-s5">5. Livres partagés</h2>
+    <ul>
+      <li>Vous pouvez partager un livre avec d’autres personnes et attribuer à chaque membre une autorisation en lecture seule ou en lecture et écriture. <strong>Lancer un partage signifie que vous autorisez cette personne à accéder au contenu de ce livre</strong>, y compris ses transactions et ses pièces jointes.</li>
+      <li><strong>Vous êtes responsable des personnes que vous invitez.</strong> Ne partagez qu’avec des personnes de confiance. Ce qu’un membre consulte, copie ou exporte pendant qu’il y a accès échappe à notre contrôle technique.</li>
+      <li>Vous pouvez retirer un membre ou arrêter le partage à tout moment, mais <strong>vous ne pouvez pas reprendre les informations qu’il a déjà obtenues</strong>.</li>
+      <li>Désactiver la synchronisation iCloud et supprimer la copie dans le cloud met fin à tous les partages que vous avez lancés.</li>
+      <li>Les membres d’un livre partagé sont liés par le présent Contrat. Vous ne pouvez pas utiliser la fonction de partage pour collecter ou diffuser des informations personnelles concernant d’autres personnes.</li>
+    </ul>
+
+    <h3>5.1 Contenus interdits</h3>
+    <p>Un livre partagé <strong>ne doit contenir aucun contenu illicite</strong>, notamment : des contenus liés à la fraude ou à l’escroquerie ; des contenus qui harcèlent ou menacent autrui ; des informations personnelles concernant d’autres personnes partagées sans leur consentement ; et des contenus relevant de l’exploitation ou des abus sexuels sur des enfants, sous quelque forme que ce soit.</p>
+
+    <h3>5.2 Comment signaler</h3>
+    <ul>
+      <li><strong>Dans l’App :</strong> ouvrez la page <strong>Membres</strong> du livre partagé et touchez <strong>Signaler un problème</strong>, ce qui rédige un e-mail au développeur ;</li>
+      <li><strong>Par e-mail :</strong> écrivez à <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> avec un objet commençant par <code>[Report]</code>.</li>
+    </ul>
+    <p>Veuillez décrire le livre, le contenu et la raison de votre signalement. Si la sécurité d’un enfant ou l’intégrité physique de quiconque est menacée, signalez-le également aux autorités de police locales.</p>
+
+    <h3>5.3 Ce que nous faisons</h3>
+    <ul>
+      <li>Nous accusons réception d’un signalement <strong>dans les 7 jours</strong> suivant sa réception.</li>
+      <li>Les données d’un livre partagé résident dans les propres comptes iCloud des participants, et non sur nos serveurs (nous n’en avons aucun) ; <strong>nous ne pouvons donc ni consulter ni supprimer ce contenu nous-mêmes</strong>. Nous guiderons le propriétaire du livre pour qu’il supprime les écritures concernées ou retire les membres concernés.</li>
+      <li>Nous pouvons également prendre toute autre mesure à notre disposition, comme la résiliation de la licence de l’utilisateur fautif en application de l’article 12.</li>
+    </ul>
+
+    <h3>5.4 Outils à votre disposition</h3>
+    <ul>
+      <li><strong>Le propriétaire d’un livre</strong> peut supprimer des écritures, modifier les autorisations des membres, retirer des membres ou arrêter le partage ;</li>
+      <li><strong>Les membres</strong> peuvent quitter un livre partagé à tout moment.</li>
+    </ul>
+
+    <h3>5.5 Réclamations et personne responsable</h3>
+    <p>Si vous êtes en désaccord avec le traitement d’un signalement, vous pouvez déposer une réclamation par le même canal qu’à l’article 5.2. La personne responsable de la sécurité en ligne dans l’App est <strong>le développeur, gwongsam</strong> (voir les <a href="../legal/#fr-s3">Mentions légales</a>).</p>
+
+    <h2 id="fr-s6">6. Important : cette app ne fournit pas de conseil professionnel</h2>
+    <p><strong>L’App est un outil de tenue de comptes et de production de rapports. Ce n’est ni un conseiller financier, ni un expert-comptable, ni un préparateur de déclarations fiscales, ni un conseiller en investissement.</strong></p>
+    <ul>
+      <li>Les rapports, ratios, graphiques, projections et rappels produits par l’App sont <strong>fournis à titre de référence personnelle uniquement</strong>. Aucun d’entre eux ne constitue un conseil financier, en investissement, fiscal, comptable, juridique ou un autre conseil professionnel, ni une offre, une sollicitation ou une recommandation.</li>
+      <li><strong>Les fonctions prospectives</strong> (autonomie de trésorerie, perspectives de patrimoine net, estimations de tendance, etc.) sont des projections mathématiques établies à partir de l’historique que vous avez saisi et des hypothèses que vous avez définies. Elles <strong>ne constituent ni des promesses ni des garanties quant à l’avenir</strong>, et les résultats réels différeront très certainement.</li>
+      <li><strong>Les taux de change et les données de marché</strong> proviennent de sources publiques et peuvent être retardés, interrompus ou inexacts. Ils sont <strong>destinés uniquement à la conversion comptable et ne constituent pas une cotation</strong> ; ne vous y fiez pas pour des transactions réelles, des opérations de change ou des évaluations.</li>
+      <li>Les rapports générés par l’App <strong>ne sont pas audités et ne constituent pas des états financiers officiels conformes à une quelconque norme comptable ou législation fiscale</strong>. Ils ne doivent pas être utilisés directement pour des déclarations fiscales, des déclarations réglementaires, des demandes de prêt ou pour justifier votre situation financière auprès de tiers.</li>
+      <li>Pour toute décision financière importante — investissement, emprunt, déclaration fiscale — <strong>consultez un professionnel qualifié</strong>. Toute décision que vous prenez sur la base des résultats de l’App relève de votre seule responsabilité.</li>
+    </ul>
+
+    <h2 id="fr-s7">7. Utilisation acceptable</h2>
+    <p>Vous vous engagez à ne pas :</p>
+    <ul>
+      <li>procéder à l’ingénierie inverse, à la décompilation ou au désassemblage de l’App, ni tenter d’en obtenir le code source, sauf dans la mesure expressément autorisée par la loi ;</li>
+      <li>copier, modifier, louer, donner à bail, prêter, vendre ou distribuer l’App, ni créer d’œuvres dérivées à partir de celle-ci ;</li>
+      <li>contourner, neutraliser ou perturber la vérification des droits, les mécanismes de paiement ou toute mesure de protection technique ;</li>
+      <li>utiliser l’App pour des activités illicites, notamment le blanchiment d’argent, la fraude fiscale, la falsification de documents financiers ou la dissimulation de produits illicites ;</li>
+      <li>saisir ou partager dans l’App les informations personnelles d’une autre personne sans son consentement ;</li>
+      <li>faire un usage abusif de l’App ou des services iCloud dont elle dépend par des moyens automatisés, ou perturber de toute autre manière les autres utilisateurs.</li>
+    </ul>
+
+    <h2 id="fr-s8">8. Propriété intellectuelle</h2>
+    <p>L’App et l’ensemble de ses composants — y compris le code logiciel, la conception de l’interface, les icônes, les contenus rédactionnels, ainsi que les noms « Keel » et « 司元 » et les marques associées — appartiennent à nous ou à nos concédants respectifs et sont protégés par le droit d’auteur et d’autres lois. Le présent Contrat ne vous transfère aucun droit de propriété intellectuelle.</p>
+    <p><strong>Les contenus que vous créez dans l’App — livres, transactions, notes, pièces jointes — vous appartiennent.</strong> Nous ne revendiquons aucun droit sur ceux-ci et n’en faisons aucun usage (voir la <a href="../privacy/">Politique de confidentialité</a>).</p>
+
+    <h2 id="fr-s9">9. Modifications du service</h2>
+    <p>Nous pouvons à tout moment ajouter, modifier, suspendre ou interrompre des fonctions de l’App, y compris modifier la répartition entre fonctions gratuites et fonctions nécessitant l’abonnement Premium. Nous ferons des efforts raisonnables pour éviter que de telles modifications ne portent atteinte aux droits que vous avez achetés, et un achat unique à vie déjà effectué ne sera pas rendu caduc par une réorganisation des fonctions.</p>
+    <p>Certaines fonctions dépendent de services fournis par Apple (iCloud, CloudKit, l’App Store). <strong>Ces services sont contrôlés par Apple</strong>, et nous ne sommes pas responsables de leur indisponibilité due à leur modification, leur limitation ou leur interruption.</p>
+
+    <h2 id="fr-s10">10. Exclusion de garanties</h2>
+    <p>Dans toute la mesure permise par la loi applicable, l’App est fournie <strong>« EN L’ÉTAT » et « SELON DISPONIBILITÉ »</strong>, sans garantie d’aucune sorte, expresse ou implicite, y compris, sans s’y limiter, les garanties implicites de qualité marchande, d’adéquation à un usage particulier, d’exactitude et d’absence de contrefaçon.</p>
+    <p>Nous ne garantissons pas que l’App fonctionnera sans interruption, sans erreur ou sans défaut, ni que ses calculs, projections ou données seront exacts en toutes circonstances ou répondront à vos besoins particuliers.</p>
+    <p>Certaines juridictions n’autorisent pas l’exclusion des garanties implicites ; il se peut donc que ce qui précède ne s’applique pas entièrement à vous. Dans ce cas, ces garanties sont limitées à la durée la plus courte permise par la loi. <strong>Les droits légaux auxquels vous ne pouvez renoncer en vertu de la législation locale de protection des consommateurs ne sont pas affectés.</strong></p>
+
+    <h2 id="fr-s11">11. Limitation de responsabilité</h2>
+    <p>Dans toute la mesure permise par la loi applicable :</p>
+    <ul>
+      <li>Nous ne sommes pas responsables des <strong>dommages indirects, accessoires, spéciaux, punitifs ou consécutifs</strong> résultant de votre utilisation ou de votre impossibilité d’utiliser l’App — y compris le manque à gagner, la perte d’opportunités commerciales, la perte de données ou les pertes résultant de décisions financières —, même si nous avons été informés de la possibilité de tels dommages.</li>
+      <li>Notre <strong>responsabilité totale cumulée</strong> au titre du présent Contrat ou en relation avec l’App <strong>n’excédera pas le montant que vous nous avez effectivement payé pour l’App au cours des 12 mois précédant le fait générateur de la réclamation</strong> ; si vous n’avez rien payé, ce plafond est de 100 CNY.</li>
+    </ul>
+    <p>Ces limitations ne s’appliquent pas à notre faute intentionnelle ou à notre faute lourde, à la responsabilité pour dommages corporels lorsqu’une telle limitation est interdite, ni à toute autre responsabilité qui ne peut être exclue par la loi.</p>
+
+    <h2 id="fr-s12">12. Résiliation</h2>
+    <p>Vous pouvez résilier le présent Contrat à tout moment en supprimant l’App. Nous pouvons résilier la licence qui vous est concédée si vous manquez de manière substantielle au présent Contrat. En cas de résiliation, vous devez cesser d’utiliser l’App et en supprimer vos copies. Les dispositions relatives à la propriété intellectuelle, à l’exclusion de garanties, à la limitation de responsabilité et au droit applicable survivent à la résiliation.</p>
+    <p>La résiliation n’affecte pas votre faculté, en vertu de l’article 3.6, d’exporter et de sauvegarder vos propres données.</p>
+
+    <h2 id="fr-s13">13. Droit applicable et litiges</h2>
+    <p>Le présent Contrat — sa formation, sa validité, son interprétation, son exécution et le règlement des litiges qui en découlent — est régi par le droit de <strong>la partie continentale de la République populaire de Chine</strong> (à cette fin, à l’exclusion de ses règles de conflit de lois et à l’exclusion du droit de la RAS de Hong Kong, de la RAS de Macao et de Taïwan).</p>
+    <p>Tout litige découlant du présent Contrat ou s’y rapportant doit d’abord être résolu par une négociation de bonne foi. À défaut, chacune des parties peut porter le litige devant <strong>un tribunal populaire compétent du lieu de domicile du développeur</strong>.</p>
+    <p><strong>Si vous êtes un consommateur, ce choix de loi ne peut avoir pour résultat de vous priver de la protection que vous assurent les dispositions auxquelles il ne peut être dérogé par accord en vertu de la loi du pays où vous avez votre résidence habituelle</strong>, et aucune disposition du présent Contrat ne limite les droits impératifs des consommateurs dont vous bénéficiez en vertu de la loi applicable. De même, si la loi impérative de votre lieu de résidence vous donne le droit d’agir devant vos juridictions locales ou de bénéficier de l’application de la loi locale, le présent article n’affecte pas ces droits.</p>
+
+    <h2 id="fr-s14">14. Dispositions propres à Apple</h2>
+    <p>Les dispositions suivantes sont incluses pour satisfaire aux conditions minimales d’Apple applicables au CLUF d’un développeur. Vous et nous reconnaissons et acceptons que :</p>
+    <ol>
+      <li><strong>Parties.</strong> Le présent Contrat est conclu uniquement entre vous et nous, et <strong>non avec Apple</strong>. Nous, et non Apple, sommes seuls responsables de l’App et de son contenu.</li>
+      <li><strong>Étendue de la licence.</strong> La licence qui vous est concédée est celle définie à l’article 2 et est soumise aux Règles d’utilisation figurant dans les Conditions générales des Services Multimédias Apple.</li>
+      <li><strong>Maintenance et assistance.</strong> Nous sommes seuls responsables de la fourniture de la maintenance et de l’assistance pour l’App. <strong>Apple n’a aucune obligation, de quelque nature que ce soit, de fournir des services de maintenance ou d’assistance.</strong></li>
+      <li><strong>Garantie.</strong> Nous sommes seuls responsables de toute garantie relative au produit, qu’elle soit expresse ou implicite. En cas de non-conformité de l’App à une garantie applicable, vous pouvez en informer Apple, et Apple vous remboursera le prix d’achat de l’App (le cas échéant). Dans toute la mesure permise par la loi applicable, <strong>Apple n’aura aucune autre obligation de garantie, de quelque nature que ce soit, à l’égard de l’App</strong>, et toute autre réclamation, perte, responsabilité, tout dommage, coût ou frais imputable à une non-conformité à une garantie relève de notre seule responsabilité.</li>
+      <li><strong>Réclamations relatives au produit.</strong> Nous, et non Apple, sommes responsables du traitement de toute réclamation de votre part ou de la part d’un tiers concernant l’App ou votre possession et votre utilisation de celle-ci, notamment : (i) les réclamations en matière de responsabilité du fait des produits ; (ii) toute réclamation selon laquelle l’App ne serait pas conforme à une exigence légale ou réglementaire applicable ; et (iii) les réclamations fondées sur la législation relative à la protection des consommateurs, à la protection de la vie privée ou sur une législation similaire.</li>
+      <li><strong>Réclamations en matière de propriété intellectuelle.</strong> En cas de réclamation d’un tiers alléguant que l’App ou votre possession et votre utilisation de celle-ci porte atteinte aux droits de propriété intellectuelle de ce tiers, <strong>nous, et non Apple, serons seuls responsables</strong> de l’enquête, de la défense, du règlement et de l’extinction de cette réclamation.</li>
+      <li><strong>Conformité légale.</strong> Vous déclarez et garantissez (i) que vous ne vous trouvez pas dans un pays soumis à un embargo du gouvernement des États-Unis ou désigné par le gouvernement des États-Unis comme un pays « soutenant le terrorisme », et (ii) que vous ne figurez sur aucune liste de parties interdites ou soumises à restrictions établie par le gouvernement des États-Unis.</li>
+      <li><strong>Contact.</strong> Les questions, plaintes ou réclamations concernant l’App peuvent être adressées à : gwongsam, développeur indépendant, <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</li>
+      <li><strong>Conditions de tiers.</strong> Vous devez respecter les conditions contractuelles de tiers applicables lorsque vous utilisez l’App (par exemple, les Conditions des Services Multimédias Apple et les conditions d’iCloud).</li>
+      <li><strong>Tiers bénéficiaire.</strong> Vous et nous reconnaissons et acceptons qu’<strong>Apple et les filiales d’Apple sont des tiers bénéficiaires du présent Contrat</strong> et que, dès votre acceptation du présent Contrat, Apple aura le droit (et sera réputée avoir accepté ce droit) de faire valoir le présent Contrat à votre encontre en qualité de tiers bénéficiaire.</li>
+    </ol>
+
+    <h2 id="fr-s15">15. Dispositions générales</h2>
+    <ul>
+      <li><strong>Intégralité de l’accord.</strong> Le présent Contrat et la <a href="../privacy/">Politique de confidentialité</a> constituent l’intégralité de l’accord entre vous et nous concernant l’App et remplacent toutes les communications antérieures, orales ou écrites.</li>
+      <li><strong>Divisibilité.</strong> Si une disposition est jugée invalide ou inapplicable, les autres dispositions restent en vigueur, et cette disposition sera interprétée de manière à atteindre son objectif initial dans toute la mesure légalement possible.</li>
+      <li><strong>Renonciation.</strong> Le fait que nous n’exercions pas, ou exercions tardivement, un droit au titre du présent Contrat ne vaut pas renonciation à ce droit.</li>
+      <li><strong>Cession.</strong> Vous ne pouvez pas céder vos droits ou obligations au titre du présent Contrat sans notre consentement écrit. Nous pouvons céder le présent Contrat dans le cadre d’un transfert, d’une fusion ou d’une réorganisation de l’activité, sans réduire les protections dont vous bénéficiez.</li>
+      <li><strong>Modifications des présentes conditions.</strong> Nous pouvons réviser le présent Contrat. Les révisions sont publiées sur cette page avec une date mise à jour en haut de page, et les modifications substantielles sont signalées de manière visible dans l’App. <strong>Le fait de continuer à utiliser l’App après l’entrée en vigueur d’une révision vaut acceptation de celle-ci</strong> ; si vous ne l’acceptez pas, cessez d’utiliser l’App et supprimez-la.</li>
+    </ul>
+
+    <h2 id="fr-s16">16. Contact</h2>
+    <p>gwongsam, développeur indépendant<br>E-mail : <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>L’identification du vendeur, les informations requises par la loi japonaise 特定商取引法 (loi sur les transactions commerciales spécifiées), les informations sur le fournisseur pour l’UE, l’Allemagne et la Suisse, ainsi que le contact pour la sécurité en ligne au Royaume-Uni figurent sur la page <a href="../legal/">Mentions légales</a>.</p>
+
+    <hr>
+    <p class="doc-meta">En cas de divergence entre la présente version française et la <a href="?lang=zh">version chinoise</a>, la version chinoise prévaut.</p>
+  </article>
+
+  <article data-lang="pt" lang="pt-BR">
+    <h1 class="doc-title">Termos de Serviço</h1>
+    <p class="doc-meta"><span>Contrato de Licença de Usuário Final (EULA)</span><span>Para o app Keel para iOS (nome chinês: 司元)</span><span>Vigência: 28 de julho de 2026</span><span>Última atualização: 5 de outubro de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Em resumo</p>
+      <ul>
+        <li>Este contrato é celebrado <strong>entre você e gwongsam, desenvolvedor independente</strong>. A Apple não é parte dele e não é responsável pelo App.</li>
+        <li>O App é uma <strong>ferramenta de escrituração e relatórios</strong>. Ele <strong>não constitui aconselhamento financeiro, de investimentos, tributário ou jurídico</strong>. Todos os valores vêm do que você informou, e conferi-los é responsabilidade sua.</li>
+        <li>O Premium está disponível como <strong>assinaturas mensais e anuais com renovação automática</strong> e como <strong>compra vitalícia única</strong>. As assinaturas são renovadas automaticamente; consulte a Seção 3 para saber como cancelar.</li>
+        <li><strong>Seus dados são sempre seus.</strong> A expiração ou o rebaixamento do plano <strong>nunca bloqueia</strong> o que você já registrou — tudo continua legível, exportável e passível de backup.</li>
+        <li><strong>Os backups são responsabilidade sua.</strong> Exporte-os regularmente; não temos como recuperar dados para você.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Sumário">
+      <h2>Sumário</h2>
+      <ol>
+        <li><a href="#pt-s1">1. Aceitação</a></li>
+        <li><a href="#pt-s2">2. Concessão e escopo da licença</a></li>
+        <li><a href="#pt-s3">3. Premium, assinaturas e compras</a></li>
+        <li><a href="#pt-s4">4. Seus dados e seus backups</a></li>
+        <li><a href="#pt-s5">5. Livros compartilhados</a></li>
+        <li><a href="#pt-s6">6. Importante: este app não é aconselhamento profissional</a></li>
+        <li><a href="#pt-s7">7. Uso aceitável</a></li>
+        <li><a href="#pt-s8">8. Propriedade intelectual</a></li>
+        <li><a href="#pt-s9">9. Alterações no serviço</a></li>
+        <li><a href="#pt-s10">10. Isenção de garantias</a></li>
+        <li><a href="#pt-s11">11. Limitação de responsabilidade</a></li>
+        <li><a href="#pt-s12">12. Rescisão</a></li>
+        <li><a href="#pt-s13">13. Lei aplicável e solução de controvérsias</a></li>
+        <li><a href="#pt-s14">14. Termos específicos da Apple</a></li>
+        <li><a href="#pt-s15">15. Disposições gerais</a></li>
+        <li><a href="#pt-s16">16. Contato</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="pt-s1">1. Aceitação</h2>
+    <p>Estes Termos de Serviço, que também constituem o Contrato de Licença de Usuário Final (este “Contrato”), formam um contrato vinculante entre você e <strong>gwongsam, desenvolvedor independente</strong> (“nós”), referente ao Keel (nome chinês 司元, o “App”).</p>
+    <p>Ao baixar, instalar ou usar o App, você confirma que leu, entendeu e concorda em ficar vinculado a este Contrato e à <a href="../privacy/">Política de Privacidade</a>. <strong>Se você não concordar, não use o App e exclua-o do seu dispositivo.</strong></p>
+    <p>Este Contrato é celebrado entre você e nós. <strong>A Apple não é parte dele</strong> e não tem nenhuma responsabilidade pelo App ou por seu conteúdo. Consulte a Seção 14 para as disposições relacionadas.</p>
+
+    <h2 id="pt-s2">2. Concessão e escopo da licença</h2>
+    <p>Desde que você cumpra este Contrato, concedemos a você uma licença <strong>pessoal, não exclusiva, intransferível e revogável</strong> para usar o App em dispositivos da marca Apple que você possua ou controle, para escrituração e registro financeiro pessoal ou doméstico, sem fins comerciais. O escopo desta licença está ainda sujeito às Regras de Uso dos <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Termos e Condições dos Serviços de Mídia da Apple</a>, incluindo as disposições sobre o Compartilhamento Familiar e as compras por volume.</p>
+    <p>O App é <strong>licenciado, e não vendido</strong>, a você. Todos os direitos não concedidos expressamente aqui ficam reservados.</p>
+
+    <h2 id="pt-s3">3. Premium, assinaturas e compras</h2>
+
+    <h3>3.1 Planos gratuito e Premium</h3>
+    <p>Os recursos essenciais de escrituração do App — incluindo o registro em partidas dobradas, o sistema de contas e o balanço patrimonial, a demonstração de resultados e a demonstração do fluxo de caixa — são <strong>gratuitos e sem limite de número de registros</strong>. Alguns recursos avançados (como sincronização e colaboração entre dispositivos, previsões e análises prospectivas, instrumentos financeiros mais complexos, como empréstimos e “compre agora, pague depois”, e dados on-line de mercado e de taxas de câmbio) exigem o Premium. A distribuição atual dos recursos é a exibida no App e pode ser ajustada de uma versão para outra.</p>
+
+    <h3>3.2 Produtos</h3>
+    <p>O Premium é vendido pela App Store da Apple nas seguintes modalidades:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Produto</th><th>Tipo</th><th>Prazo</th></tr></thead>
+      <tbody>
+        <tr><td>Keel Premium · Mensal</td><td>Assinatura com renovação automática</td><td>1 mês, renovado automaticamente</td></tr>
+        <tr><td>Keel Premium · Anual</td><td>Assinatura com renovação automática</td><td>1 ano, renovado automaticamente</td></tr>
+        <tr><td>Keel Premium · Vitalício</td><td>Compra única (não consumível)</td><td>Pagamento único, sem renovação</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Os preços são os exibidos no App e na App Store para a sua região no momento da compra</strong> e podem variar conforme a região, a moeda e os tributos. Podemos alterar os preços; uma alteração não afeta compras já concluídas, e as alterações de preço de assinaturas são notificadas — e, quando exigido, dependem do seu consentimento — de acordo com as regras da Apple.</p>
+
+    <h3>3.3 Renovação automática, cobrança e cancelamento</h3>
+    <p>Para as assinaturas com renovação automática:</p>
+    <ul>
+      <li><strong>O preço e o período da assinatura são exibidos na tela de compra antes da sua confirmação.</strong></li>
+      <li>O pagamento é cobrado na sua <strong>conta Apple</strong> no momento da confirmação da compra.</li>
+      <li>Se a assinatura incluir um <strong>teste grátis</strong>, <strong>a primeira cobrança ocorre ao término do teste</strong> (a data é exibida na tela de compra antes da sua confirmação), a menos que você desative a renovação automática <strong>com pelo menos 24 horas de antecedência</strong> do término do teste.</li>
+      <li><strong>A assinatura é renovada automaticamente</strong>, a menos que a renovação automática seja desativada <strong>com pelo menos 24 horas de antecedência</strong> do fim do período vigente.</li>
+      <li>A renovação é cobrada na sua conta <strong>nas 24 horas anteriores ao fim do período vigente</strong>, pelo preço de renovação.</li>
+      <li>Após a compra, você pode <strong>gerenciar a assinatura e desativar a renovação automática</strong> em <em>Ajustes › Conta Apple › Assinaturas</em> no seu dispositivo.</li>
+      <li>Você também pode abrir <strong><em>Ajustes › Premium › Gerenciar assinatura</em></strong> no App, que leva diretamente à tela de gerenciamento de assinaturas da Apple.</li>
+      <li><strong>O cancelamento durante um período pago em curso não produz efeito imediato</strong> e não gera reembolso proporcional; o seu Premium continua até o fim desse período.</li>
+      <li>Quando houver um teste grátis, a parte não utilizada dele será perdida quando você comprar uma assinatura.</li>
+    </ul>
+
+    <h3>3.4 Reembolsos</h3>
+    <p><strong>Todas as compras são processadas pela Apple, e os reembolsos são concedidos pela Apple, a critério dela, segundo suas próprias políticas. Não podemos emitir reembolsos diretamente.</strong> Para solicitar um, entre em contato com a Apple em <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. Esta seção não afeta nenhum direito legal que você tenha nos termos da legislação de defesa do consumidor aplicável.</p>
+
+    <h3>3.5 Restauração de compras</h3>
+    <p>Depois de trocar de dispositivo ou reinstalar o App, use “Restaurar” na tela do Premium para restaurar os direitos associados à mesma conta Apple.</p>
+
+    <h3>3.6 Seus dados nunca ficam reféns</h3>
+    <p>Assumimos o compromisso, como cláusula deste Contrato, de que, <strong>qualquer que seja a situação do seu Premium, os dados que você já registrou continuam legíveis, exportáveis e passíveis de backup.</strong> Quando o Premium expira ou é cancelado, apenas fechamos os pontos de entrada para <em>criar ou ativar</em> os recursos correspondentes; os registros, as contas e os relatórios existentes continuam sendo calculados e exibidos normalmente. Os recursos que protegem a correção dos seus dados — validação, backup e exportação — são <strong>gratuitos para sempre</strong>.</p>
+
+    <h2 id="pt-s4">4. Seus dados e seus backups</h2>
+    <ul>
+      <li><strong>A exatidão é responsabilidade sua.</strong> O App registra e calcula fielmente o que você informa. Erros de valores, datas, categorias, taxas de câmbio ou taxas de juros produzem relatórios incorretos, e não nos responsabilizamos por isso.</li>
+      <li><strong>Os backups são responsabilidade sua.</strong> O App oferece exportação de backup; exporte regularmente e guarde os arquivos em segurança. Como não mantemos os seus dados (consulte a <a href="../privacy/">Política de Privacidade</a>), <strong>se o seu dispositivo for danificado, perdido ou redefinido, ou se você excluir dados por engano, não teremos como recuperá-los para você.</strong></li>
+      <li><strong>A proteção dos arquivos de backup é responsabilidade sua.</strong> Um backup exportado sem senha é um <strong>arquivo não criptografado</strong>, que qualquer pessoa que o obtenha pode ler. Em um backup criptografado, <strong>uma senha esquecida não pode ser recuperada</strong> — não a armazenamos nem podemos redefini-la.</li>
+      <li><strong>A Sincronização do iCloud depende dos serviços da Apple.</strong> Sua disponibilidade, velocidade e cota de armazenamento são controladas pela Apple. Armazenamento insuficiente no iCloud, problemas na conta ou interrupções do serviço podem pausar a sincronização, e não nos responsabilizamos por isso.</li>
+    </ul>
+
+    <h2 id="pt-s5">5. Livros compartilhados</h2>
+    <ul>
+      <li>Você pode compartilhar um livro com outras pessoas e definir a permissão de cada membro como somente leitura ou leitura e gravação. <strong>Iniciar um compartilhamento significa autorizar essa pessoa a acessar o conteúdo desse livro</strong>, incluindo seus lançamentos e anexos.</li>
+      <li><strong>Você é responsável por quem convida.</strong> Compartilhe apenas com pessoas de sua confiança. O que um membro visualiza, copia ou exporta enquanto tem acesso está fora do nosso controle técnico.</li>
+      <li>Você pode remover um membro ou parar de compartilhar a qualquer momento, mas <strong>não pode retirar as informações que ele já obteve</strong>.</li>
+      <li>Desativar a Sincronização do iCloud e excluir a cópia na nuvem encerra todos os compartilhamentos iniciados por você.</li>
+      <li>Os membros de um livro compartilhado estão vinculados a este Contrato. Você não pode usar o recurso de compartilhamento para coletar ou divulgar informações pessoais de outras pessoas.</li>
+    </ul>
+
+    <h3>5.1 Conteúdo proibido</h3>
+    <p>Um livro compartilhado <strong>não pode conter conteúdo ilegal</strong>, incluindo: conteúdo relacionado a fraudes ou golpes; conteúdo que assedie ou ameace outras pessoas; informações pessoais de terceiros compartilhadas sem o consentimento deles; e conteúdo que explore ou abuse sexualmente de crianças, sob qualquer forma.</p>
+
+    <h3>5.2 Como denunciar</h3>
+    <ul>
+      <li><strong>No App:</strong> abra a página <strong>Membros</strong> do livro compartilhado e toque em <strong>Denunciar um problema</strong>, o que redige um e-mail ao desenvolvedor;</li>
+      <li><strong>Por e-mail:</strong> escreva para <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> com um assunto que comece por <code>[Report]</code>.</li>
+    </ul>
+    <p>Descreva o livro, o conteúdo e o motivo da denúncia. Se a segurança de uma criança ou a integridade física de qualquer pessoa estiver em risco, comunique o fato também às autoridades policiais locais.</p>
+
+    <h3>5.3 O que fazemos</h3>
+    <ul>
+      <li>Confirmamos o recebimento de uma denúncia <strong>em até 7 dias</strong> após recebê-la.</li>
+      <li>Os dados dos livros compartilhados ficam nas próprias contas do iCloud dos participantes, e não em servidores nossos (não temos nenhum); por isso, <strong>não podemos visualizar nem excluir esse conteúdo por conta própria</strong>. Orientaremos o proprietário do livro a excluir os lançamentos em questão ou a remover os membros envolvidos.</li>
+      <li>Também podemos adotar quaisquer outras medidas ao nosso alcance, como rescindir a licença do usuário infrator nos termos da Seção 12.</li>
+    </ul>
+
+    <h3>5.4 Ferramentas à sua disposição</h3>
+    <ul>
+      <li><strong>O proprietário de um livro</strong> pode excluir lançamentos, alterar as permissões dos membros, remover membros ou parar de compartilhar;</li>
+      <li><strong>Os membros</strong> podem sair de um livro compartilhado a qualquer momento.</li>
+    </ul>
+
+    <h3>5.5 Reclamações e responsável</h3>
+    <p>Se você discordar da forma como uma denúncia foi tratada, pode apresentar uma reclamação pelo mesmo canal da Seção 5.2. O responsável pela segurança on-line no App é <strong>o desenvolvedor, gwongsam</strong> (consulte o <a href="../legal/#pt-s3">Aviso Legal</a>).</p>
+
+    <h2 id="pt-s6">6. Importante: este app não é aconselhamento profissional</h2>
+    <p><strong>O App é uma ferramenta de registro e relatórios. Ele não é um consultor financeiro, um contador, um preparador de declarações de imposto nem um consultor de investimentos.</strong></p>
+    <ul>
+      <li>Todos os relatórios, índices, gráficos, previsões e lembretes gerados pelo App servem <strong>apenas como referência pessoal sua</strong>. Nada disso constitui aconselhamento financeiro, de investimentos, tributário, contábil, jurídico ou de outra natureza profissional, nem uma oferta, solicitação ou recomendação.</li>
+      <li><strong>Os recursos prospectivos</strong> (fôlego de liquidez, perspectiva do patrimônio líquido, estimativas de tendência e similares) são projeções matemáticas feitas a partir do histórico que você informou e das premissas que você definiu. Eles <strong>não são promessas nem garantias sobre o futuro</strong>, e os resultados reais quase certamente serão diferentes.</li>
+      <li><strong>As taxas de câmbio e os dados de mercado</strong> vêm de fontes públicas e podem estar atrasados, interrompidos ou imprecisos. Servem <strong>apenas para conversão na escrituração e não constituem cotação</strong>; não se baseie neles para negociações reais, câmbio de moedas ou avaliações.</li>
+      <li>Os relatórios gerados pelo App <strong>não são auditados e não são demonstrações financeiras formais em conformidade com qualquer norma contábil ou legislação tributária</strong>. Eles não devem ser usados diretamente para declarações de imposto, prestação de informações a órgãos reguladores, pedidos de empréstimo ou para comprovar a sua situação financeira perante terceiros.</li>
+      <li>Para decisões financeiras importantes — investimentos, empréstimos, declarações de imposto — <strong>consulte um profissional qualificado</strong>. Qualquer decisão que você tome com base nos resultados do App é exclusivamente sua.</li>
+    </ul>
+
+    <h2 id="pt-s7">7. Uso aceitável</h2>
+    <p>Você concorda em não:</p>
+    <ul>
+      <li>fazer engenharia reversa, descompilar ou desmontar o App, nem tentar obter o seu código-fonte, exceto na medida expressamente permitida por lei;</li>
+      <li>copiar, modificar, alugar, arrendar, emprestar, vender ou distribuir o App, nem criar obras derivadas dele;</li>
+      <li>contornar, burlar ou interferir na verificação de direitos, nos mecanismos de pagamento ou em quaisquer medidas técnicas de proteção;</li>
+      <li>usar o App para atividades ilícitas, incluindo lavagem de dinheiro, sonegação fiscal, falsificação de registros financeiros ou ocultação de recursos de origem ilícita;</li>
+      <li>inserir ou compartilhar no App informações pessoais de outra pessoa sem o consentimento dela;</li>
+      <li>abusar do App ou dos serviços do iCloud dos quais ele depende por meios automatizados, ou interferir de outra forma com outros usuários.</li>
+    </ul>
+
+    <h2 id="pt-s8">8. Propriedade intelectual</h2>
+    <p>O App e todos os seus componentes — incluindo o código do software, o design da interface, os ícones, os textos e os nomes “Keel” e “司元” e as marcas relacionadas — pertencem a nós ou aos respectivos licenciantes e são protegidos por direitos autorais e outras leis. Este Contrato não transfere a você nenhum direito de propriedade intelectual.</p>
+    <p><strong>O conteúdo que você cria no App — livros, lançamentos, notas, anexos — pertence a você.</strong> Não reivindicamos nenhum direito sobre ele nem fazemos nenhum uso dele (consulte a <a href="../privacy/">Política de Privacidade</a>).</p>
+
+    <h2 id="pt-s9">9. Alterações no serviço</h2>
+    <p>Podemos adicionar, modificar, suspender ou descontinuar recursos do App a qualquer momento, incluindo ajustar quais recursos são gratuitos e quais exigem o Premium. Envidaremos esforços razoáveis para evitar que tais alterações prejudiquem os direitos que você comprou, e uma compra vitalícia única já concluída não será invalidada por uma reorganização de recursos.</p>
+    <p>Alguns recursos dependem de serviços fornecidos pela Apple (iCloud, CloudKit, App Store). <strong>Esses serviços são controlados pela Apple</strong>, e não nos responsabilizamos pela indisponibilidade causada por sua alteração, limitação ou descontinuação.</p>
+
+    <h2 id="pt-s10">10. Isenção de garantias</h2>
+    <p>Na máxima extensão permitida pela legislação aplicável, o App é fornecido <strong>“NO ESTADO EM QUE SE ENCONTRA” e “CONFORME DISPONÍVEL”</strong>, sem garantia de qualquer tipo, expressa ou implícita, incluindo, entre outras, as garantias implícitas de comerciabilidade, adequação a uma finalidade específica, exatidão e não violação.</p>
+    <p>Não garantimos que o App funcionará sem interrupções, sem erros ou sem defeitos, nem que seus cálculos, previsões ou dados serão exatos em todas as circunstâncias ou atenderão às suas necessidades específicas.</p>
+    <p>Algumas jurisdições não permitem a exclusão de garantias implícitas, de modo que o disposto acima pode não se aplicar integralmente a você; nesse caso, tais garantias ficam limitadas ao menor prazo permitido por lei. <strong>Os direitos legais irrenunciáveis que você tenha nos termos da legislação local de defesa do consumidor não são afetados.</strong></p>
+
+    <h2 id="pt-s11">11. Limitação de responsabilidade</h2>
+    <p>Na máxima extensão permitida pela legislação aplicável:</p>
+    <ul>
+      <li>Não somos responsáveis por quaisquer <strong>danos indiretos, incidentais, especiais, punitivos ou consequenciais</strong> decorrentes do seu uso ou da impossibilidade de uso do App — incluindo lucros cessantes, perda de oportunidades de negócio, perda de dados ou prejuízos decorrentes de decisões financeiras —, ainda que tenhamos sido avisados da possibilidade de tais danos.</li>
+      <li>Nossa <strong>responsabilidade total acumulada</strong> nos termos deste Contrato ou relacionada ao App <strong>não excederá o valor que você efetivamente nos pagou pelo App nos 12 meses anteriores ao evento que deu origem à reclamação</strong>; se você não tiver pago nada, esse limite é de CNY 100.</li>
+    </ul>
+    <p>Essas limitações não se aplicam a dolo ou culpa grave de nossa parte, à responsabilidade por danos pessoais quando tal limitação for proibida, nem a qualquer outra responsabilidade que não possa ser excluída por lei.</p>
+
+    <h2 id="pt-s12">12. Rescisão</h2>
+    <p>Você pode rescindir este Contrato a qualquer momento excluindo o App. Podemos rescindir a licença concedida a você caso você viole de forma relevante este Contrato. Com a rescisão, você deve parar de usar o App e excluir suas cópias. As disposições sobre propriedade intelectual, isenção de garantias, limitação de responsabilidade e lei aplicável permanecem em vigor após a rescisão.</p>
+    <p>A rescisão não afeta a sua possibilidade, nos termos da Seção 3.6, de exportar e fazer backup dos seus próprios dados.</p>
+
+    <h2 id="pt-s13">13. Lei aplicável e solução de controvérsias</h2>
+    <p>Este Contrato — sua formação, validade, interpretação, execução e a solução de controvérsias dele decorrentes — é regido pelas leis da <strong>parte continental da República Popular da China</strong> (para esse fim, excluídas as suas normas de conflito de leis e excluídas as leis da RAE de Hong Kong, da RAE de Macau e de Taiwan).</p>
+    <p>Qualquer controvérsia decorrente deste Contrato ou a ele relacionada deve ser resolvida, em primeiro lugar, por negociação de boa-fé. Não sendo possível, qualquer das partes poderá submeter a controvérsia a <strong>um Tribunal Popular competente do local de domicílio do desenvolvedor</strong>.</p>
+    <p><strong>Se você for consumidor, esta escolha de lei não o priva da proteção que lhe é conferida pelas disposições que não podem ser derrogadas por acordo nos termos da lei do país onde você tem residência habitual</strong>, e nada neste Contrato limita quaisquer direitos imperativos do consumidor que você tenha nos termos da legislação aplicável. Da mesma forma, se a lei imperativa do seu local de residência lhe conferir o direito de propor ações perante os tribunais locais ou de ter a lei local aplicada, esta seção não afeta esses direitos.</p>
+
+    <h2 id="pt-s14">14. Termos específicos da Apple</h2>
+    <p>As disposições a seguir são incluídas para atender aos termos mínimos exigidos pela Apple para o EULA de um desenvolvedor. Você e nós reconhecemos e concordamos que:</p>
+    <ol>
+      <li><strong>Partes.</strong> Este Contrato é celebrado apenas entre você e nós, e <strong>não com a Apple</strong>. Nós, e não a Apple, somos os únicos responsáveis pelo App e por seu conteúdo.</li>
+      <li><strong>Escopo da licença.</strong> A licença concedida a você é a estabelecida na Seção 2 e está sujeita às Regras de Uso dos Termos e Condições dos Serviços de Mídia da Apple.</li>
+      <li><strong>Manutenção e suporte.</strong> Somos os únicos responsáveis por prestar manutenção e suporte ao App. <strong>A Apple não tem nenhuma obrigação de fornecer quaisquer serviços de manutenção ou suporte.</strong></li>
+      <li><strong>Garantia.</strong> Somos os únicos responsáveis por quaisquer garantias do produto, expressas ou implícitas. Caso o App não esteja em conformidade com qualquer garantia aplicável, você poderá notificar a Apple, e a Apple reembolsará a você o preço de compra do App (se houver). Na máxima extensão permitida pela legislação aplicável, <strong>a Apple não terá nenhuma outra obrigação de garantia com relação ao App</strong>, e quaisquer outras reclamações, perdas, responsabilidades, danos, custos ou despesas atribuíveis à falta de conformidade com qualquer garantia serão de nossa exclusiva responsabilidade.</li>
+      <li><strong>Reclamações relativas ao produto.</strong> Nós, e não a Apple, somos responsáveis por atender a quaisquer reclamações suas ou de terceiros relacionadas ao App ou à sua posse e uso dele, incluindo: (i) reclamações de responsabilidade pelo produto; (ii) qualquer alegação de que o App não cumpre qualquer exigência legal ou regulatória aplicável; e (iii) reclamações decorrentes da legislação de defesa do consumidor, de privacidade ou similar.</li>
+      <li><strong>Reclamações de propriedade intelectual.</strong> Em caso de qualquer reclamação de terceiros de que o App ou a sua posse e uso dele violam os direitos de propriedade intelectual desse terceiro, <strong>nós, e não a Apple, seremos os únicos responsáveis</strong> pela investigação, defesa, acordo e quitação de tal reclamação.</li>
+      <li><strong>Conformidade legal.</strong> Você declara e garante que (i) não está localizado em um país sujeito a embargo do Governo dos EUA ou designado pelo Governo dos EUA como país “apoiador do terrorismo”, e (ii) não consta de nenhuma lista do Governo dos EUA de partes proibidas ou restritas.</li>
+      <li><strong>Contato.</strong> Perguntas, reclamações ou pedidos relativos ao App podem ser encaminhados a: gwongsam, desenvolvedor independente, <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</li>
+      <li><strong>Termos de terceiros.</strong> Ao usar o App, você deve cumprir os termos contratuais de terceiros aplicáveis (por exemplo, os Termos dos Serviços de Mídia da Apple e os termos do iCloud).</li>
+      <li><strong>Terceiro beneficiário.</strong> Você e nós reconhecemos e concordamos que <strong>a Apple e as subsidiárias da Apple são terceiros beneficiários deste Contrato</strong> e que, mediante a sua aceitação deste Contrato, a Apple terá o direito (e será considerada como tendo aceitado o direito) de exigir o cumprimento deste Contrato contra você na qualidade de terceiro beneficiário.</li>
+    </ol>
+
+    <h2 id="pt-s15">15. Disposições gerais</h2>
+    <ul>
+      <li><strong>Acordo integral.</strong> Este Contrato e a <a href="../privacy/">Política de Privacidade</a> constituem o acordo integral entre você e nós com relação ao App e substituem todas as comunicações anteriores, verbais ou escritas.</li>
+      <li><strong>Independência das cláusulas.</strong> Se qualquer disposição for considerada inválida ou inexequível, as demais disposições permanecerão em vigor, e essa disposição será interpretada de forma a atingir sua intenção original da maneira mais próxima legalmente possível.</li>
+      <li><strong>Renúncia.</strong> A nossa omissão ou demora em exercer qualquer direito previsto neste Contrato não constitui renúncia a esse direito.</li>
+      <li><strong>Cessão.</strong> Você não pode ceder seus direitos ou obrigações nos termos deste Contrato sem o nosso consentimento por escrito. Podemos ceder este Contrato no contexto de uma transferência, fusão ou reorganização do negócio, sem reduzir as proteções de que você dispõe.</li>
+      <li><strong>Alterações nestes termos.</strong> Podemos revisar este Contrato. As revisões são publicadas nesta página com a data atualizada no topo, e as alterações relevantes são destacadas de forma visível no App. <strong>Continuar a usar o App depois que uma revisão entrar em vigor constitui aceitação dela</strong>; se você não a aceitar, pare de usar o App e exclua-o.</li>
+    </ul>
+
+    <h2 id="pt-s16">16. Contato</h2>
+    <p>gwongsam, desenvolvedor independente<br>E-mail: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>A identificação do vendedor, a divulgação japonesa nos termos da 特定商取引法, as informações do fornecedor para a UE, a Alemanha e a Suíça e o contato de segurança on-line para o Reino Unido estão na página <a href="../legal/">Aviso Legal</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Em caso de qualquer divergência entre esta versão em português e a <a href="?lang=zh">versão em chinês</a>, prevalecerá a versão em chinês.</p>
+  </article>
+
+  <article data-lang="it" lang="it">
+    <h1 class="doc-title">Termini di servizio</h1>
+    <p class="doc-meta"><span>Contratto di licenza con l'utente finale (EULA)</span><span>Per l'app Keel per iOS (nome cinese: 司元)</span><span>In vigore dal: 28 luglio 2026</span><span>Ultimo aggiornamento: 5 ottobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">In breve</p>
+      <ul>
+        <li>Il presente contratto è concluso <strong>tra te e gwongsam, sviluppatore indipendente</strong>. Apple non ne è parte e non è responsabile dell'App.</li>
+        <li>L'App è uno <strong>strumento di contabilità e reportistica</strong>. <strong>Non costituisce consulenza finanziaria, d'investimento, fiscale o legale</strong>. Ogni cifra deriva da ciò che hai inserito e verificarla è tua responsabilità.</li>
+        <li>L'abbonamento Premium è disponibile come <strong>abbonamento mensile e annuale a rinnovo automatico</strong> e come <strong>acquisto a vita una tantum</strong>. Gli abbonamenti si rinnovano automaticamente; per sapere come disdirli, vedi la Sezione 3.</li>
+        <li><strong>I tuoi dati restano sempre tuoi.</strong> La scadenza o il passaggio a un piano inferiore <strong>non bloccano mai</strong> ciò che hai già registrato: resta leggibile, esportabile e salvabile in backup.</li>
+        <li><strong>I backup sono tua responsabilità.</strong> Esportali regolarmente; non possiamo recuperare i dati per te.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <h2>Indice</h2>
+      <ol>
+        <li><a href="#it-s1">1. Accettazione</a></li>
+        <li><a href="#it-s2">2. Concessione e ambito della licenza</a></li>
+        <li><a href="#it-s3">3. Premium, abbonamenti e acquisti</a></li>
+        <li><a href="#it-s4">4. I tuoi dati e i tuoi backup</a></li>
+        <li><a href="#it-s5">5. Libri condivisi</a></li>
+        <li><a href="#it-s6">6. Importante: questa app non è consulenza professionale</a></li>
+        <li><a href="#it-s7">7. Uso consentito</a></li>
+        <li><a href="#it-s8">8. Proprietà intellettuale</a></li>
+        <li><a href="#it-s9">9. Modifiche al servizio</a></li>
+        <li><a href="#it-s10">10. Esclusione di garanzie</a></li>
+        <li><a href="#it-s11">11. Limitazione di responsabilità</a></li>
+        <li><a href="#it-s12">12. Risoluzione</a></li>
+        <li><a href="#it-s13">13. Legge applicabile e controversie</a></li>
+        <li><a href="#it-s14">14. Termini specifici di Apple</a></li>
+        <li><a href="#it-s15">15. Disposizioni generali</a></li>
+        <li><a href="#it-s16">16. Contatti</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="it-s1">1. Accettazione</h2>
+    <p>I presenti Termini di servizio, che costituiscono anche il Contratto di licenza con l'utente finale (il «Contratto»), formano un accordo vincolante tra te e <strong>gwongsam, sviluppatore indipendente</strong> («noi»), relativo a Keel (nome cinese 司元, l'«App»).</p>
+    <p>Scaricando, installando o utilizzando l'App, confermi di aver letto e compreso il presente Contratto e l'<a href="../privacy/">Informativa sulla privacy</a> e di accettare di esservi vincolato. <strong>Se non accetti, non utilizzare l'App ed eliminala dal tuo dispositivo.</strong></p>
+    <p>Il presente Contratto è concluso tra te e noi. <strong>Apple non ne è parte</strong> e non ha alcuna responsabilità per l'App o per il suo contenuto. Per le relative disposizioni, vedi la Sezione 14.</p>
+
+    <h2 id="it-s2">2. Concessione e ambito della licenza</h2>
+    <p>A condizione che tu rispetti il presente Contratto, ti concediamo una licenza <strong>personale, non esclusiva, non trasferibile e revocabile</strong> per utilizzare l'App su dispositivi a marchio Apple di tua proprietà o sotto il tuo controllo, per la contabilità e la tenuta di registri finanziari a uso personale o familiare e non commerciale. L'ambito della presente licenza è inoltre soggetto alle Regole di utilizzo contenute nei <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Termini e condizioni dei Servizi multimediali Apple</a>, comprese le disposizioni su In famiglia e sugli acquisti in volume.</p>
+    <p>L'App ti viene <strong>concessa in licenza, non venduta</strong>. Tutti i diritti non espressamente concessi nel presente Contratto sono riservati.</p>
+
+    <h2 id="it-s3">3. Premium, abbonamenti e acquisti</h2>
+
+    <h3>3.1 Livello gratuito e livello Premium</h3>
+    <p>Le funzioni contabili di base dell'App, tra cui la registrazione in partita doppia, il sistema dei conti e lo stato patrimoniale, il conto economico e il rendiconto finanziario, sono <strong>gratuite e senza limiti sul numero di registrazioni</strong>. Alcune funzioni avanzate (come la sincronizzazione e la collaborazione tra dispositivi, le proiezioni e le analisi prospettiche, gli strumenti finanziari più complessi come i prestiti e il «compra ora, paga dopo», e i dati di mercato e i tassi di cambio online) richiedono Premium. L'attuale ripartizione delle funzioni è quella indicata nell'App e può essere modificata da una versione all'altra.</p>
+
+    <h3>3.2 Prodotti</h3>
+    <p>Premium è venduto tramite l'App Store di Apple nelle seguenti forme:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Prodotto</th><th>Tipo</th><th>Durata</th></tr></thead>
+      <tbody>
+        <tr><td>Keel Premium · Mensile</td><td>Abbonamento a rinnovo automatico</td><td>1 mese, con rinnovo automatico</td></tr>
+        <tr><td>Keel Premium · Annuale</td><td>Abbonamento a rinnovo automatico</td><td>1 anno, con rinnovo automatico</td></tr>
+        <tr><td>Keel Premium · A vita</td><td>Acquisto una tantum (non consumabile)</td><td>Pagamento unico, nessun rinnovo</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>I prezzi sono quelli indicati nell'App e sull'App Store per la tua area geografica al momento dell'acquisto</strong> e possono variare in base all'area geografica, alla valuta e alle imposte. Possiamo modificare i prezzi; una modifica non incide sugli acquisti già completati e le variazioni di prezzo degli abbonamenti vengono comunicate (e, ove richiesto, sottoposte al tuo consenso) secondo le regole di Apple.</p>
+
+    <h3>3.3 Rinnovo automatico, addebito e disdetta</h3>
+    <p>Per gli abbonamenti a rinnovo automatico:</p>
+    <ul>
+      <li><strong>Il prezzo e il periodo di abbonamento sono indicati nella schermata di acquisto prima della conferma.</strong></li>
+      <li>Il pagamento viene addebitato sul tuo <strong>account ID Apple</strong> alla conferma dell'acquisto.</li>
+      <li>Se l'abbonamento include una <strong>prova gratuita</strong>, <strong>il primo addebito avviene al termine della prova</strong> (la data è indicata nella schermata di acquisto prima della conferma), a meno che tu non disattivi il rinnovo automatico <strong>almeno 24 ore prima</strong> della fine della prova.</li>
+      <li><strong>L'abbonamento si rinnova automaticamente</strong>, a meno che il rinnovo automatico non venga disattivato <strong>almeno 24 ore prima</strong> della fine del periodo in corso.</li>
+      <li>Il rinnovo viene addebitato sul tuo account <strong>entro le 24 ore precedenti la fine del periodo in corso</strong>, al prezzo di rinnovo.</li>
+      <li>Dopo l'acquisto puoi <strong>gestire l'abbonamento e disattivare il rinnovo automatico</strong> in <em>Impostazioni › ID Apple › Abbonamenti</em> sul tuo dispositivo.</li>
+      <li>Puoi anche aprire <strong><em>Impostazioni › Premium › Gestisci abbonamento</em></strong> nell'App, che ti porta direttamente alla schermata di gestione degli abbonamenti di Apple.</li>
+      <li><strong>La disdetta durante un periodo a pagamento in corso non ha effetto immediato</strong> e non dà diritto a un rimborso pro rata; Premium resta attivo fino alla fine di quel periodo.</li>
+      <li>Se è offerta una prova gratuita, l'eventuale parte non utilizzata va persa quando acquisti un abbonamento.</li>
+    </ul>
+
+    <h3>3.4 Rimborsi</h3>
+    <p><strong>Tutti gli acquisti sono gestiti da Apple e i rimborsi sono concessi da Apple a sua discrezione secondo le proprie politiche. Non possiamo emettere rimborsi direttamente.</strong> Per richiederne uno, contatta Apple su <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. La presente sezione non pregiudica i diritti che ti spettano per legge ai sensi della normativa applicabile a tutela dei consumatori.</p>
+
+    <h3>3.5 Ripristino degli acquisti</h3>
+    <p>Dopo aver cambiato dispositivo o reinstallato l'App, usa «Ripristina acquisti» nella schermata Premium per ripristinare i diritti associati allo stesso ID Apple.</p>
+
+    <h3>3.6 I tuoi dati non vengono mai presi in ostaggio</h3>
+    <p>Ci impegniamo, come clausola del presente Contratto, a far sì che, <strong>qualunque sia lo stato del tuo abbonamento Premium, i dati che hai già registrato restino leggibili, esportabili e salvabili in backup.</strong> Quando Premium scade o viene disdetto, chiudiamo soltanto i punti di accesso per <em>creare o attivare</em> le funzioni corrispondenti; le registrazioni, i conti e i report esistenti continuano a essere calcolati e visualizzati normalmente. Le funzioni che tutelano la correttezza dei tuoi dati (verifica, backup ed esportazione) sono <strong>gratuite per sempre</strong>.</p>
+
+    <h2 id="it-s4">4. I tuoi dati e i tuoi backup</h2>
+    <ul>
+      <li><strong>L'accuratezza è tua responsabilità.</strong> L'App registra e calcola fedelmente ciò che inserisci. Errori negli importi, nelle date, nelle categorie, nei tassi di cambio o nei tassi d'interesse producono report errati, e non ne siamo responsabili.</li>
+      <li><strong>I backup sono tua responsabilità.</strong> L'App consente di esportare backup; esportali regolarmente e conserva i file in modo sicuro. Poiché non deteniamo i tuoi dati (vedi l'<a href="../privacy/">Informativa sulla privacy</a>), <strong>se il tuo dispositivo viene danneggiato, smarrito o ripristinato, oppure se elimini dati per errore, non possiamo recuperarli per te.</strong></li>
+      <li><strong>La protezione dei file di backup è tua responsabilità.</strong> Un backup esportato senza passphrase è un <strong>file non crittografato</strong> che chiunque ne entri in possesso può leggere. Per un backup crittografato, <strong>una passphrase dimenticata non può essere recuperata</strong>: non la conserviamo né possiamo reimpostarla.</li>
+      <li><strong>La sincronizzazione iCloud dipende dai servizi di Apple.</strong> La sua disponibilità, velocità e quota di archiviazione sono controllate da Apple. Uno spazio iCloud insufficiente, problemi dell'account o interruzioni del servizio possono sospendere la sincronizzazione, e non ne siamo responsabili.</li>
+    </ul>
+
+    <h2 id="it-s5">5. Libri condivisi</h2>
+    <ul>
+      <li>Puoi condividere un libro con altre persone e impostare per ciascun membro l'autorizzazione di sola lettura o di lettura e scrittura. <strong>Avviare la condivisione significa autorizzare quella persona ad accedere al contenuto del libro</strong>, comprese le transazioni e gli allegati.</li>
+      <li><strong>Sei responsabile delle persone che inviti.</strong> Condividi solo con persone di cui ti fidi. Ciò che un membro visualizza, copia o esporta mentre ha accesso esula dal nostro controllo tecnico.</li>
+      <li>Puoi rimuovere un membro o interrompere la condivisione in qualsiasi momento, ma <strong>non puoi ritirare le informazioni che ha già ottenuto</strong>.</li>
+      <li>Disattivare la sincronizzazione iCloud ed eliminare la copia su iCloud pone fine a tutte le condivisioni che hai avviato.</li>
+      <li>I membri di un libro condiviso sono vincolati dal presente Contratto. Non puoi utilizzare la funzione di condivisione per raccogliere o diffondere dati personali di altre persone.</li>
+    </ul>
+
+    <h3>5.1 Contenuti vietati</h3>
+    <p>Un libro condiviso <strong>non deve contenere contenuti illeciti</strong>, tra cui: contenuti relativi a frodi o truffe; contenuti che molestano o minacciano altre persone; dati personali di altre persone condivisi senza il loro consenso; e contenuti che sfruttano o abusano sessualmente di minori in qualsiasi forma.</p>
+
+    <h3>5.2 Come segnalare</h3>
+    <ul>
+      <li><strong>Nell'App:</strong> apri la pagina <strong>Membri</strong> del libro condiviso e tocca <strong>Segnala un problema</strong>, che prepara un'email allo sviluppatore;</li>
+      <li><strong>Via email:</strong> scrivi a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un oggetto che inizi con <code>[Report]</code>.</li>
+    </ul>
+    <p>Descrivi il libro, il contenuto e il motivo della segnalazione. Se è a rischio la sicurezza di un minore o l'incolumità fisica di qualcuno, segnalalo anche alle forze dell'ordine locali.</p>
+
+    <h3>5.3 Cosa facciamo</h3>
+    <ul>
+      <li>Confermiamo la ricezione di una segnalazione <strong>entro 7 giorni</strong>.</li>
+      <li>I dati dei libri condivisi risiedono negli account iCloud dei partecipanti, non su nostri server (non ne abbiamo), quindi <strong>non possiamo visualizzare né eliminare direttamente tali contenuti</strong>. Guideremo il proprietario del libro a eliminare le registrazioni in questione o a rimuovere i membri interessati.</li>
+      <li>Possiamo inoltre adottare qualsiasi ulteriore misura a nostra disposizione, come la revoca della licenza dell'utente responsabile della violazione ai sensi della Sezione 12.</li>
+    </ul>
+
+    <h3>5.4 Strumenti a tua disposizione</h3>
+    <ul>
+      <li><strong>Il proprietario di un libro</strong> può eliminare registrazioni, modificare le autorizzazioni dei membri, rimuovere membri o interrompere la condivisione;</li>
+      <li><strong>I membri</strong> possono lasciare un libro condiviso in qualsiasi momento.</li>
+    </ul>
+
+    <h3>5.5 Reclami e persona responsabile</h3>
+    <p>Se non sei d'accordo con il modo in cui è stata gestita una segnalazione, puoi presentare un reclamo tramite lo stesso canale indicato nella Sezione 5.2. La persona responsabile della sicurezza online nell'App è <strong>lo sviluppatore, gwongsam</strong> (vedi le <a href="../legal/#it-s3">Note legali</a>).</p>
+
+    <h2 id="it-s6">6. Importante: questa app non è consulenza professionale</h2>
+    <p><strong>L'App è uno strumento di registrazione e reportistica. Non è un consulente finanziario, un contabile, un consulente fiscale né un consulente d'investimento.</strong></p>
+    <ul>
+      <li>Ogni report, indice, grafico, proiezione e promemoria generato dall'App è <strong>esclusivamente per tuo riferimento personale</strong>. Nulla di tutto ciò costituisce consulenza finanziaria, d'investimento, fiscale, contabile, legale o altra consulenza professionale, né un'offerta, una sollecitazione o una raccomandazione.</li>
+      <li><strong>Le funzioni prospettiche</strong> (autonomia di liquidità, prospettiva del patrimonio netto, stime di tendenza e simili) sono proiezioni matematiche basate sullo storico che hai inserito e sulle ipotesi che hai impostato. <strong>Non sono promesse né garanzie sul futuro</strong> e i risultati effettivi saranno quasi certamente diversi.</li>
+      <li><strong>I tassi di cambio e i dati di mercato</strong> provengono da fonti pubbliche e possono essere in ritardo, interrotti o inesatti. Servono <strong>solo alla conversione contabile e non costituiscono una quotazione</strong>; non farvi affidamento per operazioni effettive, cambi di valuta o valutazioni.</li>
+      <li>I report generati dall'App <strong>non sono sottoposti a revisione e non sono bilanci formali conformi ad alcun principio contabile o normativa fiscale</strong>. Non devono essere utilizzati direttamente per dichiarazioni fiscali, segnalazioni alle autorità di vigilanza, richieste di finanziamento o per attestare la tua situazione finanziaria a terzi.</li>
+      <li>Per decisioni finanziarie importanti (investimenti, prestiti, dichiarazioni fiscali) <strong>rivolgiti a un professionista qualificato</strong>. Qualsiasi decisione presa sulla base dei risultati dell'App è esclusivamente tua.</li>
+    </ul>
+
+    <h2 id="it-s7">7. Uso consentito</h2>
+    <p>Ti impegni a non:</p>
+    <ul>
+      <li>decodificare, decompilare o disassemblare l'App, né tentare di ricavarne il codice sorgente, salvo nella misura espressamente consentita dalla legge;</li>
+      <li>copiare, modificare, noleggiare, concedere in locazione, prestare, vendere o distribuire l'App, né crearne opere derivate;</li>
+      <li>aggirare, eludere o interferire con la verifica dei diritti, i meccanismi di pagamento o qualsiasi misura tecnica di protezione;</li>
+      <li>utilizzare l'App per attività illecite, tra cui riciclaggio di denaro, evasione fiscale, falsificazione di registri finanziari o occultamento di proventi illeciti;</li>
+      <li>inserire o condividere nell'App dati personali di un'altra persona senza il suo consenso;</li>
+      <li>abusare dell'App o dei servizi iCloud da cui dipende tramite mezzi automatizzati, o interferire in altro modo con altri utenti.</li>
+    </ul>
+
+    <h2 id="it-s8">8. Proprietà intellettuale</h2>
+    <p>L'App e tutti i suoi componenti, compresi il codice software, il design dell'interfaccia, le icone, i contenuti testuali e i nomi «Keel» e «司元» con i relativi marchi, sono di nostra proprietà o dei rispettivi licenzianti e sono tutelati dal diritto d'autore e da altre leggi. Il presente Contratto non ti trasferisce alcun diritto di proprietà intellettuale.</p>
+    <p><strong>I contenuti che crei nell'App (libri, transazioni, note, allegati) ti appartengono.</strong> Non rivendichiamo alcun diritto su di essi e non ne facciamo alcun uso (vedi l'<a href="../privacy/">Informativa sulla privacy</a>).</p>
+
+    <h2 id="it-s9">9. Modifiche al servizio</h2>
+    <p>Possiamo aggiungere, modificare, sospendere o interrompere funzioni dell'App in qualsiasi momento, anche modificando quali funzioni sono gratuite e quali richiedono Premium. Faremo ragionevoli sforzi per evitare che tali modifiche pregiudichino i diritti che hai acquistato, e un acquisto a vita una tantum già completato non sarà invalidato da una riorganizzazione delle funzioni.</p>
+    <p>Alcune funzioni dipendono da servizi forniti da Apple (iCloud, CloudKit, l'App Store). <strong>Tali servizi sono controllati da Apple</strong> e non siamo responsabili dell'indisponibilità causata da una loro modifica, limitazione o interruzione.</p>
+
+    <h2 id="it-s10">10. Esclusione di garanzie</h2>
+    <p>Nella misura massima consentita dalla legge applicabile, l'App è fornita <strong>«COSÌ COM'È» e «COME DISPONIBILE»</strong>, senza garanzie di alcun tipo, espresse o implicite, comprese, a titolo esemplificativo, le garanzie implicite di commerciabilità, idoneità a uno scopo particolare, accuratezza e non violazione di diritti di terzi.</p>
+    <p>Non garantiamo che l'App funzioni senza interruzioni, senza errori o senza difetti, né che i suoi calcoli, proiezioni o dati siano accurati in ogni circostanza o soddisfino le tue esigenze specifiche.</p>
+    <p>Alcuni ordinamenti non consentono l'esclusione delle garanzie implicite, pertanto quanto sopra potrebbe non applicarsi integralmente a te; in tal caso tali garanzie sono limitate al periodo più breve consentito dalla legge. <strong>I diritti inderogabili che ti spettano in base alla normativa locale a tutela dei consumatori non sono pregiudicati.</strong></p>
+
+    <h2 id="it-s11">11. Limitazione di responsabilità</h2>
+    <p>Nella misura massima consentita dalla legge applicabile:</p>
+    <ul>
+      <li>Non siamo responsabili per alcun <strong>danno indiretto, incidentale, speciale, punitivo o consequenziale</strong> derivante dall'uso o dall'impossibilità di usare l'App, compresi mancati profitti, perdita di opportunità commerciali, perdita di dati o perdite derivanti da decisioni finanziarie, anche qualora fossimo stati informati della possibilità di tali danni.</li>
+      <li>La nostra <strong>responsabilità complessiva cumulativa</strong> ai sensi del presente Contratto o in relazione all'App <strong>non supererà l'importo che ci hai effettivamente pagato per l'App nei 12 mesi precedenti l'evento che ha dato origine alla pretesa</strong>; se non hai pagato nulla, tale limite è di 100 CNY.</li>
+    </ul>
+    <p>Tali limitazioni non si applicano in caso di nostro dolo o colpa grave, alla responsabilità per lesioni personali ove tale limitazione sia vietata, né a qualsiasi altra responsabilità che non possa essere esclusa per legge.</p>
+
+    <h2 id="it-s12">12. Risoluzione</h2>
+    <p>Puoi risolvere il presente Contratto in qualsiasi momento eliminando l'App. Possiamo revocare la licenza concessa in caso di tua violazione sostanziale del presente Contratto. In caso di risoluzione devi cessare di utilizzare l'App ed eliminarne le copie. Le disposizioni in materia di proprietà intellettuale, esclusione di garanzie, limitazione di responsabilità e legge applicabile sopravvivono alla risoluzione.</p>
+    <p>La risoluzione non pregiudica la tua facoltà, ai sensi della Sezione 3.6, di esportare i tuoi dati ed eseguirne il backup.</p>
+
+    <h2 id="it-s13">13. Legge applicabile e controversie</h2>
+    <p>Il presente Contratto, compresi la sua formazione, validità, interpretazione ed esecuzione e la risoluzione delle controversie che ne derivano, è disciplinato dalle leggi della <strong>Cina continentale (Repubblica Popolare Cinese)</strong> (a tal fine escluse le sue norme di conflitto e le leggi della RAS di Hong Kong, della RAS di Macao e di Taiwan).</p>
+    <p>Qualsiasi controversia derivante dal presente Contratto o a esso relativa deve essere risolta in primo luogo mediante negoziazione in buona fede. In mancanza di accordo, ciascuna parte può sottoporre la controversia a <strong>un Tribunale del popolo competente del luogo di domicilio dello sviluppatore</strong>.</p>
+    <p><strong>Se sei un consumatore, la presente scelta di legge non ti priva della protezione assicurata dalle disposizioni alle quali non è permesso derogare convenzionalmente in virtù della legge del paese in cui hai la residenza abituale</strong>, e nessuna disposizione del presente Contratto limita i diritti inderogabili che ti spettano come consumatore ai sensi della legge applicabile. Allo stesso modo, se la legge imperativa del tuo luogo di residenza ti riconosce il diritto di agire dinanzi ai tribunali locali o di vederti applicata la legge locale, la presente sezione non pregiudica tali diritti.</p>
+
+    <h2 id="it-s14">14. Termini specifici di Apple</h2>
+    <p>Le seguenti disposizioni sono incluse per soddisfare i termini minimi richiesti da Apple per l'EULA di uno sviluppatore. Tu e noi riconosciamo e accettiamo che:</p>
+    <ol>
+      <li><strong>Parti.</strong> Il presente Contratto è concluso esclusivamente tra te e noi, e <strong>non con Apple</strong>. Siamo noi, e non Apple, gli unici responsabili dell'App e del suo contenuto.</li>
+      <li><strong>Ambito della licenza.</strong> La licenza concessa è quella definita nella Sezione 2 ed è soggetta alle Regole di utilizzo contenute nei Termini e condizioni dei Servizi multimediali Apple.</li>
+      <li><strong>Manutenzione e supporto.</strong> Siamo gli unici responsabili della fornitura di manutenzione e supporto per l'App. <strong>Apple non ha alcun obbligo di fornire servizi di manutenzione o supporto.</strong></li>
+      <li><strong>Garanzia.</strong> Siamo gli unici responsabili di qualsiasi garanzia sul prodotto, espressa o implicita. In caso di mancata conformità dell'App a qualsiasi garanzia applicabile, puoi informarne Apple e Apple ti rimborserà il prezzo di acquisto dell'App (se presente). Nella misura massima consentita dalla legge applicabile, <strong>Apple non avrà alcun altro obbligo di garanzia in relazione all'App</strong> e qualsiasi altra pretesa, perdita, responsabilità, danno, costo o spesa attribuibile alla mancata conformità a una garanzia sarà di nostra esclusiva responsabilità.</li>
+      <li><strong>Reclami relativi al prodotto.</strong> Siamo noi, e non Apple, responsabili di rispondere a qualsiasi reclamo tuo o di terzi relativo all'App o al tuo possesso e utilizzo della stessa, compresi: (i) reclami per responsabilità da prodotto; (ii) qualsiasi reclamo secondo cui l'App non è conforme a un requisito legale o normativo applicabile; e (iii) reclami derivanti dalla normativa a tutela dei consumatori, sulla privacy o da normative analoghe.</li>
+      <li><strong>Reclami in materia di proprietà intellettuale.</strong> In caso di pretesa di terzi secondo cui l'App o il tuo possesso e utilizzo della stessa violano i diritti di proprietà intellettuale di tali terzi, <strong>saremo noi, e non Apple, gli unici responsabili</strong> dell'indagine, della difesa, della transazione e della definizione di tale pretesa.</li>
+      <li><strong>Conformità alla legge.</strong> Dichiari e garantisci che (i) non ti trovi in un paese soggetto a embargo da parte del Governo degli Stati Uniti o designato dal Governo degli Stati Uniti come paese «che sostiene il terrorismo», e (ii) non figuri in alcun elenco del Governo degli Stati Uniti di soggetti vietati o sottoposti a restrizioni.</li>
+      <li><strong>Contatti.</strong> Domande, reclami o pretese relativi all'App possono essere indirizzati a: gwongsam, sviluppatore indipendente, <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</li>
+      <li><strong>Termini di terzi.</strong> Nell'utilizzare l'App devi rispettare i termini contrattuali di terzi applicabili (ad esempio, i Termini dei Servizi multimediali Apple e i termini di iCloud).</li>
+      <li><strong>Terzo beneficiario.</strong> Tu e noi riconosciamo e accettiamo che <strong>Apple e le società controllate da Apple sono terzi beneficiari del presente Contratto</strong> e che, con la tua accettazione del presente Contratto, Apple avrà il diritto (e si riterrà che abbia accettato il diritto) di far valere il presente Contratto nei tuoi confronti in qualità di terzo beneficiario.</li>
+    </ol>
+
+    <h2 id="it-s15">15. Disposizioni generali</h2>
+    <ul>
+      <li><strong>Intero accordo.</strong> Il presente Contratto e l'<a href="../privacy/">Informativa sulla privacy</a> costituiscono l'intero accordo tra te e noi relativo all'App e sostituiscono ogni precedente comunicazione orale o scritta.</li>
+      <li><strong>Separabilità.</strong> Se una disposizione viene ritenuta invalida o inapplicabile, le restanti disposizioni restano in vigore e tale disposizione sarà interpretata in modo da realizzarne l'intento originario nella misura più vicina consentita dalla legge.</li>
+      <li><strong>Rinuncia.</strong> Il mancato o ritardato esercizio da parte nostra di un diritto previsto dal presente Contratto non costituisce rinuncia a tale diritto.</li>
+      <li><strong>Cessione.</strong> Non puoi cedere i diritti o gli obblighi derivanti dal presente Contratto senza il nostro consenso scritto. Possiamo cedere il presente Contratto nell'ambito di un trasferimento, di una fusione o di una riorganizzazione dell'attività, senza ridurre le tutele di cui godi.</li>
+      <li><strong>Modifiche ai presenti termini.</strong> Possiamo rivedere il presente Contratto. Le revisioni sono pubblicate su questa pagina con la data aggiornata in alto e le modifiche sostanziali vengono evidenziate in modo ben visibile nell'App. <strong>Continuare a utilizzare l'App dopo l'entrata in vigore di una revisione ne costituisce accettazione</strong>; se non la accetti, smetti di utilizzare l'App ed eliminala.</li>
+    </ul>
+
+    <h2 id="it-s16">16. Contatti</h2>
+    <p>gwongsam, sviluppatore indipendente<br>Email: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>L'identificazione del venditore, l'informativa giapponese ai sensi della 特定商取引法, le informazioni sul fornitore per l'UE, la Germania e la Svizzera e il contatto per la sicurezza online nel Regno Unito si trovano nella pagina <a href="../legal/">Note legali</a>.</p>
+
+    <hr>
+    <p class="doc-meta">In caso di discrepanze tra la presente versione italiana e la <a href="?lang=zh">versione cinese</a>, prevale la versione cinese.</p>
+  </article>
 </main>
 
 <footer class="site-footer">
   <span>Keel · 司元</span>
   <span class="footer-spacer"></span>
-  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
-  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Términos del servicio</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="pt">Termos de Serviço</span><span data-lang="it">Termini di servizio</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="pt">Política de Privacidade</span><span data-lang="it">Informativa sulla privacy</span></a>
+  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
 </footer>
 
 <script>
 (function () {
-  var d = document.documentElement, btn = document.getElementById('langToggle');
-  if (!btn) return;
-  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
-  function paint() {
-    var zh = current() === 'zh';
-    btn.textContent = zh ? 'EN' : '\u4e2d\u6587';
-    btn.setAttribute('aria-label', zh ? 'Switch to English' : '\u5207\u6362\u5230\u4e2d\u6587');
-  }
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
+  var LABEL = { zh: '语言', en: 'Language', de: 'Sprache', es: 'Idioma', fr: 'Langue', pt: 'Idioma', it: 'Lingua' };
+  var d = document.documentElement, wrap = document.getElementById('langSwitch'), sel = document.getElementById('langSelect');
+  if (!wrap || !sel) return;
+  function current() { var m = /(?:^|\s)lang-([a-z]{2})(?:\s|$)/.exec(d.className); return m && TAG[m[1]] ? m[1] : 'en'; }
+  function paint() { var c = current(); sel.value = c; sel.setAttribute('aria-label', LABEL[c]); }
   paint();
-  btn.hidden = false;
-  btn.addEventListener('click', function () {
-    var next = current() === 'zh' ? 'en' : 'zh';
-    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+  wrap.hidden = false;
+  sel.addEventListener('change', function () {
+    var next = sel.value;
+    if (!TAG[next]) return;
+    var at = location.hash.match(/^#[a-z]{2}-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
-    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    d.lang = TAG[next];
     try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
-    if (at) {
-      var target = document.getElementById(next + '-' + at[1]);
-      if (target) {
-        history.replaceState(null, '', '#' + next + '-' + at[1]);
-        target.scrollIntoView();
-      }
-    }
+    var url = new URL(location.href);
+    if (url.searchParams.has('lang')) url.searchParams.set('lang', next);   /* 带参的地址刷新后别跳回旧语言 */
+    var target = at && document.getElementById(next + '-' + at[1]);
+    if (target) url.hash = '#' + next + '-' + at[1];
+    try { history.replaceState(null, '', url.href); } catch (e) {}
+    if (target) target.scrollIntoView();
   });
 })();
 </script>

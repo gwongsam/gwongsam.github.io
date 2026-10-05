@@ -68,6 +68,32 @@ span[data-lang="en"] { display: none; }
 html.lang-en span[data-lang="en"] { display: inline; }
 html.lang-en span[data-lang="zh"] { display: none; }
 
+/* 多于两种语言的页面（Keel，2026-10 起 zh / en / de / es / fr / pt / it 七种）。
+   规则只做加法：只有中英两种的页面，下面每一条的效果都与上面两条一致，不受影响。
+   - 选中某一语言时，其余所有带 data-lang 的块与行内标签都隐藏；
+   - 无 JS 时行内标签仍只留中文（与上面同理），块级正文所有语言依次全显示；
+   - 无 JS 时相邻两篇 article 之间一律画分隔线。 */
+html.lang-zh [data-lang]:not([data-lang="zh"]),
+html.lang-en [data-lang]:not([data-lang="en"]),
+html.lang-de [data-lang]:not([data-lang="de"]),
+html.lang-es [data-lang]:not([data-lang="es"]),
+html.lang-fr [data-lang]:not([data-lang="fr"]),
+html.lang-pt [data-lang]:not([data-lang="pt"]),
+html.lang-it [data-lang]:not([data-lang="it"]) { display: none; }
+
+span[data-lang]:not([data-lang="zh"]) { display: none; }
+html.lang-de span[data-lang="de"],
+html.lang-es span[data-lang="es"],
+html.lang-fr span[data-lang="fr"],
+html.lang-pt span[data-lang="pt"],
+html.lang-it span[data-lang="it"] { display: inline; }
+
+html:not([class*="lang-"]) article[data-lang] + article[data-lang] {
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+
 /* 切换按钮由 JS 摘掉 hidden；没有 JS 就不该出现一个点了没反应的按钮。
    !important 是必需的：下面 .lang-toggle 的 display 会盖掉 UA 的 [hidden]。 */
 [hidden] { display: none !important; }
@@ -199,6 +225,65 @@ body {
 .lang-toggle:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* 多语言页面的语言选择：原生 <select> 套一层药丸外观（两种语言的页面仍用上面的 .lang-toggle）。
+   原生下拉在手机上弹系统选择器，键盘与读屏开箱即用；宽度按最长的语言名定，切换时不跳。 */
+.lang-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.lang-switch select {
+  max-width: 9.5rem;
+  padding: .3rem 1.7rem .3rem .75rem;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  color: var(--text-muted);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .15s ease, color .15s ease;
+}
+
+.lang-switch select option { color: var(--text); background: var(--surface); }
+
+.lang-switch::after {
+  content: "";
+  position: absolute;
+  right: .75rem;
+  top: 50%;
+  width: .38rem;
+  height: .38rem;
+  margin-top: -.28rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  color: var(--text-faint);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.lang-switch select:hover { color: var(--accent-text); border-color: var(--accent); }
+
+.lang-switch select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 页面里它写在导航之前。宽屏用 order 排到导航之后：「品牌 … 导航 · 语言」一行；
+   窄屏一行放不下时回到文档顺序：语言选择在第一行右侧（与品牌同行），导航药丸独占第二行——
+   否则它会被挤到第三行左端，孤零零的。只动 .lang-switch，不碰其他 App 共用的 .doc-nav。 */
+.lang-switch { order: 1; }
+@media (max-width: 50rem) {
+  .lang-switch { order: 0; margin-left: auto; }
 }
 
 /* ---------- 正文 ---------- */

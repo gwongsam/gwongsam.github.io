@@ -8,19 +8,28 @@
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/legal.css">
 <script>
-/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+/* 在首帧前定语言，避免各语言闪一下。无 JS 时 <html> 不带 class，所有语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。
+   判定：?lang= → #<语言>-sN 锚点 → localStorage 上次选择 → 浏览器语言偏好（按顺序取第一个支持的）→ 英文。
+   ?lang= 同时记进 localStorage：App 带参打开某一页后，点页内链接去别的页也停在同一语言。 */
 (function () {
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
   var d = document.documentElement, lang = null;
+  function norm(x) { x = String(x || '').toLowerCase().split(/[-_]/)[0]; return TAG.hasOwnProperty(x) ? x : null; }
   try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'zh' || q === 'en') lang = q;
-    else lang = localStorage.getItem('site-lang');
+    var q = norm(new URLSearchParams(location.search).get('lang'));
+    var h = /^#([a-z]{2})-s\d+$/.exec(location.hash);
+    if (q) { lang = q; localStorage.setItem('site-lang', q); }
+    else if (h && norm(h[1])) lang = h[1];
+    else lang = norm(localStorage.getItem('site-lang'));
   } catch (e) {}
-  if (lang !== 'zh' && lang !== 'en') {
-    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  if (!lang) {
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < prefs.length && !lang; i++) lang = norm(prefs[i]);
   }
+  if (!lang) lang = 'en';
   d.className = 'lang-' + lang;
-  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  d.lang = TAG[lang];
 })();
 </script>
 </head>
@@ -31,13 +40,23 @@
     <img class="brand-mark" src="logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
+  <label class="lang-switch" id="langSwitch" hidden>
+    <select id="langSelect" aria-label="Language / 语言">
+      <option value="zh" lang="zh-Hans">中文</option>
+      <option value="en" lang="en">English</option>
+      <option value="de" lang="de">Deutsch</option>
+      <option value="es" lang="es">Español</option>
+      <option value="fr" lang="fr">Français</option>
+      <option value="pt" lang="pt-BR">Português</option>
+      <option value="it" lang="it">Italiano</option>
+    </select>
+  </label>
   <nav class="doc-nav">
-    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
-    <a href="legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+    <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+    <a href="terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span><span data-lang="de">Bedingungen</span><span data-lang="es">Términos</span><span data-lang="fr">Conditions</span><span data-lang="pt">Termos</span><span data-lang="it">Termini</span></a>
+    <a href="privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span><span data-lang="es">Privacidad</span><span data-lang="fr">Confidentialité</span><span data-lang="pt">Privacidade</span><span data-lang="it">Privacy</span></a>
+    <a href="legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
   </nav>
-  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
 <main>
@@ -46,30 +65,70 @@
     <h1>Keel <span class="hero-alt">司元</span></h1>
     <p data-lang="zh">一款完全在你的设备上运行的<strong>复式记账</strong>应用。<br>每一笔都借贷平衡，三张财务报表实时可查。</p>
     <p data-lang="en">A <strong>double-entry bookkeeping</strong> app that runs entirely on your device.<br>Every entry balances, and the three financial statements are always current.</p>
-    <p class="hero-badge"><span data-lang="zh">即将上架 App Store</span><span data-lang="en">Coming to the App Store</span></p>
+    <p data-lang="de" lang="de">Eine App für <strong>doppelte Buchführung</strong>, die vollständig auf deinem Gerät läuft.<br>Jede Buchung ist ausgeglichen, und die drei Finanzberichte sind stets aktuell.</p>
+    <p data-lang="es" lang="es">Una app de <strong>contabilidad por partida doble</strong> que funciona íntegramente en tu dispositivo.<br>Cada asiento cuadra y los tres estados financieros están siempre al día.</p>
+    <p data-lang="fr" lang="fr">Une app de <strong>comptabilité en partie double</strong> qui fonctionne entièrement sur votre appareil.<br>Chaque écriture est équilibrée, et les trois états financiers sont toujours à jour.</p>
+    <p data-lang="pt" lang="pt-BR">Um app de <strong>contabilidade em partidas dobradas</strong> que roda inteiramente no seu dispositivo.<br>Todo lançamento fecha, e as três demonstrações financeiras estão sempre atualizadas.</p>
+    <p data-lang="it" lang="it">Un'app di <strong>contabilità in partita doppia</strong> che funziona interamente sul tuo dispositivo.<br>Ogni registrazione è bilanciata e i tre prospetti contabili sono sempre aggiornati.</p>
+    <p class="hero-badge"><span data-lang="zh">即将上架 App Store</span><span data-lang="en">Coming to the App Store</span><span data-lang="de">Bald im App Store</span><span data-lang="es">Próximamente en el App Store</span><span data-lang="fr">Bientôt sur l’App Store</span><span data-lang="pt">Em breve na App Store</span><span data-lang="it">In arrivo sull'App Store</span></p>
   </div>
 
   <section>
     <h2 data-lang="zh">它是什么</h2>
     <h2 data-lang="en">What it is</h2>
+    <h2 data-lang="de" lang="de">Was es ist</h2>
+    <h2 data-lang="es" lang="es">Qué es</h2>
+    <h2 data-lang="fr" lang="fr">De quoi s’agit-il</h2>
+    <h2 data-lang="pt" lang="pt-BR">O que é</h2>
+    <h2 data-lang="it" lang="it">Che cos'è</h2>
     <div class="card-grid">
       <div class="card card-static">
         <div class="card-title" data-lang="zh">真正的复式记账</div>
         <div class="card-title" data-lang="en">Real double-entry</div>
+        <div class="card-title" data-lang="de" lang="de">Echte doppelte Buchführung</div>
+        <div class="card-title" data-lang="es" lang="es">Partida doble de verdad</div>
+        <div class="card-title" data-lang="fr" lang="fr">Une vraie partie double</div>
+        <div class="card-title" data-lang="pt" lang="pt-BR">Partidas dobradas de verdade</div>
+        <div class="card-title" data-lang="it" lang="it">Vera partita doppia</div>
         <div class="card-desc" data-lang="zh">不是「收入减支出」，是每笔都有借有贷、恒等式自校验。资产负债表、利润表、现金流量表三张表同源生成，随时对得上。</div>
         <div class="card-desc" data-lang="en">Not "income minus expenses" — every transaction has both sides, checked against the accounting identity. The balance sheet, income statement, and cash flow statement all derive from the same postings.</div>
+        <div class="card-desc" data-lang="de" lang="de">Nicht „Einnahmen minus Ausgaben“ – jede Buchung hat beide Seiten und wird gegen die Bilanzgleichung geprüft. Bilanz, Gewinn- und Verlustrechnung und Kapitalflussrechnung leiten sich alle aus denselben Buchungszeilen ab.</div>
+        <div class="card-desc" data-lang="es" lang="es">No es «ingresos menos gastos»: cada movimiento tiene sus dos lados, comprobados con la ecuación contable. El balance, el estado de resultados y el estado de flujo de caja se derivan de los mismos apuntes.</div>
+        <div class="card-desc" data-lang="fr" lang="fr">Pas de « recettes moins dépenses » : chaque transaction a ses deux côtés, vérifiés par l’équation comptable. Le bilan, le compte de résultat et le tableau des flux de trésorerie découlent tous des mêmes écritures.</div>
+        <div class="card-desc" data-lang="pt" lang="pt-BR">Não é só “receitas menos despesas” — todo lançamento tem os dois lados, conferidos com a equação contábil. O balanço patrimonial, a demonstração de resultados e a demonstração do fluxo de caixa derivam todos das mesmas partidas.</div>
+        <div class="card-desc" data-lang="it" lang="it">Non «entrate meno uscite»: ogni transazione ha entrambi i lati, verificati rispetto all'equazione contabile. Stato patrimoniale, conto economico e rendiconto finanziario derivano tutti dalle stesse scritture.</div>
       </div>
       <div class="card card-static">
         <div class="card-title" data-lang="zh">账户建模够认真</div>
         <div class="card-title" data-lang="en">Accounts modeled properly</div>
+        <div class="card-title" data-lang="de" lang="de">Konten richtig abgebildet</div>
+        <div class="card-title" data-lang="es" lang="es">Cuentas bien modeladas</div>
+        <div class="card-title" data-lang="fr" lang="fr">Des comptes modélisés comme il faut</div>
+        <div class="card-title" data-lang="pt" lang="pt-BR">Contas modeladas como devem ser</div>
+        <div class="card-title" data-lang="it" lang="it">Conti modellati come si deve</div>
         <div class="card-desc" data-lang="zh">信用卡有真实的账单周期与分期，贷款有借据、还款计划与提前还款，先买后付、储值预付、非现金资产都有各自的模型，不是硬塞进「支出」了事。</div>
         <div class="card-desc" data-lang="en">Credit cards have real billing cycles and installments; loans have drawdowns, repayment schedules, and early payoff. Buy-now-pay-later, prepaid balances, and non-cash assets each get their own model instead of being flattened into "expenses".</div>
+        <div class="card-desc" data-lang="de" lang="de">Kreditkarten haben echte Abrechnungszyklen und Ratenzahlungen; Kredite haben Auszahlungen, Tilgungspläne und vorzeitige Rückzahlung. „Jetzt kaufen, später bezahlen“, Guthaben und unbare Vermögenswerte bekommen jeweils ein eigenes Modell, statt pauschal unter „Ausgaben“ zu landen.</div>
+        <div class="card-desc" data-lang="es" lang="es">Las tarjetas de crédito tienen ciclos de facturación reales y pagos a plazos; los préstamos tienen disposiciones, calendarios de pago y amortización anticipada. «Compra ahora, paga después», los saldos prepagados y los activos no monetarios tienen cada uno su propio modelo, en lugar de reducirse a «gastos».</div>
+        <div class="card-desc" data-lang="fr" lang="fr">Les cartes de crédit ont de vrais cycles de facturation et des paiements échelonnés ; les prêts ont des tirages, des échéanciers de remboursement et le remboursement anticipé. Le paiement différé, les soldes prépayés et les actifs non monétaires ont chacun leur propre modèle au lieu d’être réduits à des « dépenses ».</div>
+        <div class="card-desc" data-lang="pt" lang="pt-BR">Cartões de crédito têm ciclos de fatura e parcelamentos reais; empréstimos têm contratos, cronogramas de pagamento e quitação antecipada. Compre agora, pague depois, saldos pré-pagos e ativos não monetários têm cada um o seu próprio modelo, em vez de virarem simples “despesas”.</div>
+        <div class="card-desc" data-lang="it" lang="it">Le carte di credito hanno veri cicli di estratto conto e rate; i prestiti hanno erogazioni, piani di rimborso ed estinzione anticipata. «Compra ora, paga dopo», saldi prepagati e attività non monetarie hanno ciascuno il proprio modello, invece di essere appiattiti in «spese».</div>
       </div>
       <div class="card card-static">
         <div class="card-title" data-lang="zh">数据在你手里</div>
         <div class="card-title" data-lang="en">Your data stays yours</div>
+        <div class="card-title" data-lang="de" lang="de">Deine Daten bleiben deine</div>
+        <div class="card-title" data-lang="es" lang="es">Tus datos siguen siendo tuyos</div>
+        <div class="card-title" data-lang="fr" lang="fr">Vos données restent les vôtres</div>
+        <div class="card-title" data-lang="pt" lang="pt-BR">Seus dados continuam seus</div>
+        <div class="card-title" data-lang="it" lang="it">I tuoi dati restano tuoi</div>
         <div class="card-desc" data-lang="zh">没有服务器、没有账号、没有广告、没有分析 SDK。数据默认只在本机，同步走的是你自己 Apple 账户的 iCloud 私有库，随时可导出完整备份。</div>
         <div class="card-desc" data-lang="en">No servers, no sign-up, no ads, no analytics SDKs. Data lives on your device by default; syncing goes through the iCloud private database of your own Apple Account, and you can export a complete backup at any time.</div>
+        <div class="card-desc" data-lang="de" lang="de">Keine Server, keine Registrierung, keine Werbung, keine Analyse-SDKs. Die Daten liegen standardmäßig auf deinem Gerät; die Synchronisierung läuft über die private iCloud-Datenbank deines eigenen Apple Accounts, und du kannst jederzeit ein vollständiges Backup exportieren.</div>
+        <div class="card-desc" data-lang="es" lang="es">Sin servidores, sin registro, sin anuncios, sin SDK de analítica. Los datos se guardan en tu dispositivo de forma predeterminada; la sincronización pasa por la base de datos privada de iCloud de tu propia cuenta de Apple, y puedes exportar una copia de seguridad completa en cualquier momento.</div>
+        <div class="card-desc" data-lang="fr" lang="fr">Pas de serveurs, pas d’inscription, pas de publicité, pas de SDK d’analyse. Par défaut, les données restent sur votre appareil ; la synchronisation passe par la base de données privée iCloud de votre propre compte Apple, et vous pouvez exporter une sauvegarde complète à tout moment.</div>
+        <div class="card-desc" data-lang="pt" lang="pt-BR">Sem servidores, sem cadastro, sem anúncios, sem SDKs de análise. Por padrão, os dados ficam no seu dispositivo; a sincronização passa pelo banco de dados privado do iCloud da sua própria conta Apple, e você pode exportar um backup completo a qualquer momento.</div>
+        <div class="card-desc" data-lang="it" lang="it">Nessun server, nessuna registrazione, nessuna pubblicità, nessun SDK di analisi. Per impostazione predefinita i dati restano sul tuo dispositivo; la sincronizzazione passa per il database privato iCloud del tuo Account Apple e puoi esportare un backup completo in qualsiasi momento.</div>
       </div>
     </div>
   </section>
@@ -77,10 +136,20 @@
   <section>
     <h2 data-lang="zh">免费与会员</h2>
     <h2 data-lang="en">Free and Premium</h2>
+    <h2 data-lang="de" lang="de">Kostenlos und Premium</h2>
+    <h2 data-lang="es" lang="es">Gratis y Premium</h2>
+    <h2 data-lang="fr" lang="fr">Gratuit et Premium</h2>
+    <h2 data-lang="pt" lang="pt-BR">Grátis e Premium</h2>
+    <h2 data-lang="it" lang="it">Gratis e Premium</h2>
     <p data-lang="zh">核心记账能力<strong>免费且不限记录数量</strong>。会员解锁跨设备协作、前瞻分析与重度金融工具。已记录的数据<strong>永远可读、可导出、可备份</strong>——会员到期只关新建入口，不锁数据。</p>
     <p data-lang="en">The core bookkeeping is <strong>free and unlimited in record count</strong>. Premium unlocks cross-device collaboration, forward-looking analysis, and heavier financial instruments. Data you have already recorded <strong>stays readable, exportable, and backup-able forever</strong> — expiry closes the "create new" entry points, it never locks your data.</p>
+    <p data-lang="de" lang="de">Die Kernfunktionen der Buchführung sind <strong>kostenlos und ohne Begrenzung der Anzahl der Einträge</strong>. Premium schaltet geräteübergreifende Zusammenarbeit, vorausschauende Analysen und anspruchsvollere Finanzinstrumente frei. Bereits erfasste Daten <strong>bleiben für immer lesbar, exportierbar und sicherbar</strong> – ein Ablauf schließt nur die Zugänge zum „Neu erstellen“, er sperrt niemals deine Daten.</p>
+    <p data-lang="es" lang="es">La contabilidad básica es <strong>gratuita y sin límite de registros</strong>. Premium desbloquea la colaboración entre dispositivos, el análisis prospectivo y los instrumentos financieros más complejos. Los datos que ya has registrado <strong>siguen pudiéndose leer, exportar y respaldar para siempre</strong>: el vencimiento cierra los accesos para «crear nuevo», nunca bloquea tus datos.</p>
+    <p data-lang="fr" lang="fr">La tenue de comptes de base est <strong>gratuite et sans limite de nombre d’enregistrements</strong>. Premium débloque la collaboration entre appareils, l’analyse prospective et les instruments financiers plus complexes. Les données déjà enregistrées <strong>restent lisibles, exportables et sauvegardables pour toujours</strong> : l’expiration ferme les points d’accès « créer », elle ne verrouille jamais vos données.</p>
+    <p data-lang="pt" lang="pt-BR">A escrituração essencial é <strong>gratuita e sem limite de número de registros</strong>. O Premium libera a colaboração entre dispositivos, as análises prospectivas e os instrumentos financeiros mais complexos. Os dados que você já registrou <strong>continuam legíveis, exportáveis e passíveis de backup para sempre</strong> — a expiração fecha os pontos de entrada para “criar novo”, mas nunca bloqueia os seus dados.</p>
+    <p data-lang="it" lang="it">La contabilità di base è <strong>gratuita e senza limiti sul numero di registrazioni</strong>. Premium sblocca la collaborazione tra dispositivi, le analisi prospettiche e gli strumenti finanziari più complessi. I dati che hai già registrato <strong>restano leggibili, esportabili e salvabili in backup per sempre</strong>: alla scadenza si chiudono i punti di accesso per «creare nuovo», ma i tuoi dati non vengono mai bloccati.</p>
 
-    <!-- 两种语言各自一整张表。若改成一行里塞 4 个 <td>，无 JS 时 4 列会对上 2 个表头，表直接塌掉。 -->
+    <!-- 每种语言各自一整张表。若改成一行里塞多组 <td>，无 JS 时列数会对不上表头，表直接塌掉。 -->
     <div class="table-wrap" data-lang="zh">
       <table>
         <thead><tr><th>免费</th><th>会员</th></tr></thead>
@@ -103,27 +172,102 @@
         </tbody>
       </table>
     </div>
+    <div class="table-wrap" data-lang="de" lang="de">
+      <table>
+        <thead><tr><th>Kostenlos</th><th>Premium</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Unbegrenzte doppelte Buchungen<br>Bilanz · Gewinn- und Verlustrechnung · Kapitalfluss<br>Bargeld / Sparkonten / Kreditkarten (Zyklen &amp; Ratenzahlungen)<br>Sonstige Vermögenswerte und Verbindlichkeiten, Guthabenkonten<br>Kategorien, Tags, Projekte, Forderungen &amp; Verbindlichkeiten<br>Monatliches Gesamtbudget, Einnahmen- &amp; Ausgabentrends<br>Backup-Export und -Wiederherstellung, Invariantenprüfungen</td>
+            <td>iCloud-Synchronisierung · Buchfreigabe · Mehrere Bücher<br>Kreditkonten · Jetzt kaufen, später bezahlen · Abgrenzung von Vorauszahlungen<br>Mehrere Währungen · Online-Wechselkurse<br>Vorausschau (Liquiditätsreichweite / Nettovermögen)<br>Zeiträume &amp; Drilldown in der Kategorieaufschlüsselung · Budgetlimits pro Kategorie<br>Eigene Berichtsschemata · Anhänge · Wiederkehrende Buchungen</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="es" lang="es">
+      <table>
+        <thead><tr><th>Gratis</th><th>Premium</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Movimientos de partida doble ilimitados<br>Balance · Estado de resultados · Flujo de caja<br>Efectivo / ahorro / tarjetas de crédito (ciclos y pagos a plazos)<br>Otros activos y pasivos, cuentas prepagadas<br>Categorías, etiquetas, proyectos, cuentas por cobrar y por pagar<br>Presupuesto mensual total, tendencias de ingresos y gastos<br>Exportación y restauración de copias de seguridad, comprobación de invariantes</td>
+            <td>Sincronización con iCloud · Libros compartidos · Varios libros<br>Cuentas de préstamo · Compra ahora, paga después · Amortización de prepagos<br>Varias monedas · Tipos de cambio en línea<br>Perspectiva futura (margen de liquidez / patrimonio neto)<br>Rangos y desglose del análisis por categoría · Límites de presupuesto por categoría<br>Esquemas de estados personalizados · Archivos adjuntos · Movimientos recurrentes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="fr" lang="fr">
+      <table>
+        <thead><tr><th>Gratuit</th><th>Premium</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Transactions en partie double illimitées<br>Bilan · Compte de résultat · Flux de trésorerie<br>Espèces / épargne / cartes de crédit (cycles &amp; paiements échelonnés)<br>Autres actifs et passifs, comptes prépayés<br>Catégories, étiquettes, projets, créances &amp; dettes<br>Budget mensuel global, tendances des recettes &amp; dépenses<br>Export et restauration de sauvegardes, vérification des invariants</td>
+            <td>Synchronisation iCloud · Partage de livres · Plusieurs livres<br>Comptes de prêt · Paiement différé · Amortissement des prépaiements<br>Multidevise · Taux de change en ligne<br>Perspectives (autonomie de trésorerie / patrimoine net)<br>Plages &amp; exploration détaillée par catégorie · Plafonds de budget par catégorie<br>Schémas d’états personnalisés · Pièces jointes · Transactions récurrentes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="pt" lang="pt-BR">
+      <table>
+        <thead><tr><th>Grátis</th><th>Premium</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Lançamentos em partidas dobradas ilimitados<br>Balanço patrimonial · Demonstração de resultados · Fluxo de caixa<br>Dinheiro / poupança / cartões de crédito (ciclos &amp; parcelamentos)<br>Outros ativos e passivos, contas pré-pagas<br>Categorias, tags, projetos, contas a receber &amp; a pagar<br>Orçamento mensal total, tendências de receitas &amp; despesas<br>Exportação e restauração de backup, verificações de invariantes</td>
+            <td>Sincronização do iCloud · Compartilhamento de livros · Vários livros<br>Contas de empréstimo · Compre agora, pague depois · Amortização de pré-pagos<br>Várias moedas · Taxas de câmbio on-line<br>Perspectiva futura (fôlego de liquidez / patrimônio líquido)<br>Intervalos de análise por categoria &amp; detalhamento · Limites de orçamento por categoria<br>Esquemas de demonstração personalizados · Anexos · Lançamentos recorrentes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" data-lang="it" lang="it">
+      <table>
+        <thead><tr><th>Gratis</th><th>Premium</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Transazioni in partita doppia illimitate<br>Stato patrimoniale · Conto economico · Rendiconto finanziario<br>Contanti / risparmi / carte di credito (cicli &amp; rate)<br>Altre attività e passività, conti prepagati<br>Categorie, tag, progetti, crediti &amp; debiti<br>Budget totale mensile, andamento di entrate &amp; uscite<br>Esportazione e ripristino del backup, controlli delle invarianti</td>
+            <td>Sincronizzazione iCloud · Condivisione dei libri · Più libri<br>Conti di prestito · Compra ora, paga dopo · Ammortamento prepagati<br>Più valute · Tassi di cambio online<br>Prospettiva futura (autonomia di liquidità / patrimonio netto)<br>Intervalli &amp; dettaglio dell'analisi per categoria · Limiti di budget per categoria<br>Schemi di rendiconto personalizzati · Allegati · Transazioni ricorrenti</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <p class="doc-meta" data-lang="zh">会员提供月度、年度自动续订订阅与一次性永久购买，价格以 App Store 展示为准。功能归属可能随版本调整，以应用内展示为准。</p>
     <p class="doc-meta" data-lang="en">Premium is available as monthly and yearly auto-renewing subscriptions or a one-time lifetime purchase; prices are as shown on the App Store. Feature allocation may change across versions — the app is the source of truth.</p>
+    <p class="doc-meta" data-lang="de" lang="de">Premium ist als monatliches und jährliches, sich automatisch verlängerndes Abonnement oder als einmaliger lebenslanger Kauf erhältlich; es gelten die im App Store angezeigten Preise. Die Zuordnung der Funktionen kann sich von Version zu Version ändern – maßgeblich ist die App.</p>
+    <p class="doc-meta" data-lang="es" lang="es">Premium está disponible como suscripciones mensuales y anuales de renovación automática o como compra única de por vida; los precios son los que se muestran en el App Store. La asignación de funciones puede cambiar entre versiones: la app es la referencia.</p>
+    <p class="doc-meta" data-lang="fr" lang="fr">Premium est proposé sous forme d’abonnements mensuels et annuels à renouvellement automatique ou d’un achat unique à vie ; les prix sont ceux affichés sur l’App Store. La répartition des fonctions peut changer d’une version à l’autre — l’app fait foi.</p>
+    <p class="doc-meta" data-lang="pt" lang="pt-BR">O Premium está disponível como assinaturas mensais e anuais com renovação automática ou como compra vitalícia única; os preços são os exibidos na App Store. A distribuição dos recursos pode mudar de uma versão para outra — o que vale é o que aparece no app.</p>
+    <p class="doc-meta" data-lang="it" lang="it">Premium è disponibile come abbonamento mensile e annuale a rinnovo automatico o come acquisto a vita una tantum; i prezzi sono quelli indicati sull'App Store. La ripartizione delle funzioni può cambiare da una versione all'altra: fa fede l'app.</p>
   </section>
 
   <section>
     <h2 data-lang="zh">迁移与支持</h2>
     <h2 data-lang="en">Migrating and getting help</h2>
+    <h2 data-lang="de" lang="de">Umziehen und Hilfe bekommen</h2>
+    <h2 data-lang="es" lang="es">Migración y ayuda</h2>
+    <h2 data-lang="fr" lang="fr">Migration et aide</h2>
+    <h2 data-lang="pt" lang="pt-BR">Migração e ajuda</h2>
+    <h2 data-lang="it" lang="it">Migrazione e assistenza</h2>
     <p data-lang="zh">支持从钱迹导出的表格导入历史流水，文件完全在设备上解析。遇到问题或想提建议，直接发邮件——这是一个人维护的应用，你的反馈会被真的读到。</p>
     <p data-lang="en">You can import historical transactions from Qianji's exported spreadsheets; files are parsed entirely on your device. If something breaks or you have a suggestion, just email me — this is a one-person app and your feedback actually gets read.</p>
+    <p data-lang="de" lang="de">Du kannst historische Buchungen aus den exportierten Tabellen von Qianji importieren; die Dateien werden vollständig auf deinem Gerät verarbeitet. Wenn etwas nicht funktioniert oder du einen Vorschlag hast, schreib mir einfach eine E-Mail – das ist eine Ein-Personen-App, und dein Feedback wird wirklich gelesen.</p>
+    <p data-lang="es" lang="es">Puedes importar movimientos históricos desde las hojas de cálculo exportadas de Qianji; los archivos se analizan íntegramente en tu dispositivo. Si algo falla o tienes una sugerencia, escríbeme por correo: es una app de una sola persona y tus comentarios se leen de verdad.</p>
+    <p data-lang="fr" lang="fr">Vous pouvez importer vos transactions passées depuis les tableurs exportés par Qianji ; les fichiers sont analysés entièrement sur votre appareil. Si quelque chose ne fonctionne pas ou si vous avez une suggestion, écrivez-moi simplement : c’est une app développée par une seule personne, et vos retours sont réellement lus.</p>
+    <p data-lang="pt" lang="pt-BR">Você pode importar lançamentos históricos das planilhas exportadas pelo Qianji; os arquivos são processados inteiramente no seu dispositivo. Se algo der errado ou se você tiver uma sugestão, é só me mandar um e-mail — este é um app feito por uma pessoa só, e o seu feedback é lido de verdade.</p>
+    <p data-lang="it" lang="it">Puoi importare le transazioni storiche dai fogli di calcolo esportati da Qianji; i file vengono elaborati interamente sul tuo dispositivo. Se qualcosa non funziona o hai un suggerimento, scrivimi pure: è un'app gestita da una sola persona e il tuo feedback viene letto davvero.</p>
     <div class="card-grid">
       <a class="card" href="support/">
-        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span></div>
+        <div class="card-title"><span data-lang="zh">支持与常见问题</span><span data-lang="en">Support &amp; FAQ</span><span data-lang="de">Support &amp; FAQ</span><span data-lang="es">Soporte y preguntas frecuentes</span><span data-lang="fr">Assistance &amp; FAQ</span><span data-lang="pt">Suporte &amp; perguntas frequentes</span><span data-lang="it">Supporto &amp; FAQ</span></div>
         <div class="card-desc" data-lang="zh">备份与换机、iCloud 同步排查、订阅与恢复购买、联系方式。</div>
         <div class="card-desc" data-lang="en">Backups and device migration, iCloud sync troubleshooting, subscriptions and restoring purchases, contact.</div>
+        <div class="card-desc" data-lang="de" lang="de">Backups und Gerätewechsel, Fehlerbehebung bei der iCloud-Synchronisierung, Abonnements und Käufe wiederherstellen, Kontakt.</div>
+        <div class="card-desc" data-lang="es" lang="es">Copias de seguridad y cambio de dispositivo, problemas de sincronización con iCloud, suscripciones y restauración de compras, contacto.</div>
+        <div class="card-desc" data-lang="fr" lang="fr">Sauvegardes et changement d’appareil, dépannage de la synchronisation iCloud, abonnements et restauration des achats, contact.</div>
+        <div class="card-desc" data-lang="pt" lang="pt-BR">Backups e migração de dispositivo, solução de problemas da sincronização do iCloud, assinaturas e restauração de compras, contato.</div>
+        <div class="card-desc" data-lang="it" lang="it">Backup e migrazione tra dispositivi, risoluzione dei problemi di sincronizzazione iCloud, abbonamenti e ripristino degli acquisti, contatti.</div>
       </a>
       <div class="card card-static">
-        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span></div>
+        <div class="card-title"><span data-lang="zh">联系开发者</span><span data-lang="en">Contact</span><span data-lang="de">Kontakt</span><span data-lang="es">Contacto</span><span data-lang="fr">Contact</span><span data-lang="pt">Contato</span><span data-lang="it">Contatti</span></div>
         <div class="card-desc"><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a><br>
           <span data-lang="zh">中文或英文都可以，一般 2 个工作日内回复。</span>
-          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span></div>
+          <span data-lang="en">English or Chinese, usually answered within 2 business days.</span><span data-lang="de">Auf Englisch oder Chinesisch, Antwort meist innerhalb von 2 Werktagen.</span><span data-lang="es">En inglés o en chino; normalmente respondo en un plazo de 2 días hábiles.</span><span data-lang="fr">En anglais ou en chinois, réponse généralement sous 2 jours ouvrés.</span><span data-lang="pt">Em inglês ou chinês; resposta geralmente em até 2 dias úteis.</span><span data-lang="it">In inglese o in cinese, di solito con risposta entro 2 giorni lavorativi.</span></div>
       </div>
     </div>
   </section>
@@ -132,30 +276,36 @@
 <footer class="site-footer">
   <span>Keel · 司元</span>
   <span class="footer-spacer"></span>
-  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
-  <a href="legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  <a href="support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+  <a href="terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Términos del servicio</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="pt">Termos de Serviço</span><span data-lang="it">Termini di servizio</span></a>
+  <a href="privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="pt">Política de Privacidade</span><span data-lang="it">Informativa sulla privacy</span></a>
+  <a href="legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
 </footer>
 
 <script>
 (function () {
-  var d = document.documentElement, btn = document.getElementById('langToggle');
-  if (!btn) return;
-  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
-  function paint() {
-    var zh = current() === 'zh';
-    btn.textContent = zh ? 'EN' : '中文';
-    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
-  }
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
+  var LABEL = { zh: '语言', en: 'Language', de: 'Sprache', es: 'Idioma', fr: 'Langue', pt: 'Idioma', it: 'Lingua' };
+  var d = document.documentElement, wrap = document.getElementById('langSwitch'), sel = document.getElementById('langSelect');
+  if (!wrap || !sel) return;
+  function current() { var m = /(?:^|\s)lang-([a-z]{2})(?:\s|$)/.exec(d.className); return m && TAG[m[1]] ? m[1] : 'en'; }
+  function paint() { var c = current(); sel.value = c; sel.setAttribute('aria-label', LABEL[c]); }
   paint();
-  btn.hidden = false;
-  btn.addEventListener('click', function () {
-    var next = current() === 'zh' ? 'en' : 'zh';
+  wrap.hidden = false;
+  sel.addEventListener('change', function () {
+    var next = sel.value;
+    if (!TAG[next]) return;
+    var at = location.hash.match(/^#[a-z]{2}-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
-    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    d.lang = TAG[next];
     try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
+    var url = new URL(location.href);
+    if (url.searchParams.has('lang')) url.searchParams.set('lang', next);   /* 带参的地址刷新后别跳回旧语言 */
+    var target = at && document.getElementById(next + '-' + at[1]);
+    if (target) url.hash = '#' + next + '-' + at[1];
+    try { history.replaceState(null, '', url.href); } catch (e) {}
+    if (target) target.scrollIntoView();
   });
 })();
 </script>

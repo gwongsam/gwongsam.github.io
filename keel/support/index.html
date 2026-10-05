@@ -8,21 +8,28 @@
 <link rel="icon" href="../logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/legal.css">
 <script>
-/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示。 */
+/* 在首帧前定语言，避免各语言闪一下。无 JS 时 <html> 不带 class，所有语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。
+   判定：?lang= → #<语言>-sN 锚点 → localStorage 上次选择 → 浏览器语言偏好（按顺序取第一个支持的）→ 英文。
+   ?lang= 同时记进 localStorage：App 带参打开某一页后，点页内链接去别的页也停在同一语言。 */
 (function () {
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
   var d = document.documentElement, lang = null;
+  function norm(x) { x = String(x || '').toLowerCase().split(/[-_]/)[0]; return TAG.hasOwnProperty(x) ? x : null; }
   try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'zh' || q === 'en') lang = q;
-    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
-    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
-    else lang = localStorage.getItem('site-lang');
+    var q = norm(new URLSearchParams(location.search).get('lang'));
+    var h = /^#([a-z]{2})-s\d+$/.exec(location.hash);
+    if (q) { lang = q; localStorage.setItem('site-lang', q); }
+    else if (h && norm(h[1])) lang = h[1];
+    else lang = norm(localStorage.getItem('site-lang'));
   } catch (e) {}
-  if (lang !== 'zh' && lang !== 'en') {
-    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  if (!lang) {
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < prefs.length && !lang; i++) lang = norm(prefs[i]);
   }
+  if (!lang) lang = 'en';
   d.className = 'lang-' + lang;
-  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  d.lang = TAG[lang];
 })();
 </script>
 </head>
@@ -33,13 +40,23 @@
     <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
+  <label class="lang-switch" id="langSwitch" hidden>
+    <select id="langSelect" aria-label="Language / 语言">
+      <option value="zh" lang="zh-Hans">中文</option>
+      <option value="en" lang="en">English</option>
+      <option value="de" lang="de">Deutsch</option>
+      <option value="es" lang="es">Español</option>
+      <option value="fr" lang="fr">Français</option>
+      <option value="pt" lang="pt-BR">Português</option>
+      <option value="it" lang="it">Italiano</option>
+    </select>
+  </label>
   <nav class="doc-nav">
-    <a href="./" aria-current="page"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
-    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span><span data-lang="de">Bedingungen</span><span data-lang="es">Términos</span><span data-lang="fr">Conditions</span><span data-lang="pt">Termos</span><span data-lang="it">Termini</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span><span data-lang="es">Privacidad</span><span data-lang="fr">Confidentialité</span><span data-lang="pt">Privacidade</span><span data-lang="it">Privacy</span></a>
+    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
   </nav>
-  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
 <main>
@@ -282,43 +299,641 @@
     <hr>
     <p class="doc-meta">Didn't find your answer? Just email <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. The <a href="?lang=zh">Chinese version</a> of this page.</p>
   </article>
+
+  <article data-lang="de" lang="de">
+    <h1 class="doc-title">Support</h1>
+    <p class="doc-meta"><span>iOS-App Keel (chinesischer Name: 司元)</span><span>Zuletzt aktualisiert: 5. Oktober 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Den Entwickler kontaktieren</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></strong></p>
+      <p>Keel ist eine unabhängige App, die von einer einzigen Person gepflegt wird. Ich versuche, <strong>innerhalb von 2 Werktagen</strong> zu antworten; Probleme, die erst nachgestellt werden müssen, können länger dauern. Du kannst auf Englisch oder Chinesisch schreiben.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Wenn du ein Problem meldest, gib bitte diese drei Dinge mit an</strong> – das spart eine Rückfrage:</p>
+      <ol>
+        <li>deine App-Version und iOS-Version;</li>
+        <li>was du getan hast, was du erwartet hast und was tatsächlich passiert ist;</li>
+        <li>einen Diagnosebericht – in der App hängt <strong>Einstellungen › Diagnose › E-Mail an den Entwickler</strong> ihn für dich an, und du kannst den Inhalt vor dem Senden prüfen.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Inhaltsverzeichnis">
+      <h2>Häufige Fragen</h2>
+      <ol>
+        <li><a href="#de-s1">1. Wo sind meine Daten, und kann ich sie verlieren?</a></li>
+        <li><a href="#de-s2">2. Wie erstelle ich ein Backup?</a></li>
+        <li><a href="#de-s3">3. Umzug auf ein neues iPhone</a></li>
+        <li><a href="#de-s4">4. Ich habe meine Backup-Passphrase vergessen</a></li>
+        <li><a href="#de-s5">5. Die iCloud-Synchronisierung funktioniert nicht</a></li>
+        <li><a href="#de-s6">6. Ein Buch mit der Familie teilen</a></li>
+        <li><a href="#de-s7">7. Wie kündige oder verwalte ich mein Abonnement?</a></li>
+        <li><a href="#de-s8">8. Meine Mitgliedschaft ist auf einem neuen Gerät verschwunden</a></li>
+        <li><a href="#de-s9">9. Ich möchte eine Erstattung</a></li>
+        <li><a href="#de-s10">10. Import aus Qianji</a></li>
+        <li><a href="#de-s11">11. Die App belegt zu viel Speicher</a></li>
+        <li><a href="#de-s12">12. Ich möchte meine Daten löschen</a></li>
+        <li><a href="#de-s13">13. Meine Berichte gehen nicht auf</a></li>
+        <li><a href="#de-s14">14. Wie melde ich ein Problem in einem geteilten Buch?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="de-s1">1. Wo sind meine Daten, und kann ich sie verlieren?</h2>
+    <p>Standardmäßig liegen sie nur auf deinem Gerät. Wenn du die iCloud-Synchronisierung aktivierst, wird zusätzlich eine Kopie in der privaten iCloud-Datenbank deines eigenen Apple Accounts gespeichert, damit sie zwischen Geräten synchronisiert werden kann. <strong>Der Entwickler betreibt keine Server und hat keinen Zugriff auf deine Bücher</strong> – siehe <a href="../privacy/">Datenschutzerklärung</a>.</p>
+    <p>Das bedeutet auch: <strong>Wenn dein Gerät verloren geht, beschädigt oder zurückgesetzt wird, kann ich deine Daten nicht für dich wiederherstellen.</strong> Gewöhne dir bitte an, regelmäßig Backups zu exportieren (nächste Frage). Die App erinnert dich in den Einstellungen daran, wenn das letzte Backup schon länger zurückliegt.</p>
+
+    <h2 id="de-s2">2. Wie erstelle ich ein Backup?</h2>
+    <p><strong>Einstellungen › Import &amp; Export › Keel-Backup › Keel-Backup exportieren</strong>. Dabei entsteht ein <code>.bfbackup</code>-Paket mit deinen Büchern, Konten, doppelten Buchungen, Plänen, Budgets, Vermögenswerten, Kategorien, Wechselkursen und Einstellungen, das anschließend an das Teilen-Menü des Systems übergeben wird, damit du es ablegen kannst, wo du möchtest (Dateien, iCloud Drive, ein Cloud-Dienst, eine E-Mail an dich selbst).</p>
+    <p>Du kannst eine Passphrase festlegen, um den Export zu verschlüsseln. <strong>Ohne Passphrase ist die Datei unverschlüsselt</strong>, und jeder, der sie erhält, kann sie lesen – bewahre sie sorgfältig auf.</p>
+
+    <h2 id="de-s3">3. Umzug auf ein neues iPhone</h2>
+    <p>Zwei Wege, wähle einen davon:</p>
+    <ul>
+      <li><strong>iCloud-Synchronisierung</strong> (Premium): Melde beide Geräte mit demselben Apple Account an und aktiviere die Synchronisierung; die Daten werden automatisch übertragen.</li>
+      <li><strong>Eine Backup-Datei</strong> (kostenlos): Exportiere auf dem alten Gerät ein <code>.bfbackup</code>, übertrage es und stelle es mit <strong>Einstellungen › Import &amp; Export › Keel-Backup importieren</strong> wieder her. Importe werden vor der Wiederherstellung auf Dateiintegrität und ausgeglichene doppelte Buchführung geprüft.</li>
+    </ul>
+
+    <h2 id="de-s4">4. Ich habe meine Backup-Passphrase vergessen</h2>
+    <p>Leider <strong>lässt sie sich nicht wiederherstellen</strong>. Die Passphrase dient nur zur Ver- und Entschlüsselung; sie wird nie gespeichert oder übertragen, ich habe keine Kopie, und es gibt keine Hintertür. Bewahre sie in einem Passwort-Manager auf.</p>
+
+    <h2 id="de-s5">5. Die iCloud-Synchronisierung funktioniert nicht</h2>
+    <p>Geh diese Punkte der Reihe nach durch – die meisten Fälle lösen sich schon bei den ersten drei:</p>
+    <ol>
+      <li>Prüfe, ob du in den iOS-Einstellungen mit einem Apple Account angemeldet bist und iCloud verfügbar ist;</li>
+      <li>prüfe, ob dein iCloud-Speicher voll ist – dann werden Schreibvorgänge abgelehnt;</li>
+      <li>prüfe, ob du Netzwerkzugang hast, schicke die App dann in den Hintergrund und öffne sie erneut;</li>
+      <li>öffne <strong>Einstellungen › Datenschutz &amp; Synchronisierung</strong> und lies die Meldung in der Zeile zum iCloud-Accountstatus;</li>
+      <li>steht dort, dass sich der iCloud-Account geändert hat, wurde die Synchronisierung <strong>bewusst angehalten</strong> – das verhindert, dass die Daten des vorherigen Accounts in einen anderen hochgeladen werden. Folge dem Hinweis, um entweder lokal weiterzumachen oder zum aktuellen Account zu wechseln.</li>
+    </ol>
+    <p>Klappt es immer noch nicht? Schick mir den Bericht aus <strong>Einstellungen › Diagnose</strong>.</p>
+
+    <h2 id="de-s6">6. Ein Buch mit der Familie teilen</h2>
+    <p>Starte die Freigabe auf dem Mitgliederbildschirm des Buchs. Dabei wird ein iCloud-Freigabelink erzeugt, den du selbst verschickst (Nachricht, E-Mail, beliebiger Weg). <strong>Die andere Person muss die App installiert haben</strong>, um den Link zu öffnen und beizutreten. Du kannst jedes Mitglied auf „Nur lesen“ oder „Lesen und Schreiben“ setzen und jederzeit Mitglieder entfernen oder die Freigabe beenden.</p>
+    <p>Die Freigabe läuft über iCloud, daher müssen beide Personen mit ihrem eigenen Apple Account angemeldet sein.</p>
+
+    <h2 id="de-s7">7. Wie kündige oder verwalte ich mein Abonnement?</h2>
+    <p>Abonnements werden von Apple verwaltet. Auf beiden Wegen kommst du hin:</p>
+    <ul>
+      <li><strong>In der App: Einstellungen › Premium › Abo verwalten</strong> – das öffnet direkt die Abonnementverwaltung von Apple;</li>
+      <li><strong>iOS-Einstellungen › dein Apple Account ganz oben › Abonnements</strong>, dann Keel suchen.</li>
+    </ul>
+    <p>Dort kannst du die automatische Verlängerung deaktivieren oder den Plan wechseln. Tu das <strong>mindestens 24 Stunden vor</strong> Ende des laufenden Zeitraums, um die nächste Abbuchung zu verhindern. Der bereits bezahlte Zeitraum wird nicht anteilig erstattet; deine Mitgliedschaft läuft bis zu dessen Ende weiter. Wenn du dich in einem kostenlosen Probezeitraum befindest und die automatische Verlängerung mindestens 24 Stunden vor dessen Ende deaktivierst, wird dir nichts berechnet. Siehe <a href="../terms/#de-s3">Nutzungsbedingungen, Abschnitt 3</a>.</p>
+
+    <h2 id="de-s8">8. Meine Mitgliedschaft ist auf einem neuen Gerät verschwunden</h2>
+    <p>Öffne den Bildschirm <strong>Upgrade</strong> und tippe auf <strong>Käufe wiederherstellen</strong>. Du musst mit <strong>demselben Apple Account angemeldet sein, mit dem du ursprünglich gekauft hast</strong> – Berechtigungen sind an den Apple Account gebunden, nicht an ein Gerät oder ein Profil.</p>
+    <p>Wenn „Nichts wiederherzustellen“ erscheint, prüfe, ob der aktuell angemeldete Account derjenige ist, mit dem bezahlt wurde.</p>
+
+    <h2 id="de-s9">9. Ich möchte eine Erstattung</h2>
+    <p>Alle Käufe werden von Apple abgewickelt, und <strong>nur Apple kann eine Erstattung vornehmen – der Entwickler kann es nicht</strong>. Geh zu <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> und melde dich mit deinem Apple Account an, um eine zu beantragen.</p>
+    <p>Wenn du eine Erstattung beantragst, weil etwas nicht wie erwartet funktioniert hat, würde ich mich ehrlich freuen zu erfahren, was schiefgelaufen ist.</p>
+
+    <h2 id="de-s10">10. Import aus Qianji</h2>
+    <p>Exportiere deine Buchungen aus Qianji als Tabelle (xlsx oder CSV) und importiere sie dann unter <strong>Einstellungen › Import &amp; Export</strong>. <strong>Die Datei wird vollständig auf deinem Gerät verarbeitet und nirgendwohin hochgeladen.</strong></p>
+    <p>Dieser Import dient dazu, Buchungsdetails aus anderen Apps zu übernehmen. Um Keels eigene Daten zwischen Geräten zu übertragen, verwende das Backup-Paket aus den Fragen 2 und 3 – es ist vollständig.</p>
+
+    <h2 id="de-s11">11. Die App belegt zu viel Speicher</h2>
+    <p>Öffne <strong>Einstellungen › Speichernutzung</strong>, um zu sehen, wie viel jeweils die Buchdatenbank, Anhänge, Caches und Synchronisierungsstatus sowie Diagnoseprotokolle belegen. Anhänge (Belegbilder und PDFs) machen meist den Großteil aus. Diagnoseprotokolle werden automatisch rotiert und lassen sich auch manuell löschen.</p>
+
+    <h2 id="de-s12">12. Ich möchte meine Daten löschen</h2>
+    <ul>
+      <li><strong>Auf diesem Gerät:</strong> Einstellungen › Alle Daten löschen (erfordert einen Bestätigungscode), oder lösche einfach die App.</li>
+      <li><strong>Die iCloud-Kopie:</strong> Wähle beim Deaktivieren der iCloud-Synchronisierung „iCloud-Kopie löschen“, oder entferne sie in den iOS-Einstellungen unter Apple Account › iCloud › Accountspeicher verwalten. <strong>Beachte, dass dadurch auch jede von dir gestartete Buchfreigabe endet</strong> und Mitglieder den Zugriff verlieren.</li>
+      <li><strong>Von dir exportierte Backup-Dateien:</strong> Diese musst du selbst löschen.</li>
+    </ul>
+    <p>Da ich deine Daten nicht habe, gibt es bei mir keinen Löschantrag zu stellen – du kannst alles selbst entfernen.</p>
+
+    <h2 id="de-s13">13. Meine Berichte gehen nicht auf</h2>
+    <p>Keel arbeitet mit doppelter Buchführung: Jede Buchung muss ausgeglichen sein, und eine eingebaute Invariantenprüfung markiert Abweichungen. Wenn ein Bericht eine Zahl zeigt, die falsch aussieht:</p>
+    <ol>
+      <li>Sieh in der Übersicht oder auf den Berichtsbildschirmen nach, ob ein Validierungshinweis angezeigt wird;</li>
+      <li>prüfe, ob die betroffenen Buchungen einen falschen Betrag, eine falsche Richtung oder ein falsches Konto haben;</li>
+      <li>prüfe bei mehreren Währungen, ob du für die betroffenen Währungen einen Kurs eingegeben hast.</li>
+    </ol>
+    <p>Liegt es nicht an den Eingaben, schick mir den Diagnosebericht und sag mir, welcher Bericht in welchem Zeitraum nicht aufgeht. <strong>Beachte, dass Berichte nur deiner persönlichen Information dienen – sie sind nicht geprüft und keine Finanz- oder Steuerberatung</strong> (siehe <a href="../terms/#de-s6">Nutzungsbedingungen, Abschnitt 6</a>).</p>
+
+    <h2 id="de-s14">14. Wie melde ich ein Problem in einem geteilten Buch?</h2>
+    <p>Öffne im betreffenden geteilten Buch <strong>Mitglieder › Problem melden</strong>; dadurch wird eine E-Mail an mich erstellt. Oder schreib direkt an <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> mit einem Betreff, der mit <code>[Report]</code> beginnt. Ich bestätige den Eingang innerhalb von 7 Tagen.</p>
+    <p>Die Daten geteilter Bücher liegen in den eigenen iCloud-Accounts der Mitglieder, daher kann ich sie weder sehen noch löschen – deshalb kannst du auch selbst handeln: <strong>Der Eigentümer</strong> kann Einträge löschen, Berechtigungen ändern, Mitglieder entfernen oder die Freigabe beenden, und <strong>Mitglieder</strong> können jederzeit austreten. Die Regeln stehen in <a href="../terms/#de-s5">Nutzungsbedingungen, Abschnitt 5</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Keine Antwort gefunden? Schreib einfach an <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. Die <a href="?lang=zh">chinesische Fassung</a> dieser Seite.</p>
+  </article>
+
+  <article data-lang="es" lang="es">
+    <h1 class="doc-title">Soporte</h1>
+    <p class="doc-meta"><span>App de iOS Keel (nombre en chino: 司元)</span><span>Última actualización: 5 de octubre de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contacta con el desarrollador</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></strong></p>
+      <p>Keel es una app independiente que mantiene una sola persona. Intento responder <strong>en un plazo de 2 días hábiles</strong>; los problemas que hay que reproducir pueden tardar más. Puedes escribir en inglés o en chino.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Cuando informes de un problema, incluye estas tres cosas</strong>: así nos ahorramos un ida y vuelta.</p>
+      <ol>
+        <li>La versión de la app y la versión de iOS;</li>
+        <li>Qué hiciste, qué esperabas y qué ocurrió en realidad;</li>
+        <li>Un informe de diagnóstico: en la app, <strong>Ajustes › Diagnóstico › Enviar por correo al desarrollador</strong> lo adjunta por ti, y puedes revisar su contenido antes de enviarlo.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Índice">
+      <h2>Preguntas frecuentes</h2>
+      <ol>
+        <li><a href="#es-s1">1. ¿Dónde están mis datos y puedo perderlos?</a></li>
+        <li><a href="#es-s2">2. ¿Cómo hago una copia de seguridad?</a></li>
+        <li><a href="#es-s3">3. Cambiar a un iPhone nuevo</a></li>
+        <li><a href="#es-s4">4. Olvidé la contraseña de mi copia de seguridad</a></li>
+        <li><a href="#es-s5">5. La sincronización con iCloud no funciona</a></li>
+        <li><a href="#es-s6">6. Compartir un libro con la familia</a></li>
+        <li><a href="#es-s7">7. ¿Cómo cancelo o gestiono mi suscripción?</a></li>
+        <li><a href="#es-s8">8. Mi Premium desapareció en un dispositivo nuevo</a></li>
+        <li><a href="#es-s9">9. Quiero un reembolso</a></li>
+        <li><a href="#es-s10">10. Importar desde Qianji</a></li>
+        <li><a href="#es-s11">11. La app ocupa demasiado almacenamiento</a></li>
+        <li><a href="#es-s12">12. Quiero eliminar mis datos</a></li>
+        <li><a href="#es-s13">13. Mis informes no cuadran</a></li>
+        <li><a href="#es-s14">14. ¿Cómo denuncio un problema en un libro compartido?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="es-s1">1. ¿Dónde están mis datos y puedo perderlos?</h2>
+    <p>De forma predeterminada, solo se guardan en tu dispositivo. Si activas la sincronización con iCloud, también se almacena una copia en la base de datos privada de iCloud de tu propia cuenta de Apple para poder sincronizarla entre dispositivos. <strong>El desarrollador no tiene servidores y no puede acceder a tu libro</strong>: consulta la <a href="../privacy/">Política de privacidad</a>.</p>
+    <p>Lo que también significa que <strong>si tu dispositivo se pierde, se daña o se restablece, no puedo recuperar tus datos por ti.</strong> Acostúmbrate a exportar copias de seguridad (siguiente pregunta). La app te lo recuerda en Ajustes cuando ha pasado un tiempo.</p>
+
+    <h2 id="es-s2">2. ¿Cómo hago una copia de seguridad?</h2>
+    <p><strong>Ajustes › Importar y exportar › Copia de seguridad de Keel › Exportar copia de seguridad de Keel</strong>. Esto genera un paquete <code>.bfbackup</code> que contiene tus libros, cuentas, apuntes de partida doble, planes, presupuestos, activos, categorías, tipos de cambio y preferencias, y luego lo pasa a la hoja para compartir del sistema para que lo guardes donde quieras (Archivos, iCloud Drive, un servicio en la nube, un correo a ti mismo).</p>
+    <p>Puedes establecer una contraseña para cifrar la exportación. <strong>Sin ella, el archivo no está cifrado</strong> y cualquiera que lo obtenga puede leerlo: guárdalo con cuidado.</p>
+
+    <h2 id="es-s3">3. Cambiar a un iPhone nuevo</h2>
+    <p>Hay dos caminos; elige cualquiera de ellos:</p>
+    <ul>
+      <li><strong>Sincronización con iCloud</strong> (Premium): inicia sesión en ambos dispositivos con la misma cuenta de Apple y activa la sincronización; los datos se transfieren automáticamente.</li>
+      <li><strong>Un archivo de copia de seguridad</strong> (gratis): exporta un <code>.bfbackup</code> en el dispositivo antiguo, transfiérelo y restáuralo con <strong>Ajustes › Importar y exportar › Importar copia de seguridad de Keel</strong>. Antes de restaurar, se comprueban la integridad del archivo y el equilibrio de la partida doble.</li>
+    </ul>
+
+    <h2 id="es-s4">4. Olvidé la contraseña de mi copia de seguridad</h2>
+    <p>Lamentablemente, <strong>no se puede recuperar</strong>. La contraseña solo se usa para cifrar y descifrar; nunca se almacena ni se transmite, no tengo ninguna copia y no existe ninguna puerta trasera. Guárdala en un gestor de contraseñas.</p>
+
+    <h2 id="es-s5">5. La sincronización con iCloud no funciona</h2>
+    <p>Sigue estos pasos en orden; la mayoría de los casos se resuelven en los tres primeros:</p>
+    <ol>
+      <li>Confirma que has iniciado sesión con una cuenta de Apple en los Ajustes del sistema y que iCloud está disponible;</li>
+      <li>Confirma que tu almacenamiento de iCloud no está lleno: cuando lo está, se rechazan las escrituras;</li>
+      <li>Confirma que tienes conexión a la red; después, pasa la app a segundo plano y vuelve a abrirla;</li>
+      <li>Abre <strong>Ajustes › Privacidad y sincronización</strong> y lee el mensaje de la fila de estado de la cuenta de iCloud;</li>
+      <li>Si indica que la cuenta de iCloud ha cambiado, la sincronización se ha <strong>pausado deliberadamente</strong>: así se evita subir los datos de la cuenta anterior a otra distinta. Sigue las indicaciones para continuar en local o cambiar a la cuenta actual.</li>
+    </ol>
+    <p>¿Sigue sin funcionar? Envíame el informe de <strong>Ajustes › Diagnóstico</strong>.</p>
+
+    <h2 id="es-s6">6. Compartir un libro con la familia</h2>
+    <p>Inicia el uso compartido desde la pantalla de miembros del libro. Se genera un enlace para compartir de iCloud que envías tú mismo (mensaje, correo electrónico, lo que quieras). <strong>La otra persona necesita tener la app instalada</strong> para abrir el enlace y unirse. Puedes asignar a cada miembro permiso de solo lectura o de lectura y escritura, y eliminar miembros o dejar de compartir en cualquier momento.</p>
+    <p>El uso compartido funciona a través de iCloud, así que ambas personas deben haber iniciado sesión con su propia cuenta de Apple.</p>
+
+    <h2 id="es-s7">7. ¿Cómo cancelo o gestiono mi suscripción?</h2>
+    <p>Las suscripciones las gestiona Apple. Puedes llegar por cualquiera de estas dos vías:</p>
+    <ul>
+      <li><strong>En la app: Ajustes › Premium › Gestionar suscripción</strong>, que abre directamente la pantalla de gestión de suscripciones de Apple;</li>
+      <li><strong>Ajustes del sistema › tu cuenta de Apple en la parte superior › Suscripciones</strong>, y luego busca Keel.</li>
+    </ul>
+    <p>Desde ahí puedes desactivar la renovación automática o cambiar de plan. Hazlo <strong>al menos 24 horas antes</strong> de que termine el periodo en curso para evitar el siguiente cargo. El periodo que ya has pagado no se reembolsa de forma proporcional; tu Premium continúa hasta el final de ese periodo. Si estás en una prueba gratuita, desactivar la renovación automática al menos 24 horas antes de que termine la prueba significa que no se te cobrará. Consulta los <a href="../terms/#es-s3">Términos del servicio, sección 3</a>.</p>
+
+    <h2 id="es-s8">8. Mi Premium desapareció en un dispositivo nuevo</h2>
+    <p>Abre la pantalla <strong>Mejorar</strong> y toca <strong>Restaurar</strong>. Debes haber iniciado sesión con <strong>la misma cuenta de Apple con la que hiciste la compra</strong>: los derechos están vinculados a la cuenta de Apple, no a un dispositivo ni a un perfil.</p>
+    <p>Si ves «Nada que restaurar», comprueba que la cuenta con la que has iniciado sesión es la que realizó el pago.</p>
+
+    <h2 id="es-s9">9. Quiero un reembolso</h2>
+    <p>Todas las compras las tramita Apple, y <strong>solo Apple puede emitir un reembolso; el desarrollador no puede</strong>. Ve a <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> e inicia sesión con tu cuenta de Apple para solicitarlo.</p>
+    <p>Si pides el reembolso porque algo no funcionó como esperabas, te agradecería de verdad que me contaras qué falló.</p>
+
+    <h2 id="es-s10">10. Importar desde Qianji</h2>
+    <p>Exporta tus movimientos desde Qianji como hoja de cálculo (xlsx o CSV) y luego impórtala en <strong>Ajustes › Importar y exportar</strong>. <strong>El archivo se analiza íntegramente en tu dispositivo y no se sube a ningún sitio.</strong></p>
+    <p>Esa importación sirve para migrar el detalle de movimientos externos. Para trasladar los datos propios de Keel entre dispositivos, usa el paquete de copia de seguridad de las preguntas 2 y 3: ese sí es completo.</p>
+
+    <h2 id="es-s11">11. La app ocupa demasiado almacenamiento</h2>
+    <p>Abre <strong>Ajustes › Uso de almacenamiento</strong> para ver cuánto ocupan la base de datos del libro, los archivos adjuntos, las cachés y el estado de sincronización, y los registros de diagnóstico. Los archivos adjuntos (imágenes de recibos y PDF) suelen ser la mayor parte. Los registros de diagnóstico se rotan automáticamente y también puedes borrarlos manualmente.</p>
+
+    <h2 id="es-s12">12. Quiero eliminar mis datos</h2>
+    <ul>
+      <li><strong>En este dispositivo:</strong> Ajustes › Borrar todos los datos (requiere un código de confirmación), o simplemente elimina la app.</li>
+      <li><strong>La copia de iCloud:</strong> elige «Eliminar copia de iCloud» al desactivar la sincronización con iCloud, o elimínala en Ajustes del sistema › Cuenta de Apple › iCloud › Gestionar el almacenamiento de la cuenta. <strong>Ten en cuenta que esto también pone fin a cualquier uso compartido de libros que hayas iniciado</strong>, y los miembros pierden el acceso.</li>
+      <li><strong>Los archivos de copia de seguridad que exportaste:</strong> eliminarlos te corresponde a ti.</li>
+    </ul>
+    <p>Como no conservo tus datos, no hay ninguna solicitud de eliminación que presentarme: puedes eliminarlos todos tú mismo.</p>
+
+    <h2 id="es-s13">13. Mis informes no cuadran</h2>
+    <p>Keel usa partida doble: cada movimiento debe cuadrar, y una comprobación de invariantes integrada señala los descuadres. Si un informe muestra una cifra que parece incorrecta:</p>
+    <ol>
+      <li>Busca un aviso de validación en las pantallas de resumen o de estados;</li>
+      <li>Comprueba si los movimientos implicados tienen un importe, una dirección o una cuenta incorrectos;</li>
+      <li>En caso de varias monedas, confirma que has introducido un tipo de cambio para las monedas implicadas.</li>
+    </ol>
+    <p>Si no es un problema de introducción de datos, envíame el informe de diagnóstico e indícame qué estado y qué periodo no cuadran. <strong>Ten en cuenta que los informes son solo para referencia personal: no están auditados y no constituyen asesoramiento financiero ni fiscal</strong> (consulta los <a href="../terms/#es-s6">Términos del servicio, sección 6</a>).</p>
+
+    <h2 id="es-s14">14. ¿Cómo denuncio un problema en un libro compartido?</h2>
+    <p>Abre <strong>Miembros › Informar de un problema</strong> en ese libro compartido, que redacta un correo electrónico dirigido a mí; o escribe directamente a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un asunto que empiece por <code>[Report]</code>. Acusaré recibo en un plazo de 7 días.</p>
+    <p>Los datos de los libros compartidos se encuentran en las propias cuentas de iCloud de los miembros, por lo que no puedo verlos ni eliminarlos; por eso también puedes actuar tú mismo: <strong>el propietario</strong> puede eliminar asientos, cambiar permisos, eliminar miembros o dejar de compartir, y <strong>los miembros</strong> pueden salir en cualquier momento. Las normas están en los <a href="../terms/#es-s5">Términos del servicio, sección 5</a>.</p>
+
+    <hr>
+    <p class="doc-meta">¿No encontraste tu respuesta? Escribe a <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. La <a href="?lang=zh">versión en chino</a> de esta página.</p>
+  </article>
+
+  <article data-lang="fr" lang="fr">
+    <h1 class="doc-title">Assistance</h1>
+    <p class="doc-meta"><span>App iOS Keel (nom chinois : 司元)</span><span>Dernière mise à jour : 5 octobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contacter le développeur</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></strong></p>
+      <p>Keel est une app indépendante maintenue par une seule personne. Je m’efforce de répondre <strong>sous 2 jours ouvrés</strong> ; les problèmes qui doivent être reproduits peuvent prendre plus de temps. Vous pouvez écrire en anglais ou en chinois.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Pour signaler un problème, merci d’indiquer ces trois éléments</strong> — cela évite un aller-retour :</p>
+      <ol>
+        <li>La version de l’app et la version d’iOS ;</li>
+        <li>Ce que vous avez fait, ce à quoi vous vous attendiez et ce qui s’est réellement passé ;</li>
+        <li>Un rapport de diagnostic — dans l’app, <strong>Réglages › Diagnostic › Envoyer au développeur par e-mail</strong> le joint pour vous, et vous pouvez en vérifier le contenu avant l’envoi.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Table des matières">
+      <h2>Questions fréquentes</h2>
+      <ol>
+        <li><a href="#fr-s1">1. Où sont mes données, et puis-je les perdre ?</a></li>
+        <li><a href="#fr-s2">2. Comment faire une sauvegarde ?</a></li>
+        <li><a href="#fr-s3">3. Passer à un nouveau téléphone</a></li>
+        <li><a href="#fr-s4">4. J’ai oublié la phrase secrète de ma sauvegarde</a></li>
+        <li><a href="#fr-s5">5. La synchronisation iCloud ne fonctionne pas</a></li>
+        <li><a href="#fr-s6">6. Partager un livre avec sa famille</a></li>
+        <li><a href="#fr-s7">7. Comment résilier ou gérer mon abonnement ?</a></li>
+        <li><a href="#fr-s8">8. Mon abonnement Premium a disparu sur un nouvel appareil</a></li>
+        <li><a href="#fr-s9">9. Je souhaite être remboursé</a></li>
+        <li><a href="#fr-s10">10. Importer depuis Qianji</a></li>
+        <li><a href="#fr-s11">11. L’app occupe trop d’espace de stockage</a></li>
+        <li><a href="#fr-s12">12. Je souhaite que mes données soient supprimées</a></li>
+        <li><a href="#fr-s13">13. Mes rapports ne tombent pas juste</a></li>
+        <li><a href="#fr-s14">14. Comment signaler un problème dans un livre partagé ?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="fr-s1">1. Où sont mes données, et puis-je les perdre ?</h2>
+    <p>Par défaut, elles se trouvent uniquement sur votre appareil. Si vous activez la synchronisation iCloud, une copie est également stockée dans la base de données privée iCloud de votre propre compte Apple afin de pouvoir être synchronisée entre vos appareils. <strong>Le développeur n’exploite aucun serveur et n’a pas accès à votre livre de comptes</strong> — voir la <a href="../privacy/">Politique de confidentialité</a>.</p>
+    <p>Ce qui signifie aussi : <strong>si votre appareil est perdu, endommagé ou réinitialisé, je ne peux pas récupérer vos données pour vous.</strong> Prenez l’habitude d’exporter des sauvegardes (question suivante). L’app vous le rappelle dans les Réglages lorsque la dernière remonte à un moment.</p>
+
+    <h2 id="fr-s2">2. Comment faire une sauvegarde ?</h2>
+    <p><strong>Réglages › Importer et exporter › Sauvegarde Keel › Exporter la sauvegarde Keel</strong>. Cela produit un paquet <code>.bfbackup</code> contenant vos livres, comptes, écritures en partie double, plans, budgets, actifs, catégories, taux de change et préférences, puis le transmet à la feuille de partage du système pour que vous le placiez où vous voulez (Fichiers, iCloud Drive, un service cloud, un e-mail à vous-même).</p>
+    <p>Vous pouvez définir une phrase secrète pour chiffrer l’export. <strong>Sans phrase secrète, le fichier n’est pas chiffré</strong> et toute personne qui l’obtient peut le lire — conservez-le avec soin.</p>
+
+    <h2 id="fr-s3">3. Passer à un nouveau téléphone</h2>
+    <p>Deux possibilités, au choix :</p>
+    <ul>
+      <li><strong>Synchronisation iCloud</strong> (Premium) : connectez les deux appareils au même compte Apple et activez la synchronisation ; les données sont transférées automatiquement.</li>
+      <li><strong>Un fichier de sauvegarde</strong> (gratuit) : exportez un <code>.bfbackup</code> sur l’ancien appareil, transférez-le, puis restaurez-le avec <strong>Réglages › Importer et exporter › Importer une sauvegarde Keel</strong>. Avant la restauration, l’intégrité du fichier et l’équilibre en partie double sont vérifiés.</li>
+    </ul>
+
+    <h2 id="fr-s4">4. J’ai oublié la phrase secrète de ma sauvegarde</h2>
+    <p>Malheureusement, elle <strong>ne peut pas être récupérée</strong>. La phrase secrète sert uniquement au chiffrement et au déchiffrement ; elle n’est jamais stockée ni transmise, je n’en détiens aucune copie et il n’existe aucune porte dérobée. Conservez-la dans un gestionnaire de mots de passe.</p>
+
+    <h2 id="fr-s5">5. La synchronisation iCloud ne fonctionne pas</h2>
+    <p>Vérifiez les points suivants dans l’ordre — la plupart des cas se règlent dès les trois premiers :</p>
+    <ol>
+      <li>Vérifiez que vous êtes connecté à un compte Apple dans les Réglages du système et qu’iCloud est disponible ;</li>
+      <li>Vérifiez que votre stockage iCloud n’est pas plein — les écritures sont refusées lorsqu’il l’est ;</li>
+      <li>Vérifiez que vous avez accès au réseau, puis passez l’app en arrière-plan et rouvrez-la ;</li>
+      <li>Ouvrez <strong>Réglages › Confidentialité et synchronisation</strong> et lisez le message de la ligne d’état du compte iCloud ;</li>
+      <li>S’il indique que le compte iCloud a changé, la synchronisation a été <strong>volontairement suspendue</strong> — cela évite de téléverser les données du compte précédent vers un autre compte. Suivez les instructions pour continuer en local ou passer au compte actuel.</li>
+    </ol>
+    <p>Toujours bloqué ? Envoyez-moi le rapport depuis <strong>Réglages › Diagnostic</strong>.</p>
+
+    <h2 id="fr-s6">6. Partager un livre avec sa famille</h2>
+    <p>Lancez le partage depuis l’écran des membres du livre. Cela génère un lien de partage iCloud que vous envoyez vous-même (message, e-mail, peu importe). <strong>L’autre personne doit avoir installé l’app</strong> pour ouvrir le lien et rejoindre le livre. Vous pouvez attribuer à chaque membre un accès en lecture seule ou en lecture et écriture, et retirer des membres ou arrêter le partage à tout moment.</p>
+    <p>Le partage repose sur iCloud : les deux personnes doivent donc être connectées à leur propre compte Apple.</p>
+
+    <h2 id="fr-s7">7. Comment résilier ou gérer mon abonnement ?</h2>
+    <p>Les abonnements sont gérés par Apple. L’un ou l’autre de ces chemins vous y mène :</p>
+    <ul>
+      <li><strong>Dans l’app : Réglages › Premium › Gérer l’abonnement</strong>, qui ouvre directement l’écran de gestion des abonnements d’Apple ;</li>
+      <li><strong>Réglages du système › votre compte Apple en haut › Abonnements</strong>, puis recherchez Keel.</li>
+    </ul>
+    <p>Vous pouvez alors désactiver le renouvellement automatique ou changer de formule. Faites-le <strong>au moins 24 heures avant</strong> la fin de la période en cours pour éviter le prochain débit. La période déjà payée n’est pas remboursée au prorata ; votre abonnement Premium court jusqu’à sa fin. Si vous bénéficiez d’un essai gratuit, désactiver le renouvellement automatique au moins 24 heures avant la fin de l’essai vous évite d’être débité. Voir les <a href="../terms/#fr-s3">Conditions d’utilisation, article 3</a>.</p>
+
+    <h2 id="fr-s8">8. Mon abonnement Premium a disparu sur un nouvel appareil</h2>
+    <p>Ouvrez l’écran <strong>Passer à Premium</strong> et touchez <strong>Restaurer</strong>. Vous devez être connecté avec <strong>le même compte Apple que celui utilisé pour l’achat initial</strong> — les droits sont liés au compte Apple, et non à un appareil ou à un profil.</p>
+    <p>Si vous voyez « Rien à restaurer », vérifiez que le compte actuellement connecté est bien celui qui a payé.</p>
+
+    <h2 id="fr-s9">9. Je souhaite être remboursé</h2>
+    <p>Tous les achats sont traités par Apple, et <strong>seul Apple peut accorder un remboursement — le développeur ne le peut pas</strong>. Rendez-vous sur <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> et connectez-vous avec votre compte Apple pour en faire la demande.</p>
+    <p>Si vous demandez un remboursement parce que quelque chose n’a pas fonctionné comme prévu, j’aimerais sincèrement savoir ce qui n’a pas marché.</p>
+
+    <h2 id="fr-s10">10. Importer depuis Qianji</h2>
+    <p>Exportez vos transactions depuis Qianji sous forme de tableur (xlsx ou CSV), puis importez-le dans <strong>Réglages › Importer et exporter</strong>. <strong>Le fichier est analysé entièrement sur votre appareil et n’est envoyé nulle part.</strong></p>
+    <p>Cette importation sert à migrer des transactions externes. Pour transférer les données de Keel elles-mêmes d’un appareil à l’autre, utilisez le paquet de sauvegarde des questions 2 et 3 — lui est complet.</p>
+
+    <h2 id="fr-s11">11. L’app occupe trop d’espace de stockage</h2>
+    <p>Ouvrez <strong>Réglages › Espace utilisé</strong> pour voir l’espace occupé respectivement par la base de données du livre, les pièces jointes, les caches et l’état de synchronisation, et les journaux de diagnostic. Les pièces jointes (images de reçus et PDF) en représentent généralement l’essentiel. Les journaux de diagnostic sont renouvelés automatiquement et peuvent aussi être effacés manuellement.</p>
+
+    <h2 id="fr-s12">12. Je souhaite que mes données soient supprimées</h2>
+    <ul>
+      <li><strong>Sur cet appareil :</strong> Réglages › Effacer toutes les données (un code de confirmation est demandé), ou supprimez simplement l’app.</li>
+      <li><strong>La copie iCloud :</strong> choisissez « Supprimer la copie iCloud » lorsque vous désactivez la synchronisation iCloud, ou supprimez-la dans Réglages du système › compte Apple › iCloud › Gérer le stockage du compte. <strong>Notez que cela met également fin à tous les partages de livres que vous avez lancés</strong>, et les membres perdent l’accès.</li>
+      <li><strong>Les fichiers de sauvegarde que vous avez exportés :</strong> c’est à vous de les supprimer.</li>
+    </ul>
+    <p>Comme je ne détiens pas vos données, il n’y a aucune demande de suppression à m’adresser — vous pouvez tout supprimer vous-même.</p>
+
+    <h2 id="fr-s13">13. Mes rapports ne tombent pas juste</h2>
+    <p>Keel fonctionne en partie double : chaque transaction doit être équilibrée, et une vérification d’invariants intégrée signale les écarts. Si un rapport affiche un chiffre qui semble faux :</p>
+    <ol>
+      <li>Vérifiez si un bandeau de validation apparaît sur l’écran de vue d’ensemble ou sur les écrans des états financiers ;</li>
+      <li>Vérifiez si les transactions concernées ont un montant, un sens ou un compte erroné ;</li>
+      <li>En multidevise, vérifiez que vous avez saisi un taux pour les devises concernées.</li>
+    </ol>
+    <p>S’il ne s’agit pas d’un problème de saisie, envoyez-moi le rapport de diagnostic en précisant quel état et quelle période ne concordent pas. <strong>Notez que les rapports sont fournis à titre de référence personnelle uniquement — ils ne sont pas audités et ne constituent pas un conseil financier ou fiscal</strong> (voir les <a href="../terms/#fr-s6">Conditions d’utilisation, article 6</a>).</p>
+
+    <h2 id="fr-s14">14. Comment signaler un problème dans un livre partagé ?</h2>
+    <p>Ouvrez <strong>Membres › Signaler un problème</strong> dans ce livre partagé, ce qui rédige un e-mail à mon intention ; ou écrivez directement à <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> avec un objet commençant par <code>[Report]</code>. J’en accuserai réception sous 7 jours.</p>
+    <p>Les données d’un livre partagé résident dans les propres comptes iCloud des membres : je ne peux donc ni les voir ni les supprimer — c’est pourquoi vous pouvez aussi agir vous-même : <strong>le propriétaire</strong> peut supprimer des écritures, modifier les autorisations, retirer des membres ou arrêter le partage, et <strong>les membres</strong> peuvent partir à tout moment. Les règles figurent dans les <a href="../terms/#fr-s5">Conditions d’utilisation, article 5</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Vous n’avez pas trouvé de réponse ? Écrivez simplement à <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. La <a href="?lang=zh">version chinoise</a> de cette page.</p>
+  </article>
+
+  <article data-lang="pt" lang="pt-BR">
+    <h1 class="doc-title">Suporte</h1>
+    <p class="doc-meta"><span>App Keel para iOS (nome chinês: 司元)</span><span>Última atualização: 5 de outubro de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Fale com o desenvolvedor</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></strong></p>
+      <p>O Keel é um app independente mantido por uma única pessoa. Procuro responder <strong>em até 2 dias úteis</strong>; problemas que precisam ser reproduzidos podem levar mais tempo. Você pode escrever em inglês ou em chinês.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Ao relatar um problema, inclua estas três informações</strong> — isso evita idas e vindas:</p>
+      <ol>
+        <li>A versão do app e a versão do iOS;</li>
+        <li>O que você fez, o que esperava e o que de fato aconteceu;</li>
+        <li>Um relatório de diagnóstico — no app, <strong>Ajustes › Diagnóstico › Enviar por e-mail ao desenvolvedor</strong> o anexa para você, e você pode revisar o conteúdo antes de enviar.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Sumário">
+      <h2>Perguntas frequentes</h2>
+      <ol>
+        <li><a href="#pt-s1">1. Onde ficam meus dados? Posso perdê-los?</a></li>
+        <li><a href="#pt-s2">2. Como faço backup?</a></li>
+        <li><a href="#pt-s3">3. Mudando para um novo celular</a></li>
+        <li><a href="#pt-s4">4. Esqueci a senha do backup</a></li>
+        <li><a href="#pt-s5">5. A Sincronização do iCloud não funciona</a></li>
+        <li><a href="#pt-s6">6. Compartilhar um livro com a família</a></li>
+        <li><a href="#pt-s7">7. Como cancelo ou gerencio minha assinatura?</a></li>
+        <li><a href="#pt-s8">8. Meu Premium sumiu em um novo dispositivo</a></li>
+        <li><a href="#pt-s9">9. Quero um reembolso</a></li>
+        <li><a href="#pt-s10">10. Importar do Qianji</a></li>
+        <li><a href="#pt-s11">11. O app está ocupando armazenamento demais</a></li>
+        <li><a href="#pt-s12">12. Quero que meus dados sejam excluídos</a></li>
+        <li><a href="#pt-s13">13. Meus relatórios não fecham</a></li>
+        <li><a href="#pt-s14">14. Como denuncio um problema em um livro compartilhado?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="pt-s1">1. Onde ficam meus dados? Posso perdê-los?</h2>
+    <p>Por padrão, eles ficam apenas no seu dispositivo. Se você ativar a Sincronização do iCloud, uma cópia também é armazenada no banco de dados privado do iCloud da sua própria conta Apple, para sincronizar entre dispositivos. <strong>O desenvolvedor não mantém nenhum servidor e não tem acesso ao seu livro</strong> — consulte a <a href="../privacy/">Política de Privacidade</a>.</p>
+    <p>O que também significa: <strong>se o seu dispositivo for perdido, danificado ou redefinido, não tenho como recuperar seus dados.</strong> Crie o hábito de exportar backups (próxima pergunta). O app lembra você em Ajustes quando já faz um tempo.</p>
+
+    <h2 id="pt-s2">2. Como faço backup?</h2>
+    <p><strong>Ajustes › Importar e exportar › Backup do Keel › Exportar backup do Keel</strong>. Isso gera um pacote <code>.bfbackup</code> com seus livros, contas, partidas dobradas, planos, orçamentos, ativos, categorias, taxas de câmbio e preferências, e o entrega ao menu de compartilhamento do sistema para você guardá-lo onde quiser (Arquivos, iCloud Drive, um serviço de nuvem, um e-mail para você mesmo).</p>
+    <p>Você pode definir uma senha para criptografar a exportação. <strong>Sem senha, o arquivo não é criptografado</strong> e qualquer pessoa que o obtenha pode lê-lo — guarde-o com cuidado.</p>
+
+    <h2 id="pt-s3">3. Mudando para um novo celular</h2>
+    <p>Há dois caminhos; escolha qualquer um:</p>
+    <ul>
+      <li><strong>Sincronização do iCloud</strong> (Premium): entre com a mesma conta Apple nos dois dispositivos e ative a sincronização; os dados são transferidos automaticamente.</li>
+      <li><strong>Um arquivo de backup</strong> (grátis): exporte um <code>.bfbackup</code> no dispositivo antigo, transfira-o e restaure-o em <strong>Ajustes › Importar e exportar › Importar backup do Keel</strong>. Antes da restauração, a importação verifica a integridade do arquivo e o equilíbrio das partidas dobradas.</li>
+    </ul>
+
+    <h2 id="pt-s4">4. Esqueci a senha do backup</h2>
+    <p>Infelizmente, ela <strong>não pode ser recuperada</strong>. A senha é usada apenas para criptografar e descriptografar; nunca é armazenada nem transmitida, não tenho nenhuma cópia dela e não existe porta dos fundos. Guarde-a em um gerenciador de senhas.</p>
+
+    <h2 id="pt-s5">5. A Sincronização do iCloud não funciona</h2>
+    <p>Siga estes passos na ordem — a maioria dos casos se resolve nos três primeiros:</p>
+    <ol>
+      <li>Confirme que você entrou com uma conta Apple nos Ajustes do sistema e que o iCloud está disponível;</li>
+      <li>Confirme que o armazenamento do iCloud não está cheio — quando está, as gravações são recusadas;</li>
+      <li>Confirme que há conexão com a internet; depois, mande o app para segundo plano e abra-o de novo;</li>
+      <li>Abra <strong>Ajustes › Privacidade e sincronização</strong> e leia a mensagem na linha de status da conta do iCloud;</li>
+      <li>Se ela disser que a conta do iCloud mudou, a sincronização foi <strong>pausada de propósito</strong> — isso evita enviar os dados da conta anterior para outra conta. Siga as instruções para continuar localmente ou passar para a conta atual.</li>
+    </ol>
+    <p>Ainda não resolveu? Envie para mim o relatório de <strong>Ajustes › Diagnóstico</strong>.</p>
+
+    <h2 id="pt-s6">6. Compartilhar um livro com a família</h2>
+    <p>Inicie o compartilhamento na tela de membros do livro. Ela gera um link de compartilhamento do iCloud que você mesmo envia (mensagem, e-mail, o que preferir). <strong>A outra pessoa precisa ter o app instalado</strong> para abrir o link e entrar. Você pode definir cada membro como somente leitura ou leitura e gravação, e remover membros ou parar de compartilhar a qualquer momento.</p>
+    <p>O compartilhamento funciona pelo iCloud, então as duas pessoas precisam ter entrado com as próprias contas Apple.</p>
+
+    <h2 id="pt-s7">7. Como cancelo ou gerencio minha assinatura?</h2>
+    <p>As assinaturas são gerenciadas pela Apple. Qualquer um destes caminhos leva até lá:</p>
+    <ul>
+      <li><strong>No app: Ajustes › Premium › Gerenciar assinatura</strong>, que abre diretamente a tela de gerenciamento de assinaturas da Apple;</li>
+      <li><strong>Ajustes do sistema › sua conta Apple no topo › Assinaturas</strong>, e depois encontre o Keel.</li>
+    </ul>
+    <p>Ali você pode desativar a renovação automática ou trocar de plano. Faça isso <strong>com pelo menos 24 horas de antecedência</strong> do fim do período atual para evitar a próxima cobrança. O período já pago não é reembolsado proporcionalmente; seu Premium continua até o fim dele. Se você estiver em um teste grátis, desativar a renovação automática com pelo menos 24 horas de antecedência do fim do teste garante que você não será cobrado. Consulte os <a href="../terms/#pt-s3">Termos de Serviço, Seção 3</a>.</p>
+
+    <h2 id="pt-s8">8. Meu Premium sumiu em um novo dispositivo</h2>
+    <p>Abra a tela <strong>Assinar</strong> e toque em <strong>Restaurar</strong>. Você precisa ter entrado com <strong>a mesma conta Apple usada na compra original</strong> — os direitos ficam vinculados à conta Apple, e não a um dispositivo ou perfil.</p>
+    <p>Se aparecer “Nada para restaurar”, verifique se a conta com que você entrou é a que fez o pagamento.</p>
+
+    <h2 id="pt-s9">9. Quero um reembolso</h2>
+    <p>Todas as compras são processadas pela Apple, e <strong>somente a Apple pode emitir um reembolso — o desenvolvedor não pode</strong>. Acesse <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> e entre com sua conta Apple para solicitá-lo.</p>
+    <p>Se você está pedindo o reembolso porque algo não funcionou como esperado, eu agradeceria de verdade saber o que deu errado.</p>
+
+    <h2 id="pt-s10">10. Importar do Qianji</h2>
+    <p>Exporte seus lançamentos do Qianji como planilha (xlsx ou CSV) e importe-a em <strong>Ajustes › Importar e exportar</strong>. <strong>O arquivo é processado inteiramente no seu dispositivo e não é enviado para lugar nenhum.</strong></p>
+    <p>Essa importação serve para migrar lançamentos detalhados de fora. Para levar os dados do próprio Keel de um dispositivo para outro, use o pacote de backup das perguntas 2 e 3 — ele é completo.</p>
+
+    <h2 id="pt-s11">11. O app está ocupando armazenamento demais</h2>
+    <p>Abra <strong>Ajustes › Uso de armazenamento</strong> para ver quanto ocupam o banco de dados do livro, os anexos, os caches e o estado de sincronização, e os registros de diagnóstico. Os anexos (imagens de recibos e PDFs) costumam ser a maior parte. Os registros de diagnóstico são rotacionados automaticamente e também podem ser apagados manualmente.</p>
+
+    <h2 id="pt-s12">12. Quero que meus dados sejam excluídos</h2>
+    <ul>
+      <li><strong>Neste dispositivo:</strong> Ajustes › Apagar todos os dados (exige um código de confirmação), ou simplesmente exclua o app.</li>
+      <li><strong>A cópia no iCloud:</strong> escolha “Excluir cópia do iCloud” ao desativar a Sincronização do iCloud, ou remova-a em Ajustes do sistema › Conta Apple › iCloud › Gerenciar Armazenamento da Conta. <strong>Observe que isso também encerra todos os compartilhamentos de livros iniciados por você</strong>, e os membros perdem o acesso.</li>
+      <li><strong>Arquivos de backup que você exportou:</strong> cabe a você excluí-los.</li>
+    </ul>
+    <p>Como não mantenho seus dados, não há nenhum pedido de exclusão a fazer comigo — você mesmo pode remover tudo.</p>
+
+    <h2 id="pt-s13">13. Meus relatórios não fecham</h2>
+    <p>O Keel usa partidas dobradas: todo lançamento precisa estar equilibrado, e uma verificação de invariantes integrada sinaliza as quebras. Se um relatório mostrar um número que parece errado:</p>
+    <ol>
+      <li>Veja se há um aviso de validação na visão geral ou nas telas das demonstrações;</li>
+      <li>Verifique se os lançamentos envolvidos têm valor, sentido ou conta errados;</li>
+      <li>Em caso de várias moedas, confirme que você informou uma taxa de câmbio para as moedas envolvidas.</li>
+    </ol>
+    <p>Se não for um problema de digitação, envie-me o relatório de diagnóstico e diga qual demonstração e qual período não batem. <strong>Observe que os relatórios servem apenas como referência pessoal — não são auditados e não constituem aconselhamento financeiro ou tributário</strong> (consulte os <a href="../terms/#pt-s6">Termos de Serviço, Seção 6</a>).</p>
+
+    <h2 id="pt-s14">14. Como denuncio um problema em um livro compartilhado?</h2>
+    <p>Abra <strong>Membros › Denunciar um problema</strong> desse livro compartilhado, o que redige um e-mail para mim; ou escreva diretamente para <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> com um assunto que comece por <code>[Report]</code>. Confirmarei o recebimento em até 7 dias.</p>
+    <p>Os dados dos livros compartilhados ficam nas próprias contas do iCloud dos membros, então não consigo vê-los nem excluí-los — por isso você também pode agir por conta própria: <strong>o proprietário</strong> pode excluir lançamentos, alterar permissões, remover membros ou parar de compartilhar, e <strong>os membros</strong> podem sair a qualquer momento. As regras estão nos <a href="../terms/#pt-s5">Termos de Serviço, Seção 5</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Não encontrou sua resposta? É só escrever para <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. A <a href="?lang=zh">versão em chinês</a> desta página.</p>
+  </article>
+
+  <article data-lang="it" lang="it">
+    <h1 class="doc-title">Supporto</h1>
+    <p class="doc-meta"><span>App Keel per iOS (nome cinese: 司元)</span><span>Ultimo aggiornamento: 5 ottobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Contatta lo sviluppatore</p>
+      <p style="font-size:1.05rem"><strong><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></strong></p>
+      <p>Keel è un'app indipendente gestita da una sola persona. Cerco di rispondere <strong>entro 2 giorni lavorativi</strong>; i problemi che vanno riprodotti possono richiedere più tempo. Puoi scrivere in inglese o in cinese.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Quando segnali un problema, includi queste tre informazioni</strong>: risparmierai uno scambio di messaggi.</p>
+      <ol>
+        <li>La versione dell'app e la versione di iOS;</li>
+        <li>Cosa hai fatto, cosa ti aspettavi e cosa è successo davvero;</li>
+        <li>Un report di diagnostica: nell'app, <strong>Impostazioni › Diagnostica › Invia email allo sviluppatore</strong> lo allega per te, e puoi controllarne il contenuto prima di inviarlo.</li>
+      </ol>
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <h2>Domande frequenti</h2>
+      <ol>
+        <li><a href="#it-s1">1. Dove sono i miei dati e posso perderli?</a></li>
+        <li><a href="#it-s2">2. Come faccio un backup?</a></li>
+        <li><a href="#it-s3">3. Passare a un nuovo iPhone</a></li>
+        <li><a href="#it-s4">4. Ho dimenticato la passphrase del backup</a></li>
+        <li><a href="#it-s5">5. La sincronizzazione iCloud non funziona</a></li>
+        <li><a href="#it-s6">6. Condividere un libro con la famiglia</a></li>
+        <li><a href="#it-s7">7. Come disdico o gestisco l'abbonamento?</a></li>
+        <li><a href="#it-s8">8. Premium è sparito sul nuovo dispositivo</a></li>
+        <li><a href="#it-s9">9. Voglio un rimborso</a></li>
+        <li><a href="#it-s10">10. Importare da Qianji</a></li>
+        <li><a href="#it-s11">11. L'app occupa troppo spazio</a></li>
+        <li><a href="#it-s12">12. Voglio che i miei dati vengano eliminati</a></li>
+        <li><a href="#it-s13">13. I miei report non tornano</a></li>
+        <li><a href="#it-s14">14. Come segnalo un problema in un libro condiviso?</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="it-s1">1. Dove sono i miei dati e posso perderli?</h2>
+    <p>Per impostazione predefinita si trovano solo sul tuo dispositivo. Se attivi la sincronizzazione iCloud, una copia viene salvata anche nel database privato iCloud del tuo Account Apple, così da potersi sincronizzare tra i dispositivi. <strong>Lo sviluppatore non gestisce alcun server e non può accedere alla tua contabilità</strong>: vedi l'<a href="../privacy/">Informativa sulla privacy</a>.</p>
+    <p>Il che significa anche che <strong>se il tuo dispositivo viene smarrito, danneggiato o ripristinato, non posso recuperare i tuoi dati per te.</strong> Prendi l'abitudine di esportare i backup (domanda successiva). Se è passato un po' di tempo, l'app te lo ricorda in Impostazioni.</p>
+
+    <h2 id="it-s2">2. Come faccio un backup?</h2>
+    <p><strong>Impostazioni › Importa ed esporta › Backup di Keel › Esporta backup di Keel</strong>. Viene creato un pacchetto <code>.bfbackup</code> con i tuoi libri, conti, scritture in partita doppia, piani, budget, attività, categorie, tassi di cambio e preferenze, che viene poi passato al foglio di condivisione di sistema, così puoi salvarlo dove preferisci (File, iCloud Drive, un servizio cloud, un'email a te stesso).</p>
+    <p>Puoi impostare una passphrase per crittografare l'esportazione. <strong>Senza passphrase il file non è crittografato</strong> e chiunque ne entri in possesso può leggerlo: conservalo con cura.</p>
+
+    <h2 id="it-s3">3. Passare a un nuovo iPhone</h2>
+    <p>Due strade, scegline una:</p>
+    <ul>
+      <li><strong>Sincronizzazione iCloud</strong> (Premium): accedi con lo stesso Account Apple su entrambi i dispositivi e attiva la sincronizzazione; i dati vengono trasferiti automaticamente.</li>
+      <li><strong>Un file di backup</strong> (gratis): esporta un file <code>.bfbackup</code> sul vecchio dispositivo, trasferiscilo e ripristinalo con <strong>Impostazioni › Importa ed esporta › Importa backup di Keel</strong>. Prima del ripristino, l'importazione verifica l'integrità del file e il bilanciamento della partita doppia.</li>
+    </ul>
+
+    <h2 id="it-s4">4. Ho dimenticato la passphrase del backup</h2>
+    <p>Purtroppo <strong>non può essere recuperata</strong>. La passphrase serve solo per crittografare e decrittografare; non viene mai salvata né trasmessa, non ne conservo alcuna copia e non esiste una backdoor. Conservala in un gestore di password.</p>
+
+    <h2 id="it-s5">5. La sincronizzazione iCloud non funziona</h2>
+    <p>Segui questi passaggi in ordine: nella maggior parte dei casi il problema si risolve con i primi tre.</p>
+    <ol>
+      <li>Verifica di aver eseguito l'accesso con un Account Apple nelle Impostazioni di sistema e che iCloud sia disponibile;</li>
+      <li>Verifica che lo spazio iCloud non sia pieno: quando lo è, le scritture vengono rifiutate;</li>
+      <li>Verifica di essere connesso alla rete, poi manda l'app in background e riaprila;</li>
+      <li>Apri <strong>Impostazioni › Privacy e sincronizzazione</strong> e leggi il messaggio nella riga dello stato dell'account iCloud;</li>
+      <li>Se indica che l'account iCloud è cambiato, la sincronizzazione è stata <strong>sospesa intenzionalmente</strong>: in questo modo si evita di caricare i dati dell'account precedente in un account diverso. Segui le indicazioni per continuare in locale o passare all'account attuale.</li>
+    </ol>
+    <p>Il problema persiste? Inviami il report da <strong>Impostazioni › Diagnostica</strong>.</p>
+
+    <h2 id="it-s6">6. Condividere un libro con la famiglia</h2>
+    <p>Avvia la condivisione dalla schermata dei membri del libro. Viene generato un link di condivisione iCloud che invii tu stesso (messaggio, email, qualsiasi mezzo). <strong>L'altra persona deve avere l'app installata</strong> per aprire il link e unirsi. Puoi impostare ciascun membro in sola lettura o in lettura e scrittura, e rimuovere membri o interrompere la condivisione in qualsiasi momento.</p>
+    <p>La condivisione funziona tramite iCloud, quindi entrambe le persone devono aver eseguito l'accesso con il proprio Account Apple.</p>
+
+    <h2 id="it-s7">7. Come disdico o gestisco l'abbonamento?</h2>
+    <p>Gli abbonamenti sono gestiti da Apple. Puoi arrivarci in uno di questi due modi:</p>
+    <ul>
+      <li><strong>Nell'app: Impostazioni › Premium › Gestisci abbonamento</strong>, che apre direttamente la schermata di gestione degli abbonamenti di Apple;</li>
+      <li><strong>Impostazioni di sistema › il tuo Account Apple in alto › Abbonamenti</strong>, poi cerca Keel.</li>
+    </ul>
+    <p>Da lì puoi disattivare il rinnovo automatico o cambiare piano. Fallo <strong>almeno 24 ore prima</strong> della fine del periodo in corso per evitare il prossimo addebito. Il periodo già pagato non viene rimborsato pro rata; Premium resta attivo fino alla sua fine. Se sei in prova gratuita, disattivando il rinnovo automatico almeno 24 ore prima della fine della prova non ti verrà addebitato nulla. Vedi i <a href="../terms/#it-s3">Termini di servizio, Sezione 3</a>.</p>
+
+    <h2 id="it-s8">8. Premium è sparito sul nuovo dispositivo</h2>
+    <p>Apri la schermata <strong>Passa a Premium</strong> e tocca <strong>Ripristina acquisti</strong>. Devi aver eseguito l'accesso con <strong>lo stesso Account Apple usato per l'acquisto originale</strong>: i diritti sono legati all'Account Apple, non a un dispositivo o a un profilo.</p>
+    <p>Se vedi «Niente da ripristinare», verifica che l'account con cui hai eseguito l'accesso sia quello che ha effettuato il pagamento.</p>
+
+    <h2 id="it-s9">9. Voglio un rimborso</h2>
+    <p>Tutti gli acquisti sono gestiti da Apple e <strong>solo Apple può emettere un rimborso: lo sviluppatore non può farlo</strong>. Vai su <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> e accedi con il tuo Account Apple per richiederlo.</p>
+    <p>Se chiedi il rimborso perché qualcosa non ha funzionato come previsto, mi farebbe davvero piacere sapere cosa è andato storto.</p>
+
+    <h2 id="it-s10">10. Importare da Qianji</h2>
+    <p>Esporta le tue transazioni da Qianji come foglio di calcolo (xlsx o CSV), poi importalo da <strong>Impostazioni › Importa ed esporta</strong>. <strong>Il file viene elaborato interamente sul tuo dispositivo e non viene caricato da nessuna parte.</strong></p>
+    <p>Questa importazione serve a migrare i dettagli delle transazioni da fonti esterne. Per spostare i dati di Keel tra dispositivi, usa il pacchetto di backup descritto alle domande 2 e 3: quello è completo.</p>
+
+    <h2 id="it-s11">11. L'app occupa troppo spazio</h2>
+    <p>Apri <strong>Impostazioni › Spazio occupato</strong> per vedere quanto occupano rispettivamente il database contabile, gli allegati, la cache e lo stato di sincronizzazione e i log di diagnostica. Di solito la parte più consistente sono gli allegati (immagini di ricevute e PDF). I log di diagnostica ruotano automaticamente e possono anche essere cancellati manualmente.</p>
+
+    <h2 id="it-s12">12. Voglio che i miei dati vengano eliminati</h2>
+    <ul>
+      <li><strong>Su questo dispositivo:</strong> Impostazioni › Cancella tutti i dati (richiede un codice di conferma), oppure semplicemente elimina l'app.</li>
+      <li><strong>La copia su iCloud:</strong> scegli «Elimina copia iCloud» quando disattivi la sincronizzazione iCloud, oppure rimuovila da Impostazioni di sistema › Account Apple › iCloud › Gestisci spazio account. <strong>Tieni presente che in questo modo termina anche qualsiasi condivisione di libri che hai avviato</strong> e i membri perdono l'accesso.</li>
+      <li><strong>I file di backup che hai esportato:</strong> sta a te eliminarli.</li>
+    </ul>
+    <p>Poiché non conservo i tuoi dati, non c'è alcuna richiesta di eliminazione da presentarmi: puoi rimuovere tutto da solo.</p>
+
+    <h2 id="it-s13">13. I miei report non tornano</h2>
+    <p>Keel usa la partita doppia: ogni transazione deve essere bilanciata e un controllo integrato delle invarianti segnala eventuali squilibri. Se un report mostra un numero che sembra sbagliato:</p>
+    <ol>
+      <li>Controlla se nella panoramica o nelle schermate dei rendiconti compare un banner di verifica;</li>
+      <li>Controlla se le transazioni coinvolte hanno importo, direzione o conto errati;</li>
+      <li>In caso di più valute, verifica di aver inserito un tasso di cambio per le valute coinvolte.</li>
+    </ol>
+    <p>Se non si tratta di un errore di inserimento, inviami il report di diagnostica e dimmi quale rendiconto e quale periodo non quadrano. <strong>Ricorda che i report sono solo per riferimento personale: non sono sottoposti a revisione e non costituiscono consulenza finanziaria o fiscale</strong> (vedi i <a href="../terms/#it-s6">Termini di servizio, Sezione 6</a>).</p>
+
+    <h2 id="it-s14">14. Come segnalo un problema in un libro condiviso?</h2>
+    <p>Apri <strong>Membri › Segnala un problema</strong> nel libro condiviso, che prepara un'email per me; oppure scrivi direttamente a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un oggetto che inizi con <code>[Report]</code>. Confermerò la ricezione entro 7 giorni.</p>
+    <p>I dati dei libri condivisi risiedono negli account iCloud dei membri, quindi non posso né vederli né eliminarli; per questo puoi anche intervenire tu stesso: <strong>il proprietario</strong> può eliminare registrazioni, modificare le autorizzazioni, rimuovere membri o interrompere la condivisione, e <strong>i membri</strong> possono uscire in qualsiasi momento. Le regole sono nei <a href="../terms/#it-s5">Termini di servizio, Sezione 5</a>.</p>
+
+    <hr>
+    <p class="doc-meta">Non hai trovato la risposta? Scrivi pure a <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>. La <a href="?lang=zh">versione cinese</a> di questa pagina.</p>
+  </article>
 </main>
 
 <footer class="site-footer">
   <span>Keel · 司元</span>
   <span class="footer-spacer"></span>
-  <a href="./"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
-  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  <a href="./"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Términos del servicio</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="pt">Termos de Serviço</span><span data-lang="it">Termini di servizio</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="pt">Política de Privacidade</span><span data-lang="it">Informativa sulla privacy</span></a>
+  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
 </footer>
 
 <script>
 (function () {
-  var d = document.documentElement, btn = document.getElementById('langToggle');
-  if (!btn) return;
-  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
-  function paint() {
-    var zh = current() === 'zh';
-    btn.textContent = zh ? 'EN' : '中文';
-    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
-  }
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
+  var LABEL = { zh: '语言', en: 'Language', de: 'Sprache', es: 'Idioma', fr: 'Langue', pt: 'Idioma', it: 'Lingua' };
+  var d = document.documentElement, wrap = document.getElementById('langSwitch'), sel = document.getElementById('langSelect');
+  if (!wrap || !sel) return;
+  function current() { var m = /(?:^|\s)lang-([a-z]{2})(?:\s|$)/.exec(d.className); return m && TAG[m[1]] ? m[1] : 'en'; }
+  function paint() { var c = current(); sel.value = c; sel.setAttribute('aria-label', LABEL[c]); }
   paint();
-  btn.hidden = false;
-  btn.addEventListener('click', function () {
-    var next = current() === 'zh' ? 'en' : 'zh';
-    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+  wrap.hidden = false;
+  sel.addEventListener('change', function () {
+    var next = sel.value;
+    if (!TAG[next]) return;
+    var at = location.hash.match(/^#[a-z]{2}-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
-    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    d.lang = TAG[next];
     try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
-    if (at) {
-      var target = document.getElementById(next + '-' + at[1]);
-      if (target) {
-        history.replaceState(null, '', '#' + next + '-' + at[1]);
-        target.scrollIntoView();
-      }
-    }
+    var url = new URL(location.href);
+    if (url.searchParams.has('lang')) url.searchParams.set('lang', next);   /* 带参的地址刷新后别跳回旧语言 */
+    var target = at && document.getElementById(next + '-' + at[1]);
+    if (target) url.hash = '#' + next + '-' + at[1];
+    try { history.replaceState(null, '', url.href); } catch (e) {}
+    if (target) target.scrollIntoView();
   });
 })();
 </script>

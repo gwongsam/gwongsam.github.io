@@ -8,22 +8,28 @@
 <link rel="icon" href="../logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/legal.css">
 <script>
-/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示——
-   法律文档必须在脚本挂掉时依然完整可读。 */
+/* 在首帧前定语言，避免各语言闪一下。无 JS 时 <html> 不带 class，所有语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。
+   判定：?lang= → #<语言>-sN 锚点 → localStorage 上次选择 → 浏览器语言偏好（按顺序取第一个支持的）→ 英文。
+   ?lang= 同时记进 localStorage：App 带参打开某一页后，点页内链接去别的页也停在同一语言。 */
 (function () {
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
   var d = document.documentElement, lang = null;
+  function norm(x) { x = String(x || '').toLowerCase().split(/[-_]/)[0]; return TAG.hasOwnProperty(x) ? x : null; }
   try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'zh' || q === 'en') lang = q;
-    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
-    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
-    else lang = localStorage.getItem('site-lang');
+    var q = norm(new URLSearchParams(location.search).get('lang'));
+    var h = /^#([a-z]{2})-s\d+$/.exec(location.hash);
+    if (q) { lang = q; localStorage.setItem('site-lang', q); }
+    else if (h && norm(h[1])) lang = h[1];
+    else lang = norm(localStorage.getItem('site-lang'));
   } catch (e) {}
-  if (lang !== 'zh' && lang !== 'en') {
-    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  if (!lang) {
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < prefs.length && !lang; i++) lang = norm(prefs[i]);
   }
+  if (!lang) lang = 'en';
   d.className = 'lang-' + lang;
-  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  d.lang = TAG[lang];
 })();
 </script>
 </head>
@@ -34,13 +40,23 @@
     <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
+  <label class="lang-switch" id="langSwitch" hidden>
+    <select id="langSelect" aria-label="Language / 语言">
+      <option value="zh" lang="zh-Hans">中文</option>
+      <option value="en" lang="en">English</option>
+      <option value="de" lang="de">Deutsch</option>
+      <option value="es" lang="es">Español</option>
+      <option value="fr" lang="fr">Français</option>
+      <option value="pt" lang="pt-BR">Português</option>
+      <option value="it" lang="it">Italiano</option>
+    </select>
+  </label>
   <nav class="doc-nav">
-    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="../privacy/" aria-current="page"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
-    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span><span data-lang="de">Bedingungen</span><span data-lang="es">Términos</span><span data-lang="fr">Conditions</span><span data-lang="pt">Termos</span><span data-lang="it">Termini</span></a>
+    <a href="../privacy/" aria-current="page"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span><span data-lang="es">Privacidad</span><span data-lang="fr">Confidentialité</span><span data-lang="pt">Privacidade</span><span data-lang="it">Privacy</span></a>
+    <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
   </nav>
-  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
 <main>
@@ -542,43 +558,1286 @@
     <hr>
     <p class="doc-meta">In case of any discrepancy between this English version and the <a href="?lang=zh">Chinese version</a>, the Chinese version prevails.</p>
   </article>
+
+  <article data-lang="de" lang="de">
+    <h1 class="doc-title">Datenschutzerklärung</h1>
+    <p class="doc-meta"><span>Für die iOS-App Keel (chinesischer Name: 司元)</span><span>Gültig ab: 28. Juli 2026</span><span>Zuletzt aktualisiert: 5. Oktober 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Zusammenfassung</p>
+      <ul>
+        <li><strong>Wir betreiben keine Server.</strong> Die App sendet deine Buchhaltungsdaten an keinen von uns kontrollierten Server – einen solchen Server gibt es nicht.</li>
+        <li><strong>Deine Daten bleiben bei dir.</strong> Standardmäßig befinden sie sich nur auf deinem Gerät. In <strong>die private iCloud-Datenbank deines eigenen Apple Accounts</strong> gelangen sie erst, wenn du die iCloud-Synchronisierung bewusst einschaltest.</li>
+        <li><strong>Keine Werbung, keine Analyse-SDKs, keine Tracker, keinerlei Code von Dritten.</strong> Wir erheben, verkaufen oder teilen deine personenbezogenen Daten nicht.</li>
+        <li><strong>Die KI-Funktionen laufen auf deinem Gerät.</strong> Das Befragen deines Buchs und die Belegerfassung nutzen das geräteinterne Modell von Apple Intelligence und die Texterkennung des Systems; deine Buchhaltungsdaten werden weder an uns noch an einen externen KI-Dienstanbieter gesendet (die einzige Ausnahme ist ein standardmäßig ausgeschalteter Schalter „Lokales MCP“ in der macOS-Version – siehe Abschnitt 8).</li>
+        <li><strong>Die App verbindet sich niemals mit deiner Bank, deinen Zahlungskonten oder Auskunfteien.</strong> Sie ruft keine Kontoauszüge ab. Jeder Eintrag wird von dir selbst erfasst oder importiert.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Inhaltsverzeichnis">
+      <h2>Inhalt</h2>
+      <ol>
+        <li><a href="#de-s1">1. Wer diese App anbietet</a></li>
+        <li><a href="#de-s2">2. Welche Daten die App verarbeitet</a></li>
+        <li><a href="#de-s3">3. Wo deine Daten gespeichert sind</a></li>
+        <li><a href="#de-s4">4. Geräteberechtigungen</a></li>
+        <li><a href="#de-s5">5. Diagnose- und Absturzdaten</a></li>
+        <li><a href="#de-s6">6. Käufe und Abonnements</a></li>
+        <li><a href="#de-s7">7. Import, Export und Backups</a></li>
+        <li><a href="#de-s8">8. Wie die KI-Funktionen mit deinen Daten umgehen</a></li>
+        <li><a href="#de-s9">9. Dritte: was wir nicht tun</a></li>
+        <li><a href="#de-s10">10. Speicherdauer und Löschung</a></li>
+        <li><a href="#de-s11">11. Deine Rechte</a></li>
+        <li><a href="#de-s12">12. Kinder</a></li>
+        <li><a href="#de-s13">13. Sicherheit</a></li>
+        <li><a href="#de-s14">14. Internationale Datenübermittlungen</a></li>
+        <li><a href="#de-s15">15. Änderungen dieser Richtlinie</a></li>
+        <li><a href="#de-s16">16. Kontakt</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="de-s1">1. Wer diese App anbietet</h2>
+    <p>Keel (chinesischer Name 司元, die „App“) wird von <strong>gwongsam</strong>, einem unabhängigen Entwickler („wir“, „uns“), entwickelt und veröffentlicht.</p>
+    <p>Diese Richtlinie erläutert, wie die App mit deinen Informationen umgeht. Eine Voraussetzung zieht sich durch alles: <strong>Die App hat keinen eigenen Backend-Server von uns</strong>, und der Inhalt deiner Bücher erreicht uns nie. Das Folgende beschreibt daher größtenteils, wie Daten zwischen <strong>deinem eigenen Gerät</strong> und <strong>deinem eigenen iCloud-Account</strong> fließen.</p>
+
+    <h2 id="de-s2">2. Welche Daten die App verarbeitet</h2>
+    <p>Die folgenden Daten entstehen, während du die App nutzt, und werden auf deinem Gerät gespeichert:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Kategorie</th><th>Inhalt</th></tr></thead>
+      <tbody>
+        <tr><td>Buchhaltungsdaten</td><td>Bücher, Buchungen (Einnahmen, Ausgaben, Umbuchungen, Wertpapier- und Vermögensgeschäfte, Rückzahlungen, Korrekturen), Beträge, Währungen, Daten, Notizen</td></tr>
+        <tr><td>Kontodaten</td><td>Von dir angelegte Kontonamen, -typen und -salden; Abrechnungszeiträume von Kreditkarten, Darlehensauszahlungen und Tilgungspläne, „Jetzt kaufen, später bezahlen“-Bestellungen, Prepaid- und Guthabenkonten</td></tr>
+        <tr><td>Organisation</td><td>Kategorien, Tags, Projekte und Gegenparteien (Personen oder Institutionen, die du selbst benennst)</td></tr>
+        <tr><td>Anhänge</td><td>Bilder und PDFs von Belegen, Rechnungen und Dokumenten, die du hinzufügst</td></tr>
+        <tr><td>Einstellungen</td><td>Sprache, Anzeigeoptionen, Standardbuch, Budgets, Gruppierungsschemata für Berichte und weitere Einstellungen in der App</td></tr>
+        <tr><td>Wechselkurse</td><td>Von dir manuell eingegebene Kurse sowie ein Cache öffentlich verfügbarer Marktkurse</td></tr>
+        <tr><td>Diagnose</td><td>Laufzeitprotokolle, Fehlereinträge sowie vom System bereitgestellte Absturz- und Leistungsmetriken</td></tr>
+        <tr><td>Kaufbelege</td><td>Transaktionsbelege des App Store und Status der Premium-Berechtigung</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Die App <strong>fordert, erhebt und verarbeitet nicht</strong>: deinen bürgerlichen Namen, amtliche Ausweisnummern, Telefonnummer, E-Mail-Adresse, Kartennummern, Bank- oder Zahlungszugangsdaten, Kontakte, Standort, Gesundheitsdaten, Werbe-IDs (IDFA) oder Geräte-Fingerprints.</p>
+
+    <div class="note">
+      <p>Ein Haushaltsbuch kann naturgemäß sensible Finanzinformationen enthalten. Genau deshalb ist die App so konzipiert, dass diese Daten <strong>unter deiner Kontrolle bleiben</strong> – sie werden nie auf unsere Server hochgeladen und nie an Analysedienste Dritter weitergegeben.</p>
+    </div>
+
+    <h2 id="de-s3">3. Wo deine Daten gespeichert sind</h2>
+
+    <h3>3.1 Auf deinem Gerät (Standard)</h3>
+    <p>Im Auslieferungszustand wird alles oben Genannte lokal gespeichert: Die Buchhaltungsdatenbank liegt im Sandbox-Container der App, und Anhänge werden im Dateispeicher der App mit aktiviertem Dateischutz des Systems abgelegt (verschlüsselt und nicht lesbar, solange das Gerät gesperrt ist). Die iOS-Sandbox verhindert, dass andere Apps darauf zugreifen.</p>
+    <p>Wenn du die iCloud-Synchronisierung nie aktivierst und nie ein Backup exportierst, <strong>verlassen deine Buchhaltungsdaten dieses Gerät nie</strong>.</p>
+
+    <h3>3.2 iCloud-Synchronisierung (standardmäßig aus; du musst sie einschalten)</h3>
+    <p>Du kannst die iCloud-Synchronisierung unter <em>Einstellungen › Datenschutz &amp; Synchronisierung</em> aktivieren. Sobald sie aktiviert ist:</p>
+    <ul>
+      <li>Bücher, Buchungen, Konten, Kategorien, Wechselkurse, App-Einstellungen und Anhänge werden in der <strong>privaten iCloud-Datenbank deines Apple Accounts</strong> (private CloudKit-Datenbank) gespeichert, damit sie zwischen deinen Geräten synchronisiert werden können.</li>
+      <li>Diese Daten werden <strong>von Apple gehostet</strong>, innerhalb deines eigenen iCloud-Speicherkontingents. <strong>Wir können darauf weder zugreifen noch sie lesen oder exportieren.</strong> Entwickler haben keinen Zugriff auf die private Datenbank eines Nutzers – das ergibt sich aus der Architektur von Apples CloudKit und ist nicht bloß ein Versprechen von uns.</li>
+      <li>Für Apples Umgang mit diesen Daten gilt die <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Datenschutzerklärung von Apple</a>.</li>
+      <li>Die Synchronisierung verwendet stille Push-Mitteilungen, um ein Gerät zum Abrufen von Änderungen aufzufordern. Diese Mitteilungen enthalten keine Buchhaltungsinhalte.</li>
+      <li>Du kannst die Synchronisierung jederzeit ausschalten und dabei wählen, ob du eine lokale Kopie behältst oder zusätzlich die Löschung der in iCloud gespeicherten Kopie veranlasst.</li>
+    </ul>
+
+    <h3>3.3 Geteilte Bücher</h3>
+    <p>Du kannst ein Buch zur Zusammenarbeit mit anderen Personen teilen. Dies geschieht <strong>immer auf deine Veranlassung</strong>:</p>
+    <ul>
+      <li>Das Teilen nutzt Apples iCloud-Freigabemechanismus: Du erzeugst einen iCloud-Freigabelink und sendest ihn selbst an die andere Person.</li>
+      <li>Mitglieder, die deine Einladung annehmen, können auf den Inhalt <strong>dieses Buchs</strong> – einschließlich seiner Buchungen und Anhänge – mit der von dir eingeräumten Berechtigungsstufe (nur Lesen oder Lesen und Schreiben) zugreifen. Bücher, die du nicht geteilt hast, sind davon nicht betroffen.</li>
+      <li>Damit die Mitgliederliste erkennen lässt, wer wer ist, zeigt die App die von Apple bereitgestellten Identitätsangaben der Teilnehmenden an (etwa den Namen, mit dem die Person über die Systemfreigabe auftritt). Du kannst für ein Mitglied außerdem einen nur lokal sichtbaren Spitznamen festlegen.</li>
+      <li>Du kannst jederzeit ein Mitglied entfernen oder das Teilen beenden; damit wird dessen Zugriff widerrufen.</li>
+      <li><strong>Wähle sorgfältig aus, mit wem du teilst.</strong> Sobald jemand Zugriff hat, kann er den Inhalt dieses Buchs ansehen oder kopieren; das liegt außerhalb unserer technischen Kontrolle.</li>
+    </ul>
+
+    <h3>3.4 Online-Wechselkurse</h3>
+    <p>Die App kann Referenz-Wechselkurse für die Umrechnung zwischen mehreren Währungen abrufen. Diese Funktion:</p>
+    <ul>
+      <li>führt einen <strong>reinen Lesezugriff</strong> auf eine <strong>öffentliche iCloud-Datenbank</strong> (öffentliche CloudKit-Datenbank) aus;</li>
+      <li><strong>lädt nichts hoch</strong> – weder dein Buch noch deine Konten, Währungseinstellungen oder irgendeine Kennung;</li>
+      <li>ruft nur öffentliche Marktkurse ab, die keine personenbezogenen Daten enthalten;</li>
+      <li>hat stets Nachrang gegenüber von dir manuell eingegebenen Kursen.</li>
+    </ul>
+    <p>Die Kurse dienen nur der buchhalterischen Umrechnung und stellen kein Angebot für irgendeine Transaktion dar; siehe <a href="../terms/#de-s6">Nutzungsbedingungen, Abschnitt 6</a>.</p>
+
+    <h2 id="de-s4">4. Geräteberechtigungen</h2>
+    <p>Die App fragt die folgenden Berechtigungen nur an, wenn du die jeweilige Funktion nutzt. Du kannst jede davon ablehnen; der Rest der App funktioniert weiterhin.</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Berechtigung</th><th>Zweck</th><th>Wohin die Daten gehen</th></tr></thead>
+      <tbody>
+        <tr><td>Kamera</td><td>Belege und Rechnungen fotografieren oder Dokumente scannen, um sie Einträgen anzuhängen</td><td>Gespeichert im lokalen Anhangsspeicher; bei aktivierter iCloud-Synchronisierung zusammen mit den übrigen Anhängen in deine private iCloud-Datenbank synchronisiert</td></tr>
+        <tr><td>Fotos / Dateien</td><td>Vorhandene Bilder oder PDFs als Anhänge auswählen oder eine Backup-Datei bzw. eine Tabelle zum Import auswählen</td><td>Wie oben. Das System übergibt der App nur die von dir ausgewählten Dateien; sie kann nichts durchsuchen, was du nicht ausgewählt hast</td></tr>
+        <tr><td>Fotomediathek (nur hinzufügen)</td><td>Den WeChat- oder Douyin-QR-Code in deiner Fotomediathek speichern, indem du unter <strong>Einstellungen › Kontakt &amp; Feedback</strong> auf <strong>QR-Code in Fotos sichern</strong> tippst (nur iOS- und iPadOS-Versionen)</td><td>Die App schreibt genau dieses eine QR-Code-Bild in deine Mediathek und sonst nichts. Der Zugriff „nur hinzufügen“ erlaubt nur Schreiben: Die App <strong>kann nichts sehen oder durchsuchen</strong>, was sich in deiner Fotomediathek befindet</td></tr>
+        <tr><td>Mitteilungen</td><td>Empfang der stillen Push-Mitteilungen, mit denen die iCloud-Synchronisierung Änderungen von deinen anderen Geräten oder von Mitgliedern geteilter Bücher abruft</td><td>Push-Inhalte enthalten keine Buchhaltungsdaten</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Die App <strong>fordert keine</strong> Berechtigungen für Standort, Kontakte, Mikrofon, Kalender, Health oder App-Tracking-Transparenz an.</p>
+
+    <h2 id="de-s5">5. Diagnose- und Absturzdaten</h2>
+    <p>Damit sich Probleme diagnostizieren lassen, zeichnet die App Laufzeitprotokolle und Fehlerinformationen auf dem Gerät auf und empfängt vom System bereitgestellte Absturz- und Leistungsmetriken (Apple MetricKit). Zu diesen Daten:</p>
+    <ul>
+      <li><strong>Sie bleiben auf deinem Gerät.</strong> Sie werden nach Größe und Alter automatisch rotiert und bereinigt, und du kannst in den Einstellungen einsehen, wie viel Speicher sie belegen, und sie löschen.</li>
+      <li><strong>Sie werden nie automatisch an uns gesendet.</strong> Wir sehen sie nur, wenn du das Diagnoseprotokoll in der App bewusst exportierst und uns zusendest, etwa per E-Mail. Du kannst den Inhalt vor dem Senden prüfen.</li>
+      <li>Die Protokolle erfassen Vorgangsarten, Fehlercodes und technischen Kontext, um Fehler einzugrenzen. Wir achten darauf, Buchungsdetails daraus fernzuhalten, können aber nicht ausschließen, dass Textfragmente wie eine Notiz oder ein Kontoname in einem Fehlerkontext erscheinen. <strong>Bitte prüfe ein Protokoll vor dem Senden, falls es etwas enthalten könnte, das du lieber nicht teilen möchtest.</strong></li>
+    </ul>
+    <p>Unabhängig davon kann Apple uns, sofern du in den iOS-Einstellungen „iPhone-Analyse teilen“ aktiviert hast, über App Store Connect <strong>aggregierte, nicht identifizierende</strong> Absturz- und Nutzungsstatistiken bereitstellen. Dieser Kanal wird von Apple gesteuert, und du kannst ihn jederzeit unter <em>Einstellungen › Datenschutz &amp; Sicherheit › Analyse &amp; Verbesserungen</em> ausschalten.</p>
+
+    <h2 id="de-s6">6. Käufe und Abonnements</h2>
+    <ul>
+      <li><strong>Die Zahlung wird von Apple abgewickelt. Wir sehen deine Zahlungsinformationen nie</strong> – weder deine Kartennummer noch dein Apple Account-Passwort oder deine Rechnungsadresse.</li>
+      <li>Die App erhält Transaktionsbelege vom App Store, um festzustellen, ob deine Premium-Berechtigung gültig ist. Diese Belege werden zur Freischaltung von Funktionen auf dem Gerät verwendet.</li>
+      <li>Apple stellt uns Verkaufs- und Abonnementberichte bereit. Diese sind <strong>aggregiert</strong> und enthalten keine Informationen, die eine einzelne Person identifizieren.</li>
+      <li>Für Käufe, Erstattungen, Abonnementverwaltung und Kündigung gelten die <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Allgemeinen Geschäftsbedingungen für Medienservices von Apple</a>.</li>
+    </ul>
+    <p>Die geschäftlichen Bedingungen für Käufe findest du in den <a href="../terms/#de-s3">Nutzungsbedingungen, Abschnitt 3</a>.</p>
+
+    <h2 id="de-s7">7. Import, Export und Backups</h2>
+    <ul>
+      <li><strong>Import (Dateien):</strong> Du kannst historische Buchungen aus Tabellen importieren, die von anderen Buchhaltungs-Apps exportiert wurden (etwa xlsx-/CSV-Dateien von Qianji). Die Dateien werden <strong>vollständig auf deinem Gerät verarbeitet</strong> und nirgendwohin hochgeladen.</li>
+      <li><strong>Import (YNAB, direkt):</strong> Wenn du YNAB nutzt, kannst du dein eigenes persönliches Zugriffstoken einfügen; die App liest dann deine eigenen Budgetdaten direkt über die API von YNAB, <strong>niemals über einen Server von uns</strong> (wir haben keinen). Es handelt sich um einen einseitigen Lesezugriff: Nichts wird in YNAB geschrieben, und keine Buchhaltungsinhalte aus dieser App werden dorthin gesendet. Das Token verbleibt im Arbeitsspeicher dieses Geräts und wird nach Abschluss des Imports gelöscht – es wird nie auf den Datenträger geschrieben, nie mit iCloud synchronisiert und nie in ein Backup aufgenommen.</li>
+      <li><strong>Backup-Export:</strong> Du kannst ein vollständiges Backup exportieren. Backups unterstützen eine AES-Verschlüsselung mit einem von dir festgelegten Passwort. <strong>Ohne Passwort ist die exportierte Datei unverschlüsselt</strong>, und jeder, der sie erhält, kann dein Buch lesen – bewahre sie sorgfältig auf.</li>
+      <li><strong>Du wählst das Ziel.</strong> Backups werden an das Teilen-Menü des Systems übergeben und gelangen dorthin, wohin du sie sendest (Dateien, iCloud Drive, E-Mail, ein Cloud-Dienst eines Drittanbieters). Sobald eine Datei die App verlassen hat, gilt die Datenschutzerklärung dieses Ziels, nicht diese.</li>
+      <li><strong>Wir können kein Passwort wiederherstellen.</strong> Es wird nur zur Ver- und Entschlüsselung verwendet und nie gespeichert oder übertragen. Ein vergessenes Passwort bedeutet, dass dieses Backup nicht wiederhergestellt werden kann.</li>
+    </ul>
+
+    <h2 id="de-s8">8. Wie die KI-Funktionen mit deinen Daten umgehen</h2>
+    <p>Zwei Funktionen der App werden durch KI unterstützt, und beide laufen <strong>auf deinem Gerät</strong>:</p>
+    <ul>
+      <li><strong>Dein Buch befragen (der Assistent):</strong> Du stellst eine Frage in natürlicher Sprache, und die App ruft genau den Teil deines Buchs ab, den diese Frage benötigt – Konten und Salden, Buchungen, Budgets, fällig werdende Verpflichtungen – und übergibt ihn dem Modell.</li>
+      <li><strong>Belegerfassung:</strong> Du übergibst ein Foto einer Rechnung oder eines Belegs, die App erkennt den darin enthaltenen Text und entwirft einen Eintrag, den du bestätigst. Sie verarbeitet nur das Bild, das du ihr gegeben hast.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Frage</th><th>Antwort</th></tr></thead>
+      <tbody>
+        <tr><td>Was wird an das Modell gesendet</td><td>Nur der Teil deines Buchs, den die aktuelle Frage benötigt; bei der Belegerfassung das eine von dir ausgewählte Bild</td></tr>
+        <tr><td>Was die Berechnung ausführt</td><td>Das <strong>geräteinterne Modell von Apple Intelligence</strong> (Apples Foundation Models-Framework) und die integrierte Texterkennung des Systems (Vision), auf deinem Gerät</td></tr>
+        <tr><td>Wohin die Daten gehen</td><td><strong>Sie verlassen dein Gerät nicht.</strong> Sie werden weder an den Entwickler noch an einen externen KI-Dienstanbieter gesendet</td></tr>
+        <tr><td>Werden sie zum Training verwendet</td><td>Nein. Deine Buchhaltungsdaten werden nie zum Training irgendeines Modells verwendet</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Zuerst wird deine Zustimmung eingeholt.</strong> Wenn du den Assistenten zum ersten Mal öffnest, zeigt die App einen ganzen Bildschirm mit allen obigen Angaben, und die Unterhaltung beginnt erst, nachdem du bestätigt hast; bis dahin liest der Assistent nichts aus deinem Buch. Du kannst die gesamte Funktionsgruppe außerdem jederzeit unter Einstellungen &rsaquo; Datenschutz &amp; Synchronisierung &rsaquo; Siri &amp; Kurzbefehle ausschalten; danach verschwindet der Einstiegspunkt des Assistenten.</p>
+    <p>Die beiden Funktionen haben unterschiedliche Geräteanforderungen: <strong>Das Befragen deines Buchs</strong> erfordert ein Gerät, das Apple Intelligence unterstützt und bei dem es eingeschaltet ist (auf dem chinesischen Festland noch nicht verfügbar); <strong>die Belegerfassung</strong> nutzt die systemeigene Texterkennung und erfordert kein Apple Intelligence. Sind die Voraussetzungen nicht erfüllt, erscheint der entsprechende Einstiegspunkt nicht.</p>
+
+    <div class="note">
+      <p><strong>Eine Ausnahme, nur unter macOS: Lokales MCP.</strong> Die macOS-Version bietet einen Schalter namens &bdquo;Lokales MCP auf dem Mac&ldquo;, der <strong>standardmäßig ausgeschaltet</strong> ist. Sobald du ihn einschaltest, können auf diesem Mac laufende KI-Clients (etwa Claude Desktop oder Claude Code) über eine Loopback-Verbindung Buchhaltungsdaten lesen und Entwürfe für Einträge anlegen, und <strong>diese Buchhaltungsinhalte werden als Teil der Unterhaltung an den KI-Dienstanbieter gesendet, mit dem der Client verbunden ist</strong> (etwa Anthropic); ab diesem Punkt gilt für sie die Datenschutzerklärung dieses Anbieters statt dieser. Das Einschalten ist ganz deine Entscheidung und kann jederzeit rückgängig gemacht werden; auch wenn der Schalter eingeschaltet ist, wird nichts erfasst, bevor du es in der App bestätigst.</p>
+      <p><strong>Die iOS- und iPadOS-Versionen enthalten diesen Kanal nicht</strong> – diese Versionen enthalten keinen Weg, auf dem Buchhaltungsdaten an einen externen KI-Dienst übergeben werden.</p>
+    </div>
+
+    <h2 id="de-s9">9. Dritte: was wir nicht tun</h2>
+    <p>Um keine Unklarheit zu lassen, hier ist aufgeführt, was die App <strong>nicht</strong> tut:</p>
+    <ul>
+      <li>Es sind keine SDKs Dritter für Analyse, Telemetrie, Absturzberichte oder A/B-Tests integriert;</li>
+      <li>es wird keine Werbung angezeigt und kein Werbenetzwerk integriert;</li>
+      <li>keine Cookies, Pixel, Geräte-Fingerprinting oder App-übergreifendes Tracking jeglicher Art;</li>
+      <li>wir verkaufen, vermieten oder teilen deine personenbezogenen Daten nicht zu Marketingzwecken – auch nicht im Sinne von „Verkaufen“ („sell“) und „Teilen“ („share“) nach kalifornischem Recht;</li>
+      <li>wir verwenden deine Buchhaltungsdaten nicht zum Training von Modellen für maschinelles Lernen;</li>
+      <li>wir geben deine Daten nicht an Datenhändler, Auskunfteien, Finanzinstitute oder sonstige Dritte weiter.</li>
+    </ul>
+    <p>Standardmäßig ist genau eine externe Partei beteiligt: <strong>Apple</strong>, als Plattformanbieter von iCloud-Speicher, Freigabe- und Zahlungsdiensten. Zwei weitere Kanäle bestehen <strong>nur, wenn du sie selbst in Gang setzt</strong>, und keiner davon ist standardmäßig aktiv:</p>
+    <ul>
+      <li><strong>Import aus YNAB (Abschnitt 7):</strong> Nachdem du dein eigenes persönliches YNAB-Zugriffstoken eingefügt hast, liest die App <strong>deine eigenen</strong> Budgetdaten direkt über die API von YNAB. Es handelt sich um einen einseitigen Lesezugriff – nichts wird in YNAB zurückgeschrieben, und keine Buchhaltungsinhalte aus dieser App werden dorthin gesendet. Das Token verbleibt im Arbeitsspeicher dieses Geräts und wird nach Abschluss des Imports gelöscht.</li>
+      <li><strong>Lokales MCP in der macOS-Version (Abschnitt 8):</strong> Sobald es aktiviert ist, gelangen Buchhaltungsinhalte zu dem KI-Dienstanbieter, mit dem du den Client verbunden hast. Die iOS- und iPadOS-Versionen haben keinen solchen Kanal.</li>
+    </ul>
+    <p><strong>Externe Links auf der Seite „Kontakt &amp; Feedback“.</strong> <strong>Einstellungen › Kontakt &amp; Feedback</strong> listet E-Mail sowie soziale Plattformen wie Discord, RED (Xiaohongshu), X, TikTok, WeChat und Douyin auf. Diese Einträge sind in die App integriert; das Öffnen der Seite löst keine Netzwerkanfrage aus. Wenn du auf einen davon tippst, <strong>verlässt du die App</strong> und gelangst zur entsprechenden App oder Website, wo dein Surfen und deine Interaktionen von diesem Dienst nach dessen eigener Datenschutzerklärung behandelt werden, nicht nach dieser. <strong>Die App sendet keine Daten an diese Plattformen.</strong> Die E-Mail-Einträge füllen im Mail-Editor des Systems lediglich den Empfänger, einen Betreff und einen kurzen Block mit App-Version, Betriebssystemversion, Gerätemodell und Sprache der Benutzeroberfläche vor; wählst du <strong>Problem melden</strong>, wird zusätzlich ein Diagnosebericht angehängt (siehe Abschnitt 5). All dies ist vor dem Senden sichtbar, und ob du es sendest – und was du entfernst –, entscheidest du.</p>
+    <p>Abgesehen von diesen Fällen und einer gesetzlich erzwungenen Offenlegung (siehe unten) gibt es keine weiteren Empfänger von Daten.</p>
+    <p>Erhalten wir von einer zuständigen Behörde ein rechtmäßiges Auskunftsersuchen, können wir nur Informationen herausgeben, die wir tatsächlich besitzen. <strong>Da wir deine Buchhaltungsdaten nicht besitzen, hat ein solches Ersuchen keine Auswirkungen auf den Inhalt deiner Bücher</strong>; Ersuchen zu in iCloud gespeicherten Daten sind an Apple zu richten.</p>
+
+    <h2 id="de-s10">10. Speicherdauer und Löschung</h2>
+    <p>Da du die Daten besitzt, entscheidest du, wie lange sie aufbewahrt werden. So löschst du sie:</p>
+    <ul>
+      <li><strong>Ein einzelner Eintrag:</strong> Lösche die Buchung, das Konto oder den Anhang in der App.</li>
+      <li><strong>Alles:</strong> Die Einstellungen bieten „Alle Daten löschen“; dies erfordert einen Bestätigungscode und vernichtet den aktuellen Datenspeicher und baut ihn neu auf.</li>
+      <li><strong>Die iCloud-Kopie:</strong> Wähle beim Ausschalten der iCloud-Synchronisierung „iCloud-Kopie löschen“ oder lösche die Daten der App unter <em>Einstellungen › Apple Account › iCloud › Accountspeicher verwalten</em>. <strong>Beachte, dass das Löschen der Cloud-Kopie auch jede von dir gestartete Buchfreigabe beendet und die Mitglieder ihren Zugriff verlieren.</strong></li>
+      <li><strong>Die App:</strong> Wenn du die App von deinem Gerät löschst, werden alle lokalen Daten in ihrer Sandbox entfernt. Eine iCloud-Kopie muss wie oben beschrieben separat gelöscht werden.</li>
+    </ul>
+    <p>Backup-Dateien, die du an anderer Stelle gespeichert hast, musst du selbst löschen.</p>
+
+    <h2 id="de-s11">11. Deine Rechte</h2>
+    <p>Nach geltendem Recht – einschließlich des chinesischen Gesetzes zum Schutz personenbezogener Informationen (PIPL), der EU-Datenschutz-Grundverordnung (DSGVO) sowie des kalifornischen CCPA/CPRA – hast du das Recht auf Information über deine personenbezogenen Daten, auf Auskunft, auf Kopie, auf Berichtigung, auf Vervollständigung, auf Löschung und auf Datenübertragbarkeit sowie das Recht, deine Einwilligung zu widerrufen.</p>
+    <p>In dieser App <strong>erfordert die Ausübung dieser Rechte weder einen Antrag an uns noch unsere Zustimmung</strong>, denn die Daten waren von Anfang an in deinen Händen:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Recht</th><th>So übst du es aus</th></tr></thead>
+      <tbody>
+        <tr><td>Auskunft / Kopie</td><td>Alle Daten sind in der App sichtbar; exportiere ein Backup, um eine vollständige Kopie zu erhalten</td></tr>
+        <tr><td>Datenübertragbarkeit</td><td>Exportiere eine Backup-Datei; der Buchungsverlauf kann außerdem in einem gängigen Tabellenformat exportiert werden</td></tr>
+        <tr><td>Berichtigung</td><td>Bearbeite den Eintrag direkt in der App</td></tr>
+        <tr><td>Löschung</td><td>Siehe Abschnitt 10 oben</td></tr>
+        <tr><td>Widerruf der Einwilligung</td><td>Schalte die iCloud-Synchronisierung aus, beende das Teilen eines Buchs oder entziehe Kamera- und andere Berechtigungen in den Systemeinstellungen</td></tr>
+        <tr><td>Widerspruch gegen automatisierte Entscheidungen</td><td>Die App trifft keine automatisierten Entscheidungen und führt kein Profiling durch</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Wenn du der Ansicht bist, dass deine Rechte nicht gewahrt wurden, oder Fragen zu dieser Richtlinie hast, kontaktiere uns wie in Abschnitt 16 beschrieben. Wir antworten innerhalb von 30 Tagen. Du hast außerdem das Recht, Beschwerde bei deiner örtlichen Datenschutzaufsichtsbehörde einzulegen.</p>
+
+    <h2 id="de-s12">12. Kinder</h2>
+    <p>Die App ist für Erwachsene konzipiert. Sie richtet sich nicht an Kinder und erhebt wissentlich keine personenbezogenen Daten von Kindern. Wenn du jünger als 14 Jahre bist, nutze die App bitte mit Einwilligung und unter Anleitung eines Elternteils oder einer erziehungsberechtigten Person. Da die App keine personenbezogenen Daten an uns übermittelt, besitzen wir keine Altersangaben zu irgendeinem Nutzer; eine erziehungsberechtigte Person, die Daten von einem Gerät löschen möchte, kann dies direkt gemäß Abschnitt 10 tun.</p>
+    <p><strong>Altersbereichssignal:</strong> Auf Geräten und in Regionen, in denen das Gesetz es verlangt, fragt die App über Apples Declared Age Range API deinen Altersbereich ab. Apple gibt nur einen Altersbereich zurück, <strong>nicht dein Geburtsdatum</strong>. Das Ergebnis wird nur auf deinem Gerät verwendet, ausschließlich um zu entscheiden, ob vor wesentlichen Änderungen an der App eine elterliche Einwilligung erforderlich ist; es wird <strong>nur im Arbeitsspeicher gehalten – nie gespeichert, nie synchronisiert und nie an uns gesendet</strong>.</p>
+
+    <h2 id="de-s13">13. Sicherheit</h2>
+    <ul>
+      <li>Lokale Daten werden durch die iOS-Sandbox isoliert; Anhangsdateien nutzen den Dateischutz des Systems und sind verschlüsselt, solange das Gerät gesperrt ist.</li>
+      <li>Übertragung und Speicherung in iCloud werden von Apple verschlüsselt; Einzelheiten findest du in der Dokumentation von Apple.</li>
+      <li>Backup-Dateien können mit einem von dir gewählten Passwort, das wir nie speichern, per AES verschlüsselt werden.</li>
+      <li>Wir besitzen keine deiner Daten, daher gibt es für sie kein Szenario „bei uns wurde eingebrochen“.</li>
+    </ul>
+    <p>Dennoch gilt: <strong>Die Sicherheit deines Geräts ist die Grundlage für all dies.</strong> Lege einen Code fest, aktiviere die biometrische Entsperrung, halte iOS auf dem neuesten Stand und sei vorsichtig mit gejailbreakten Geräten und Backup-Dateien unbekannter Herkunft. Keine Sicherheitsmaßnahme ist absolut.</p>
+
+    <h2 id="de-s14">14. Internationale Datenübermittlungen</h2>
+    <p>Wir empfangen und übermitteln deine personenbezogenen Daten nicht, daher gibt es keine von uns veranlasste grenzüberschreitende Übermittlung. Wenn du die iCloud-Synchronisierung aktivierst, bestimmt Apple den Speicherort anhand des Landes oder der Region deines Apple Accounts (beispielsweise werden iCloud-Dienste für das chinesische Festland von GCBD betrieben). Zu diesen Regelungen und Garantien siehe die <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Datenschutzerklärung von Apple</a> und die iCloud-Bedingungen.</p>
+
+    <h2 id="de-s15">15. Änderungen dieser Richtlinie</h2>
+    <p>Ändert sich der Umgang der App mit Daten, aktualisieren wir diese Seite und passen das Datum „Zuletzt aktualisiert“ oben an. Bei wesentlichen Änderungen – etwa der Einführung jeglicher Form des Hochladens von Daten – weisen wir in der App deutlich darauf hin und holen, soweit erforderlich, erneut deine Einwilligung ein. Frühere Fassungen dieser Seite können im öffentlichen Repository dieser Website eingesehen werden.</p>
+
+    <h2 id="de-s16">16. Kontakt</h2>
+    <p>Bei Fragen zu dieser Richtlinie oder zu deinen Daten schreibe eine E-Mail an <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</p>
+    <p>Wenn du deine App-Version und iOS-Version angibst, können wir schneller antworten.</p>
+
+    <hr>
+    <p class="doc-meta">Bei Abweichungen zwischen dieser deutschen Fassung und der <a href="?lang=zh">chinesischen Fassung</a> ist die chinesische Fassung maßgeblich.</p>
+  </article>
+
+  <article data-lang="es" lang="es">
+    <h1 class="doc-title">Política de privacidad</h1>
+    <p class="doc-meta"><span>Para la app Keel para iOS (nombre en chino: 司元)</span><span>Fecha de entrada en vigor: 28 de julio de 2026</span><span>Última actualización: 5 de octubre de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Resumen</p>
+      <ul>
+        <li><strong>No operamos ningún servidor.</strong> La app no envía los datos de tu libro a ningún servidor bajo nuestro control: no existe tal servidor.</li>
+        <li><strong>Tus datos se quedan contigo.</strong> De forma predeterminada solo se guardan en tu dispositivo. Solo llegan a <strong>la base de datos privada de iCloud de tu propia Cuenta de Apple</strong> después de que actives deliberadamente la sincronización con iCloud.</li>
+        <li><strong>Sin anuncios, sin SDK de analítica, sin rastreadores, sin código de terceros de ningún tipo.</strong> No recopilamos, vendemos ni compartimos tu información personal.</li>
+        <li><strong>Las funciones de IA se ejecutan en tu dispositivo.</strong> Las consultas a tu libro y el registro a partir de recibos usan el modelo en el dispositivo de Apple Intelligence y el reconocedor de texto del sistema; los datos de tu libro no se nos envían a nosotros ni a ningún proveedor externo de servicios de IA (la única excepción es un interruptor de MCP local en la versión para macOS, desactivado de forma predeterminada; consulta la sección 8).</li>
+        <li><strong>La app nunca se conecta a tu banco, a tus cuentas de pago ni a burós u oficinas de crédito.</strong> No descarga ningún extracto. Cada registro lo introduces o lo importas tú.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Índice">
+      <h2>Índice</h2>
+      <ol>
+        <li><a href="#es-s1">1. Quién ofrece esta app</a></li>
+        <li><a href="#es-s2">2. Qué datos trata la app</a></li>
+        <li><a href="#es-s3">3. Dónde se guardan tus datos</a></li>
+        <li><a href="#es-s4">4. Permisos del dispositivo</a></li>
+        <li><a href="#es-s5">5. Diagnóstico y datos de fallos</a></li>
+        <li><a href="#es-s6">6. Compras y suscripciones</a></li>
+        <li><a href="#es-s7">7. Importación, exportación y copias de seguridad</a></li>
+        <li><a href="#es-s8">8. Cómo tratan tus datos las funciones de IA</a></li>
+        <li><a href="#es-s9">9. Terceros: lo que no hacemos</a></li>
+        <li><a href="#es-s10">10. Conservación y eliminación</a></li>
+        <li><a href="#es-s11">11. Tus derechos</a></li>
+        <li><a href="#es-s12">12. Menores</a></li>
+        <li><a href="#es-s13">13. Seguridad</a></li>
+        <li><a href="#es-s14">14. Transferencias internacionales</a></li>
+        <li><a href="#es-s15">15. Cambios en esta política</a></li>
+        <li><a href="#es-s16">16. Contacto</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="es-s1">1. Quién ofrece esta app</h2>
+    <p>Keel (nombre en chino 司元, la «App») es desarrollada y publicada por <strong>gwongsam</strong>, un desarrollador independiente («nosotros»).</p>
+    <p>Esta política explica cómo trata la App tu información. Toda ella parte de una premisa: <strong>la App no tiene ningún servidor backend nuestro</strong> y el contenido de tu libro nunca llega a nosotros. Por eso, la mayor parte de lo que sigue describe cómo circulan los datos entre <strong>tu propio dispositivo</strong> y <strong>tu propia cuenta de iCloud</strong>.</p>
+
+    <h2 id="es-s2">2. Qué datos trata la app</h2>
+    <p>Los siguientes datos los creas tú al usar la App y se guardan en tu dispositivo:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Categoría</th><th>Contenido</th></tr></thead>
+      <tbody>
+        <tr><td>Datos del libro</td><td>Libros, movimientos (ingresos, gastos, transferencias, compraventa de activos, pagos, ajustes), importes, monedas, fechas, notas</td></tr>
+        <tr><td>Datos de cuentas</td><td>Nombres, tipos y saldos de las cuentas que creas; ciclos de facturación de tarjetas de crédito, disposiciones de préstamos y calendarios de pago, pedidos de «Compra ahora, paga después», cuentas prepagadas y de saldo almacenado</td></tr>
+        <tr><td>Organización</td><td>Categorías, etiquetas, proyectos y contrapartes (personas o instituciones a las que tú mismo das nombre)</td></tr>
+        <tr><td>Adjuntos</td><td>Imágenes y PDF de recibos, facturas y documentos que añades</td></tr>
+        <tr><td>Ajustes</td><td>Idioma, opciones de visualización, libro predeterminado, presupuestos, esquemas de agrupación de informes y otras preferencias de la App</td></tr>
+        <tr><td>Tipos de cambio</td><td>Tipos que introduces manualmente, además de una caché de tipos de mercado públicamente disponibles</td></tr>
+        <tr><td>Diagnóstico</td><td>Registros de ejecución, registros de errores y métricas de fallos y rendimiento proporcionadas por el sistema</td></tr>
+        <tr><td>Recibos de compra</td><td>Recibos de transacciones del App Store y estado de tu acceso a Premium</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>La App <strong>no solicita, recopila ni trata</strong> tu nombre legal, números de documentos de identidad oficiales, número de teléfono, dirección de correo electrónico, números de tarjeta, credenciales bancarias o de pago, contactos, ubicación, datos de salud, identificadores publicitarios (IDFA) ni huellas digitales del dispositivo.</p>
+
+    <div class="note">
+      <p>Por su propia naturaleza, un libro contable puede contener información financiera sensible. Precisamente por eso la App está diseñada para que estos datos <strong>permanezcan bajo tu control</strong>: nunca se suben a nuestros servidores ni se entregan a servicios de analítica de terceros.</p>
+    </div>
+
+    <h2 id="es-s3">3. Dónde se guardan tus datos</h2>
+
+    <h3>3.1 En tu dispositivo (opción predeterminada)</h3>
+    <p>De forma predeterminada, todo lo anterior se guarda localmente: la base de datos del libro reside en el contenedor aislado (sandbox) de la app, y los archivos adjuntos se guardan en el repositorio de archivos de la app con la protección de archivos del sistema activada (cifrados e ilegibles mientras el dispositivo está bloqueado). El aislamiento de iOS impide que otras apps lean nada de ello.</p>
+    <p>Si nunca activas la sincronización con iCloud ni exportas una copia de seguridad, los datos de tu libro <strong>nunca salen de ese dispositivo</strong>.</p>
+
+    <h3>3.2 Sincronización con iCloud (desactivada de forma predeterminada; debes activarla tú)</h3>
+    <p>Puedes activar la sincronización con iCloud en <em>Ajustes › Privacidad y sincronización</em>. Una vez activada:</p>
+    <ul>
+      <li>Los libros, movimientos, cuentas, categorías, tipos de cambio, ajustes de la app y adjuntos se guardan en la <strong>base de datos privada de iCloud de tu Cuenta de Apple</strong> (base de datos privada de CloudKit) para que puedan sincronizarse entre tus dispositivos.</li>
+      <li>Estos datos están <strong>alojados por Apple</strong> dentro de tu propia cuota de almacenamiento de iCloud. <strong>No podemos acceder a ellos, leerlos ni exportarlos.</strong> Los desarrolladores no tienen acceso a la base de datos privada de un usuario: así está diseñada la arquitectura de CloudKit de Apple; no es solo una promesa nuestra.</li>
+      <li>El tratamiento de estos datos por parte de Apple se rige por la <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Política de privacidad de Apple</a>.</li>
+      <li>La sincronización usa notificaciones push silenciosas para indicar a un dispositivo que descargue los cambios. Esas notificaciones no contienen ningún contenido del libro.</li>
+      <li>Puedes desactivar la sincronización en cualquier momento y elegir entre conservar una copia local o solicitar también la eliminación de la copia guardada en iCloud.</li>
+    </ul>
+
+    <h3>3.3 Libros compartidos</h3>
+    <p>Puedes compartir un libro con otras personas para colaborar. Esto <strong>siempre lo inicias tú</strong>:</p>
+    <ul>
+      <li>El uso compartido emplea el mecanismo de compartición de iCloud de Apple: generas un enlace para compartir de iCloud y se lo envías tú mismo a la otra persona.</li>
+      <li>Los miembros que aceptan tu invitación pueden acceder al contenido de <strong>ese libro</strong> —incluidos sus movimientos y adjuntos— con el nivel de permiso que les concedas (solo lectura o lectura y escritura). Los libros que no has compartido no se ven afectados.</li>
+      <li>Para que la lista de miembros permita saber quién es quién, la App muestra la información de identidad del participante que proporciona Apple (como el nombre con el que la persona se presenta a través de la compartición del sistema). También puedes asignar a un miembro un apodo que solo se guarda localmente.</li>
+      <li>Puedes eliminar a un miembro o dejar de compartir en cualquier momento, lo que revoca su acceso.</li>
+      <li><strong>Elige con cuidado con quién compartes.</strong> Una vez que alguien tiene acceso, puede ver o copiar lo que contiene ese libro, lo cual queda fuera de nuestro control técnico.</li>
+    </ul>
+
+    <h3>3.4 Tipos de cambio en línea</h3>
+    <p>La App puede obtener tipos de cambio de referencia para la conversión entre monedas. Esta función:</p>
+    <ul>
+      <li>realiza una consulta <strong>de solo lectura</strong> a una <strong>base de datos pública de iCloud</strong> (base de datos pública de CloudKit);</li>
+      <li><strong>no sube nada</strong>: ni tu libro, ni tus cuentas, ni tus preferencias de moneda, ni ningún identificador;</li>
+      <li>solo obtiene cifras públicas de tipos de mercado, que no contienen información personal;</li>
+      <li>siempre da prioridad a los tipos que introduces manualmente.</li>
+    </ul>
+    <p>Los tipos sirven únicamente para la conversión contable y no constituyen una cotización para ninguna operación; consulta los <a href="../terms/#es-s6">Términos del servicio, sección 6</a>.</p>
+
+    <h2 id="es-s4">4. Permisos del dispositivo</h2>
+    <p>La App solicita los siguientes permisos solo cuando usas la función correspondiente. Puedes denegar cualquiera de ellos; el resto de la App sigue funcionando.</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Permiso</th><th>Finalidad</th><th>Destino de los datos</th></tr></thead>
+      <tbody>
+        <tr><td>Cámara</td><td>Fotografiar recibos y facturas, o usar el escaneo de documentos, para adjuntarlos a los registros</td><td>Se guardan en el repositorio local de adjuntos; si la sincronización con iCloud está activada, se sincronizan con tu base de datos privada de iCloud junto con los demás adjuntos</td></tr>
+        <tr><td>Fotos / Archivos</td><td>Elegir imágenes o PDF existentes como adjuntos, o seleccionar un archivo de copia de seguridad o una hoja de cálculo para importar</td><td>Igual que lo anterior. El sistema entrega a la App solo los archivos que eliges; la App no puede explorar lo que no hayas seleccionado</td></tr>
+        <tr><td>Fototeca (solo añadir)</td><td>Guardar el código QR de WeChat o Douyin en tu fototeca tocando <strong>Guardar código QR en Fotos</strong> en <strong>Ajustes › Contacto y comentarios</strong> (solo en las versiones para iOS y iPadOS)</td><td>La App escribe en tu fototeca esa única imagen del código QR y nada más. El acceso de solo añadir es de solo escritura: la App <strong>no puede ver ni explorar</strong> nada de tu fototeca</td></tr>
+        <tr><td>Notificaciones</td><td>Recibir las notificaciones push silenciosas que usa la sincronización con iCloud para obtener los cambios de tus otros dispositivos o de los miembros de libros compartidos</td><td>El contenido de las notificaciones push no incluye datos del libro</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>La App <strong>no solicita</strong> permisos de ubicación, contactos, micrófono, calendario, salud ni de Transparencia de Rastreo de Apps.</p>
+
+    <h2 id="es-s5">5. Diagnóstico y datos de fallos</h2>
+    <p>Para que los problemas puedan diagnosticarse, la App registra en el dispositivo registros de ejecución e información de errores, y recibe métricas de fallos y rendimiento proporcionadas por el sistema (Apple MetricKit). Sobre estos datos:</p>
+    <ul>
+      <li><strong>Se quedan en tu dispositivo.</strong> Se rotan y depuran automáticamente según su tamaño y antigüedad, y en Ajustes puedes consultar cuánto espacio ocupan y borrarlos.</li>
+      <li><strong>Nunca se nos envían automáticamente.</strong> Solo los vemos si exportas deliberadamente el registro de diagnóstico desde la App y nos lo envías, por ejemplo, por correo electrónico. Puedes revisar el contenido antes de enviarlo.</li>
+      <li>Los registros recogen tipos de operación, códigos de error y contexto técnico para localizar fallos. Procuramos mantener fuera de ellos los detalles del libro, pero no podemos descartar que en el contexto de un error aparezcan fragmentos de texto, como una nota o el nombre de una cuenta. <strong>Revisa el registro antes de enviarlo si pudiera contener algo que prefieras no compartir.</strong></li>
+    </ul>
+    <p>Por otra parte, si has activado «Compartir análisis del iPhone» en los Ajustes de iOS, Apple puede facilitarnos, a través de App Store Connect, estadísticas de fallos y de uso <strong>agregadas y no identificativas</strong>. Ese canal lo controla Apple, y puedes desactivarlo en cualquier momento en <em>Ajustes › Privacidad y seguridad › Análisis y mejoras</em>.</p>
+
+    <h2 id="es-s6">6. Compras y suscripciones</h2>
+    <ul>
+      <li><strong>Apple gestiona el pago. Nunca vemos tu información de pago</strong>: ni el número de tu tarjeta, ni la contraseña de tu Cuenta de Apple, ni tu dirección de facturación.</li>
+      <li>La App recibe del App Store los recibos de transacción para determinar si tu acceso a Premium es válido. Esos recibos se usan para desbloquear funciones en el dispositivo.</li>
+      <li>Apple nos facilita informes de ventas y suscripciones. Son <strong>agregados</strong> y no contienen información que identifique a una persona.</li>
+      <li>Las compras, los reembolsos, la gestión de suscripciones y la cancelación se rigen por los <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Términos y condiciones de los Servicios Multimedia de Apple</a>.</li>
+    </ul>
+    <p>Las condiciones comerciales de las compras figuran en los <a href="../terms/#es-s3">Términos del servicio, sección 3</a>.</p>
+
+    <h2 id="es-s7">7. Importación, exportación y copias de seguridad</h2>
+    <ul>
+      <li><strong>Importación (archivos):</strong> puedes importar movimientos históricos desde hojas de cálculo exportadas por otras apps de contabilidad (como los archivos xlsx / CSV de Qianji). Los archivos se <strong>procesan íntegramente en tu dispositivo</strong> y no se suben a ningún sitio.</li>
+      <li><strong>Importación (YNAB, directa):</strong> si usas YNAB, puedes pegar tu propio token de acceso personal y la App lee tus propios datos de presupuesto directamente de la API de YNAB, <strong>sin pasar nunca por un servidor nuestro</strong> (no tenemos ninguno). Es una lectura en un solo sentido: no se escribe nada en YNAB ni se envía allí ningún contenido del libro de esta App. El token permanece en la memoria de este dispositivo y se borra al terminar la importación: nunca se escribe en el disco, nunca se sincroniza con iCloud y nunca se incluye en una copia de seguridad.</li>
+      <li><strong>Exportación de copias de seguridad:</strong> puedes exportar una copia de seguridad completa. Las copias de seguridad admiten cifrado AES con una frase de contraseña que tú defines. <strong>Sin frase de contraseña, el archivo exportado no está cifrado</strong> y cualquiera que lo obtenga podrá leer tu libro: guárdalo con cuidado.</li>
+      <li><strong>Tú eliges el destino.</strong> Las copias de seguridad se entregan a la hoja de compartir del sistema y van a donde tú las envíes (Archivos, iCloud Drive, correo electrónico, un servicio de nube de terceros). Una vez que un archivo sale de la App, se aplica la política de privacidad de ese destino, no esta.</li>
+      <li><strong>No podemos recuperar una frase de contraseña.</strong> Solo se usa para cifrar y descifrar, y nunca se almacena ni se transmite. Si olvidas la frase de contraseña, esa copia de seguridad no podrá restaurarse.</li>
+    </ul>
+
+    <h2 id="es-s8">8. Cómo tratan tus datos las funciones de IA</h2>
+    <p>Dos funciones de la App se basan en IA, y ambas se ejecutan <strong>en tu dispositivo</strong>:</p>
+    <ul>
+      <li><strong>Consultar tu libro (el asistente):</strong> preguntas en lenguaje natural y la App obtiene solo la parte de tu libro que necesita esa pregunta —cuentas y saldos, asientos, presupuestos, compromisos próximos a vencer— y se la entrega al modelo.</li>
+      <li><strong>Registro a partir de recibos:</strong> le das una foto de una factura o un recibo, la App reconoce el texto que contiene y redacta un asiento para que lo confirmes. Solo procesa la imagen que le has dado.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Pregunta</th><th>Respuesta</th></tr></thead>
+      <tbody>
+        <tr><td>Qué se envía al modelo</td><td>Solo la parte de tu libro que necesita la pregunta actual; en el registro a partir de recibos, la única imagen que hayas seleccionado</td></tr>
+        <tr><td>Qué realiza el procesamiento</td><td>El <strong>modelo en el dispositivo de Apple Intelligence</strong> (el framework Foundation Models de Apple) y el reconocimiento de texto integrado del sistema (Vision), en tu dispositivo</td></tr>
+        <tr><td>Adónde van los datos</td><td><strong>No salen de tu dispositivo.</strong> No se envían al desarrollador ni a ningún proveedor externo de servicios de IA</td></tr>
+        <tr><td>¿Se usan para entrenamiento?</td><td>No. Los datos de tu libro nunca se usan para entrenar ningún modelo</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Primero se te pide permiso.</strong> La primera vez que abres el asistente, la App muestra una pantalla completa que explica todo lo anterior, y la conversación solo comienza después de que lo confirmes; hasta entonces, el asistente no lee nada de tu libro. También puedes desactivar todo este grupo de funciones en cualquier momento en Ajustes › Privacidad y sincronización › Siri y Atajos, tras lo cual desaparece el acceso al asistente.</p>
+    <p>Las dos funciones tienen requisitos de dispositivo distintos: <strong>consultar tu libro</strong> requiere un dispositivo compatible con Apple Intelligence y que esta esté activada (aún no disponible en China continental); <strong>el registro a partir de recibos</strong> usa el reconocedor de texto propio del sistema y no requiere Apple Intelligence. Si no se cumplen los requisitos, el acceso correspondiente no aparece.</p>
+
+    <div class="note">
+      <p><strong>Una excepción, solo en macOS: MCP local.</strong> La versión para macOS ofrece un interruptor llamado «MCP local en el Mac» que está <strong>desactivado de forma predeterminada</strong>. Una vez que lo activas, los clientes de IA que se ejecutan en ese Mac (por ejemplo, Claude Desktop o Claude Code) pueden leer datos del libro e iniciar borradores de asientos a través de una conexión de bucle local (loopback), y <strong>ese contenido del libro se envía, como parte de la conversación, al proveedor de servicios de IA al que esté conectado el cliente</strong> (por ejemplo, Anthropic); a partir de ese momento se le aplica la política de privacidad de ese proveedor en lugar de esta. Activarlo es una decisión exclusivamente tuya y puedes deshacerla en cualquier momento; incluso con el interruptor activado, no se registra nada hasta que lo confirmes dentro de la App.</p>
+      <p><strong>Las versiones para iOS y iPadOS no incluyen este canal</strong>: esas versiones no contienen ninguna vía que entregue datos del libro a un servicio de IA externo.</p>
+    </div>
+
+    <h2 id="es-s9">9. Terceros: lo que no hacemos</h2>
+    <p>Para no dejar lugar a dudas, esto es lo que la App <strong>no</strong> hace:</p>
+    <ul>
+      <li>No integra ningún SDK de terceros de analítica, telemetría, notificación de fallos ni pruebas A/B;</li>
+      <li>No muestra publicidad ni integra ninguna red publicitaria;</li>
+      <li>No usa cookies, píxeles, huellas digitales del dispositivo ni rastreo entre apps de ningún tipo;</li>
+      <li>No vendemos, alquilamos ni compartimos tu información personal con fines de marketing, incluso en el sentido de «vender» («sell») y «compartir» («share») de la legislación de California;</li>
+      <li>No usamos los datos de tu libro para entrenar modelos de aprendizaje automático;</li>
+      <li>No proporcionamos tus datos a intermediarios de datos («data brokers»), burós u oficinas de crédito, entidades financieras ni a ningún otro tercero.</li>
+    </ul>
+    <p>De forma predeterminada interviene exactamente un tercero: <strong>Apple</strong>, como proveedor de la plataforma de los servicios de almacenamiento, compartición y pago de iCloud. Existen otros dos canales <strong>solo si los inicias tú mismo</strong>, y ninguno está activado de forma predeterminada:</p>
+    <ul>
+      <li><strong>Importación desde YNAB (sección 7):</strong> después de que pegues tu propio token de acceso personal de YNAB, la App lee <strong>tus propios</strong> datos de presupuesto directamente de la API de YNAB. Es una lectura en un solo sentido: no se escribe nada de vuelta en YNAB ni se envía allí ningún contenido del libro de esta App. El token permanece en la memoria de este dispositivo y se borra al terminar la importación.</li>
+      <li><strong>MCP local en la versión para macOS (sección 8):</strong> una vez activado, el contenido del libro llega al proveedor de servicios de IA que hayas conectado. Las versiones para iOS y iPadOS no tienen este canal.</li>
+    </ul>
+    <p><strong>Enlaces externos en la página Contacto y comentarios.</strong> <strong>Ajustes › Contacto y comentarios</strong> muestra el correo electrónico junto con plataformas sociales como Discord, RED (Xiaohongshu), X, TikTok, WeChat y Douyin. Estas entradas están integradas en la App; abrir la página no genera ninguna solicitud de red. Al tocar cualquiera de ellas, <strong>sales de la App</strong> hacia la app o el sitio web correspondiente, donde tu navegación e interacciones las trata ese servicio conforme a su propia política de privacidad, no esta. <strong>La App no envía ningún dato a estas plataformas.</strong> Las entradas de correo electrónico solo completan de antemano, en el editor de correo del sistema, el destinatario, un asunto y un breve bloque con la versión de la app, la versión del sistema operativo, el modelo del dispositivo y el idioma de la interfaz; si eliges <strong>Informar de un problema</strong>, además se adjunta un informe de diagnóstico (consulta la sección 5). Todo ello es visible antes de enviarlo, y tú decides si lo envías y qué eliminas.</p>
+    <p>Aparte de esos casos y de la divulgación exigida por ley (véase más abajo), no hay ningún otro destinatario de datos.</p>
+    <p>Si recibimos un requerimiento legítimo de datos de una autoridad competente, solo podemos entregar la información que realmente tenemos. <strong>Como no tenemos los datos de tu libro, dicho requerimiento no afecta al contenido de tu libro</strong>; las solicitudes relativas a datos almacenados en iCloud deben dirigirse a Apple.</p>
+
+    <h2 id="es-s10">10. Conservación y eliminación</h2>
+    <p>Como los datos los tienes tú, tú decides cuánto tiempo se conservan. Para eliminarlos:</p>
+    <ul>
+      <li><strong>Un solo registro:</strong> elimina el movimiento, la cuenta o el adjunto en la App.</li>
+      <li><strong>Todo:</strong> Ajustes ofrece «Borrar todos los datos», que requiere un código de confirmación y destruye y reconstruye el almacén actual.</li>
+      <li><strong>La copia de iCloud:</strong> elige «Eliminar copia de iCloud» al desactivar la sincronización con iCloud, o elimina los datos de la app en <em>Ajustes › Cuenta de Apple › iCloud › Gestionar almacenamiento de la cuenta</em>. <strong>Ten en cuenta que eliminar la copia en la nube también pone fin a cualquier libro compartido que hayas iniciado, y los miembros pierden el acceso.</strong></li>
+      <li><strong>La app:</strong> eliminar la App de tu dispositivo borra todos los datos locales de su sandbox. Cualquier copia en iCloud debe eliminarse por separado, como se indica arriba.</li>
+    </ul>
+    <p>Los archivos de copia de seguridad que hayas exportado a otros lugares debes eliminarlos tú.</p>
+
+    <h2 id="es-s11">11. Tus derechos</h2>
+    <p>En virtud de la legislación aplicable —incluidas la Ley de Protección de la Información Personal de China (PIPL), el Reglamento General de Protección de Datos de la UE (RGPD) y la CCPA/CPRA de California—, tienes derecho a ser informado sobre tu información personal, a acceder a ella, copiarla, rectificarla, completarla, suprimirla y portarla, así como a retirar tu consentimiento.</p>
+    <p>En esta App, <strong>ejercer esos derechos no requiere ninguna solicitud ni ninguna aprobación por nuestra parte</strong>, porque los datos han estado en tus manos desde el principio:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Derecho</th><th>Cómo ejercerlo</th></tr></thead>
+      <tbody>
+        <tr><td>Acceso / copia</td><td>Todos los datos son visibles en la App; exporta una copia de seguridad para obtener una copia completa</td></tr>
+        <tr><td>Portabilidad</td><td>Exporta un archivo de copia de seguridad; el historial de movimientos también puede exportarse en un formato de hoja de cálculo habitual</td></tr>
+        <tr><td>Rectificación</td><td>Edita el registro directamente en la App</td></tr>
+        <tr><td>Supresión</td><td>Consulta la sección 10 anterior</td></tr>
+        <tr><td>Retirada del consentimiento</td><td>Desactiva la sincronización con iCloud, deja de compartir un libro o revoca los permisos de cámara y otros en los Ajustes del sistema</td></tr>
+        <tr><td>Oposición a decisiones automatizadas</td><td>La App no realiza decisiones automatizadas ni elaboración de perfiles</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Si consideras que no se han respetado tus derechos o tienes preguntas sobre esta política, contáctanos según lo indicado en la sección 16. Responderemos en un plazo de 30 días. También tienes derecho a presentar una reclamación ante la autoridad de protección de datos de tu país o región.</p>
+
+    <h2 id="es-s12">12. Menores</h2>
+    <p>La App está diseñada para adultos. No está dirigida a menores y no recopila a sabiendas información personal de menores. Si tienes menos de 14 años, usa la App con el consentimiento y la orientación de tu padre, madre o tutor. Como la App no nos transmite ninguna información personal, no disponemos de información sobre la edad de ningún usuario; un tutor que desee borrar los datos de un dispositivo puede hacerlo directamente siguiendo la sección 10.</p>
+    <p><strong>Señal de rango de edad:</strong> en los dispositivos y regiones donde la ley lo exige, la App consulta tu rango de edad a la API Declared Age Range de Apple. Apple solo devuelve un rango de edad, <strong>no tu fecha de nacimiento</strong>. El resultado se usa únicamente en tu dispositivo, con el único fin de decidir si se necesita el consentimiento parental antes de cambios importantes en la App; <strong>solo se mantiene en memoria: nunca se almacena, nunca se sincroniza y nunca se nos envía</strong>.</p>
+
+    <h2 id="es-s13">13. Seguridad</h2>
+    <ul>
+      <li>Los datos locales están aislados por el sandbox de iOS; los archivos adjuntos usan la protección de archivos del sistema y están cifrados mientras el dispositivo está bloqueado.</li>
+      <li>Apple cifra la transmisión y el almacenamiento de iCloud; consulta la documentación de Apple para más detalles.</li>
+      <li>Los archivos de copia de seguridad pueden cifrarse con AES mediante una frase de contraseña que tú eliges y que nosotros nunca almacenamos.</li>
+      <li>No tenemos ninguno de tus datos, así que no existe para ellos el escenario de «hemos sufrido una filtración».</li>
+    </ul>
+    <p>Dicho esto, <strong>la seguridad de tu dispositivo es la base de todo lo anterior.</strong> Configura un código de acceso, activa el desbloqueo biométrico, mantén iOS actualizado y ten precaución con los dispositivos con jailbreak y con los archivos de copia de seguridad de origen desconocido. Ninguna medida de seguridad es absoluta.</p>
+
+    <h2 id="es-s14">14. Transferencias internacionales</h2>
+    <p>No recibimos ni transmitimos tu información personal, por lo que no existe ninguna transferencia internacional iniciada por nosotros. Si activas la sincronización con iCloud, Apple determina la ubicación del almacenamiento en función del país o región de tu Cuenta de Apple (por ejemplo, los servicios de iCloud para China continental los opera GCBD). Para conocer esas disposiciones y garantías, consulta la <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Política de privacidad de Apple</a> y los términos de iCloud.</p>
+
+    <h2 id="es-s15">15. Cambios en esta política</h2>
+    <p>Si cambian las prácticas de la App en materia de datos, actualizaremos esta página y modificaremos la fecha de «Última actualización» que figura al principio. En caso de cambios sustanciales —como la introducción de cualquier forma de subida de datos—, mostraremos un aviso destacado en la App y, cuando sea necesario, volveremos a solicitar tu consentimiento. Las versiones anteriores de esta página pueden consultarse en el repositorio público de este sitio.</p>
+
+    <h2 id="es-s16">16. Contacto</h2>
+    <p>Para cualquier pregunta sobre esta política o sobre tus datos, escribe a <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</p>
+    <p>Si incluyes la versión de la app y la versión de iOS, podremos responderte más rápido.</p>
+
+    <hr>
+    <p class="doc-meta">En caso de discrepancia entre esta versión en español y la <a href="?lang=zh">versión en chino</a>, prevalecerá la versión en chino.</p>
+  </article>
+
+  <article data-lang="fr" lang="fr">
+    <h1 class="doc-title">Politique de confidentialité</h1>
+    <p class="doc-meta"><span>Pour l’app iOS Keel (nom chinois : 司元)</span><span>Date d’entrée en vigueur : 28 juillet 2026</span><span>Dernière mise à jour : 5 octobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">En bref</p>
+      <ul>
+        <li><strong>Nous n’exploitons aucun serveur.</strong> L’app n’envoie vos données comptables à aucun serveur que nous contrôlons — un tel serveur n’existe pas.</li>
+        <li><strong>Vos données restent chez vous.</strong> Par défaut, elles se trouvent uniquement sur votre appareil. Elles ne parviennent à <strong>la base de données privée iCloud de votre propre identifiant Apple</strong> que si vous activez délibérément la synchronisation iCloud.</li>
+        <li><strong>Aucune publicité, aucun SDK d’analyse, aucun traceur, aucun code tiers de quelque nature que ce soit.</strong> Nous ne collectons, ne vendons ni ne partageons vos informations personnelles.</li>
+        <li><strong>Les fonctionnalités d’IA s’exécutent sur votre appareil.</strong> L’interrogation de votre livre et la saisie de reçus utilisent le modèle sur l’appareil d’Apple Intelligence et le module de reconnaissance de texte du système ; vos données comptables ne nous sont pas envoyées, ni à aucun fournisseur externe de services d’IA (la seule exception est un interrupteur MCP local dans la version macOS, désactivé par défaut — voir l’article 8).</li>
+        <li><strong>L’app ne se connecte jamais à votre banque, à vos comptes de paiement ni aux bureaux de crédit.</strong> Elle ne récupère aucun relevé. Chaque enregistrement est saisi ou importé par vous.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Table des matières">
+      <h2>Sommaire</h2>
+      <ol>
+        <li><a href="#fr-s1">1. Qui fournit cette app</a></li>
+        <li><a href="#fr-s2">2. Données traitées par l’app</a></li>
+        <li><a href="#fr-s3">3. Où se trouvent vos données</a></li>
+        <li><a href="#fr-s4">4. Autorisations de l’appareil</a></li>
+        <li><a href="#fr-s5">5. Données de diagnostic et de plantage</a></li>
+        <li><a href="#fr-s6">6. Achats et abonnements</a></li>
+        <li><a href="#fr-s7">7. Importation, exportation et sauvegardes</a></li>
+        <li><a href="#fr-s8">8. Traitement de vos données par les fonctionnalités d’IA</a></li>
+        <li><a href="#fr-s9">9. Tiers : ce que nous ne faisons pas</a></li>
+        <li><a href="#fr-s10">10. Conservation et suppression</a></li>
+        <li><a href="#fr-s11">11. Vos droits</a></li>
+        <li><a href="#fr-s12">12. Enfants</a></li>
+        <li><a href="#fr-s13">13. Sécurité</a></li>
+        <li><a href="#fr-s14">14. Transferts internationaux</a></li>
+        <li><a href="#fr-s15">15. Modifications de la présente politique</a></li>
+        <li><a href="#fr-s16">16. Nous contacter</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="fr-s1">1. Qui fournit cette app</h2>
+    <p>Keel (nom chinois 司元, l’« App ») est développée et publiée par <strong>gwongsam</strong>, développeur indépendant (« nous »).</p>
+    <p>La présente politique explique comment l’App traite vos informations. Un principe la sous-tend dans son ensemble : <strong>l’App ne dispose d’aucun serveur dorsal qui nous appartienne</strong>, et le contenu de vos livres ne nous parvient jamais. L’essentiel de ce qui suit décrit donc la manière dont les données circulent entre <strong>votre propre appareil</strong> et <strong>votre propre compte iCloud</strong>.</p>
+
+    <h2 id="fr-s2">2. Données traitées par l’app</h2>
+    <p>Les données suivantes sont créées par vous lorsque vous utilisez l’App, et sont stockées sur votre appareil :</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Catégorie</th><th>Contenu</th></tr></thead>
+      <tbody>
+        <tr><td>Données comptables</td><td>Livres, opérations (revenus, dépenses, virements, transactions sur actifs, remboursements, ajustements), montants, devises, dates, notes</td></tr>
+        <tr><td>Données des comptes</td><td>Noms, types et soldes des comptes que vous créez ; cycles de facturation des cartes de crédit, tirages de prêts et échéanciers de remboursement, commandes en paiement différé (BNPL), comptes prépayés et à valeur stockée</td></tr>
+        <tr><td>Organisation</td><td>Catégories, étiquettes, projets et contreparties (personnes ou établissements que vous nommez vous-même)</td></tr>
+        <tr><td>Pièces jointes</td><td>Images et PDF de reçus, factures et documents que vous ajoutez</td></tr>
+        <tr><td>Réglages</td><td>Langue, options d’affichage, livre par défaut, budgets, schémas de regroupement des états, et autres préférences de l’App</td></tr>
+        <tr><td>Taux de change</td><td>Taux que vous saisissez manuellement, ainsi qu’un cache de taux de marché publiquement disponibles</td></tr>
+        <tr><td>Diagnostic</td><td>Journaux d’exécution, enregistrements d’erreurs, et indicateurs de plantage et de performances fournis par le système</td></tr>
+        <tr><td>Reçus d’achat</td><td>Reçus de transaction de l’App Store et statut des droits d’accès Premium</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>L’App <strong>ne demande, ne collecte ni ne traite</strong> votre nom légal, vos numéros d’identification officiels, votre numéro de téléphone, votre adresse e-mail, vos numéros de carte, vos identifiants bancaires ou de paiement, vos contacts, votre localisation, vos données de santé, votre identifiant publicitaire (IDFA) ni l’empreinte de votre appareil.</p>
+
+    <div class="note">
+      <p>Un livre de comptes peut, par nature, contenir des informations financières sensibles. C’est précisément pourquoi l’App est conçue pour que ces données <strong>restent sous votre contrôle</strong> — jamais téléversées sur nos serveurs, jamais confiées à des services d’analyse tiers.</p>
+    </div>
+
+    <h2 id="fr-s3">3. Où se trouvent vos données</h2>
+
+    <h3>3.1 Sur votre appareil (par défaut)</h3>
+    <p>D’emblée, toutes les données ci-dessus sont stockées localement : la base de données comptable se trouve dans le conteneur sandbox de l’app, et les pièces jointes sont stockées dans le référentiel de fichiers de l’app avec la protection des fichiers du système activée (chiffrés et illisibles tant que l’appareil est verrouillé). Le sandboxing d’iOS empêche les autres apps de les lire.</p>
+    <p>Si vous n’activez jamais la synchronisation iCloud et n’exportez jamais de sauvegarde, vos données comptables <strong>ne quittent jamais cet appareil</strong>.</p>
+
+    <h3>3.2 Synchronisation iCloud (désactivée par défaut ; vous devez l’activer)</h3>
+    <p>Vous pouvez activer la synchronisation iCloud dans <em>Réglages › Confidentialité et synchronisation</em>. Une fois celle-ci activée :</p>
+    <ul>
+      <li>Les livres, opérations, comptes, catégories, taux de change, réglages de l’app et pièces jointes sont stockés dans la <strong>base de données privée iCloud de votre identifiant Apple</strong> (base de données privée CloudKit) afin d’être synchronisés entre vos appareils.</li>
+      <li>Ces données sont <strong>hébergées par Apple</strong>, dans votre propre quota de stockage iCloud. <strong>Nous ne pouvons ni y accéder, ni les lire, ni les exporter.</strong> Les développeurs n’ont aucun accès à la base de données privée d’un utilisateur — cela découle de l’architecture de CloudKit d’Apple, et pas seulement d’une promesse de notre part.</li>
+      <li>Le traitement de ces données par Apple est régi par les <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Engagements d’Apple en matière de confidentialité</a>.</li>
+      <li>La synchronisation utilise des notifications push silencieuses pour indiquer à un appareil de récupérer les modifications. Ces notifications ne contiennent aucun contenu comptable.</li>
+      <li>Vous pouvez désactiver la synchronisation à tout moment et choisir soit de conserver une copie locale, soit de demander également la suppression de la copie stockée dans iCloud.</li>
+    </ul>
+
+    <h3>3.3 Livres partagés</h3>
+    <p>Vous pouvez partager un livre avec d’autres personnes pour collaborer. Ce partage est <strong>toujours à votre initiative</strong> :</p>
+    <ul>
+      <li>Le partage utilise le mécanisme de partage iCloud d’Apple : vous générez un lien de partage iCloud et l’envoyez vous-même à l’autre personne.</li>
+      <li>Les membres qui acceptent votre invitation peuvent accéder au contenu de <strong>ce livre</strong> — y compris ses opérations et pièces jointes — selon le niveau d’autorisation que vous leur accordez (lecture seule ou lecture et écriture). Les livres que vous n’avez pas partagés ne sont pas concernés.</li>
+      <li>Afin que la liste des membres permette d’identifier chacun, l’App affiche les informations d’identité des participants fournies par Apple (par exemple le nom que la personne présente via le partage du système). Vous pouvez également attribuer à un membre un surnom visible uniquement sur votre appareil.</li>
+      <li>Vous pouvez retirer un membre ou arrêter le partage à tout moment, ce qui révoque son accès.</li>
+      <li><strong>Choisissez avec soin les personnes avec qui vous partagez.</strong> Une fois qu’une personne a accès, elle peut consulter ou copier le contenu de ce livre, ce qui échappe à notre contrôle technique.</li>
+    </ul>
+
+    <h3>3.4 Taux de change en ligne</h3>
+    <p>L’App peut récupérer des taux de change de référence pour la conversion multidevise. Cette fonctionnalité :</p>
+    <ul>
+      <li>effectue une récupération <strong>en lecture seule</strong> depuis une <strong>base de données publique iCloud</strong> (base de données publique CloudKit) ;</li>
+      <li><strong>ne téléverse rien</strong> — ni votre livre, ni vos comptes, ni vos préférences de devise, ni aucun identifiant ;</li>
+      <li>ne récupère que des taux de marché publics, qui ne contiennent aucune information personnelle ;</li>
+      <li>s’efface toujours devant les taux que vous saisissez manuellement.</li>
+    </ul>
+    <p>Les taux servent uniquement à la conversion comptable et ne constituent une cotation pour aucune transaction ; voir l’<a href="../terms/#fr-s6">article 6 des Conditions d’utilisation</a>.</p>
+
+    <h2 id="fr-s4">4. Autorisations de l’appareil</h2>
+    <p>L’App ne demande les autorisations suivantes que lorsque vous utilisez la fonctionnalité correspondante. Vous pouvez refuser n’importe laquelle d’entre elles ; le reste de l’App continue de fonctionner.</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Autorisation</th><th>Finalité</th><th>Destination des données</th></tr></thead>
+      <tbody>
+        <tr><td>Appareil photo</td><td>Photographier des reçus et factures, ou utiliser la numérisation de documents, pour les joindre aux enregistrements</td><td>Stockées dans le référentiel local des pièces jointes ; synchronisées avec votre base de données privée iCloud avec les autres pièces jointes si la synchronisation iCloud est activée</td></tr>
+        <tr><td>Photos / Fichiers</td><td>Choisir des images ou PDF existants comme pièces jointes, ou sélectionner un fichier de sauvegarde ou une feuille de calcul à importer</td><td>Comme ci-dessus. Le système ne transmet à l’App que les fichiers que vous avez choisis ; elle ne peut pas parcourir ce que vous n’avez pas sélectionné</td></tr>
+        <tr><td>Photothèque (ajout uniquement)</td><td>Enregistrer le code QR WeChat ou Douyin dans votre photothèque en touchant <strong>Enregistrer le code QR dans Photos</strong> dans <strong>Réglages › Contact et retours</strong> (versions iOS et iPadOS uniquement)</td><td>L’App écrit cette seule image de code QR dans votre photothèque, et rien d’autre. L’accès en ajout uniquement est un accès en écriture seule : l’App <strong>ne peut ni voir ni parcourir</strong> le contenu de votre photothèque</td></tr>
+        <tr><td>Notifications</td><td>Recevoir les notifications push silencieuses que la synchronisation iCloud utilise pour récupérer les modifications provenant de vos autres appareils ou des membres d’un livre partagé</td><td>Les contenus des notifications push ne contiennent aucune donnée comptable</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>L’App <strong>ne demande pas</strong> les autorisations de localisation, de contacts, de microphone, de calendrier, de santé ni de transparence du suivi des apps (App Tracking Transparency).</p>
+
+    <h2 id="fr-s5">5. Données de diagnostic et de plantage</h2>
+    <p>Afin de pouvoir diagnostiquer les problèmes, l’App enregistre sur l’appareil des journaux d’exécution et des informations sur les erreurs, et reçoit des indicateurs de plantage et de performances fournis par le système (Apple MetricKit). Concernant ces données :</p>
+    <ul>
+      <li><strong>Elles restent sur votre appareil.</strong> Elles font l’objet d’une rotation et d’une purge automatiques selon leur taille et leur ancienneté, et vous pouvez consulter l’espace qu’elles occupent — et les effacer — dans les Réglages.</li>
+      <li><strong>Elles ne nous sont jamais envoyées automatiquement.</strong> Nous ne les voyons que si vous exportez délibérément le journal de diagnostic dans l’App et nous l’envoyez, par exemple par e-mail. Vous pouvez en examiner le contenu avant l’envoi.</li>
+      <li>Les journaux enregistrent les types d’opérations, les codes d’erreur et le contexte technique permettant de localiser les anomalies. Nous veillons à en exclure le détail de vos livres, mais nous ne pouvons pas exclure que des fragments de texte, tels qu’une note ou un nom de compte, apparaissent dans le contexte d’une erreur. <strong>Veuillez examiner un journal avant de l’envoyer s’il est susceptible de contenir des éléments que vous préféreriez ne pas partager.</strong></li>
+    </ul>
+    <p>Par ailleurs, si vous avez activé « Partager l’analyse de l’iPhone » dans les Réglages d’iOS, Apple peut nous fournir, via App Store Connect, des statistiques de plantage et d’utilisation <strong>agrégées et non identifiantes</strong>. Ce canal est contrôlé par Apple, et vous pouvez le désactiver à tout moment dans <em>Réglages › Confidentialité et sécurité › Analyse et améliorations</em>.</p>
+
+    <h2 id="fr-s6">6. Achats et abonnements</h2>
+    <ul>
+      <li><strong>Le paiement est géré par Apple. Nous ne voyons jamais vos informations de paiement</strong> — ni votre numéro de carte, ni le mot de passe de votre identifiant Apple, ni votre adresse de facturation.</li>
+      <li>L’App reçoit de l’App Store les reçus de transaction afin de déterminer si vos droits d’accès Premium sont valides. Ces reçus servent au déverrouillage des fonctionnalités sur l’appareil.</li>
+      <li>Apple nous fournit des rapports de ventes et d’abonnements. Ceux-ci sont <strong>agrégés</strong> et ne contiennent aucune information permettant d’identifier une personne.</li>
+      <li>Les achats, remboursements, la gestion et la résiliation des abonnements sont régis par les <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Conditions générales des services multimédias Apple</a>.</li>
+    </ul>
+    <p>Les conditions commerciales applicables aux achats figurent à l’<a href="../terms/#fr-s3">article 3 des Conditions d’utilisation</a>.</p>
+
+    <h2 id="fr-s7">7. Importation, exportation et sauvegardes</h2>
+    <ul>
+      <li><strong>Importation (fichiers) :</strong> vous pouvez importer un historique d’opérations à partir de feuilles de calcul exportées par d’autres apps de comptabilité (comme les fichiers xlsx / CSV de Qianji). Les fichiers sont <strong>analysés entièrement sur votre appareil</strong> et ne sont téléversés nulle part.</li>
+      <li><strong>Importation (YNAB, directe) :</strong> si vous utilisez YNAB, vous pouvez coller votre propre jeton d’accès personnel, et l’App lit vos propres données budgétaires directement depuis l’API de YNAB, <strong>sans jamais passer par un serveur à nous</strong> (nous n’en avons aucun). Il s’agit d’une lecture à sens unique : rien n’est écrit dans YNAB, et aucun contenu comptable de cette App n’y est envoyé. Le jeton reste dans la mémoire de cet appareil et est effacé à la fin de l’importation — il n’est jamais écrit sur le disque, jamais synchronisé avec iCloud, jamais inclus dans une sauvegarde.</li>
+      <li><strong>Exportation de sauvegardes :</strong> vous pouvez exporter une sauvegarde complète. Les sauvegardes peuvent être chiffrées en AES avec une phrase secrète que vous définissez. <strong>Sans phrase secrète, le fichier exporté n’est pas chiffré</strong> et toute personne qui l’obtient peut lire vos livres — conservez-le avec soin.</li>
+      <li><strong>Vous choisissez la destination.</strong> Les sauvegardes sont transmises à la feuille de partage du système et vont là où vous les envoyez (Fichiers, iCloud Drive, e-mail, service cloud tiers). Dès qu’un fichier quitte l’App, c’est la politique de confidentialité de cette destination qui s’applique, et non la présente.</li>
+      <li><strong>Nous ne pouvons pas récupérer une phrase secrète.</strong> Elle sert uniquement au chiffrement et au déchiffrement, et n’est jamais stockée ni transmise. Une phrase secrète oubliée signifie que la sauvegarde concernée ne peut pas être restaurée.</li>
+    </ul>
+
+    <h2 id="fr-s8">8. Traitement de vos données par les fonctionnalités d’IA</h2>
+    <p>Deux fonctionnalités de l’App reposent sur l’IA, et toutes deux s’exécutent <strong>sur votre appareil</strong> :</p>
+    <ul>
+      <li><strong>Interroger votre livre (l’assistant) :</strong> vous posez une question en langage courant, et l’App récupère uniquement la partie de votre livre nécessaire à cette question — comptes et soldes, opérations, budgets, engagements arrivant à échéance — puis la transmet au modèle.</li>
+      <li><strong>Saisie de reçus :</strong> vous lui fournissez la photo d’une facture ou d’un reçu, l’App en reconnaît le texte et prépare une opération que vous devez confirmer. Elle ne traite que l’image que vous lui avez fournie.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Question</th><th>Réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Ce qui est envoyé au modèle</td><td>Uniquement la partie de votre livre nécessaire à la question en cours ; pour la saisie de reçus, l’image unique que vous avez sélectionnée</td></tr>
+        <tr><td>Ce qui effectue le calcul</td><td>Le <strong>modèle sur l’appareil d’Apple Intelligence</strong> (framework Foundation Models d’Apple) et la reconnaissance de texte intégrée au système (Vision), sur votre appareil</td></tr>
+        <tr><td>Destination des données</td><td><strong>Elles ne quittent pas votre appareil.</strong> Elles ne sont envoyées ni au développeur, ni à aucun fournisseur externe de services d’IA</td></tr>
+        <tr><td>Utilisation pour l’entraînement</td><td>Non. Vos données comptables ne sont jamais utilisées pour entraîner un quelconque modèle</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Votre autorisation est demandée au préalable.</strong> La première fois que vous ouvrez l’assistant, l’App affiche un écran complet exposant tout ce qui précède, et la conversation ne commence qu’après votre confirmation ; jusque-là, l’assistant ne lit rien dans votre livre. Vous pouvez également désactiver l’ensemble de ces fonctionnalités à tout moment dans Réglages &rsaquo; Confidentialité et synchronisation &rsaquo; Siri et Raccourcis, après quoi l’accès à l’assistant disparaît.</p>
+    <p>Les deux fonctionnalités ont des exigences matérielles différentes : <strong>l’interrogation de votre livre</strong> nécessite un appareil compatible avec Apple Intelligence sur lequel celle-ci est activée (pas encore disponible en Chine continentale) ; <strong>la saisie de reçus</strong> utilise le module de reconnaissance de texte propre au système et ne nécessite pas Apple Intelligence. Lorsque les exigences ne sont pas remplies, le point d’accès correspondant n’apparaît pas.</p>
+
+    <div class="note">
+      <p><strong>Une exception, sur macOS uniquement : le MCP local.</strong> La version macOS propose un interrupteur intitulé « MCP local sur Mac », <strong>désactivé par défaut</strong>. Une fois que vous l’activez, les clients d’IA exécutés sur ce Mac (par exemple Claude Desktop ou Claude Code) peuvent lire des données comptables et lancer des brouillons d’opérations via une connexion en boucle locale (loopback), et <strong>ce contenu comptable est envoyé, dans le cadre de la conversation, au fournisseur de services d’IA auquel le client est connecté</strong> (par exemple Anthropic), à partir de quoi c’est la politique de confidentialité de ce fournisseur qui s’y applique, et non la présente. L’activation relève entièrement de votre choix et peut être annulée à tout moment ; même lorsqu’il est activé, rien n’est enregistré tant que vous ne l’avez pas confirmé dans l’App.</p>
+      <p><strong>Les versions iOS et iPadOS ne comportent pas ce canal</strong> — ces versions ne contiennent aucune voie permettant de transmettre des données comptables à un service d’IA externe.</p>
+    </div>
+
+    <h2 id="fr-s9">9. Tiers : ce que nous ne faisons pas</h2>
+    <p>Pour lever toute ambiguïté, voici ce que l’App <strong>ne fait pas</strong> :</p>
+    <ul>
+      <li>Aucun SDK tiers d’analyse, de télémétrie, de rapport de plantage ou de test A/B n’est intégré ;</li>
+      <li>Aucune publicité n’est affichée et aucun réseau publicitaire n’est intégré ;</li>
+      <li>Aucun cookie, pixel, empreinte d’appareil ni suivi entre apps de quelque nature que ce soit ;</li>
+      <li>Nous ne vendons, ne louons ni ne partageons vos informations personnelles à des fins de marketing — y compris au sens des termes « sell » (vendre) et « share » (partager) du droit californien ;</li>
+      <li>Nous n’utilisons pas vos données comptables pour entraîner des modèles d’apprentissage automatique ;</li>
+      <li>Nous ne fournissons vos données à aucun courtier en données, bureau de crédit, établissement financier ni à aucun autre tiers.</li>
+    </ul>
+    <p>Par défaut, un seul tiers externe intervient : <strong>Apple</strong>, en tant que fournisseur de la plateforme pour les services de stockage iCloud, de partage et de paiement. Deux autres canaux n’existent <strong>que si vous les mettez en œuvre vous-même</strong>, et aucun n’est activé par défaut :</p>
+    <ul>
+      <li><strong>Importation depuis YNAB (article 7) :</strong> après que vous avez collé votre propre jeton d’accès personnel YNAB, l’App lit <strong>vos propres</strong> données budgétaires directement depuis l’API de YNAB. Il s’agit d’une lecture à sens unique — rien n’est réécrit dans YNAB, et aucun contenu comptable de cette App n’y est envoyé. Le jeton reste dans la mémoire de cet appareil et est effacé à la fin de l’importation.</li>
+      <li><strong>MCP local dans la version macOS (article 8) :</strong> une fois activé, le contenu comptable parvient au fournisseur de services d’IA auquel vous vous êtes connecté. Les versions iOS et iPadOS ne comportent aucun canal de ce type.</li>
+    </ul>
+    <p><strong>Liens externes de la page Contact et retours.</strong> <strong>Réglages › Contact et retours</strong> répertorie l’e-mail ainsi que des plateformes sociales telles que Discord, RED (Xiaohongshu), X, TikTok, WeChat et Douyin. Ces entrées sont intégrées à l’App ; l’ouverture de la page n’effectue aucune requête réseau. Toucher l’une d’elles <strong>vous fait quitter l’App</strong> pour l’app ou le site web correspondant, où votre navigation et vos interactions sont traitées par ce service selon sa propre politique de confidentialité, et non selon la présente. <strong>L’App n’envoie aucune donnée à ces plateformes.</strong> Les entrées e-mail se contentent de pré-remplir, dans l’éditeur de messages du système, le destinataire, un objet et un court bloc indiquant la version de l’app, la version du système d’exploitation, le modèle de l’appareil et la langue de l’interface ; le choix de <strong>Signaler un problème</strong> joint également un rapport de diagnostic (voir l’article 5). Tout cela est visible avant l’envoi, et il vous appartient de décider de l’envoyer ou non — et de ce qu’il convient d’en retirer.</p>
+    <p>En dehors de ces cas et des communications imposées par la loi (ci-dessous), il n’existe aucun autre destinataire des données.</p>
+    <p>Si nous recevons d’une autorité compétente une demande légale de communication de données, nous ne pouvons produire que les informations que nous détenons effectivement. <strong>Comme nous ne détenons pas vos données comptables, une telle demande est sans effet sur le contenu de vos livres</strong> ; les demandes concernant des données stockées dans iCloud doivent être adressées à Apple.</p>
+
+    <h2 id="fr-s10">10. Conservation et suppression</h2>
+    <p>Comme c’est vous qui détenez les données, c’est vous qui décidez de leur durée de conservation. Pour les supprimer :</p>
+    <ul>
+      <li><strong>Un enregistrement isolé :</strong> supprimez l’opération, le compte ou la pièce jointe dans l’App.</li>
+      <li><strong>L’ensemble des données :</strong> les Réglages proposent « Effacer toutes les données », qui exige un code de confirmation, puis détruit et reconstruit le stockage actuel.</li>
+      <li><strong>La copie iCloud :</strong> choisissez « Supprimer la copie iCloud » lors de la désactivation de la synchronisation iCloud, ou supprimez les données de l’app dans <em>Réglages › identifiant Apple › iCloud › Gérer le stockage du compte</em>. <strong>Notez que la suppression de la copie dans le cloud met également fin à tout partage de livre que vous avez initié, et que les membres perdent leur accès.</strong></li>
+      <li><strong>L’app :</strong> la suppression de l’App de votre appareil efface toutes les données locales contenues dans son sandbox. Toute copie iCloud doit être supprimée séparément, comme indiqué ci-dessus.</li>
+    </ul>
+    <p>Il vous appartient de supprimer les fichiers de sauvegarde que vous avez exportés ailleurs.</p>
+
+    <h2 id="fr-s11">11. Vos droits</h2>
+    <p>En vertu du droit applicable — notamment la loi chinoise sur la protection des informations personnelles (PIPL), le règlement général sur la protection des données de l’UE (RGPD) et le CCPA/CPRA californien — vous disposez du droit d’être informé, d’un droit d’accès, de copie, de rectification, de complément, d’effacement et de portabilité de vos informations personnelles, ainsi que du droit de retirer votre consentement.</p>
+    <p>Dans cette App, <strong>l’exercice de ces droits ne nécessite aucune demande auprès de nous ni aucune approbation de notre part</strong>, car les données sont depuis toujours entre vos mains :</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Droit</th><th>Comment l’exercer</th></tr></thead>
+      <tbody>
+        <tr><td>Accès / copie</td><td>Toutes les données sont visibles dans l’App ; exportez une sauvegarde pour en obtenir une copie complète</td></tr>
+        <tr><td>Portabilité</td><td>Exportez un fichier de sauvegarde ; l’historique des opérations peut également être exporté dans un format de feuille de calcul courant</td></tr>
+        <tr><td>Rectification</td><td>Modifiez directement l’enregistrement dans l’App</td></tr>
+        <tr><td>Effacement</td><td>Voir l’article 10 ci-dessus</td></tr>
+        <tr><td>Retrait du consentement</td><td>Désactivez la synchronisation iCloud, arrêtez le partage d’un livre, ou révoquez l’accès à l’appareil photo et les autres autorisations dans les Réglages du système</td></tr>
+        <tr><td>Opposition aux décisions automatisées</td><td>L’App ne procède à aucune prise de décision automatisée ni à aucun profilage</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Si vous estimez que vos droits n’ont pas été respectés, ou si vous avez des questions sur la présente politique, contactez-nous selon les modalités de l’article 16. Nous vous répondrons dans un délai de 30 jours. Vous avez également le droit d’introduire une réclamation auprès de votre autorité locale de protection des données.</p>
+
+    <h2 id="fr-s12">12. Enfants</h2>
+    <p>L’App est conçue pour les adultes. Elle ne s’adresse pas aux enfants et ne collecte pas sciemment d’informations personnelles concernant des enfants. Si vous avez moins de 14 ans, veuillez utiliser l’App avec le consentement et sous la supervision d’un parent ou d’un tuteur. Comme l’App ne nous transmet aucune information personnelle, nous ne détenons aucune information sur l’âge de nos utilisateurs ; un tuteur qui souhaite effacer des données d’un appareil peut le faire directement en suivant l’article 10.</p>
+    <p><strong>Signal de tranche d’âge :</strong> sur les appareils et dans les régions où la loi l’exige, l’App demande votre tranche d’âge à l’API Declared Age Range d’Apple. Apple ne renvoie qu’une tranche d’âge, <strong>et non votre date de naissance</strong>. Le résultat est utilisé uniquement sur votre appareil, dans le seul but de déterminer si un consentement parental est nécessaire avant des modifications importantes de l’App ; il est <strong>conservé uniquement en mémoire — jamais stocké, jamais synchronisé et jamais envoyé à nous</strong>.</p>
+
+    <h2 id="fr-s13">13. Sécurité</h2>
+    <ul>
+      <li>Les données locales sont isolées par le sandbox d’iOS ; les pièces jointes bénéficient de la protection des fichiers du système et sont chiffrées lorsque l’appareil est verrouillé.</li>
+      <li>La transmission et le stockage iCloud sont chiffrés par Apple ; consultez la documentation d’Apple pour plus de détails.</li>
+      <li>Les fichiers de sauvegarde peuvent être chiffrés en AES avec une phrase secrète que vous choisissez et que nous ne stockons jamais.</li>
+      <li>Nous ne détenons aucune de vos données ; il n’existe donc aucun scénario dans lequel « nous aurions été piratés » s’agissant de celles-ci.</li>
+    </ul>
+    <p>Cela étant, <strong>la sécurité de votre appareil est le fondement de tout ce qui précède.</strong> Définissez un code d’accès, activez le déverrouillage biométrique, maintenez iOS à jour, et soyez prudent avec les appareils jailbreakés et les fichiers de sauvegarde d’origine inconnue. Aucune mesure de sécurité n’est absolue.</p>
+
+    <h2 id="fr-s14">14. Transferts internationaux</h2>
+    <p>Nous ne recevons ni ne transmettons vos informations personnelles ; il n’y a donc aucun transfert transfrontalier à notre initiative. Si vous activez la synchronisation iCloud, le lieu de stockage est déterminé par Apple en fonction du pays ou de la région de votre identifiant Apple (par exemple, les services iCloud pour la Chine continentale sont exploités par GCBD). Pour ces modalités et les garanties associées, consultez les <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Engagements d’Apple en matière de confidentialité</a> et les conditions d’iCloud.</p>
+
+    <h2 id="fr-s15">15. Modifications de la présente politique</h2>
+    <p>Si les pratiques de l’App en matière de données changent, nous mettrons à jour cette page et modifierons la date de « Dernière mise à jour » figurant en haut. En cas de modification substantielle — telle que l’introduction de toute forme de téléversement de données — nous afficherons un avis bien visible dans l’App et, lorsque la loi l’exige, nous vous demanderons à nouveau votre consentement. Les versions antérieures de cette page peuvent être consultées dans le dépôt public de ce site.</p>
+
+    <h2 id="fr-s16">16. Nous contacter</h2>
+    <p>Pour toute question concernant la présente politique ou vos données, écrivez à <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</p>
+    <p>Indiquer la version de l’app et la version d’iOS nous aide à vous répondre plus rapidement.</p>
+
+    <hr>
+    <p class="doc-meta">En cas de divergence entre la présente version française et la <a href="?lang=zh">version chinoise</a>, la version chinoise prévaut.</p>
+  </article>
+
+  <article data-lang="pt" lang="pt-BR">
+    <h1 class="doc-title">Política de Privacidade</h1>
+    <p class="doc-meta"><span>Para o app Keel para iOS (nome chinês: 司元)</span><span>Vigência: 28 de julho de 2026</span><span>Última atualização: 5 de outubro de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Resumo</p>
+      <ul>
+        <li><strong>Não operamos nenhum servidor.</strong> O App não envia os dados do seu livro para nenhum servidor controlado por nós — esse servidor simplesmente não existe.</li>
+        <li><strong>Seus dados ficam com você.</strong> Por padrão, eles ficam apenas no seu dispositivo. Só chegam ao <strong>banco de dados privado do iCloud da sua própria Conta Apple</strong> depois que você ativa deliberadamente a Sincronização do iCloud.</li>
+        <li><strong>Sem anúncios, sem SDKs de análise, sem rastreadores, sem código de terceiros de nenhum tipo.</strong> Não coletamos, não vendemos e não compartilhamos suas informações pessoais.</li>
+        <li><strong>Os recursos de IA rodam no seu dispositivo.</strong> As perguntas ao seu livro e a captura de recibos usam o modelo no dispositivo da Apple Intelligence e o reconhecimento de texto do sistema; os dados do seu livro não são enviados a nós nem a nenhum provedor externo de serviços de IA (a única exceção é um ajuste de MCP local na versão para macOS, desativado por padrão — consulte a Seção 8).</li>
+        <li><strong>O App nunca se conecta ao seu banco, às suas contas de pagamento ou a birôs de crédito.</strong> Ele não busca extratos. Cada registro é inserido ou importado por você.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Sumário">
+      <h2>Sumário</h2>
+      <ol>
+        <li><a href="#pt-s1">1. Quem fornece este App</a></li>
+        <li><a href="#pt-s2">2. Quais dados o App trata</a></li>
+        <li><a href="#pt-s3">3. Onde seus dados ficam</a></li>
+        <li><a href="#pt-s4">4. Permissões do dispositivo</a></li>
+        <li><a href="#pt-s5">5. Diagnóstico e dados de falhas</a></li>
+        <li><a href="#pt-s6">6. Compras e assinaturas</a></li>
+        <li><a href="#pt-s7">7. Importação, exportação e backups</a></li>
+        <li><a href="#pt-s8">8. Como os recursos de IA tratam seus dados</a></li>
+        <li><a href="#pt-s9">9. Terceiros: o que não fazemos</a></li>
+        <li><a href="#pt-s10">10. Retenção e exclusão</a></li>
+        <li><a href="#pt-s11">11. Seus direitos</a></li>
+        <li><a href="#pt-s12">12. Crianças</a></li>
+        <li><a href="#pt-s13">13. Segurança</a></li>
+        <li><a href="#pt-s14">14. Transferências internacionais</a></li>
+        <li><a href="#pt-s15">15. Alterações nesta política</a></li>
+        <li><a href="#pt-s16">16. Fale conosco</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="pt-s1">1. Quem fornece este App</h2>
+    <p>O Keel (nome chinês 司元, o “App”) é desenvolvido e publicado por <strong>gwongsam</strong>, um desenvolvedor independente (“nós”).</p>
+    <p>Esta política explica como o App trata as suas informações. Uma premissa permeia todo o texto: <strong>o App não tem nenhum servidor de back-end nosso</strong>, e o conteúdo do seu livro nunca chega até nós. Por isso, a maior parte do que segue descreve como os dados circulam entre o <strong>seu próprio dispositivo</strong> e a <strong>sua própria conta do iCloud</strong>.</p>
+
+    <h2 id="pt-s2">2. Quais dados o App trata</h2>
+    <p>Os dados a seguir são criados por você ao usar o App e ficam armazenados no seu dispositivo:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Categoria</th><th>Conteúdo</th></tr></thead>
+      <tbody>
+        <tr><td>Dados do livro</td><td>Livros, lançamentos (receitas, despesas, transferências, negociações de ativos, pagamentos de dívidas, ajustes), valores, moedas, datas, notas</td></tr>
+        <tr><td>Dados de contas</td><td>Nomes, tipos e saldos das contas que você cria; ciclos de fatura de cartão de crédito, liberações de empréstimos e cronogramas de pagamento, pedidos do tipo “compre agora, pague depois”, contas pré-pagas e de valor armazenado</td></tr>
+        <tr><td>Organização</td><td>Categorias, tags, projetos e contrapartes (pessoas ou instituições que você mesmo nomeia)</td></tr>
+        <tr><td>Anexos</td><td>Imagens e PDFs de recibos, notas fiscais e documentos que você adiciona</td></tr>
+        <tr><td>Ajustes</td><td>Idioma, opções de exibição, livro padrão, orçamentos, esquemas de agrupamento de demonstrativos e outras preferências do App</td></tr>
+        <tr><td>Taxas de câmbio</td><td>Taxas que você insere manualmente, além de um cache de taxas de mercado disponíveis publicamente</td></tr>
+        <tr><td>Diagnóstico</td><td>Logs de execução, registros de erros e métricas de falhas e de desempenho fornecidas pelo sistema</td></tr>
+        <tr><td>Recibos de compra</td><td>Recibos de transações da App Store e o status do direito de acesso da assinatura</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>O App <strong>não solicita, não coleta e não trata</strong> seu nome civil, números de documentos de identificação, número de telefone, endereço de e-mail, números de cartão, credenciais bancárias ou de pagamento, contatos, localização, dados de saúde, identificadores de publicidade (IDFA) ou impressões digitais do dispositivo (device fingerprints).</p>
+
+    <div class="note">
+      <p>Por natureza, um livro contábil pode conter informações financeiras sensíveis. É justamente por isso que o App foi projetado para que esses dados <strong>permaneçam sob o seu controle</strong> — nunca enviados aos nossos servidores, nunca entregues a ferramentas de análise de terceiros.</p>
+    </div>
+
+    <h2 id="pt-s3">3. Onde seus dados ficam</h2>
+
+    <h3>3.1 No seu dispositivo (padrão)</h3>
+    <p>Por padrão, tudo o que foi listado acima é armazenado localmente: o banco de dados do livro fica no contêiner sandbox do App, e os arquivos de anexo ficam no repositório de arquivos do App com a proteção de arquivos do sistema ativada (criptografados e ilegíveis enquanto o dispositivo estiver bloqueado). O sandbox do iOS impede que outros apps leiam qualquer um desses dados.</p>
+    <p>Se você nunca ativar a Sincronização do iCloud e nunca exportar um backup, os dados do seu livro <strong>nunca saem desse dispositivo</strong>.</p>
+
+    <h3>3.2 Sincronização do iCloud (desativada por padrão; você precisa ativá-la)</h3>
+    <p>Você pode ativar a Sincronização do iCloud em <em>Ajustes › Privacidade e sincronização</em>. Depois de ativada:</p>
+    <ul>
+      <li>Livros, lançamentos, contas, categorias, taxas de câmbio, ajustes do App e anexos são armazenados no <strong>banco de dados privado do iCloud da sua Conta Apple</strong> (banco de dados privado do CloudKit) para que possam ser sincronizados entre os seus dispositivos.</li>
+      <li>Esses dados são <strong>hospedados pela Apple</strong>, dentro da sua própria cota de armazenamento do iCloud. <strong>Não podemos acessá-los, lê-los nem exportá-los.</strong> Os desenvolvedores não têm acesso ao banco de dados privado de um usuário — é assim que o CloudKit da Apple foi arquitetado, e não apenas uma promessa nossa.</li>
+      <li>O tratamento desses dados pela Apple é regido pela <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Política de Privacidade da Apple</a>.</li>
+      <li>A sincronização usa notificações push silenciosas para avisar um dispositivo de que deve buscar alterações. Essas notificações não contêm nenhum conteúdo do livro.</li>
+      <li>Você pode desativar a sincronização a qualquer momento e escolher entre manter uma cópia local ou também solicitar a exclusão da cópia armazenada no iCloud.</li>
+    </ul>
+
+    <h3>3.3 Livros compartilhados</h3>
+    <p>Você pode compartilhar um livro com outras pessoas para colaborar. Isso é <strong>sempre iniciado por você</strong>:</p>
+    <ul>
+      <li>O compartilhamento usa o mecanismo de compartilhamento do iCloud da Apple: você gera um link de compartilhamento do iCloud e o envia pessoalmente à outra pessoa.</li>
+      <li>Os membros que aceitarem o seu convite podem acessar o conteúdo <strong>daquele livro</strong> — incluindo seus lançamentos e anexos — no nível de permissão que você conceder (somente leitura ou leitura e gravação). Os livros que você não compartilhou não são afetados.</li>
+      <li>Para que a lista de membros mostre quem é quem, o App exibe as informações de identidade do participante fornecidas pela Apple (como o nome que a pessoa apresenta por meio do compartilhamento do sistema). Você também pode definir para um membro um apelido que fica apenas no seu dispositivo.</li>
+      <li>Você pode remover um membro ou parar de compartilhar a qualquer momento, o que revoga o acesso dele.</li>
+      <li><strong>Escolha com cuidado com quem você compartilha.</strong> Depois que alguém obtém acesso, essa pessoa pode visualizar ou copiar o conteúdo daquele livro, o que está fora do nosso controle técnico.</li>
+    </ul>
+
+    <h3>3.4 Taxas de câmbio on-line</h3>
+    <p>O App pode buscar taxas de câmbio de referência para a conversão entre várias moedas. Este recurso:</p>
+    <ul>
+      <li>faz uma busca <strong>somente leitura</strong> em um <strong>banco de dados público do iCloud</strong> (banco de dados público do CloudKit);</li>
+      <li><strong>não envia nada</strong> — nem o seu livro, nem contas, nem preferências de moeda, nem qualquer identificador;</li>
+      <li>obtém apenas cotações de mercado públicas, que não contêm nenhuma informação pessoal;</li>
+      <li>sempre dá prioridade às taxas que você insere manualmente.</li>
+    </ul>
+    <p>As taxas servem apenas para a conversão contábil e não constituem cotação para nenhuma transação; consulte os <a href="../terms/#pt-s6">Termos de Serviço, Seção 6</a>.</p>
+
+    <h2 id="pt-s4">4. Permissões do dispositivo</h2>
+    <p>O App solicita as permissões abaixo somente quando você usa o recurso correspondente. Você pode recusar qualquer uma delas; o restante do App continua funcionando.</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Permissão</th><th>Finalidade</th><th>Para onde vão os dados</th></tr></thead>
+      <tbody>
+        <tr><td>Câmera</td><td>Fotografar recibos e notas fiscais, ou usar a digitalização de documentos, para anexá-los aos registros</td><td>Armazenados no repositório local de anexos; sincronizados com o seu banco de dados privado do iCloud junto com os demais anexos se a Sincronização do iCloud estiver ativada</td></tr>
+        <tr><td>Fotos / Arquivos</td><td>Escolher imagens ou PDFs existentes como anexos, ou selecionar um arquivo de backup ou uma planilha para importar</td><td>Igual ao item acima. O sistema entrega ao App somente os arquivos que você escolher; o App não pode navegar pelo que você não selecionou</td></tr>
+        <tr><td>Fototeca (somente adicionar)</td><td>Salvar o QR code do WeChat ou do Douyin na sua fototeca tocando em <strong>Salvar QR code em Fotos</strong> em <strong>Ajustes › Contato e feedback</strong> (somente nas versões para iOS e iPadOS)</td><td>O App grava essa única imagem de QR code na sua fototeca e nada mais. O acesso “somente adicionar” é apenas de gravação: o App <strong>não pode ver nem navegar</strong> por nada da sua fototeca</td></tr>
+        <tr><td>Notificações</td><td>Receber os pushes silenciosos que a Sincronização do iCloud usa para buscar alterações vindas dos seus outros dispositivos ou dos membros de livros compartilhados</td><td>O conteúdo dos pushes não inclui dados do livro</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>O App <strong>não solicita</strong> permissões de localização, contatos, microfone, calendário, saúde ou de Transparência no Rastreamento de Apps.</p>
+
+    <h2 id="pt-s5">5. Diagnóstico e dados de falhas</h2>
+    <p>Para que os problemas possam ser diagnosticados, o App registra no dispositivo logs de execução e informações de erros, e recebe métricas de falhas e de desempenho fornecidas pelo sistema (Apple MetricKit). Sobre esses dados:</p>
+    <ul>
+      <li><strong>Eles ficam no seu dispositivo.</strong> São rotacionados e eliminados automaticamente conforme o tamanho e a idade, e você pode ver quanto espaço ocupam — e apagá-los — nos Ajustes.</li>
+      <li><strong>Eles nunca são enviados a nós automaticamente.</strong> Só os vemos se você exportar deliberadamente o log de diagnóstico no App e enviá-lo a nós, por exemplo, por e-mail. Você pode revisar o conteúdo antes de enviar.</li>
+      <li>Os logs registram tipos de operação, códigos de erro e contexto técnico para localizar falhas. Tomamos cuidado para manter os detalhes do livro fora deles, mas não podemos descartar que trechos de texto, como uma nota ou o nome de uma conta, apareçam em um contexto de erro. <strong>Revise o log antes de enviá-lo caso ele possa conter algo que você prefira não compartilhar.</strong></li>
+    </ul>
+    <p>Além disso, se você ativou “Compartilhar Análise do iPhone” nos Ajustes do iOS, a Apple pode nos fornecer, por meio do App Store Connect, estatísticas de falhas e de uso <strong>agregadas e não identificáveis</strong>. Esse canal é controlado pela Apple, e você pode desativá-lo a qualquer momento em <em>Ajustes › Privacidade e Segurança › Análise e Melhorias</em>.</p>
+
+    <h2 id="pt-s6">6. Compras e assinaturas</h2>
+    <ul>
+      <li><strong>O pagamento é processado pela Apple. Nunca vemos suas informações de pagamento</strong> — nem o número do seu cartão, nem a senha da sua Conta Apple, nem o seu endereço de cobrança.</li>
+      <li>O App recebe recibos de transação da App Store para determinar se o seu direito de acesso da assinatura é válido. Esses recibos são usados para desbloquear recursos no próprio dispositivo.</li>
+      <li>A Apple nos fornece relatórios de vendas e de assinaturas. Eles são <strong>agregados</strong> e não contêm nenhuma informação que identifique uma pessoa.</li>
+      <li>Compras, reembolsos, gerenciamento e cancelamento de assinaturas são regidos pelos <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Termos e Condições dos Serviços de Mídia da Apple</a>.</li>
+    </ul>
+    <p>Os termos comerciais das compras estão nos <a href="../terms/#pt-s3">Termos de Serviço, Seção 3</a>.</p>
+
+    <h2 id="pt-s7">7. Importação, exportação e backups</h2>
+    <ul>
+      <li><strong>Importação (arquivos):</strong> você pode importar lançamentos históricos de planilhas exportadas por outros apps de contabilidade pessoal (como os arquivos xlsx / CSV do Qianji). Os arquivos são <strong>analisados inteiramente no seu dispositivo</strong> e não são enviados a lugar nenhum.</li>
+      <li><strong>Importação (YNAB, direta):</strong> se você usa o YNAB, pode colar o seu próprio token de acesso pessoal, e o App lê os dados do seu próprio orçamento diretamente da API do YNAB, <strong>nunca por meio de um servidor nosso</strong> (não temos nenhum). É uma leitura unidirecional: nada é gravado no YNAB, e nenhum conteúdo do livro deste App é enviado para lá. O token fica na memória deste dispositivo e é apagado quando a importação termina — nunca é gravado em disco, nunca é sincronizado com o iCloud, nunca é incluído em um backup.</li>
+      <li><strong>Exportação de backup:</strong> você pode exportar um backup completo. Os backups aceitam criptografia AES com uma senha definida por você. <strong>Sem senha, o arquivo exportado não é criptografado</strong> e qualquer pessoa que o obtenha pode ler o seu livro — guarde-o com cuidado.</li>
+      <li><strong>Você escolhe o destino.</strong> Os backups são entregues à planilha de compartilhamento do sistema e vão para onde você os enviar (Arquivos, iCloud Drive, e-mail, um serviço de nuvem de terceiros). Quando um arquivo sai do App, passa a valer a política de privacidade desse destino, e não esta.</li>
+      <li><strong>Não podemos recuperar uma senha.</strong> Ela é usada apenas para criptografar e descriptografar, e nunca é armazenada nem transmitida. Se você esquecer a senha, esse backup não poderá ser restaurado.</li>
+    </ul>
+
+    <h2 id="pt-s8">8. Como os recursos de IA tratam seus dados</h2>
+    <p>Dois recursos do App usam IA, e ambos rodam <strong>no seu dispositivo</strong>:</p>
+    <ul>
+      <li><strong>Perguntar ao seu livro (o assistente):</strong> você pergunta em linguagem natural, e o App busca apenas a parte do seu livro de que a pergunta precisa — contas e saldos, lançamentos, orçamentos, compromissos a vencer — e a entrega ao modelo.</li>
+      <li><strong>Captura de recibos:</strong> você fornece a foto de uma conta ou de um recibo, e o App reconhece o texto nela e prepara um rascunho de lançamento para você confirmar. Ele processa apenas a imagem que você forneceu.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Pergunta</th><th>Resposta</th></tr></thead>
+      <tbody>
+        <tr><td>O que é enviado ao modelo</td><td>Apenas a parte do seu livro de que a pergunta atual precisa; na captura de recibos, a única imagem que você selecionou</td></tr>
+        <tr><td>O que faz o processamento</td><td>O <strong>modelo no dispositivo da Apple Intelligence</strong> (framework Foundation Models da Apple) e o reconhecimento de texto integrado do sistema (Vision), no seu dispositivo</td></tr>
+        <tr><td>Para onde vão os dados</td><td><strong>Eles não saem do seu dispositivo.</strong> Não são enviados ao desenvolvedor nem a nenhum provedor externo de serviços de IA</td></tr>
+        <tr><td>São usados para treinamento</td><td>Não. Os dados do seu livro nunca são usados para treinar nenhum modelo</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Sua permissão é solicitada antes.</strong> Na primeira vez que você abre o assistente, o App mostra uma tela inteira com todas as informações acima, e a conversa só começa depois que você confirma; até lá, o assistente não lê nada do seu livro. Você também pode desativar todo esse grupo de recursos a qualquer momento em Ajustes › Privacidade e sincronização › Siri e Atalhos; depois disso, o acesso ao assistente desaparece.</p>
+    <p>Os dois recursos têm requisitos de dispositivo diferentes: <strong>perguntar ao seu livro</strong> exige um dispositivo compatível com a Apple Intelligence, com ela ativada (ainda não disponível na China continental); a <strong>captura de recibos</strong> usa o próprio reconhecimento de texto do sistema e não exige a Apple Intelligence. Quando os requisitos não são atendidos, o acesso correspondente não aparece.</p>
+
+    <div class="note">
+      <p><strong>Uma exceção, somente no macOS: MCP local.</strong> A versão para macOS oferece um ajuste chamado “MCP local no Mac”, que fica <strong>desativado por padrão</strong>. Depois que você o ativa, clientes de IA executados nesse Mac (por exemplo, o Claude Desktop ou o Claude Code) podem ler dados do livro e iniciar rascunhos de lançamentos por meio de uma conexão de loopback, e <strong>esse conteúdo do livro é enviado, como parte da conversa, ao provedor de serviços de IA ao qual o cliente estiver conectado</strong> (por exemplo, a Anthropic); a partir desse momento, aplica-se a ele a política de privacidade desse provedor, e não esta. Ativá-lo é uma escolha inteiramente sua e pode ser desfeita a qualquer momento; mesmo com o ajuste ativado, nada é registrado até que você confirme dentro do App.</p>
+      <p><strong>As versões para iOS e iPadOS não incluem esse canal</strong> — essas versões não contêm nenhuma via que entregue dados do livro a um serviço de IA externo.</p>
+    </div>
+
+    <h2 id="pt-s9">9. Terceiros: o que não fazemos</h2>
+    <p>Para não deixar nenhuma ambiguidade, eis o que o App <strong>não</strong> faz:</p>
+    <ul>
+      <li>Não há SDKs de terceiros integrados de análise, telemetria, relatórios de falhas ou testes A/B;</li>
+      <li>Não exibe anúncios e não integra nenhuma rede de publicidade;</li>
+      <li>Não usa cookies, pixels, impressão digital do dispositivo nem rastreamento entre apps de nenhum tipo;</li>
+      <li>Não vendemos, não alugamos e não compartilhamos suas informações pessoais para fins de marketing — inclusive nos sentidos de “vender” (sell) e “compartilhar” (share) da legislação da Califórnia;</li>
+      <li>Não usamos os dados do seu livro para treinar modelos de aprendizado de máquina;</li>
+      <li>Não fornecemos seus dados a corretores de dados (data brokers), birôs de crédito, instituições financeiras ou quaisquer outros terceiros.</li>
+    </ul>
+    <p>Por padrão, há exatamente uma parte externa envolvida: a <strong>Apple</strong>, como fornecedora da plataforma dos serviços de armazenamento, compartilhamento e pagamento do iCloud. Existem mais dois canais <strong>somente se você mesmo os iniciar</strong>, e nenhum deles vem ativado por padrão:</p>
+    <ul>
+      <li><strong>Importação do YNAB (Seção 7):</strong> depois que você cola o seu próprio token de acesso pessoal do YNAB, o App lê os dados do <strong>seu próprio</strong> orçamento diretamente da API do YNAB. É uma leitura unidirecional — nada é gravado de volta no YNAB, e nenhum conteúdo do livro deste App é enviado para lá. O token fica na memória deste dispositivo e é apagado quando a importação termina.</li>
+      <li><strong>MCP local na versão para macOS (Seção 8):</strong> depois de ativado, o conteúdo do livro chega ao provedor de serviços de IA que você conectou. As versões para iOS e iPadOS não têm esse canal.</li>
+    </ul>
+    <p><strong>Links externos na página Contato e feedback.</strong> <strong>Ajustes › Contato e feedback</strong> lista o e-mail junto com plataformas sociais como Discord, RED (Xiaohongshu), X, TikTok, WeChat e Douyin. Essas entradas fazem parte do App; abrir a página não faz nenhuma solicitação de rede. Tocar em qualquer uma delas <strong>leva você para fora do App</strong>, para o app ou site correspondente, onde a sua navegação e as suas interações são tratadas por esse serviço segundo a política de privacidade dele, e não esta. <strong>O App não envia nenhum dado a essas plataformas.</strong> As entradas de e-mail apenas preenchem previamente, no editor de e-mail do sistema, o destinatário, um assunto e um pequeno bloco com a versão do App, a versão do sistema operacional, o modelo do dispositivo e o idioma da interface; escolher <strong>Relatar um problema</strong> também anexa um relatório de diagnóstico (consulte a Seção 5). Tudo isso fica visível antes do envio, e cabe a você decidir se envia — e o que remover.</p>
+    <p>Fora esses casos e da divulgação exigida por lei (abaixo), não há nenhum outro destinatário de dados.</p>
+    <p>Se recebermos uma requisição legal de dados de uma autoridade competente, só poderemos fornecer as informações que de fato possuímos. <strong>Como não possuímos os dados do seu livro, uma requisição desse tipo não tem efeito sobre o conteúdo do seu livro</strong>; as requisições relativas a dados armazenados no iCloud devem ser dirigidas à Apple.</p>
+
+    <h2 id="pt-s10">10. Retenção e exclusão</h2>
+    <p>Como os dados estão com você, é você quem decide por quanto tempo eles são mantidos. Para excluí-los:</p>
+    <ul>
+      <li><strong>Um único registro:</strong> exclua o lançamento, a conta ou o anexo no App.</li>
+      <li><strong>Tudo:</strong> os Ajustes oferecem “Apagar todos os dados”, que exige um código de confirmação e destrói e recria o armazenamento atual.</li>
+      <li><strong>A cópia no iCloud:</strong> escolha “Excluir cópia do iCloud” ao desativar a Sincronização do iCloud, ou exclua os dados do App em <em>Ajustes › Conta Apple › iCloud › Gerenciar Armazenamento da Conta</em>. <strong>Observe que excluir a cópia na nuvem também encerra todo compartilhamento de livros que você iniciou, e os membros perdem o acesso.</strong></li>
+      <li><strong>O App:</strong> apagar o App do seu dispositivo remove todos os dados locais do sandbox dele. Qualquer cópia no iCloud precisa ser excluída separadamente, conforme descrito acima.</li>
+    </ul>
+    <p>Cabe a você excluir os arquivos de backup que tiver exportado para outros lugares.</p>
+
+    <h2 id="pt-s11">11. Seus direitos</h2>
+    <p>Nos termos da legislação aplicável — incluindo a Lei de Proteção de Informações Pessoais da China (PIPL), o RGPD da UE e a CCPA/CPRA da Califórnia — você tem direito de ser informado sobre suas informações pessoais, de acessá-las, copiá-las, corrigi-las, complementá-las, excluí-las e portá-las, bem como de revogar o consentimento.</p>
+    <p>Neste App, <strong>exercer esses direitos não exige nenhuma solicitação a nós nem nenhuma aprovação nossa</strong>, porque os dados sempre estiveram nas suas mãos:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Direito</th><th>Como exercê-lo</th></tr></thead>
+      <tbody>
+        <tr><td>Acesso / cópia</td><td>Todos os dados ficam visíveis no App; exporte um backup para obter uma cópia completa</td></tr>
+        <tr><td>Portabilidade</td><td>Exporte um arquivo de backup; o histórico de lançamentos também pode ser exportado em um formato de planilha comum</td></tr>
+        <tr><td>Correção</td><td>Edite o registro diretamente no App</td></tr>
+        <tr><td>Exclusão</td><td>Consulte a Seção 10 acima</td></tr>
+        <tr><td>Revogação do consentimento</td><td>Desative a Sincronização do iCloud, pare de compartilhar um livro ou revogue a permissão da câmera e outras permissões nos Ajustes do sistema</td></tr>
+        <tr><td>Oposição a decisões automatizadas</td><td>O App não realiza nenhuma tomada de decisão automatizada nem definição de perfis</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Se você acredita que seus direitos não foram respeitados, ou se tiver dúvidas sobre esta política, entre em contato conosco conforme a Seção 16. Responderemos em até 30 dias. Você também tem o direito de apresentar uma reclamação à autoridade de proteção de dados do seu país ou região.</p>
+
+    <h2 id="pt-s12">12. Crianças</h2>
+    <p>O App foi projetado para adultos. Ele não é direcionado a crianças e não coleta intencionalmente informações pessoais de crianças. Se você tiver menos de 14 anos, use o App com o consentimento e a orientação de um dos pais ou responsável legal. Como o App não transmite nenhuma informação pessoal para nós, não temos nenhuma informação sobre a idade de qualquer usuário; um responsável legal que queira apagar os dados de um dispositivo pode fazê-lo diretamente conforme a Seção 10.</p>
+    <p><strong>Sinal de faixa etária:</strong> nos dispositivos e nas regiões em que a lei o exige, o App consulta a API Declared Age Range da Apple para obter a sua faixa etária. A Apple retorna apenas uma faixa etária, <strong>não a sua data de nascimento</strong>. O resultado é usado somente no seu dispositivo, exclusivamente para decidir se é necessário o consentimento dos pais antes de alterações significativas no App; ele é <strong>mantido apenas na memória — nunca armazenado, nunca sincronizado e nunca enviado a nós</strong>.</p>
+
+    <h2 id="pt-s13">13. Segurança</h2>
+    <ul>
+      <li>Os dados locais são isolados pelo sandbox do iOS; os arquivos de anexo usam a proteção de arquivos do sistema e ficam criptografados enquanto o dispositivo estiver bloqueado.</li>
+      <li>A transmissão e o armazenamento no iCloud são criptografados pela Apple; consulte a documentação da Apple para mais detalhes.</li>
+      <li>Os arquivos de backup podem ser criptografados com AES usando uma senha escolhida por você e que nunca armazenamos.</li>
+      <li>Não possuímos nenhum dado seu, portanto não existe para eles o cenário de “fomos invadidos”.</li>
+    </ul>
+    <p>Dito isso, <strong>a segurança do seu dispositivo é a base de tudo isso.</strong> Defina um código, ative o desbloqueio biométrico, mantenha o iOS atualizado e tenha cautela com dispositivos desbloqueados (jailbreak) e com arquivos de backup de origem desconhecida. Nenhuma medida de segurança é absoluta.</p>
+
+    <h2 id="pt-s14">14. Transferências internacionais</h2>
+    <p>Não recebemos nem transmitimos suas informações pessoais, portanto não há nenhuma transferência internacional iniciada por nós. Se você ativar a Sincronização do iCloud, o local de armazenamento é determinado pela Apple com base no país ou na região da sua Conta Apple (por exemplo, os serviços do iCloud na China continental são operados pela GCBD). Para esses arranjos e salvaguardas, consulte a <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Política de Privacidade da Apple</a> e os termos do iCloud.</p>
+
+    <h2 id="pt-s15">15. Alterações nesta política</h2>
+    <p>Se as práticas de dados do App mudarem, atualizaremos esta página e revisaremos a data de “Última atualização” no topo. Em caso de alterações relevantes — como a introdução de qualquer forma de envio de dados —, exibiremos um aviso destacado no App e, quando exigido, pediremos novamente o seu consentimento. As versões anteriores desta página podem ser consultadas no repositório público deste site.</p>
+
+    <h2 id="pt-s16">16. Fale conosco</h2>
+    <p>Para qualquer dúvida sobre esta política ou sobre os seus dados, envie um e-mail para <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</p>
+    <p>Incluir a versão do App e a versão do iOS nos ajuda a responder mais rápido.</p>
+
+    <hr>
+    <p class="doc-meta">Em caso de qualquer divergência entre esta versão em português e a <a href="?lang=zh">versão em chinês</a>, prevalece a versão em chinês.</p>
+  </article>
+
+  <article data-lang="it" lang="it">
+    <h1 class="doc-title">Informativa sulla privacy</h1>
+    <p class="doc-meta"><span>Per l’app iOS Keel (nome cinese: 司元)</span><span>In vigore dal: 28 luglio 2026</span><span>Ultimo aggiornamento: 5 ottobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">In sintesi</p>
+      <ul>
+        <li><strong>Non gestiamo alcun server.</strong> L’app non invia i dati del tuo libro a nessun server sotto il nostro controllo: un server del genere non esiste.</li>
+        <li><strong>I tuoi dati restano con te.</strong> Per impostazione predefinita si trovano solo sul tuo dispositivo. Raggiungono <strong>il database privato iCloud del tuo Account Apple</strong> solo dopo che hai attivato deliberatamente la sincronizzazione iCloud.</li>
+        <li><strong>Niente pubblicità, niente SDK di analisi, niente tracker, nessun codice di terze parti di alcun tipo.</strong> Non raccogliamo, non vendiamo e non condividiamo i tuoi dati personali.</li>
+        <li><strong>Le funzioni di intelligenza artificiale vengono eseguite sul tuo dispositivo.</strong> Le domande al tuo libro e l’acquisizione delle ricevute usano il modello on-device di Apple Intelligence e il riconoscimento del testo del sistema; i dati del tuo libro non vengono inviati né a noi né ad alcun fornitore esterno di servizi di intelligenza artificiale (l’unica eccezione è un interruttore MCP locale nella versione per macOS, disattivato per impostazione predefinita: vedi la sezione 8).</li>
+        <li><strong>L’app non si collega mai alla tua banca, ai tuoi conti di pagamento o a centrali rischi.</strong> Non scarica alcun estratto conto. Ogni registrazione viene inserita o importata da te.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <h2>Indice</h2>
+      <ol>
+        <li><a href="#it-s1">1. Chi fornisce questa app</a></li>
+        <li><a href="#it-s2">2. Quali dati tratta l’app</a></li>
+        <li><a href="#it-s3">3. Dove si trovano i tuoi dati</a></li>
+        <li><a href="#it-s4">4. Autorizzazioni del dispositivo</a></li>
+        <li><a href="#it-s5">5. Diagnostica e dati sugli arresti anomali</a></li>
+        <li><a href="#it-s6">6. Acquisti e abbonamenti</a></li>
+        <li><a href="#it-s7">7. Importazione, esportazione e backup</a></li>
+        <li><a href="#it-s8">8. Come le funzioni di intelligenza artificiale trattano i tuoi dati</a></li>
+        <li><a href="#it-s9">9. Terze parti: cosa non facciamo</a></li>
+        <li><a href="#it-s10">10. Conservazione e cancellazione</a></li>
+        <li><a href="#it-s11">11. I tuoi diritti</a></li>
+        <li><a href="#it-s12">12. Minori</a></li>
+        <li><a href="#it-s13">13. Sicurezza</a></li>
+        <li><a href="#it-s14">14. Trasferimenti internazionali</a></li>
+        <li><a href="#it-s15">15. Modifiche alla presente informativa</a></li>
+        <li><a href="#it-s16">16. Contattaci</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="it-s1">1. Chi fornisce questa app</h2>
+    <p>Keel (nome cinese 司元, l’«App») è sviluppata e pubblicata da <strong>gwongsam</strong>, sviluppatore indipendente («noi»).</p>
+    <p>La presente informativa spiega come l’App tratta le tue informazioni. Un presupposto la attraversa tutta: <strong>l’App non dispone di alcun nostro server di backend</strong> e i contenuti del tuo libro non ci raggiungono mai. Gran parte di quanto segue descrive quindi come i dati si spostano tra <strong>il tuo dispositivo</strong> e <strong>il tuo account iCloud</strong>.</p>
+
+    <h2 id="it-s2">2. Quali dati tratta l’app</h2>
+    <p>I dati seguenti vengono creati da te mentre usi l’App e sono memorizzati sul tuo dispositivo:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Categoria</th><th>Contenuto</th></tr></thead>
+      <tbody>
+        <tr><td>Dati del libro</td><td>Libri, movimenti (entrate, spese, trasferimenti, operazioni su attività, rimborsi, rettifiche), importi, valute, date, note</td></tr>
+        <tr><td>Dati dei conti</td><td>Nomi, tipi e saldi dei conti che crei; cicli di fatturazione delle carte di credito, erogazioni di prestiti e piani di rimborso, ordini «Compra ora, paga dopo», conti prepagati e a valore memorizzato</td></tr>
+        <tr><td>Organizzazione</td><td>Categorie, tag, progetti e controparti (persone o istituti a cui sei tu a dare un nome)</td></tr>
+        <tr><td>Allegati</td><td>Immagini e PDF di ricevute, fatture e documenti che aggiungi</td></tr>
+        <tr><td>Impostazioni</td><td>Lingua, opzioni di visualizzazione, libro predefinito, budget, schemi di raggruppamento dei rendiconti e altre preferenze dell’App</td></tr>
+        <tr><td>Tassi di cambio</td><td>Tassi che inserisci manualmente, oltre a una cache di tassi di mercato pubblicamente disponibili</td></tr>
+        <tr><td>Diagnostica</td><td>Log di esecuzione, registri degli errori e metriche su arresti anomali e prestazioni fornite dal sistema</td></tr>
+        <tr><td>Ricevute di acquisto</td><td>Ricevute delle transazioni dell’App Store e stato dei diritti di accesso a Premium</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>L’App <strong>non richiede, non raccoglie e non tratta</strong> il tuo nome legale, numeri di documenti d’identità, numero di telefono, indirizzo e-mail, numeri di carta, credenziali bancarie o di pagamento, contatti, posizione, dati sanitari, identificatori pubblicitari (IDFA) o impronte digitali del dispositivo (fingerprinting).</p>
+
+    <div class="note">
+      <p>Per sua natura, un libro contabile può contenere informazioni finanziarie sensibili. Proprio per questo l’App è progettata in modo che tali dati <strong>restino sotto il tuo controllo</strong>: mai caricati sui nostri server, mai consegnati a strumenti di analisi di terze parti.</p>
+    </div>
+
+    <h2 id="it-s3">3. Dove si trovano i tuoi dati</h2>
+
+    <h3>3.1 Sul tuo dispositivo (impostazione predefinita)</h3>
+    <p>In origine, tutto quanto sopra è memorizzato localmente: il database del libro si trova nel contenitore sandbox dell’app e i file allegati sono conservati nell’archivio file dell’app con la protezione dei file di sistema attiva (cifrati e illeggibili mentre il dispositivo è bloccato). La sandbox di iOS impedisce alle altre app di leggerne qualsiasi parte.</p>
+    <p>Se non attivi mai la sincronizzazione iCloud e non esporti mai un backup, i dati del tuo libro <strong>non lasciano mai quel dispositivo</strong>.</p>
+
+    <h3>3.2 Sincronizzazione iCloud (disattivata per impostazione predefinita; devi attivarla tu)</h3>
+    <p>Puoi attivare la sincronizzazione iCloud in <em>Impostazioni › Privacy e sincronizzazione</em>. Una volta attivata:</p>
+    <ul>
+      <li>Libri, movimenti, conti, categorie, tassi di cambio, impostazioni dell’app e allegati vengono memorizzati nel <strong>database privato iCloud del tuo Account Apple</strong> (database privato CloudKit), così da poter essere sincronizzati tra i tuoi dispositivi.</li>
+      <li>Questi dati sono <strong>ospitati da Apple</strong> all’interno della tua quota di spazio iCloud. <strong>Non possiamo accedervi, leggerli né esportarli.</strong> Gli sviluppatori non hanno accesso al database privato di un utente: è così che è progettata l’architettura di CloudKit di Apple, non si tratta di una semplice promessa da parte nostra.</li>
+      <li>Il trattamento di questi dati da parte di Apple è disciplinato dall’<a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Informativa sulla privacy di Apple</a>.</li>
+      <li>La sincronizzazione usa notifiche push silenziose per indicare a un dispositivo di scaricare le modifiche. Tali notifiche non contengono alcun contenuto del libro.</li>
+      <li>Puoi disattivare la sincronizzazione in qualsiasi momento e scegliere di conservare una copia locale oppure di richiedere anche la cancellazione della copia memorizzata su iCloud.</li>
+    </ul>
+
+    <h3>3.3 Libri condivisi</h3>
+    <p>Puoi condividere un libro con altre persone per collaborare. La condivisione è <strong>sempre avviata da te</strong>:</p>
+    <ul>
+      <li>La condivisione si basa sul meccanismo di condivisione iCloud di Apple: generi un link di condivisione iCloud e lo invii tu stesso all’altra persona.</li>
+      <li>I membri che accettano il tuo invito possono accedere ai contenuti di <strong>quel libro</strong>, compresi i movimenti e gli allegati, con il livello di autorizzazione che concedi (sola lettura o lettura e scrittura). I libri che non hai condiviso non sono interessati.</li>
+      <li>Affinché l’elenco dei membri mostri chi è chi, l’App visualizza le informazioni sull’identità dei partecipanti fornite da Apple (ad esempio il nome con cui la persona si presenta tramite la condivisione di sistema). Puoi anche assegnare a un membro un soprannome visibile solo localmente.</li>
+      <li>Puoi rimuovere un membro o interrompere la condivisione in qualsiasi momento, revocandone così l’accesso.</li>
+      <li><strong>Scegli con attenzione con chi condividere.</strong> Una volta ottenuto l’accesso, una persona può visualizzare o copiare il contenuto di quel libro, il che esula dal nostro controllo tecnico.</li>
+    </ul>
+
+    <h3>3.4 Tassi di cambio online</h3>
+    <p>L’App può scaricare tassi di cambio di riferimento per la conversione tra più valute. Questa funzione:</p>
+    <ul>
+      <li>esegue un recupero in <strong>sola lettura</strong> da un <strong>database pubblico iCloud</strong> (database pubblico CloudKit);</li>
+      <li><strong>non carica nulla</strong>: né il tuo libro, né i conti, né le preferenze di valuta, né alcun identificatore;</li>
+      <li>scarica solo dati pubblici sui tassi di mercato, che non contengono informazioni personali;</li>
+      <li>dà sempre la precedenza ai tassi che inserisci manualmente.</li>
+    </ul>
+    <p>I tassi servono solo alla conversione contabile e non costituiscono una quotazione per alcuna transazione; vedi <a href="../terms/#it-s6">Termini di servizio, sezione 6</a>.</p>
+
+    <h2 id="it-s4">4. Autorizzazioni del dispositivo</h2>
+    <p>L’App richiede le autorizzazioni seguenti solo quando usi la funzione corrispondente. Puoi rifiutarne qualsiasi; il resto dell’App continua a funzionare.</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Autorizzazione</th><th>Finalità</th><th>Dove vanno i dati</th></tr></thead>
+      <tbody>
+        <tr><td>Fotocamera</td><td>Fotografare ricevute e fatture, o usare la scansione dei documenti, per allegarle alle registrazioni</td><td>Memorizzati nell’archivio locale degli allegati; sincronizzati nel tuo database privato iCloud insieme agli altri allegati se la sincronizzazione iCloud è attiva</td></tr>
+        <tr><td>Foto / File</td><td>Scegliere immagini o PDF esistenti come allegati, oppure selezionare un file di backup o un foglio di calcolo da importare</td><td>Come sopra. Il sistema consegna all’App solo i file che hai scelto; l’App non può sfogliare ciò che non hai selezionato</td></tr>
+        <tr><td>Libreria foto (solo aggiunta)</td><td>Salvare il codice QR di WeChat o Douyin nella tua libreria foto toccando <strong>Salva codice QR in Foto</strong> in <strong>Impostazioni › Contatti e feedback</strong> (solo versioni per iOS e iPadOS)</td><td>L’App scrive nella tua libreria quell’unica immagine del codice QR e nient’altro. L’accesso in sola aggiunta è di sola scrittura: l’App <strong>non può vedere né sfogliare</strong> alcun contenuto della tua libreria foto</td></tr>
+        <tr><td>Notifiche</td><td>Ricevere le notifiche push silenziose che la sincronizzazione iCloud usa per scaricare le modifiche dagli altri tuoi dispositivi o dai membri dei libri condivisi</td><td>I contenuti delle notifiche push non includono dati del libro</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>L’App <strong>non richiede</strong> autorizzazioni per posizione, contatti, microfono, calendario, dati sanitari o per la trasparenza sul tracciamento delle app (App Tracking Transparency).</p>
+
+    <h2 id="it-s5">5. Diagnostica e dati sugli arresti anomali</h2>
+    <p>Per poter diagnosticare i problemi, l’App registra sul dispositivo log di esecuzione e informazioni sugli errori e riceve metriche su arresti anomali e prestazioni fornite dal sistema (Apple MetricKit). Riguardo a questi dati:</p>
+    <ul>
+      <li><strong>Restano sul tuo dispositivo.</strong> Vengono ruotati ed eliminati automaticamente in base a dimensione e anzianità; nelle Impostazioni puoi verificare quanto spazio occupano e cancellarli.</li>
+      <li><strong>Non ci vengono mai inviati automaticamente.</strong> Li vediamo solo se esporti deliberatamente il log di diagnostica dall’App e ce lo invii, ad esempio via e-mail. Puoi esaminarne il contenuto prima dell’invio.</li>
+      <li>I log registrano tipi di operazione, codici di errore e contesto tecnico per individuare i guasti. Facciamo attenzione a escludere i dettagli del libro, ma non possiamo escludere che frammenti di testo, come una nota o il nome di un conto, compaiano nel contesto di un errore. <strong>Esamina il log prima di inviarlo se potrebbe contenere qualcosa che preferisci non condividere.</strong></li>
+    </ul>
+    <p>Separatamente, se hai attivato «Condividi analisi iPhone» nelle Impostazioni di iOS, Apple può fornirci tramite App Store Connect statistiche sugli arresti anomali e sull’utilizzo <strong>aggregate e non identificative</strong>. Questo canale è controllato da Apple e puoi disattivarlo in qualsiasi momento in <em>Impostazioni › Privacy e sicurezza › Analisi e miglioramenti</em>.</p>
+
+    <h2 id="it-s6">6. Acquisti e abbonamenti</h2>
+    <ul>
+      <li><strong>Il pagamento è gestito da Apple. Non vediamo mai i tuoi dati di pagamento</strong>: né il numero della carta, né la password dell’Account Apple, né l’indirizzo di fatturazione.</li>
+      <li>L’App riceve dall’App Store le ricevute delle transazioni per verificare se il tuo diritto di accesso a Premium è valido. Tali ricevute sono utilizzate per sbloccare le funzioni sul dispositivo.</li>
+      <li>Apple ci fornisce report su vendite e abbonamenti. Questi report sono <strong>aggregati</strong> e non contengono informazioni che identifichino una persona.</li>
+      <li>Acquisti, rimborsi, gestione degli abbonamenti e disdetta sono disciplinati dai <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Termini e condizioni dei servizi multimediali Apple</a>.</li>
+    </ul>
+    <p>Le condizioni commerciali relative agli acquisti si trovano nei <a href="../terms/#it-s3">Termini di servizio, sezione 3</a>.</p>
+
+    <h2 id="it-s7">7. Importazione, esportazione e backup</h2>
+    <ul>
+      <li><strong>Importazione (file):</strong> puoi importare movimenti storici da fogli di calcolo esportati da altre app di contabilità (ad esempio i file xlsx / CSV di Qianji). I file vengono <strong>elaborati interamente sul tuo dispositivo</strong> e non vengono caricati da nessuna parte.</li>
+      <li><strong>Importazione (YNAB, diretta):</strong> se usi YNAB, puoi incollare il tuo token di accesso personale e l’App legge i tuoi dati di budget direttamente dall’API di YNAB, <strong>senza mai passare da un nostro server</strong> (non ne abbiamo). Si tratta di una lettura unidirezionale: nulla viene scritto su YNAB e nessun contenuto del libro di questa App vi viene inviato. Il token resta nella memoria di questo dispositivo e viene cancellato al termine dell’importazione: non viene mai scritto su disco, mai sincronizzato con iCloud, mai incluso in un backup.</li>
+      <li><strong>Esportazione del backup:</strong> puoi esportare un backup completo. I backup supportano la cifratura AES con una passphrase da te impostata. <strong>Senza passphrase, il file esportato non è cifrato</strong> e chiunque ne entri in possesso può leggere il tuo libro: conservalo con cura.</li>
+      <li><strong>Sei tu a scegliere la destinazione.</strong> I backup vengono passati al foglio di condivisione del sistema e finiscono ovunque tu li invii (File, iCloud Drive, e-mail, un servizio cloud di terze parti). Una volta che un file esce dall’App, si applica l’informativa sulla privacy di quella destinazione, non la presente.</li>
+      <li><strong>Non possiamo recuperare una passphrase.</strong> Viene usata solo per la cifratura e la decifratura e non viene mai memorizzata né trasmessa. Se dimentichi la passphrase, quel backup non può essere ripristinato.</li>
+    </ul>
+
+    <h2 id="it-s8">8. Come le funzioni di intelligenza artificiale trattano i tuoi dati</h2>
+    <p>Due funzioni dell’App si basano sull’intelligenza artificiale ed entrambe vengono eseguite <strong>sul tuo dispositivo</strong>:</p>
+    <ul>
+      <li><strong>Domande al tuo libro (l’assistente):</strong> fai una domanda in linguaggio naturale e l’App recupera solo la parte del tuo libro necessaria a quella domanda (conti e saldi, registrazioni, budget, impegni in scadenza) e la passa al modello.</li>
+      <li><strong>Acquisizione delle ricevute:</strong> le fornisci la foto di un conto o di una ricevuta, l’App ne riconosce il testo e prepara una bozza di registrazione che sarai tu a confermare. Elabora solo l’immagine che le hai fornito.</li>
+    </ul>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Domanda</th><th>Risposta</th></tr></thead>
+      <tbody>
+        <tr><td>Che cosa viene inviato al modello</td><td>Solo la parte del tuo libro necessaria alla domanda corrente; per l’acquisizione delle ricevute, l’unica immagine che hai selezionato</td></tr>
+        <tr><td>Che cosa esegue l’elaborazione</td><td>Il <strong>modello on-device di Apple Intelligence</strong> (framework Foundation Models di Apple) e il riconoscimento del testo integrato nel sistema (Vision), sul tuo dispositivo</td></tr>
+        <tr><td>Dove vanno i dati</td><td><strong>Non lasciano il tuo dispositivo.</strong> Non vengono inviati allo sviluppatore né ad alcun fornitore esterno di servizi di intelligenza artificiale</td></tr>
+        <tr><td>Vengono usati per l’addestramento?</td><td>No. I dati del tuo libro non vengono mai usati per addestrare alcun modello</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Prima ti viene chiesto il permesso.</strong> La prima volta che apri l’assistente, l’App mostra una schermata a tutto schermo che illustra quanto sopra e la conversazione inizia solo dopo la tua conferma; fino ad allora l’assistente non legge nulla dal tuo libro. Puoi inoltre disattivare l’intero gruppo di funzioni in qualsiasi momento in Impostazioni › Privacy e sincronizzazione › Siri e Comandi rapidi; dopodiché il punto di accesso all’assistente scompare.</p>
+    <p>Le due funzioni hanno requisiti diversi per il dispositivo: le <strong>domande al tuo libro</strong> richiedono un dispositivo che supporti Apple Intelligence, con la funzione attivata (non ancora disponibile nella Cina continentale); l’<strong>acquisizione delle ricevute</strong> usa il riconoscimento del testo proprio del sistema e non richiede Apple Intelligence. Se i requisiti non sono soddisfatti, il punto di accesso corrispondente non viene visualizzato.</p>
+
+    <div class="note">
+      <p><strong>Un’eccezione, solo su macOS: MCP locale.</strong> La versione per macOS offre un interruttore chiamato «MCP locale su Mac», <strong>disattivato per impostazione predefinita</strong>. Una volta attivato, i client di intelligenza artificiale in esecuzione su quel Mac (ad esempio Claude Desktop o Claude Code) possono leggere i dati del libro e avviare bozze di registrazione tramite una connessione di loopback, e <strong>tali contenuti del libro vengono inviati, come parte della conversazione, al fornitore di servizi di intelligenza artificiale a cui il client è collegato</strong> (ad esempio Anthropic); da quel momento a tali contenuti si applica l’informativa sulla privacy di quel fornitore anziché la presente. Attivarlo è interamente una tua scelta e puoi annullarla in qualsiasi momento; anche con l’interruttore attivo, nulla viene registrato finché non lo confermi all’interno dell’App.</p>
+      <p><strong>Le versioni per iOS e iPadOS non includono questo canale</strong>: tali versioni non contengono alcun percorso che consegni dati del libro a un servizio esterno di intelligenza artificiale.</p>
+    </div>
+
+    <h2 id="it-s9">9. Terze parti: cosa non facciamo</h2>
+    <p>Per non lasciare ambiguità, ecco ciò che l’App <strong>non</strong> fa:</p>
+    <ul>
+      <li>Non è integrato alcun SDK di terze parti per analisi, telemetria, segnalazione degli arresti anomali o test A/B;</li>
+      <li>Non viene mostrata pubblicità e non è integrata alcuna rete pubblicitaria;</li>
+      <li>Nessun cookie, pixel, fingerprinting del dispositivo o tracciamento tra app di alcun tipo;</li>
+      <li>Non vendiamo, non affittiamo e non condividiamo i tuoi dati personali per finalità di marketing, anche ai sensi dei significati di «vendere» («sell») e «condividere» («share») previsti dalla legge della California;</li>
+      <li>Non usiamo i dati del tuo libro per addestrare modelli di apprendimento automatico;</li>
+      <li>Non forniamo i tuoi dati a data broker, centrali rischi, istituti finanziari o qualsiasi altra terza parte.</li>
+    </ul>
+    <p>Per impostazione predefinita è coinvolto esattamente un solo soggetto esterno: <strong>Apple</strong>, in qualità di fornitore della piattaforma per l’archiviazione iCloud, la condivisione e i servizi di pagamento. Esistono altri due canali <strong>solo se li avvii tu</strong>, e nessuno dei due è attivo per impostazione predefinita:</p>
+    <ul>
+      <li><strong>Importazione da YNAB (sezione 7):</strong> dopo che hai incollato il tuo token di accesso personale YNAB, l’App legge i <strong>tuoi</strong> dati di budget direttamente dall’API di YNAB. Si tratta di una lettura unidirezionale: nulla viene riscritto su YNAB e nessun contenuto del libro di questa App vi viene inviato. Il token resta nella memoria di questo dispositivo e viene cancellato al termine dell’importazione.</li>
+      <li><strong>MCP locale nella versione per macOS (sezione 8):</strong> una volta attivato, i contenuti del libro raggiungono il fornitore di servizi di intelligenza artificiale che hai collegato. Le versioni per iOS e iPadOS non dispongono di tale canale.</li>
+    </ul>
+    <p><strong>Link esterni nella pagina Contatti e feedback.</strong> <strong>Impostazioni › Contatti e feedback</strong> elenca l’e-mail insieme a piattaforme social come Discord, RED (Xiaohongshu), X, TikTok, WeChat e Douyin. Queste voci sono integrate nell’App; l’apertura della pagina non effettua alcuna richiesta di rete. Toccando una qualsiasi di esse <strong>esci dall’App</strong> e passi all’app o al sito web corrispondente, dove la tua navigazione e le tue interazioni sono gestite da quel servizio secondo la sua informativa sulla privacy, non la presente. <strong>L’App non invia alcun dato a queste piattaforme.</strong> Le voci e-mail si limitano a precompilare, nel compositore di posta del sistema, il destinatario, un oggetto e un breve blocco che indica la versione dell’app, la versione del sistema operativo, il modello del dispositivo e la lingua dell’interfaccia; scegliendo <strong>Segnala un problema</strong> viene inoltre allegato un report di diagnostica (vedi la sezione 5). Tutto è visibile prima dell’invio e sta a te decidere se inviarlo e che cosa rimuovere.</p>
+    <p>Al di fuori di questi casi e della comunicazione imposta dalla legge (vedi sotto), non vi sono altri destinatari dei dati.</p>
+    <p>Se riceviamo una richiesta legittima di dati da un’autorità competente, possiamo fornire solo le informazioni effettivamente in nostro possesso. <strong>Poiché non deteniamo i dati del tuo libro, una tale richiesta non ha alcun effetto sui contenuti del tuo libro</strong>; le richieste relative ai dati memorizzati su iCloud devono essere rivolte ad Apple.</p>
+
+    <h2 id="it-s10">10. Conservazione e cancellazione</h2>
+    <p>Poiché sei tu a detenere i dati, sei tu a decidere per quanto tempo conservarli. Per cancellarli:</p>
+    <ul>
+      <li><strong>Una singola registrazione:</strong> elimina il movimento, il conto o l’allegato nell’App.</li>
+      <li><strong>Tutto:</strong> le Impostazioni offrono «Cancella tutti i dati», che richiede un codice di conferma e distrugge e ricrea l’archivio corrente.</li>
+      <li><strong>La copia su iCloud:</strong> scegli «Elimina copia iCloud» quando disattivi la sincronizzazione iCloud, oppure elimina i dati dell’app in <em>Impostazioni › Account Apple › iCloud › Gestisci spazio dell’account</em>. <strong>Tieni presente che l’eliminazione della copia nel cloud pone fine anche a qualsiasi condivisione di libri da te avviata e i membri perdono l’accesso.</strong></li>
+      <li><strong>L’app:</strong> eliminando l’App dal dispositivo si rimuovono tutti i dati locali nella sua sandbox. Un’eventuale copia su iCloud deve essere eliminata separatamente, come sopra.</li>
+    </ul>
+    <p>Spetta a te eliminare i file di backup che hai esportato altrove.</p>
+
+    <h2 id="it-s11">11. I tuoi diritti</h2>
+    <p>In base alla normativa applicabile, tra cui la legge cinese sulla protezione delle informazioni personali (PIPL), il regolamento generale sulla protezione dei dati dell’UE (GDPR) e il CCPA/CPRA della California, hai il diritto di essere informato sui tuoi dati personali, di accedervi, di ottenerne copia, di rettificarli, integrarli, cancellarli e portarli, nonché di revocare il consenso.</p>
+    <p>In questa App, <strong>l’esercizio di tali diritti non richiede alcuna richiesta né alcuna approvazione da parte nostra</strong>, perché i dati sono sempre stati nelle tue mani:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Diritto</th><th>Come esercitarlo</th></tr></thead>
+      <tbody>
+        <tr><td>Accesso / copia</td><td>Tutti i dati sono visibili nell’App; esporta un backup per ottenerne una copia completa</td></tr>
+        <tr><td>Portabilità</td><td>Esporta un file di backup; lo storico dei movimenti può essere esportato anche in un formato di foglio di calcolo comune</td></tr>
+        <tr><td>Rettifica</td><td>Modifica la registrazione direttamente nell’App</td></tr>
+        <tr><td>Cancellazione</td><td>Vedi la sezione 10 sopra</td></tr>
+        <tr><td>Revoca del consenso</td><td>Disattiva la sincronizzazione iCloud, interrompi la condivisione di un libro o revoca le autorizzazioni per la fotocamera e le altre nelle Impostazioni di sistema</td></tr>
+        <tr><td>Opposizione alle decisioni automatizzate</td><td>L’App non effettua alcun processo decisionale automatizzato né alcuna profilazione</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Se ritieni che i tuoi diritti non siano stati rispettati, o hai domande sulla presente informativa, contattaci come indicato nella sezione 16. Ti risponderemo entro 30 giorni. Hai inoltre il diritto di proporre reclamo all’autorità di controllo per la protezione dei dati competente nel tuo paese.</p>
+
+    <h2 id="it-s12">12. Minori</h2>
+    <p>L’App è pensata per gli adulti. Non è rivolta ai minori e non raccoglie consapevolmente dati personali di minori. Se hai meno di 14 anni, usa l’App con il consenso e sotto la guida di un genitore o tutore. Poiché l’App non ci trasmette alcun dato personale, non deteniamo informazioni sull’età di alcun utente; un genitore o tutore che desideri cancellare i dati da un dispositivo può farlo direttamente seguendo la sezione 10.</p>
+    <p><strong>Segnale della fascia d’età:</strong> sui dispositivi e nelle regioni in cui la legge lo richiede, l’App chiede la tua fascia d’età tramite l’API Declared Age Range di Apple. Apple restituisce solo una fascia d’età, <strong>non la tua data di nascita</strong>. Il risultato è utilizzato solo sul tuo dispositivo, al solo scopo di stabilire se sia necessario il consenso dei genitori prima di modifiche significative all’App; viene <strong>conservato solo in memoria: mai memorizzato, mai sincronizzato e mai inviato a noi</strong>.</p>
+
+    <h2 id="it-s13">13. Sicurezza</h2>
+    <ul>
+      <li>I dati locali sono isolati dalla sandbox di iOS; i file allegati usano la protezione dei file di sistema e sono cifrati mentre il dispositivo è bloccato.</li>
+      <li>La trasmissione e l’archiviazione su iCloud sono cifrate da Apple; per i dettagli consulta la documentazione di Apple.</li>
+      <li>I file di backup possono essere cifrati con AES mediante una passphrase scelta da te e che non memorizziamo mai.</li>
+      <li>Non deteniamo nessuno dei tuoi dati, quindi per essi non esiste lo scenario «abbiamo subito una violazione».</li>
+    </ul>
+    <p>Detto questo, <strong>la sicurezza del tuo dispositivo è alla base di tutto.</strong> Imposta un codice, attiva lo sblocco biometrico, mantieni iOS aggiornato e presta attenzione ai dispositivi sottoposti a jailbreak e ai file di backup di origine sconosciuta. Nessuna misura di sicurezza è assoluta.</p>
+
+    <h2 id="it-s14">14. Trasferimenti internazionali</h2>
+    <p>Non riceviamo né trasmettiamo i tuoi dati personali, pertanto non vi è alcun trasferimento transfrontaliero avviato da noi. Se attivi la sincronizzazione iCloud, il luogo di archiviazione è stabilito da Apple in base al paese o alla regione del tuo Account Apple (ad esempio, i servizi iCloud per la Cina continentale sono gestiti da GCBD). Per tali disposizioni e garanzie, consulta l’<a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Informativa sulla privacy di Apple</a> e i termini di iCloud.</p>
+
+    <h2 id="it-s15">15. Modifiche alla presente informativa</h2>
+    <p>Se le pratiche dell’App in materia di dati cambiano, aggiorneremo questa pagina e modificheremo la data di «Ultimo aggiornamento» in alto. In caso di modifiche sostanziali, come l’introduzione di qualsiasi forma di caricamento dei dati, mostreremo un avviso ben visibile nell’App e, ove richiesto, ti chiederemo nuovamente il consenso. Le versioni precedenti di questa pagina possono essere consultate nel repository pubblico di questo sito.</p>
+
+    <h2 id="it-s16">16. Contattaci</h2>
+    <p>Per qualsiasi domanda sulla presente informativa o sui tuoi dati, scrivi a <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a>.</p>
+    <p>Indicare la versione dell’app e la versione di iOS ci aiuta a risponderti più rapidamente.</p>
+
+    <hr>
+    <p class="doc-meta">In caso di discrepanze tra la presente versione italiana e la <a href="?lang=zh">versione cinese</a>, prevale la versione cinese.</p>
+  </article>
 </main>
 
 <footer class="site-footer">
   <span>Keel · 司元</span>
   <span class="footer-spacer"></span>
-  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
-  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Términos del servicio</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="pt">Termos de Serviço</span><span data-lang="it">Termini di servizio</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="pt">Política de Privacidade</span><span data-lang="it">Informativa sulla privacy</span></a>
+  <a href="../legal/"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
 </footer>
 
 <script>
 (function () {
-  var d = document.documentElement, btn = document.getElementById('langToggle');
-  if (!btn) return;
-  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
-  function paint() {
-    var zh = current() === 'zh';
-    btn.textContent = zh ? 'EN' : '\u4e2d\u6587';
-    btn.setAttribute('aria-label', zh ? 'Switch to English' : '\u5207\u6362\u5230\u4e2d\u6587');
-  }
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
+  var LABEL = { zh: '语言', en: 'Language', de: 'Sprache', es: 'Idioma', fr: 'Langue', pt: 'Idioma', it: 'Lingua' };
+  var d = document.documentElement, wrap = document.getElementById('langSwitch'), sel = document.getElementById('langSelect');
+  if (!wrap || !sel) return;
+  function current() { var m = /(?:^|\s)lang-([a-z]{2})(?:\s|$)/.exec(d.className); return m && TAG[m[1]] ? m[1] : 'en'; }
+  function paint() { var c = current(); sel.value = c; sel.setAttribute('aria-label', LABEL[c]); }
   paint();
-  btn.hidden = false;
-  btn.addEventListener('click', function () {
-    var next = current() === 'zh' ? 'en' : 'zh';
-    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+  wrap.hidden = false;
+  sel.addEventListener('change', function () {
+    var next = sel.value;
+    if (!TAG[next]) return;
+    var at = location.hash.match(/^#[a-z]{2}-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
-    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    d.lang = TAG[next];
     try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
-    if (at) {
-      var target = document.getElementById(next + '-' + at[1]);
-      if (target) {
-        history.replaceState(null, '', '#' + next + '-' + at[1]);
-        target.scrollIntoView();
-      }
-    }
+    var url = new URL(location.href);
+    if (url.searchParams.has('lang')) url.searchParams.set('lang', next);   /* 带参的地址刷新后别跳回旧语言 */
+    var target = at && document.getElementById(next + '-' + at[1]);
+    if (target) url.hash = '#' + next + '-' + at[1];
+    try { history.replaceState(null, '', url.href); } catch (e) {}
+    if (target) target.scrollIntoView();
   });
 })();
 </script>

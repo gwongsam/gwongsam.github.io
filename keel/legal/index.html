@@ -8,22 +8,28 @@
 <link rel="icon" href="../logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/legal.css">
 <script>
-/* 在首帧前定语言，避免中英文闪一下。无 JS 时 <html> 不带 class，两种语言都显示——
-   法律文档必须在脚本挂掉时依然完整可读。 */
+/* 在首帧前定语言，避免各语言闪一下。无 JS 时 <html> 不带 class，所有语言都显示——
+   法律文档必须在脚本挂掉时依然完整可读。
+   判定：?lang= → #<语言>-sN 锚点 → localStorage 上次选择 → 浏览器语言偏好（按顺序取第一个支持的）→ 英文。
+   ?lang= 同时记进 localStorage：App 带参打开某一页后，点页内链接去别的页也停在同一语言。 */
 (function () {
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
   var d = document.documentElement, lang = null;
+  function norm(x) { x = String(x || '').toLowerCase().split(/[-_]/)[0]; return TAG.hasOwnProperty(x) ? x : null; }
   try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'zh' || q === 'en') lang = q;
-    else if (location.hash.indexOf('#en-') === 0) lang = 'en';
-    else if (location.hash.indexOf('#zh-') === 0) lang = 'zh';
-    else lang = localStorage.getItem('site-lang');
+    var q = norm(new URLSearchParams(location.search).get('lang'));
+    var h = /^#([a-z]{2})-s\d+$/.exec(location.hash);
+    if (q) { lang = q; localStorage.setItem('site-lang', q); }
+    else if (h && norm(h[1])) lang = h[1];
+    else lang = norm(localStorage.getItem('site-lang'));
   } catch (e) {}
-  if (lang !== 'zh' && lang !== 'en') {
-    lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  if (!lang) {
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < prefs.length && !lang; i++) lang = norm(prefs[i]);
   }
+  if (!lang) lang = 'en';
   d.className = 'lang-' + lang;
-  d.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  d.lang = TAG[lang];
 })();
 </script>
 </head>
@@ -34,18 +40,28 @@
     <img class="brand-mark" src="../logo.svg" alt="" width="22" height="22">
     Keel <span class="brand-sub">司元</span>
   </a>
+  <label class="lang-switch" id="langSwitch" hidden>
+    <select id="langSelect" aria-label="Language / 语言">
+      <option value="zh" lang="zh-Hans">中文</option>
+      <option value="en" lang="en">English</option>
+      <option value="de" lang="de">Deutsch</option>
+      <option value="es" lang="es">Español</option>
+      <option value="fr" lang="fr">Français</option>
+      <option value="pt" lang="pt-BR">Português</option>
+      <option value="it" lang="it">Italiano</option>
+    </select>
+  </label>
   <nav class="doc-nav">
-    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span></a>
-    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
-    <a href="./" aria-current="page"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+    <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+    <a href="../terms/"><span data-lang="zh">条款</span><span data-lang="en">Terms</span><span data-lang="de">Bedingungen</span><span data-lang="es">Términos</span><span data-lang="fr">Conditions</span><span data-lang="pt">Termos</span><span data-lang="it">Termini</span></a>
+    <a href="../privacy/"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span><span data-lang="es">Privacidad</span><span data-lang="fr">Confidentialité</span><span data-lang="pt">Privacidade</span><span data-lang="it">Privacy</span></a>
+    <a href="./" aria-current="page"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
   </nav>
-  <button class="lang-toggle" id="langToggle" type="button" hidden>EN</button>
 </header>
 
-<!-- 日文特商法表记在两篇 article 里各放一整份（无 JS 时两份都显示，与本站「双语表格整表复制」的做法一致）。
-     改动时两份必须同步。提供者姓名、地址须与 App Store Connect 的 DSA 商家信息保持一致；
-     邮箱 2026-10-05 起改为 keel@gwongsam.net（旧 gmail 地址仍转发）；DSA 商家信息里的邮箱是否同步由所有者决定。
+<!-- 日文特商法表记在每种语言的 article 里各放一整份（无 JS 时每份都显示，与本站「多语表格整表复制」的做法一致）。
+     改动时每一份都必须同步（七种语言就是七份）。提供者姓名、地址须与 App Store Connect 的 DSA 商家信息保持一致；
+     邮箱 2026-10-05 起改为 keel@gwongsam.net（旧地址仍靠邮件转发接住）；DSA 商家信息里的邮箱是否同步由所有者决定。
      电话特意用 Google Voice（与 DSA 登记的手机号不同），该号须定期主动呼出或发短信保号，失效即违反 Impressum 要求。 -->
 
 <main>
@@ -218,43 +234,466 @@
     <hr>
     <p class="doc-meta">In case of any discrepancy between this English version and the <a href="?lang=zh">Chinese version</a>, the Chinese version prevails; the Japanese disclosure in Section 1 prevails in its original Japanese.</p>
   </article>
+
+  <article data-lang="de" lang="de">
+    <h1 class="doc-title">Rechtliche Hinweise</h1>
+    <p class="doc-meta"><span>Für die App Keel (chinesischer Name: 司元)</span><span>Zuletzt aktualisiert: 5. Oktober 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Warum es diese Seite gibt</p>
+      <ul>
+        <li>Die App wird von einem <strong>einzelnen Entwickler</strong> verkauft. In Japan, den Vereinigten Staaten, Kanada, Australien, Lateinamerika und einigen anderen Regionen handelt Apple nur als Vermittler, und <strong>rechtlich ist der Entwickler der Verkäufer</strong>.</li>
+        <li>Die Gesetze mehrerer Länder und Regionen verpflichten den Verkäufer, Angaben zu seiner Identität und Kontaktdaten zu veröffentlichen. Diese Seite fasst sie an einer Stelle zusammen.</li>
+        <li>Die vollständigen Bedingungen zu Abonnements, Abrechnung und Kündigung findest du in den <a href="../terms/#de-s3">Nutzungsbedingungen, Abschnitt 3</a>; die Meldung und Behandlung von Inhalten in geteilten Büchern regelt <a href="../terms/#de-s5">Abschnitt 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Inhaltsverzeichnis">
+      <h2>Inhalt</h2>
+      <ol>
+        <li><a href="#de-s1">1. Japan: 特定商取引法に基づく表記</a></li>
+        <li><a href="#de-s2">2. Anbieterkennzeichnung (EU, Deutschland, Schweiz)</a></li>
+        <li><a href="#de-s3">3. UK Online Safety Act</a></li>
+        <li><a href="#de-s4">4. Kontakt</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="de-s1">1. Japan: 特定商取引法に基づく表記</h2>
+    <p>Die nach Artikel 11 des japanischen Gesetzes über bestimmte Handelsgeschäfte (Act on Specified Commercial Transactions) erforderlichen Angaben stehen unten auf Japanisch; <strong>maßgeblich ist der japanische Text</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td>呂 飛（FEI LYU）（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › メンバーシップ › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="de-s2">2. Anbieterkennzeichnung (EU, Deutschland, Schweiz)</h2>
+    <p>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG), Art. 3 Abs. 1 lit. s des schweizerischen Bundesgesetzes gegen den unlauteren Wettbewerb (UWG) und dem anwendbaren Recht der EU:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Angabe</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Anbieter</td><td>Fei Lyu (FEI LYU), Einzelentwickler (tätig unter dem Namen gwongsam)</td></tr>
+        <tr><td>Zustellungsanschrift</td><td>Room 110, No. 2 Langshan Road, Nanshan District, Shenzhen, Guangdong 518000, chinesisches Festland</td></tr>
+        <tr><td>Telefon</td><td><a href="tel:+15713086168">+1 571 308 6168</a></td></tr>
+        <tr><td>E-Mail</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>Inhaltlich verantwortlich</td><td>Der oben genannte Anbieter (gleiche Anschrift)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>Händlerinformationen nach dem Gesetz über digitale Dienste der EU (DSA):</strong> Die Kontaktdaten, die der Entwickler als Händler angegeben hat, werden zusätzlich von Apple auf der Produktseite der App im EU-App-Store angezeigt.</li>
+      <li><strong>Verbraucherstreitbeilegung:</strong> Wir sind weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Wenn du ein Anliegen hast, schreib uns bitte direkt eine E-Mail.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="de-s3">3. UK Online Safety Act</h2>
+    <p>In geteilten Büchern können Inhalte, die ein Nutzer eingibt, von anderen Mitgliedern gesehen werden. Deshalb behandeln wir geteilte Bücher gemäß den Anforderungen, die der Online Safety Act 2023 des Vereinigten Königreichs an Nutzer-zu-Nutzer-Dienste (user-to-user services) stellt.</p>
+    <ul>
+      <li><strong>Verantwortlicher für Online-Sicherheit:</strong> der Entwickler, gwongsam (bürgerlicher Name wie in Abschnitt 2).</li>
+      <li><strong>Meldungen und Beschwerden:</strong> Öffne in der App die Seite <strong>Mitglieder</strong> des geteilten Buchs und tippe auf <strong>Problem melden</strong>; dadurch wird eine E-Mail an den Entwickler erstellt. Oder schreib eine E-Mail an <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> mit einer Betreffzeile, die mit <code>[Report]</code> beginnt.</li>
+      <li><strong>Verbotene Inhalte, Behandlung von Meldungen und die dir zur Verfügung stehenden Werkzeuge:</strong> siehe <a href="../terms/#de-s5">Nutzungsbedingungen, Abschnitt 5</a>. Beschwerden darüber, wie eine Meldung behandelt wurde, laufen über denselben Kanal.</li>
+    </ul>
+
+    <h2 id="de-s4">4. Kontakt</h2>
+    <p>gwongsam, unabhängiger Entwickler<br>E-Mail: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Siehe auch: <a href="../support/">Support</a> · <a href="../terms/">Nutzungsbedingungen</a> · <a href="../privacy/">Datenschutzerklärung</a></p>
+
+    <hr>
+    <p class="doc-meta">Bei Abweichungen zwischen dieser deutschen Fassung und der <a href="?lang=zh">chinesischen Fassung</a> ist die chinesische Fassung maßgeblich; für die japanischen Pflichtangaben in Abschnitt 1 ist der japanische Originaltext maßgeblich.</p>
+  </article>
+
+  <article data-lang="es" lang="es">
+    <h1 class="doc-title">Aviso legal</h1>
+    <p class="doc-meta"><span>Para la app Keel (nombre en chino: 司元)</span><span>Última actualización: 5 de octubre de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Por qué existe esta página</p>
+      <ul>
+        <li>La App la vende un <strong>desarrollador individual</strong>. En Japón, Estados Unidos, Canadá, Australia, América Latina y algunas otras regiones, Apple actúa únicamente como agente, y <strong>el desarrollador es legalmente el vendedor</strong>.</li>
+        <li>La legislación de varios países y regiones exige que el vendedor publique sus datos de identidad y de contacto. Esta página los reúne en un solo lugar.</li>
+        <li>Las condiciones completas sobre suscripciones, facturación y cancelación figuran en los <a href="../terms/#es-s3">Términos del servicio, sección 3</a>; la denuncia y la gestión del contenido de los libros compartidos, en la <a href="../terms/#es-s5">sección 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Índice">
+      <h2>Índice</h2>
+      <ol>
+        <li><a href="#es-s1">1. Japón: 特定商取引法に基づく表記</a></li>
+        <li><a href="#es-s2">2. Identificación del proveedor (UE, Alemania, Suiza)</a></li>
+        <li><a href="#es-s3">3. Ley de Seguridad en Línea del Reino Unido</a></li>
+        <li><a href="#es-s4">4. Contacto</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="es-s1">1. Japón: 特定商取引法に基づく表記</h2>
+    <p>La información exigida por el artículo 11 de la Ley japonesa sobre Transacciones Comerciales Específicas se ofrece a continuación en japonés; <strong>prevalece el texto en japonés</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td>呂 飛（FEI LYU）（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › メンバーシップ › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="es-s2">2. Identificación del proveedor (UE, Alemania, Suiza)</h2>
+    <p>Información conforme al § 5 de la Ley alemana de Servicios Digitales (Digitale-Dienste-Gesetz, DDG), al art. 3, apdo. 1, letra s), de la Ley federal suiza contra la Competencia Desleal (Bundesgesetz gegen den unlauteren Wettbewerb, UWG) y al Derecho de la UE aplicable:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Concepto</th><th>Datos</th></tr></thead>
+      <tbody>
+        <tr><td>Proveedor</td><td>Fei Lyu (FEI LYU), desarrollador individual (con el nombre comercial gwongsam)</td></tr>
+        <tr><td>Domicilio a efectos de notificaciones</td><td>Room 110, No. 2 Langshan Road, Nanshan District, Shenzhen, Guangdong 518000, China continental</td></tr>
+        <tr><td>Teléfono</td><td><a href="tel:+15713086168">+1 571 308 6168</a></td></tr>
+        <tr><td>Correo electrónico</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>Responsable del contenido</td><td>El proveedor indicado arriba (mismo domicilio)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>Información del comerciante conforme al Reglamento de Servicios Digitales de la UE (DSA):</strong> Apple también muestra, en la página del producto de la App en el App Store de la UE, los datos de contacto que el desarrollador ha declarado como comerciante.</li>
+      <li><strong>Resolución de litigios de consumo:</strong> no estamos obligados ni dispuestos a participar en procedimientos de resolución de litigios ante una entidad de arbitraje de consumo (Verbraucherschlichtungsstelle). Si tienes alguna inquietud, escríbenos directamente por correo electrónico.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="es-s3">3. Ley de Seguridad en Línea del Reino Unido</h2>
+    <p>Los libros compartidos permiten que el contenido introducido por un usuario lo vean otros miembros, por lo que tratamos los libros compartidos conforme a los requisitos que la Ley de Seguridad en Línea del Reino Unido de 2023 (Online Safety Act 2023) impone a los servicios de usuario a usuario.</p>
+    <ul>
+      <li><strong>Responsable de la seguridad en línea:</strong> el desarrollador, gwongsam (nombre legal según la sección 2).</li>
+      <li><strong>Denuncias y reclamaciones:</strong> en la App, abre la página <strong>Miembros</strong> del libro compartido y toca <strong>Informar de un problema</strong>, lo que redacta un correo electrónico dirigido al desarrollador; o escribe a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un asunto que empiece por <code>[Report]</code>.</li>
+      <li><strong>Contenido prohibido, cómo se gestionan las denuncias y las herramientas a tu disposición:</strong> consulta los <a href="../terms/#es-s5">Términos del servicio, sección 5</a>. Las reclamaciones sobre la gestión de una denuncia se presentan por el mismo canal.</li>
+    </ul>
+
+    <h2 id="es-s4">4. Contacto</h2>
+    <p>gwongsam, desarrollador independiente<br>Correo electrónico: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Véase también: <a href="../support/">Soporte</a> · <a href="../terms/">Términos del servicio</a> · <a href="../privacy/">Política de privacidad</a></p>
+
+    <hr>
+    <p class="doc-meta">En caso de discrepancia entre esta versión en español y la <a href="?lang=zh">versión en chino</a>, prevalecerá la versión en chino; la información en japonés de la sección 1 prevalece en su versión original en japonés.</p>
+  </article>
+
+  <article data-lang="fr" lang="fr">
+    <h1 class="doc-title">Mentions légales</h1>
+    <p class="doc-meta"><span>Pour l’app Keel (nom chinois : 司元)</span><span>Dernière mise à jour : 5 octobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Pourquoi cette page existe</p>
+      <ul>
+        <li>L’App est vendue par un <strong>développeur individuel</strong>. Au Japon, aux États-Unis, au Canada, en Australie, en Amérique latine et dans certaines autres régions, Apple agit uniquement en qualité de mandataire, et <strong>le développeur est juridiquement le vendeur</strong>.</li>
+        <li>Les lois de plusieurs pays et régions imposent au vendeur de publier son identité et ses coordonnées. Cette page les rassemble en un seul endroit.</li>
+        <li>Les conditions complètes relatives aux abonnements, à la facturation et à la résiliation figurent à l’<a href="../terms/#fr-s3">article 3 des Conditions d’utilisation</a> ; le signalement et le traitement des contenus des livres partagés figurent à l’<a href="../terms/#fr-s5">article 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Table des matières">
+      <h2>Sommaire</h2>
+      <ol>
+        <li><a href="#fr-s1">1. Japon : 特定商取引法に基づく表記</a></li>
+        <li><a href="#fr-s2">2. Identification du prestataire (UE, Allemagne, Suisse)</a></li>
+        <li><a href="#fr-s3">3. Online Safety Act du Royaume-Uni</a></li>
+        <li><a href="#fr-s4">4. Contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="fr-s1">1. Japon : 特定商取引法に基づく表記</h2>
+    <p>Les informations exigées par l’article 11 de la loi japonaise sur les transactions commerciales spécifiées (Act on Specified Commercial Transactions) sont fournies ci-dessous en japonais ; <strong>le texte japonais fait foi</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td>呂 飛（FEI LYU）（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › メンバーシップ › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="fr-s2">2. Identification du prestataire (UE, Allemagne, Suisse)</h2>
+    <p>Informations fournies en application du § 5 de la loi allemande sur les services numériques (Digitale-Dienste-Gesetz, DDG), de l’art. 3, al. 1, let. s de la loi fédérale suisse contre la concurrence déloyale (LCD/UWG) et du droit de l’Union européenne applicable :</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Rubrique</th><th>Informations</th></tr></thead>
+      <tbody>
+        <tr><td>Prestataire</td><td>Fei Lyu (FEI LYU), développeur individuel (sous le nom gwongsam)</td></tr>
+        <tr><td>Adresse de notification</td><td>Room 110, No. 2 Langshan Road, Nanshan District, Shenzhen, Guangdong 518000, Chine continentale</td></tr>
+        <tr><td>Téléphone</td><td><a href="tel:+15713086168">+1 571 308 6168</a></td></tr>
+        <tr><td>E-mail</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>Responsable du contenu</td><td>Le prestataire susmentionné (même adresse)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>Informations sur le professionnel au titre du règlement européen sur les services numériques (DSA) :</strong> les coordonnées que le développeur a déclarées en qualité de professionnel (trader) sont également affichées par Apple sur la page produit de l’App dans l’App Store de l’UE.</li>
+      <li><strong>Règlement des litiges de consommation :</strong> nous ne sommes ni tenus ni disposés à participer à une procédure de règlement des litiges devant un organisme de conciliation pour les consommateurs (Verbraucherschlichtungsstelle). Si vous avez une réclamation, veuillez nous écrire directement par e-mail.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="fr-s3">3. Online Safety Act du Royaume-Uni</h2>
+    <p>Les livres partagés permettent que le contenu saisi par un utilisateur soit vu par d’autres membres ; nous traitons donc les livres partagés conformément aux exigences que l’Online Safety Act 2023 du Royaume-Uni impose aux services d’utilisateur à utilisateur (user-to-user services).</p>
+    <ul>
+      <li><strong>Responsable de la sécurité en ligne :</strong> le développeur, gwongsam (nom légal indiqué à l’article 2).</li>
+      <li><strong>Signalements et réclamations :</strong> dans l’App, ouvrez la page <strong>Membres</strong> du livre partagé et touchez <strong>Signaler un problème</strong>, ce qui prépare un e-mail adressé au développeur ; ou écrivez à <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> avec un objet commençant par <code>[Report]</code>.</li>
+      <li><strong>Contenus interdits, traitement des signalements et outils à votre disposition :</strong> voir l’<a href="../terms/#fr-s5">article 5 des Conditions d’utilisation</a>. Les réclamations concernant le traitement d’un signalement passent par le même canal.</li>
+    </ul>
+
+    <h2 id="fr-s4">4. Contact</h2>
+    <p>gwongsam, développeur indépendant<br>E-mail : <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Voir aussi : <a href="../support/">Assistance</a> · <a href="../terms/">Conditions d’utilisation</a> · <a href="../privacy/">Politique de confidentialité</a></p>
+
+    <hr>
+    <p class="doc-meta">En cas de divergence entre la présente version française et la <a href="?lang=zh">version chinoise</a>, la version chinoise prévaut ; les informations japonaises de l’article 1 font foi dans leur version originale en japonais.</p>
+  </article>
+
+  <article data-lang="pt" lang="pt-BR">
+    <h1 class="doc-title">Aviso Legal</h1>
+    <p class="doc-meta"><span>Para o app Keel (nome chinês: 司元)</span><span>Última atualização: 5 de outubro de 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Por que esta página existe</p>
+      <ul>
+        <li>O App é vendido por um <strong>desenvolvedor individual</strong>. No Japão, nos Estados Unidos, no Canadá, na Austrália, na América Latina e em algumas outras regiões, a Apple atua apenas como agente, e <strong>o desenvolvedor é legalmente o vendedor</strong>.</li>
+        <li>As leis de vários países e regiões exigem que o vendedor publique seus dados de identificação e de contato. Esta página os reúne em um só lugar.</li>
+        <li>Os termos completos sobre assinaturas, cobrança e cancelamento estão nos <a href="../terms/#pt-s3">Termos de Serviço, Seção 3</a>; a denúncia e o tratamento de conteúdo em livros compartilhados estão na <a href="../terms/#pt-s5">Seção 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Sumário">
+      <h2>Sumário</h2>
+      <ol>
+        <li><a href="#pt-s1">1. Japão: 特定商取引法に基づく表記</a></li>
+        <li><a href="#pt-s2">2. Identificação do fornecedor (UE, Alemanha, Suíça)</a></li>
+        <li><a href="#pt-s3">3. UK Online Safety Act (Reino Unido)</a></li>
+        <li><a href="#pt-s4">4. Contato</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="pt-s1">1. Japão: 特定商取引法に基づく表記</h2>
+    <p>As informações exigidas pelo artigo 11 da Lei sobre Transações Comerciais Específicas do Japão são apresentadas abaixo em japonês; <strong>o texto em japonês prevalece</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td>呂 飛（FEI LYU）（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › メンバーシップ › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="pt-s2">2. Identificação do fornecedor (UE, Alemanha, Suíça)</h2>
+    <p>Informações nos termos do § 5 da Lei alemã de Serviços Digitais (Digitale-Dienste-Gesetz, DDG), do art. 3º, parágrafo 1, alínea s, da Lei Federal suíça contra a Concorrência Desleal (Bundesgesetz gegen den unlauteren Wettbewerb, UWG) e da legislação aplicável da UE:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Item</th><th>Dados</th></tr></thead>
+      <tbody>
+        <tr><td>Fornecedor</td><td>Fei Lyu (FEI LYU), desenvolvedor individual (atuando sob o nome gwongsam)</td></tr>
+        <tr><td>Endereço para citações e notificações</td><td>Room 110, No. 2 Langshan Road, Nanshan District, Shenzhen, Guangdong 518000, China mainland</td></tr>
+        <tr><td>Telefone</td><td><a href="tel:+15713086168">+1 571 308 6168</a></td></tr>
+        <tr><td>E-mail</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>Responsável pelo conteúdo</td><td>O fornecedor indicado acima (mesmo endereço)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>Informações do comerciante segundo o Regulamento dos Serviços Digitais da UE (DSA):</strong> os dados de contato que o desenvolvedor declarou como comerciante também são exibidos pela Apple na página do produto do App na App Store da UE.</li>
+      <li><strong>Resolução de litígios de consumo:</strong> não somos obrigados a participar, nem estamos dispostos a fazê-lo, de procedimentos de resolução de litígios perante um órgão de conciliação de consumidores (Verbraucherschlichtungsstelle). Se você tiver alguma reclamação, envie-nos um e-mail diretamente.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="pt-s3">3. UK Online Safety Act (Reino Unido)</h2>
+    <p>Os livros compartilhados permitem que o conteúdo inserido por um usuário seja visto por outros membros; por isso, tratamos os livros compartilhados de acordo com os requisitos que a UK Online Safety Act 2023 (Lei de Segurança On-line do Reino Unido) impõe aos serviços de usuário para usuário.</p>
+    <ul>
+      <li><strong>Responsável pela segurança on-line:</strong> o desenvolvedor, gwongsam (nome civil conforme a Seção 2).</li>
+      <li><strong>Denúncias e reclamações:</strong> no App, abra a página <strong>Membros</strong> do livro compartilhado e toque em <strong>Denunciar um problema</strong>, o que prepara um e-mail para o desenvolvedor; ou envie um e-mail para <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> com uma linha de assunto que comece com <code>[Report]</code>.</li>
+      <li><strong>Conteúdo proibido, como as denúncias são tratadas e as ferramentas à sua disposição:</strong> consulte os <a href="../terms/#pt-s5">Termos de Serviço, Seção 5</a>. As reclamações sobre o tratamento de uma denúncia seguem pelo mesmo canal.</li>
+    </ul>
+
+    <h2 id="pt-s4">4. Contato</h2>
+    <p>gwongsam, desenvolvedor independente<br>E-mail: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Veja também: <a href="../support/">Suporte</a> · <a href="../terms/">Termos de Serviço</a> · <a href="../privacy/">Política de Privacidade</a></p>
+
+    <hr>
+    <p class="doc-meta">Em caso de qualquer divergência entre esta versão em português e a <a href="?lang=zh">versão em chinês</a>, prevalece a versão em chinês; as informações em japonês da Seção 1 prevalecem em seu original em japonês.</p>
+  </article>
+
+  <article data-lang="it" lang="it">
+    <h1 class="doc-title">Note legali</h1>
+    <p class="doc-meta"><span>Per l’app Keel (nome cinese: 司元)</span><span>Ultimo aggiornamento: 5 ottobre 2026</span></p>
+
+    <div class="callout">
+      <p class="callout-title">Perché esiste questa pagina</p>
+      <ul>
+        <li>L’App è venduta da uno <strong>sviluppatore individuale</strong>. In Giappone, negli Stati Uniti, in Canada, in Australia, in America Latina e in alcune altre regioni, Apple agisce solo in qualità di agente e <strong>il venditore, ai sensi di legge, è lo sviluppatore</strong>.</li>
+        <li>Le leggi di diversi paesi e regioni impongono al venditore di pubblicare i propri dati identificativi e di contatto. Questa pagina li raccoglie in un unico luogo.</li>
+        <li>Le condizioni complete relative ad abbonamenti, addebiti e disdetta si trovano nei <a href="../terms/#it-s3">Termini di servizio, sezione 3</a>; le segnalazioni e la gestione dei contenuti dei libri condivisi sono disciplinate nella <a href="../terms/#it-s5">sezione 5</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <h2>Indice</h2>
+      <ol>
+        <li><a href="#it-s1">1. Giappone: 特定商取引法に基づく表記</a></li>
+        <li><a href="#it-s2">2. Identificazione del fornitore (UE, Germania, Svizzera)</a></li>
+        <li><a href="#it-s3">3. Online Safety Act del Regno Unito</a></li>
+        <li><a href="#it-s4">4. Contatti</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="it-s1">1. Giappone: 特定商取引法に基づく表記</h2>
+    <p>Le informazioni richieste dall’articolo 11 della legge giapponese sulle transazioni commerciali specificate (Act on Specified Commercial Transactions) sono riportate di seguito in giapponese; <strong>fa fede il testo giapponese</strong>.</p>
+
+    <div class="table-wrap" lang="ja">
+    <table>
+      <thead><tr><th>項目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>販売事業者</td><td>呂 飛（FEI LYU）（個人。開発者名 gwongsam）</td></tr>
+        <tr><td>所在地</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>電話番号</td><td>請求があった場合には遅滞なく開示いたします。</td></tr>
+        <tr><td>メールアドレス</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>販売価格</td><td>各商品の価格は、購入画面およびApp Storeに表示される価格（税込）です。</td></tr>
+        <tr><td>商品代金以外の必要料金</td><td>インターネット接続に必要な通信料等は、お客様のご負担となります。</td></tr>
+        <tr><td>支払方法</td><td>App Storeに登録されたお支払い方法（決済はAppleが代行します）。</td></tr>
+        <tr><td>支払時期</td><td>購入確定時にお支払いいただきます。自動更新サブスクリプションは、各期間の開始時に請求されます。無料トライアルがある場合は、トライアル終了時に最初の請求が行われます。更新料金は、現在の期間が終了する前の24時間以内に請求されます。</td></tr>
+        <tr><td>提供時期</td><td>決済完了後、直ちにご利用いただけます。</td></tr>
+        <tr><td>自動更新の内容</td><td>月額プラン：1か月ごとに自動更新／年額プラン：1年ごとに自動更新。価格はApp Storeに表示されるとおりです。買い切り（永久）プランは1回のお支払いで、自動更新はありません。</td></tr>
+        <tr><td>解約方法</td><td>現在の期間が終了する24時間前までに、App内「設定 › メンバーシップ › サブスクリプションを管理」またはiPhoneの「設定 › Apple ID › サブスクリプション」から自動更新をオフにしてください。無料トライアルの終了24時間前までにオフにした場合、料金は発生しません。期間の途中で解約しても日割りによる返金はなく、現在の期間の終了までご利用いただけます。</td></tr>
+        <tr><td>返品・返金</td><td>デジタルコンテンツの性質上、購入確定後の返品はお受けできません。返金はAppleの規定に従い、<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> からお申し込みください。</td></tr>
+        <tr><td>動作環境</td><td>iOS 26 以降 / macOS 26 以降（詳細はApp Storeの表示に準じます）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="it-s2">2. Identificazione del fornitore (UE, Germania, Svizzera)</h2>
+    <p>Informazioni ai sensi del § 5 della legge tedesca sui servizi digitali (Digitale-Dienste-Gesetz, DDG), dell’art. 3 cpv. 1 lett. s della legge federale svizzera contro la concorrenza sleale (LCSl; in tedesco UWG) e della normativa UE applicabile:</p>
+
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Voce</th><th>Dettagli</th></tr></thead>
+      <tbody>
+        <tr><td>Fornitore</td><td>Fei Lyu (FEI LYU), sviluppatore individuale (operante con il nome gwongsam)</td></tr>
+        <tr><td>Domicilio per le notifiche</td><td>Room 110, No. 2 Langshan Road, Nanshan District, Shenzhen, Guangdong 518000, Cina continentale</td></tr>
+        <tr><td>Telefono</td><td><a href="tel:+15713086168">+1 571 308 6168</a></td></tr>
+        <tr><td>E-mail</td><td><a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></td></tr>
+        <tr><td>Responsabile dei contenuti</td><td>Il fornitore sopra indicato (stesso indirizzo)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <ul>
+      <li><strong>Informazioni sull’operatore commerciale ai sensi del regolamento UE sui servizi digitali (DSA):</strong> i dati di contatto che lo sviluppatore ha dichiarato in qualità di operatore commerciale sono inoltre visualizzati da Apple nella pagina prodotto dell’App sull’App Store dell’UE.</li>
+      <li><strong>Risoluzione delle controversie dei consumatori:</strong> non siamo né obbligati né disposti a partecipare a procedure di risoluzione delle controversie dinanzi a un organismo di conciliazione per i consumatori (Verbraucherschlichtungsstelle). Per qualsiasi questione, scrivici direttamente via e-mail.</li>
+    </ul>
+    <p lang="de">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 id="it-s3">3. Online Safety Act del Regno Unito</h2>
+    <p>I libri condivisi consentono che i contenuti inseriti da un utente siano visibili agli altri membri; trattiamo pertanto i libri condivisi in conformità ai requisiti che l’Online Safety Act 2023 del Regno Unito impone ai servizi da utente a utente (user-to-user services).</p>
+    <ul>
+      <li><strong>Responsabile della sicurezza online:</strong> lo sviluppatore, gwongsam (nome legale come indicato nella sezione 2).</li>
+      <li><strong>Segnalazioni e reclami:</strong> nell’App, apri la pagina <strong>Membri</strong> del libro condiviso e tocca <strong>Segnala un problema</strong>: verrà composta un’e-mail indirizzata allo sviluppatore; in alternativa, scrivi a <a href="mailto:keel@gwongsam.net?subject=%5BReport%5D">keel@gwongsam.net</a> con un oggetto che inizi con <code>[Report]</code>.</li>
+      <li><strong>Contenuti vietati, modalità di gestione delle segnalazioni e strumenti a tua disposizione:</strong> vedi <a href="../terms/#it-s5">Termini di servizio, sezione 5</a>. I reclami sulle modalità di gestione di una segnalazione seguono lo stesso canale.</li>
+    </ul>
+
+    <h2 id="it-s4">4. Contatti</h2>
+    <p>gwongsam, sviluppatore indipendente<br>E-mail: <a href="mailto:keel@gwongsam.net">keel@gwongsam.net</a></p>
+    <p>Vedi anche: <a href="../support/">Supporto</a> · <a href="../terms/">Termini di servizio</a> · <a href="../privacy/">Informativa sulla privacy</a></p>
+
+    <hr>
+    <p class="doc-meta">In caso di discrepanze tra la presente versione italiana e la <a href="?lang=zh">versione cinese</a>, prevale la versione cinese; le informazioni relative al Giappone di cui alla sezione 1 fanno fede nel testo originale giapponese.</p>
+  </article>
 </main>
 
 <footer class="site-footer">
   <span>Keel · 司元</span>
   <span class="footer-spacer"></span>
-  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span></a>
-  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span></a>
-  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span></a>
-  <a href="./"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span></a>
+  <a href="../support/"><span data-lang="zh">支持</span><span data-lang="en">Support</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="pt">Suporte</span><span data-lang="it">Supporto</span></a>
+  <a href="../terms/"><span data-lang="zh">服务条款</span><span data-lang="en">Terms of Service</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Términos del servicio</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="pt">Termos de Serviço</span><span data-lang="it">Termini di servizio</span></a>
+  <a href="../privacy/"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="pt">Política de Privacidade</span><span data-lang="it">Informativa sulla privacy</span></a>
+  <a href="./"><span data-lang="zh">法定信息</span><span data-lang="en">Legal notice</span><span data-lang="de">Rechtliche Hinweise</span><span data-lang="es">Aviso legal</span><span data-lang="fr">Mentions légales</span><span data-lang="pt">Aviso Legal</span><span data-lang="it">Note legali</span></a>
 </footer>
 
 <script>
 (function () {
-  var d = document.documentElement, btn = document.getElementById('langToggle');
-  if (!btn) return;
-  function current() { return d.classList.contains('lang-en') ? 'en' : 'zh'; }
-  function paint() {
-    var zh = current() === 'zh';
-    btn.textContent = zh ? 'EN' : '中文';
-    btn.setAttribute('aria-label', zh ? 'Switch to English' : '切换到中文');
-  }
+  var TAG = { zh: 'zh-Hans', en: 'en', de: 'de', es: 'es', fr: 'fr', pt: 'pt-BR', it: 'it' };
+  var LABEL = { zh: '语言', en: 'Language', de: 'Sprache', es: 'Idioma', fr: 'Langue', pt: 'Idioma', it: 'Lingua' };
+  var d = document.documentElement, wrap = document.getElementById('langSwitch'), sel = document.getElementById('langSelect');
+  if (!wrap || !sel) return;
+  function current() { var m = /(?:^|\s)lang-([a-z]{2})(?:\s|$)/.exec(d.className); return m && TAG[m[1]] ? m[1] : 'en'; }
+  function paint() { var c = current(); sel.value = c; sel.setAttribute('aria-label', LABEL[c]); }
   paint();
-  btn.hidden = false;
-  btn.addEventListener('click', function () {
-    var next = current() === 'zh' ? 'en' : 'zh';
-    var at = location.hash.match(/^#(?:zh|en)-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
+  wrap.hidden = false;
+  sel.addEventListener('change', function () {
+    var next = sel.value;
+    if (!TAG[next]) return;
+    var at = location.hash.match(/^#[a-z]{2}-(s\d+)$/);   /* 停在同一条，别把人甩回页首 */
     d.className = 'lang-' + next;
-    d.lang = next === 'zh' ? 'zh-Hans' : 'en';
+    d.lang = TAG[next];
     try { localStorage.setItem('site-lang', next); } catch (e) {}
     paint();
-    if (at) {
-      var target = document.getElementById(next + '-' + at[1]);
-      if (target) {
-        history.replaceState(null, '', '#' + next + '-' + at[1]);
-        target.scrollIntoView();
-      }
-    }
+    var url = new URL(location.href);
+    if (url.searchParams.has('lang')) url.searchParams.set('lang', next);   /* 带参的地址刷新后别跳回旧语言 */
+    var target = at && document.getElementById(next + '-' + at[1]);
+    if (target) url.hash = '#' + next + '-' + at[1];
+    try { history.replaceState(null, '', url.href); } catch (e) {}
+    if (target) target.scrollIntoView();
   });
 })();
 </script>
