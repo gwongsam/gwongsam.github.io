@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>动账短信用豆包识别 · Keel 司元</title>
+<meta name="description" content="收到银行动账短信时，用手机上的豆包识别，再送进司元的待处理。图文设置步骤（iOS 26 / iOS 27）。">
+<link rel="icon" href="../../logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/legal.css">
+<link rel="stylesheet" href="../guide.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../../">
+    <img class="brand-mark" src="../../logo.svg" alt="" width="22" height="22">
+    Keel <span class="brand-sub">司元</span>
+  </a>
+  <nav class="doc-nav">
+    <a href="../../support/">支持</a>
+    <a href="../../privacy/">隐私</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <h1 class="doc-title">动账短信用豆包识别</h1>
+    <p class="doc-meta"><span>司元（Keel）iOS 应用</span><span>最后更新：2026 年 10 月 7 日</span></p>
+
+    <p class="guide-lede">收到银行的动账短信时，快捷指令自动把正文交给你手机上的豆包识别，结果送进司元的「待处理」。你点确认才会记账。全程免费，不用开着司元。</p>
+
+    <div class="callout">
+      <p class="callout-title">要准备的</p>
+      <ul class="need-list">
+        <li>司元</li>
+        <li>豆包（App Store 免费下载，登录一次）</li>
+        <li>快捷指令（系统自带）</li>
+      </ul>
+    </div>
+
+    <input class="os-radio" type="radio" name="os" id="os-27" checked>
+    <input class="os-radio" type="radio" name="os" id="os-26">
+    <div class="os-switch" role="radiogroup" aria-label="系统版本">
+      <label for="os-27">iOS 27</label>
+      <label for="os-26">iOS 26</label>
+    </div>
+    <p class="os-hint">不确定是哪个版本：打开「设置 › 通用 › 关于本机」，看「iOS 版本」。</p>
+
+    <ol class="steps">
+      <li>
+        <h2>把快捷指令装进来</h2>
+        <ol class="sub">
+          <li>
+            打开司元，进入<strong>「设置 › 助手、Siri 与快捷指令 › 用豆包识别 › 动账短信」</strong>，点<strong>「添加到快捷指令」</strong>。
+            <figure class="shot"><img src="../img/27-keel-recipe.webp" alt="司元里「动账短信」配方页，蓝色按钮「添加到快捷指令」" width="720" height="751" loading="lazy"></figure>
+          </li>
+          <li>
+            在弹出的分享面板里点<strong>「快捷指令」</strong>，再点<strong>「添加快捷指令」</strong>。
+            <div class="shot-pair">
+              <figure class="shot"><img src="../img/27-share-sheet.webp" alt="分享面板，第一个图标是「快捷指令」" width="720" height="666" loading="lazy"></figure>
+              <figure class="shot"><img src="../img/27-import.webp" alt="快捷指令的导入页，底部按钮「添加快捷指令」" width="720" height="814" loading="lazy"></figure>
+            </div>
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <h2>让它收到短信就自动运行</h2>
+
+        <ol class="sub only-27">
+          <li>打开「快捷指令」，点刚装好的<strong>「动账短信用豆包识别」</strong>，进入编辑。</li>
+          <li>
+            点底部的<strong>「搜索」</strong>，再点<strong>「自动化」</strong>。
+            <figure class="shot wide"><img src="../img/27-drawer.webp" alt="编辑页底部的搜索栏，下面一排按钮的第一个是「自动化」" width="720" height="242" loading="lazy"></figure>
+          </li>
+          <li>
+            往下翻到「通信」，选<strong>「信息」</strong>。
+            <figure class="shot wide"><img src="../img/27-automation-list.webp" alt="自动化列表的「通信」分组，里面有「信息」" width="720" height="346" loading="lazy"></figure>
+          </li>
+          <li>
+            点「发件人」，填银行发短信的号码，每填完一个按一下键盘上的<span class="kbd">换行</span>。几家银行可以都填上，最后点右上角的 ✓。
+            <figure class="shot wide"><img src="../img/27-sender-entry.webp" alt="发件人输入框里填了 95555 和 95588 两个号码" width="720" height="224" loading="lazy"></figure>
+          </li>
+          <li>
+            点「我收到符合以下条件的信息时」右边的小箭头，确认<strong>「自动化」开着、「运行前确认」关着</strong>。点左上角返回，就保存好了。
+            <figure class="shot wide"><img src="../img/27-trigger-done.webp" alt="设置好的触发条件：发件人是 95555、95588，自动化开着，运行前确认关着" width="720" height="509" loading="lazy"></figure>
+          </li>
+        </ol>
+
+        <ol class="sub only-26">
+          <li>打开「快捷指令」，点底部的<strong>「自动化」</strong>，再点右上角的<strong>「＋」</strong>。</li>
+          <li>在列表里选<strong>「信息」</strong>。</li>
+          <li>点「发件人」后面的「选取」，填银行发短信的号码。几家银行可以都填上。</li>
+          <li>下面选<strong>「立即运行」</strong>（不要选「确认后运行」），点右上角<strong>「下一步」</strong>。</li>
+          <li>在快捷指令列表里选<strong>「动账短信用豆包识别」</strong>，完成。</li>
+        </ol>
+
+        <div class="note">
+          <p><strong>银行的短信号码</strong>以你手机里收到的短信为准，有的银行用 106 开头的长号码发。常见的有：工商 95588、农业 95599、中国银行 95566、建设 95533、交通 95559、招商 95555、邮储 95580。</p>
+        </div>
+      </li>
+
+      <li>
+        <h2>先手动运行一次</h2>
+        <p>在「快捷指令」里点一下「动账短信用豆包识别」。系统会问能不能使用司元、能不能使用豆包，都选<strong>「允许」</strong>。</p>
+        <p>问过这一次，以后收到短信自动运行就不会停下来等你。这次没有短信内容，后面出现的报错直接关掉即可。</p>
+      </li>
+
+      <li>
+        <h2>收到短信后去确认</h2>
+        <p>收到动账短信几秒后，打开司元，首页「待处理」里会多一条<strong>「待记的截图与文字」</strong>。点进去，金额、时间、商户等已经填好，核对后确认才会记进账本。</p>
+      </li>
+    </ol>
+
+    <h2 id="test">想马上试一下</h2>
+    <p>按发件人设的条件，朋友发来的短信不会触发。测试时可以临时把条件改一改：</p>
+    <ol>
+      <li>回到第 2 步，把发件人删掉，<span class="only-27">点「添加筛选条件」，</span>改成<strong>「信息包含」</strong>，填 <code>人民币</code>。</li>
+      <li>用另一台手机把下面这段发给你：
+        <p class="sms">【招商银行】您账户8866于10月07日12:31在美团/大众点评快捷支付扣款人民币38.50元，余额2,416.72元。</p>
+      </li>
+      <li>看司元的「待处理」里有没有出现这一笔。</li>
+      <li>测完<strong>一定要改回按发件人</strong>，不然聊天里提到「人民币」也会被送进来。</li>
+    </ol>
+
+    <section class="faq">
+      <h2>常见问题</h2>
+
+      <h3>快捷指令里显示「未知操作」「此操作需要安装“豆包”」</h3>
+      <p>手机上还没装豆包。去 App Store 装好、打开并登录一次，回来就正常了。</p>
+      <figure class="shot wide"><img src="../img/27-doubao-missing.webp" alt="快捷指令里一个灰色的「未知操作」，下方写着此操作需要安装“豆包”" width="720" height="227" loading="lazy"></figure>
+
+      <h3>收到短信了，但待处理里什么都没有</h3>
+      <ul>
+        <li>对一下发件人号码和短信里显示的是不是同一个。</li>
+        <li>确认「运行前确认」是关着的。</li>
+        <li>确认第 3 步手动运行过一次，并且都点了「允许」。</li>
+      </ul>
+
+      <h3>有些栏目是空的</h3>
+      <p>豆包没认出来的就留空，不会乱填。确认的时候补上即可。</p>
+
+      <h3>发给豆包的是什么</h3>
+      <p>短信正文（里面通常有金额、余额和卡号尾号），以及你在司元里的收支分类名称（让豆包按你的分类归类）。你在司元里的账户名称和账本内容不会发出。豆包怎么处理这些内容，以豆包的隐私政策为准。</p>
+
+      <h3>不想用了</h3>
+      <p>在「快捷指令」里删掉「动账短信用豆包识别」这条快捷指令即可，司元里的账不受影响。</p>
+    </section>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <a href="../../support/">支持与反馈</a>
+</footer>
+
+<script>
+/* App 带 ?ios=26 打开时直接停在 26 的步骤；没带参数默认 27。 */
+(function () {
+  try {
+    var v = new URLSearchParams(location.search).get('ios');
+    if (v === '26') document.getElementById('os-26').checked = true;
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

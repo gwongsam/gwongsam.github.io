@@ -62,6 +62,25 @@
 python3 -m http.server 8000
 ```
 
+## Keel 的图文教程（`keel/guides/`）
+
+快捷指令配方的设置步骤放在网页上，不画在 App 里：系统界面一改（iOS 27 就把「自动化」挪进了快捷指令本身），
+网页当天能改，App 里的示意要等发版。App 只留「添加到快捷指令」按钮和一条「查看图文步骤」链接。
+
+```
+keel/guides/
+├── guide.css                 教程页的增量样式，配色全取 legal.css 的变量
+├── img/                      模拟器实拍截图，裁好后转 WebP（宽 720）
+└── doubao-message/index.html 动账短信用豆包识别
+```
+
+- **一个配方一页，地址里不带语言**。目前只有豆包配方有教程，页面只有中文（豆包只面向中文用户），所以没有语言切换。
+- **系统版本靠 `?ios=26|27` 选**：App 打开时带上它，页面直接停在那一版的步骤；不带就默认 27，页上也能手动切。
+  切换用两个单选框 + CSS，无 JS 也能用。
+- **截图只用真机界面**：在对应版本的模拟器里把流程走一遍截下来，不画示意图。截图里的银行号码、金额都是示例。
+- App 里的地址只写在 Keel 仓库 `QuickCaptureGuide.baseURLString` 一处。国内访问要另挂到 EdgeOne Pages（海外版，免备案）
+  并绑自有域名，届时只改那一行。
+
 ## GitHub Pages 设置
 
 仓库名就是 `gwongsam.github.io`（用户站），**Settings → Pages** → Source 选 **Deploy from a branch** → 分支 `main`、目录 `/ (root)`。站点在根路径提供服务，因此 `keel/` 子目录的地址与仓库改名前的项目站地址完全一致。
@@ -79,6 +98,7 @@ python3 -m http.server 8000
 | Keel | 支持与常见问题 | `https://gwongsam.github.io/keel/support/` |
 | Keel | 服务条款 | `https://gwongsam.github.io/keel/terms/` |
 | Keel | 隐私政策 | `https://gwongsam.github.io/keel/privacy/` |
+| Keel | 教程：动账短信用豆包识别 | `https://gwongsam.github.io/keel/guides/doubao-message/` |
 | Rayloom | 首页（产品介绍） | `https://gwongsam.github.io/rayloom/` |
 | Rayloom | 支持与常见问题 | `https://gwongsam.github.io/rayloom/support/` |
 | Rayloom | 隐私政策 | `https://gwongsam.github.io/rayloom/privacy/` |

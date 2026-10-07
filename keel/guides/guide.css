@@ -1,0 +1,170 @@
+/* 教程页（keel/guides/）的增量样式：只做加法，配色全部取 legal.css 的变量。 */
+
+.guide-lede {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+.need-list,
+.callout ul.need-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  list-style: none;
+  padding: 0;
+  margin: .75rem 0 0;
+}
+.need-list li {
+  margin: 0;
+  padding: .3rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: .9rem;
+}
+
+/* 系统版本切换：两个单选框，无 JS 也能切。 */
+.os-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  margin: .25rem 0 .5rem;
+}
+.os-switch label {
+  padding: .35rem 1rem;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+#os-27:checked ~ .os-switch label[for="os-27"],
+#os-26:checked ~ .os-switch label[for="os-26"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+#os-27:focus-visible ~ .os-switch label[for="os-27"],
+#os-26:focus-visible ~ .os-switch label[for="os-26"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.os-hint {
+  font-size: .85rem;
+  color: var(--text-faint);
+  margin: 0 0 1rem;
+}
+#os-27:checked ~ * .only-26,
+#os-26:checked ~ * .only-27 {
+  display: none;
+}
+.os-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 步骤卡 */
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  counter-reset: step;
+}
+.steps > li {
+  counter-increment: step;
+  position: relative;
+  margin: 0 0 1.25rem;
+  padding: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 1.05rem;
+  top: 1.05rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--surface);
+  font-weight: 700;
+  font-size: .9rem;
+  line-height: 1.6rem;
+  text-align: center;
+}
+.steps h2 {
+  margin: 0 0 .6rem;
+  padding: .05rem 0 0 2.3rem;
+  min-height: 1.6rem;
+  font-size: 1.1rem;
+  border: 0;
+}
+.steps ol.sub {
+  padding-left: 1.3rem;
+  margin: .5rem 0 0;
+}
+.steps ol.sub > li {
+  margin: 0 0 .9rem;
+}
+
+/* 截图：手机截图按手机宽度展示，不撑满正文。 */
+.shot {
+  margin: .6rem 0 0;
+}
+.shot img {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-subtle);
+}
+.shot.wide img {
+  max-width: 360px;
+}
+.shot figcaption {
+  margin-top: .35rem;
+  font-size: .82rem;
+  color: var(--text-faint);
+}
+.shot-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.shot-pair .shot img {
+  max-width: 220px;
+}
+
+.kbd {
+  display: inline-block;
+  padding: 0 .4rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: .85em;
+  line-height: 1.5;
+  background: var(--surface-subtle);
+}
+
+.sms {
+  margin: .5rem 0 0;
+  padding: .75rem .9rem;
+  border-radius: 14px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  font-size: .92rem;
+  user-select: all;
+}
+
+.faq h3 {
+  margin-top: 1.25rem;
+}
