@@ -73,10 +73,11 @@ keel/guides/
 ├── img/                      模拟器实拍截图（整屏、红框标出要点的地方，WebP 宽 540）
 ├── video/                    演示视频（H.264 MP4，720×1280，带字幕）与封面
 ├── doubao-message/index.html 动账短信用豆包识别
-└── doubao-back-tap/index.html 轻点背面用豆包记一笔（系统设置与实际使用那段是真机录屏，卡号等打码）
+├── doubao-back-tap/index.html 轻点背面用豆包记一笔（系统设置与实际使用那段是真机录屏，卡号等打码）
+└── doubao-notification/index.html 银行通知用豆包识别（简版：只有基础步骤截图，没有视频；只有 iOS 27）
 ```
 
-- **一个配方一页，地址里不带语言**。目前只有两条豆包配方有教程，页面只有中文（豆包只面向中文用户），所以没有语言切换。
+- **一个配方一页，地址里不带语言**。三条豆包配方都有教程，页面只有中文（豆包只面向中文用户），所以没有语言切换。
 - **系统版本靠 `?ios=26|27` 选**：App 打开时带上它，页面直接停在那一版的步骤；不带就默认 27，页上也能手动切。
   切换用两个单选框 + CSS，无 JS 也能用。
 - **截图只用真机界面**：在对应版本的模拟器里把流程走一遍截下来，不画示意图。截图里的银行号码、金额都是示例。
@@ -109,6 +110,7 @@ keel/guides/
 | Keel | 隐私政策 | `https://gwongsam.github.io/keel/privacy/` |
 | Keel | 教程：动账短信用豆包识别 | `https://gwongsam.github.io/keel/guides/doubao-message/` |
 | Keel | 教程：轻点背面用豆包记一笔 | `https://gwongsam.github.io/keel/guides/doubao-back-tap/` |
+| Keel | 教程：银行通知用豆包识别 | `https://gwongsam.github.io/keel/guides/doubao-notification/` |
 | Rayloom | 首页（产品介绍） | `https://gwongsam.github.io/rayloom/` |
 | Rayloom | 支持与常见问题 | `https://gwongsam.github.io/rayloom/support/` |
 | Rayloom | 隐私政策 | `https://gwongsam.github.io/rayloom/privacy/` |
