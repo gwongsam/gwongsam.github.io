@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>动账短信用豆包识别 · Keel 司元</title>
-<meta name="description" content="收到银行动账短信时，用手机上的豆包识别，再送进司元的待处理。图文设置步骤（iOS 26 / iOS 27）。">
+<meta name="description" content="收到银行动账短信时，用手机上的豆包识别，再送进司元的待处理。逐步截图与演示视频（iOS 26 / iOS 27）。">
 <link rel="icon" href="../../logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../../assets/legal.css">
 <link rel="stylesheet" href="../guide.css">
@@ -46,20 +46,49 @@
     </div>
     <p class="os-hint">不确定是哪个版本：打开「设置 › 通用 › 关于本机」，看「iOS 版本」。</p>
 
+    <section class="video-block only-27">
+      <h2>先看一遍演示（1 分 40 秒）</h2>
+      <video controls playsinline preload="metadata" poster="../video/doubao-message-27-poster.webp" width="540" height="960">
+        <source src="../video/doubao-message-27.mp4" type="video/mp4">
+      </video>
+      <p class="video-hint">从打开司元到设置完成，每一步都有字幕，红框是要点的地方。下面是同样的步骤，配了截图。</p>
+    </section>
+
+    <div class="warn only-27">
+      <p class="warn-title">最容易做错的一步</p>
+      <p>「收到信息时」这个触发条件，要加在<strong>「动账短信用豆包识别」这条快捷指令里面</strong>（见第 2 步）。</p>
+      <p><strong>不要</strong>另外新建一条快捷指令，在里面加触发条件、再用「运行快捷指令」去运行它。那样短信内容传不过去，司元会提示「递进来的东西是空的」。</p>
+      <figure class="shot"><a href="../img/27-wrong.webp"><img src="../img/27-wrong.webp" alt="错误做法：另建一条叫「运行快捷指令」的快捷指令，① 里面是收到信息的触发条件，② 下面一步是运行「动账短信用豆包识别」" width="540" height="1174" loading="lazy"></a>
+        <figcaption>✗ 错误做法：另建一条快捷指令 ① 挂触发条件、② 再去「运行」它</figcaption></figure>
+    </div>
+
     <ol class="steps">
       <li>
         <h2>把快捷指令装进来</h2>
         <ol class="sub">
           <li>
-            打开司元，进入<strong>「设置 › 助手、Siri 与快捷指令 › 用豆包识别 › 动账短信」</strong>，点<strong>「添加到快捷指令」</strong>。
-            <figure class="shot"><img src="../img/27-keel-recipe.webp" alt="司元里「动账短信」配方页，蓝色按钮「添加到快捷指令」" width="720" height="751" loading="lazy"></figure>
+            <p>打开司元，点首页右上角的<strong>齿轮</strong>，进入设置。</p>
+            <figure class="shot"><a href="../img/27-01-gear.webp"><img src="../img/27-01-gear.webp" alt="司元首页，右上角的齿轮按钮被红框标出" width="540" height="1174" loading="lazy"></a></figure>
           </li>
           <li>
-            在弹出的分享面板里点<strong>「快捷指令」</strong>，再点<strong>「添加快捷指令」</strong>。
-            <div class="shot-pair">
-              <figure class="shot"><img src="../img/27-share-sheet.webp" alt="分享面板，第一个图标是「快捷指令」" width="720" height="666" loading="lazy"></figure>
-              <figure class="shot"><img src="../img/27-import.webp" alt="快捷指令的导入页，底部按钮「添加快捷指令」" width="720" height="814" loading="lazy"></figure>
+            <p>依次点<strong>「助手、Siri 与快捷指令」</strong> › <strong>「用豆包识别」</strong> › <strong>「动账短信」</strong>。</p>
+            <div class="shot-row">
+              <figure class="shot"><a href="../img/27-02-assistant.webp"><img src="../img/27-02-assistant.webp" alt="设置页，「助手、Siri 与快捷指令」一行被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+              <figure class="shot"><a href="../img/27-03-doubao.webp"><img src="../img/27-03-doubao.webp" alt="「助手、Siri 与快捷指令」页，「用豆包识别」一行被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+              <figure class="shot"><a href="../img/27-04-sms.webp"><img src="../img/27-04-sms.webp" alt="「用豆包识别」页，「动账短信」一行被红框标出" width="540" height="1174" loading="lazy"></a></figure>
             </div>
+          </li>
+          <li>
+            <p>点蓝色按钮<strong>「添加到快捷指令」</strong>，在弹出的面板里点<strong>「快捷指令」</strong>。</p>
+            <div class="shot-row">
+              <figure class="shot"><a href="../img/27-05-add.webp"><img src="../img/27-05-add.webp" alt="「动账短信」页，蓝色按钮「添加到快捷指令」被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+              <figure class="shot"><a href="../img/27-06-share.webp"><img src="../img/27-06-share.webp" alt="分享面板，「快捷指令」图标被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+            </div>
+          </li>
+          <li>
+            <p>跳到「快捷指令」后，点底部的<strong>「添加快捷指令」</strong>。</p>
+            <figure class="shot"><a href="../img/27-07-import.webp"><img src="../img/27-07-import.webp" alt="快捷指令的导入页，底部「添加快捷指令」按钮被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+            <p class="result only-27">添加好以后，会直接打开这条快捷指令的编辑页，接着做第 2 步。</p>
           </li>
         </ol>
       </li>
@@ -68,22 +97,41 @@
         <h2>让它收到短信就自动运行</h2>
 
         <ol class="sub only-27">
-          <li>打开「快捷指令」，点刚装好的<strong>「动账短信用豆包识别」</strong>，进入编辑。</li>
           <li>
-            点底部的<strong>「搜索」</strong>，再点<strong>「自动化」</strong>。
-            <figure class="shot wide"><img src="../img/27-drawer.webp" alt="编辑页底部的搜索栏，下面一排按钮的第一个是「自动化」" width="720" height="242" loading="lazy"></figure>
+            <p>在「动账短信用豆包识别」的编辑页里，点底部的<strong>「搜索」</strong>。</p>
+            <figure class="shot"><a href="../img/27-08-editor.webp"><img src="../img/27-08-editor.webp" alt="「动账短信用豆包识别」的编辑页，底部的搜索栏被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+            <p class="aside">没在编辑页的话：打开「快捷指令」App，点「动账短信用豆包识别」这张卡片的空白处就能进来（别点卡片右上角的三角形，那是运行）。截图里那一块显示「未知操作」是因为截图用的手机没装豆包，你手机上那里是豆包的操作。</p>
           </li>
           <li>
-            往下翻到「通信」，选<strong>「信息」</strong>。
-            <figure class="shot wide"><img src="../img/27-automation-list.webp" alt="自动化列表的「通信」分组，里面有「信息」" width="720" height="346" loading="lazy"></figure>
+            <p>点<strong>「自动化」</strong>。</p>
+            <figure class="shot"><a href="../img/27-09-drawer.webp"><img src="../img/27-09-drawer.webp" alt="搜索面板，第一个按钮「自动化」被红框标出" width="540" height="1174" loading="lazy"></a></figure>
           </li>
           <li>
-            点「发件人」，填银行发短信的号码，每填完一个按一下键盘上的<span class="kbd">换行</span>。几家银行可以都填上，最后点右上角的 ✓。
-            <figure class="shot wide"><img src="../img/27-sender-entry.webp" alt="发件人输入框里填了 95555 和 95588 两个号码" width="720" height="224" loading="lazy"></figure>
+            <p>收起键盘，往下翻到「通信」，点<strong>「信息」</strong>。</p>
+            <figure class="shot"><a href="../img/27-10-message.webp"><img src="../img/27-10-message.webp" alt="自动化列表，「通信」下面的「信息」被红框标出" width="540" height="1174" loading="lazy"></a></figure>
           </li>
           <li>
-            点「我收到符合以下条件的信息时」右边的小箭头，确认<strong>「自动化」开着、「运行前确认」关着</strong>。点左上角返回，就保存好了。
-            <figure class="shot wide"><img src="../img/27-trigger-done.webp" alt="设置好的触发条件：发件人是 95555、95588，自动化开着，运行前确认关着" width="720" height="509" loading="lazy"></figure>
+            <p>这条快捷指令里多了一块 ①「我收到符合以下条件的信息时」。点里面浅色的 ②<strong>「发件人」</strong>。</p>
+            <figure class="shot"><a href="../img/27-11-trigger.webp"><img src="../img/27-11-trigger.webp" alt="编辑页里新出现的触发条件块被红框 1 标出，其中浅色的「发件人」被红框 2 标出" width="540" height="1174" loading="lazy"></a></figure>
+          </li>
+          <li>
+            <p>输入银行发短信的号码，按键盘上的<span class="kbd">换行</span>，号码会变成一个蓝色小块。几家银行就填几个，每填一个按一次<span class="kbd">换行</span>。</p>
+            <div class="shot-row">
+              <figure class="shot"><a href="../img/27-12-sender.webp"><img src="../img/27-12-sender.webp" alt="号码输入框被红框标出" width="540" height="1174" loading="lazy"></a><figcaption>输入号码</figcaption></figure>
+              <figure class="shot"><a href="../img/27-13-sender-one.webp"><img src="../img/27-13-sender-one.webp" alt="按换行后，95555 变成蓝色小块，被红框标出" width="540" height="1174" loading="lazy"></a><figcaption>按换行后变成蓝色小块</figcaption></figure>
+            </div>
+          </li>
+          <li>
+            <p>都填好后，点右上角蓝色的<strong>对勾</strong>。</p>
+            <figure class="shot"><a href="../img/27-14-sender-done.webp"><img src="../img/27-14-sender-done.webp" alt="填好 95555、95588 两个号码，右上角的蓝色对勾被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+          </li>
+          <li>
+            <p>号码填进去了。点「时」右边的<strong>小箭头</strong>，展开更多选项。</p>
+            <figure class="shot"><a href="../img/27-15-arrow.webp"><img src="../img/27-15-arrow.webp" alt="发件人已填 95555、95588，「时」右边的小箭头被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+          </li>
+          <li>
+            <p>① 确认<strong>「自动化」开着、「运行前确认」关着</strong>（默认就是这样）。② 点左上角返回，自动保存。</p>
+            <figure class="shot"><a href="../img/27-16-toggles.webp"><img src="../img/27-16-toggles.webp" alt="「自动化」开、「运行前确认」关被红框 1 标出，左上角返回按钮被红框 2 标出" width="540" height="1174" loading="lazy"></a></figure>
           </li>
         </ol>
 
@@ -102,7 +150,17 @@
 
       <li>
         <h2>先手动运行一次</h2>
-        <p>在「快捷指令」里点一下「动账短信用豆包识别」。系统会问能不能使用司元、能不能使用豆包，都选<strong>「允许」</strong>。</p>
+        <ol class="sub only-27">
+          <li>
+            <p>回到「快捷指令」的列表，点「动账短信用豆包识别」卡片右上角的<strong>三角形</strong>。</p>
+            <figure class="shot"><a href="../img/27-17-run.webp"><img src="../img/27-17-run.webp" alt="快捷指令列表，卡片右上角的运行按钮被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+          </li>
+          <li>
+            <p>系统问能不能使用司元，点<strong>「允许」</strong>。接着还会问能不能使用豆包，同样点<strong>「允许」</strong>。</p>
+            <figure class="shot"><a href="../img/27-18-allow.webp"><img src="../img/27-18-allow.webp" alt="系统弹窗询问能否运行司元的操作，「允许」按钮被红框标出" width="540" height="1174" loading="lazy"></a></figure>
+          </li>
+        </ol>
+        <p class="only-26">在「快捷指令」里点一下「动账短信用豆包识别」。系统会问能不能使用司元、能不能使用豆包，都选<strong>「允许」</strong>。</p>
         <p>问过这一次，以后收到短信自动运行就不会停下来等你。这次没有短信内容，后面出现的报错直接关掉即可。</p>
       </li>
 
@@ -125,6 +183,9 @@
 
     <section class="faq">
       <h2>常见问题</h2>
+
+      <h3>提示「递进来的东西是空的」</h3>
+      <p>触发条件没加在「动账短信用豆包识别」里面，而是另建了一条快捷指令去「运行」它，短信内容没传过去。删掉另建的那条，按第 2 步把触发条件加进「动账短信用豆包识别」本身即可。<span class="only-27">对照页面上方「最容易做错的一步」那张图。</span></p>
 
       <h3>快捷指令里显示「未知操作」「此操作需要安装“豆包”」</h3>
       <p>手机上还没装豆包。去 App Store 装好、打开并登录一次，回来就正常了。</p>

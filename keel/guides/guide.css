@@ -58,7 +58,9 @@
   margin: 0 0 1rem;
 }
 #os-27:checked ~ * .only-26,
-#os-26:checked ~ * .only-27 {
+#os-26:checked ~ * .only-27,
+#os-27:checked ~ .only-26,
+#os-26:checked ~ .only-27 {
   display: none;
 }
 .os-radio {
@@ -143,6 +145,96 @@
 }
 .shot-pair .shot img {
   max-width: 220px;
+}
+
+/* 逐步截图：整屏截图，红框是要点的地方；点开看原图。一行放不下就换行。 */
+.steps ol.sub > li > p {
+  margin: 0 0 .4rem;
+}
+.shot a {
+  display: inline-block;
+}
+.steps .shot img {
+  max-width: 240px;
+}
+.shot-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.shot-row .shot {
+  flex: 0 1 200px;
+  margin-top: .3rem;
+}
+.shot-row .shot img {
+  max-width: 100%;
+}
+.result {
+  margin: .5rem 0 0;
+  color: var(--text-muted);
+}
+.aside {
+  margin: .5rem 0 0;
+  font-size: .88rem;
+  color: var(--text-faint);
+}
+
+/* 演示视频 */
+.video-block {
+  margin: 1.5rem 0;
+}
+.video-block h2 {
+  margin: 0 0 .6rem;
+  font-size: 1.1rem;
+  border: 0;
+  padding: 0;
+}
+.video-block video {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-subtle);
+}
+.video-hint {
+  margin: .5rem 0 0;
+  font-size: .88rem;
+  color: var(--text-faint);
+}
+
+/* 最容易做错的一步：红色调的提醒卡 */
+.warn {
+  --warn: #c4352b;
+  --warn-soft: #fdeeed;
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem .4rem;
+  background: var(--warn-soft);
+  border: 1px solid color-mix(in srgb, var(--warn) 28%, transparent);
+  border-radius: var(--radius);
+}
+@media (prefers-color-scheme: dark) {
+  .warn {
+    --warn: #ff7a70;
+    --warn-soft: #34191a;
+  }
+}
+.warn-title {
+  margin: 0 0 .5rem;
+  font-weight: 700;
+  color: var(--warn);
+}
+.warn p {
+  margin: 0 0 .6rem;
+}
+.warn .shot img {
+  max-width: 220px;
+}
+.warn figcaption {
+  color: var(--warn);
+  font-weight: 600;
 }
 
 .kbd {
