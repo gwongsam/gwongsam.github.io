@@ -78,8 +78,11 @@ keel/guides/
 - **系统版本靠 `?ios=26|27` 选**：App 打开时带上它，页面直接停在那一版的步骤；不带就默认 27，页上也能手动切。
   切换用两个单选框 + CSS，无 JS 也能用。
 - **截图只用真机界面**：在对应版本的模拟器里把流程走一遍截下来，不画示意图。截图里的银行号码、金额都是示例。
-- App 里的地址只写在 Keel 仓库 `QuickCaptureGuide.baseURLString` 一处。国内访问要另挂到 EdgeOne Pages（海外版，免备案）
-  并绑自有域名，届时只改那一行。
+- **App 里链的是 `https://site.gwongsam.net/keel/guides/…`，不是 github.io**（只写在 Keel 仓库 `QuickCaptureGuide.baseURLString` 一处）。
+  github.io 在国内时通时不通，所以整个仓库另部署到腾讯云 EdgeOne Makers 国际站（项目 `gwongsam-site`，「全球可用区（不含中国大陆）」，
+  免备案），连本仓库 main 分支，**推一次两边同时部署**。EdgeOne 自带的 `*.edgeone.dev` 在国内一律 401，只有自定义域名
+  `site.gwongsam.net` 国内外都能开：Cloudflare 上 CNAME `site` → `site.gwongsam.net.pages.dnsoe7.com`（必须 DNS only）、
+  TXT `edgeonereclaim.site`（归属权验证），HTTPS 用 EdgeOne 免费证书。
 
 ## GitHub Pages 设置
 
