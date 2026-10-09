@@ -260,3 +260,9 @@
 .faq h3 {
   margin-top: 1.25rem;
 }
+
+/* 下载快捷指令的链接 */
+a.download {
+  font-weight: 600;
+  color: var(--accent-text);
+}
